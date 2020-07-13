@@ -1,0 +1,405 @@
+<template>
+  <v-container :fluid="true">
+    <v-row no-gutters>
+      <v-col :cols="12" :md="6" class="text-center">
+        <div class="login-hading mt-5">
+          <h2>Welcome To Aussie Petz Login Form</h2>
+        </div>
+        <div class="content">
+          <p>
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
+            commodo ligula eget
+          </p>
+        </div>
+        <div class="login-image">
+          <img class="v-image" src="images/cat1.png" />
+        </div>
+      </v-col>
+      <v-col :cols="12" :md="6" class="text-center">
+        <div class="form-heading">
+          <h2>{{ type_text }} Here</h2>
+        </div>
+        <div class="content mt-4">
+          <p>Provide {{ type_text_info }}</p>
+        </div>
+        <div class="login-form">
+          <v-tabs
+            v-model="tab"
+            background-color="#00D657"
+            color="#ffffff"
+            centered
+            dark
+            icons-and-text
+            class="mb-5"
+          >
+            <v-tab href="#tab-1" @click="signin">Sign In</v-tab>
+
+            <v-tab href="#tab-2" @click="signup">Sign Up</v-tab>
+          </v-tabs>
+          <v-tabs-items v-model="tab">
+            <v-tab-item value="tab-1" class="mt-5">
+              <form ref="loginForm" @submit="submit" class="form-size">
+                <v-text-field
+                  v-model="email"
+                  :rules="emailrule"
+                  :error-messages="errorEmail"
+                  label="Enter E-mail / Mobile number"
+                  outlined
+                  required
+                  dense
+                  hide-details="auto"
+                ></v-text-field>
+                <v-text-field
+                  class="mt-3"
+                  v-model="password"
+                  :rules="passwordrule"
+                  :error-messages="errorPass"
+                  :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                  :type="show1 ? 'text' : 'password'"
+                  label="Enter Password"
+                  hint="Password"
+                  hide-details="auto"
+                  outlined
+                  dense
+                  @click:append="show1 = !show1"
+                  required
+                ></v-text-field>
+                <div class="mt-3" style="text-align: start;">
+                  <!-- <a>Forgot password ?</a> -->
+                  <v-btn text small color="warning" @click="showForgotPasswordBox">Forgot password ?</v-btn>
+                </div>
+
+                <v-btn block class="mt-4" dark color="#00D657" type="submit">Sign in</v-btn>
+              </form>
+            </v-tab-item>
+            <v-tab-item value="tab-2" style="padding:0 15px">
+              <!-- Sing up Form Components -->
+              <SingUp />
+            </v-tab-item>
+          </v-tabs-items>
+        </div>
+      </v-col>
+    </v-row>
+    <v-overlay :value="formSubmitting">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
+
+    <v-overlay :value="forgotProgress">
+      <v-progress-circular v-if="forgotLoading" indeterminate size="64"></v-progress-circular>
+      <v-row
+        v-else
+        class="text-center"
+        style="background: #ffffff; border-radius: 6px;padding:20px 30px;"
+      >
+        <v-col cols="12" class="m-0 p-0">
+          <v-responsive
+            class="text-center grey lighten-2 d-inline-flex align-center justify-center ma-3"
+            height="52"
+            width="52"
+            style="border-radius: 50%;"
+          >
+            <v-icon v-if="forgotSuccess" :large="true" color="success">mdi-check-outline</v-icon>
+            <v-icon v-else :large="true" color="red">mdi-alert-circle</v-icon>
+          </v-responsive>
+          <br />
+          <h1 v-if="forgotSuccess" class="success--text">Success!</h1>
+          <h1 v-else class="red--text">Sorry!</h1>
+          <br />
+          <span v-if="forgotSuccess" class="success--text">
+            We have sent password reset link to your registred email
+            <br />address. Follow the link to reset your link.
+          </span>
+          <div v-else>
+            <p v-if="no_email" class="red--text">
+            Unable to find account linked with
+            <br /><span class="red lighten-4 mx-1 px-1" style="border-radius: 5px;">{{forgotEmail}} </span> email address.
+            </p>
+            <span v-else class="red--text">
+            Failed to send password reset link.
+            <br />Try after sometime
+          </span>
+          
+          </div>
+          <br />
+          <v-divider class="mt-5"></v-divider>
+          <v-btn
+            v-if="forgotSuccess"
+            color="success"
+            class="mt-5 pl-5 pr-5"
+            @click="forgotProgress = false"
+          >done</v-btn>
+          <v-btn v-else color="red" class="mt-5 pl-5 pr-5" @click="forgotProgress = false;forgotEmail = ''">close</v-btn>
+        </v-col>
+      </v-row>
+    </v-overlay>
+
+    <div class="forgot-dialog">
+      <v-dialog v-model="dialog" width="500">
+        <v-card>
+          <v-card-title class="headline success white--text" primary-title>Forgot passowrd form</v-card-title>
+
+          <v-card-text>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="forgotEmail"
+                  :rules="emailrule"
+                  :error-messages="errorForgotEmail"
+                  label="Enter E-mail / Mobile number"
+                  outlined
+                  required
+                  dense
+                  hide-details="auto"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+          </v-card-text>
+
+          <v-divider></v-divider>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="red" class="white--text" dark @click="dialog = false">close</v-btn>
+            <v-btn class="ma-3" color="#2c7873" dark  @click="sendPasswordResetLink">send</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <ErrorMessage :show="show_error" :message="message"/>
+    </div>
+  </v-container>
+</template>
+
+<script>
+import { validationMixin } from "vuelidate";
+import { required, email, password } from "vuelidate/lib/validators";
+import SingUp from "@/components/LoginPage/SingUp";
+import axios from "axios";
+import URL from "@/axios/config";
+import router from "../../router";
+import authStore from "../../store/auth";
+import ErrorMessage from "@/components/commons/ErrorMessage";
+
+export default {
+  name: "LoginData",
+  mixins: [validationMixin],
+  components: { SingUp,ErrorMessage },
+  validations: {
+    email: { required, email },
+    password: { required, password }
+  },
+  data: () => ({
+    type_text: "Login",
+    type_text_info: "login credentials",
+    show1: false,
+    tab: "tab-1",
+    email: "",
+    password: "",
+    errorEmail: [],
+    errorPass: [],
+    value: "",
+    passwordrule: [ v => !!v || 'Password is required', v => v.length > 8 || "Enter Valid Password"],
+    emailrule: [
+        v => !!v || 'E-mail/Mobile number is required',
+      ],
+    formSubmitting: false,
+    dialog: false,
+    forgotProgress: false,
+    forgotLoading: false,
+    forgotSuccess: false,
+    forgotEmail: "",
+    no_email:false,
+    errorForgotEmail: [],
+    show_error:false,
+    message:"",
+  }),
+  watch: {
+    email: function(val) {
+      this.email = val;
+    },
+    password: function(val) {
+      this.password = val;
+    }
+  },
+  created: function() {
+    if(authStore.isSignedIn()){
+      if (authStore.userType() == "petowner") router.replace("/owner");
+      else if (authStore.userType() == "host") router.replace("/host");
+    }
+    if (window.location.pathname === "/signup") {
+      this.tab = "tab-2";
+      this.signup();
+    }
+  },
+  methods: {
+    submit: function(e) {
+      var ep_emailval = this.email;
+      var password = this.password;
+      var username;
+      if (this.vaildNumber(ep_emailval)) {
+        if (
+          ep_emailval.length < 10 ||
+          ep_emailval.length > 10 ||
+          !this.vaildNumber(ep_emailval)
+        ) {
+          this.errorEmail.pop();
+          this.errorEmail.push("Please enter a valid phone number.");
+        } else {
+          username = ep_emailval;
+        }
+      } else {
+        if (this.validEmail(ep_emailval) == false) {
+          this.errorEmail.pop();
+          this.errorEmail.push("Please enter valid email address.");
+        } else {
+          username = ep_emailval;
+        }
+      }
+      if (username != null && password != null) {
+        this.formSubmitting = true;
+        let data = {
+          phone: username,
+          password: password
+        };
+        if (username.includes("@")) {
+          data = {
+            email: username,
+            password: password
+          };
+        }
+        axios
+          .post(URL+"/login/", data)
+          .then(res => {
+            this.formSubmitting = false;
+            if (res.data.status) {
+              authStore.saveUserData(res.data);
+              if (res.data.type == "petowner") router.replace("/owner");
+              else if (res.data.type == "host") router.replace("/host");
+            } else {
+              this.show_error = true;
+              setTimeout(()=>{
+                this.show_error = false;
+              },3000);
+              this.message = "Wrong login credentials either email or password is wrong!"
+            }
+          })
+          .catch(e => {
+            console.log("catch",e);
+            this.formSubmitting = false;
+          });
+        
+      }
+      e.preventDefault();
+    },
+
+    validEmail: function(email) {
+      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
+    },
+    vaildNumber: function(value) {
+      var re = /^\d*$/;
+      return re.test(value);
+    },
+    signin: function() {
+      this.type_text = "Login";
+      this.type_text_info = "login credentials";
+      router.replace("/login")
+    },
+    signup: function() {
+      this.type_text = "Signup";
+      this.type_text_info = "signup details";
+      router.replace("/signup")
+    },
+    showForgotPasswordBox: function() {
+      this.dialog = true;
+    },
+    sendPasswordResetLink: function() {
+      if (this.vaildNumber(this.forgotEmail)) {
+        // console.log("is phone");
+        if (
+          this.forgotEmail.length < 10 ||
+          this.forgotEmail.length > 10 ||
+          !this.vaildNumber(this.forgotEmail)
+        ) {
+          this.errorForgotEmail.pop();
+          this.errorForgotEmail.push("Please enter a valid phone number.");
+          return;
+        }
+      } else {
+        //   console.log("is email");
+        if (!this.validEmail(this.forgotEmail)) {
+          this.errorForgotEmail.pop();
+          this.errorForgotEmail.push("Please enter valid email address.");
+          return;
+        }
+      }
+
+      const data = {email:this.forgotEmail};
+      this.dialog = false;
+      this.forgotProgress = true;
+      this.forgotLoading = true;
+    
+       axios.post(URL+"/forgot/", data)
+          .then(res=>{
+            if(res.data.status){
+              this.forgotSuccess = true;
+            }else{
+              this.no_email = true;
+              this.forgotSuccess = false;
+            }
+          }).catch(err=>{
+            this.no_email = false;
+            this.forgotSuccess = false;
+            console.log(err);
+          }).finally(()=>{
+            this.forgotLoading = false;
+          })
+    }
+  }
+};
+</script>
+<style scoped>
+.container {
+  padding: 0%;
+}
+.col {
+  padding: 20px;
+}
+.col-12 {
+  padding: 20px;
+}
+
+.v-image {
+  width: 70%;
+}
+.login-form {
+  width: 90%;
+  margin: auto;
+  margin-top: 27px;
+  padding-bottom: 30px;
+  box-shadow: 0px 0px 10px 0px #dfdede;
+}
+.v-tab {
+  max-width: 100%;
+}
+.v-tab-items {
+  padding: 0 15px !important;
+}
+.form-size {
+  width: 60%;
+  padding: 10px;
+  margin: auto;
+}
+@media only screen and (max-width: 600px) {
+  .login-form {
+    width: 100%;
+    margin: auto;
+    margin-top: 27px;
+    padding: 10px;
+  }
+  .form-size {
+    width: 100%;
+    padding: 10px;
+    margin: auto;
+  }
+}
+</style>
