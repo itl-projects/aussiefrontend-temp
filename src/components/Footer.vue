@@ -67,7 +67,7 @@
     </v-row>
     <v-row class="text-center mt-3">
       <v-col>
-        <h3 class="text-center" style="font-weight:100">@Website Desgin by</h3>
+        <h3 class="text-center" style="font-weight:100">@Website Desgin by Innovative Tech Lab</h3>
       </v-col>
     </v-row>
   </v-container>
@@ -81,15 +81,16 @@ export default {
       { name: "Day Care Services", path: "" },
       { name: "Grooming Services", path: "" },
       { name: "Pet Trainings Services", path: "" },
-      { name: "Find a Reliable Pet Host", path: "" },
+      { name: "House Visits Gardens & Plants", path: "" },
       { name: "Walkies & Exercise Services", path: "" }
     ],
     mainFeatures: [
-      { name: "Pet Tube", path: "" },
-      { name: "Pet 0 Gram", path: "" },
-      { name: "Pet Pad", path: "" },
-      { name: "Pet Lovers", path: "" },
-      { name: "Perfect Match Your Pets", path: "" }
+      { name: "Petorama", path: "" },
+      { name: "Purrrfect Match", path: "" },
+      { name: "Pet Crush", path: "" },
+      { name: "Pet Pub", path: "" },
+      { name: "Pet O Vision", path: "" },
+      { name: "Pet Pub", path: "" }
     ],
     Directories: [
       { name: "Local vets directory", path: "" },
