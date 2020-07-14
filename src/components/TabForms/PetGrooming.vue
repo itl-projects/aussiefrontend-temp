@@ -84,7 +84,7 @@
         </v-menu>
       </v-col>
       <v-col sm="3" cols="12">
-        <v-btn color="success" class="full-width"  width="100%">Search</v-btn>
+        <v-btn  class="full-width"  width="100%" >Search</v-btn>
       </v-col>
     </v-row>
   </div>
@@ -121,11 +121,25 @@ export default {
 <style scoped>
 .apply_btn_box{
   width: 100%;
-    background: #2c7873;
+    background: #00d657;
     display: flex;
     margin: 0 !important;
     padding: 7px 12px;
     text-align: center;
     justify-content: center;
+}
+.theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
+    background-color: #ffffff;
+    color: #00d657;
+    border: 2px solid #00d657;
+}
+.theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined):hover{
+  background-color: #00d657;
+    color: #faff63;
+    border: 1px solid #faff63;
+}
+.mdi-magnify-plus-outline::before {
+    content: "\F06ED";
+    color: #00d657;
 }
 </style>
