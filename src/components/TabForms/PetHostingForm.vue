@@ -3,7 +3,7 @@
     <v-row class="px-8 mt-10 ml-10">
       <v-col cols="12" sm="3">
         <v-autocomplete
-          :items="['Trevor Handsen', 'Alex Nelson']"
+          :items="['Type a City', 'Alex Nelson']"
           chips
           label="Enter suburb or address"
           full-width
@@ -104,7 +104,7 @@
         </v-menu>
       </v-col>
       <v-col sm="2" cols="12">
-        <v-btn @click="showHosts" color="#2c7873" dark>Search</v-btn>
+        <v-btn @click="showHosts" >Search</v-btn>
       </v-col>
     </v-row>
   </div>
@@ -146,11 +146,29 @@ export default {
 <style scoped>
 .apply_btn_box{
   width: 100%;
-    background: #2c7873;
+    background: #00d657;
     display: flex;
     margin: 0 !important;
     padding: 7px 12px;
     text-align: center;
     justify-content: center;
+}
+.theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
+    background-color: #ffffff;
+    color: #00d657;
+    border: 2px solid #00d657;
+}
+.theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined):hover{
+  background-color: #00d657;
+    color: #faff63;
+    border: 1px solid #faff63;
+}
+.mdi-magnify-plus-outline::before {
+    content: "\F06ED";
+    color: #00d657;
+}
+.mdi-calendar-plus::before {
+    content: "\F00F3";
+    color: #00d657;
 }
 </style>

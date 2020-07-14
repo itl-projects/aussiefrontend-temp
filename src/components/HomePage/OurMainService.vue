@@ -155,7 +155,7 @@ export default {
 </script>
 <style scoped>
 .div-box {
-  border: 2px solid #52de9799;
+  border: 2px solid #faff60;
   border-radius: 8px;
 }
 .heading h2 {
@@ -186,7 +186,7 @@ export default {
   margin-right: -50%;
 }
 .col-border {
-  border: 1px solid green;
+  border: 1px solid #00d657;
   border-radius: 10px;
 }
 .v-slide-group__wrapper {
@@ -206,7 +206,7 @@ export default {
 }
 
 .theme--dark.v-tabs > .v-tabs-bar .v-tab:not(.v-tab--active) > .v-icon {
-  color: #2c7873;
+  color: #00d657;
 }
 
 .v-slide-group__wrapper {
@@ -216,7 +216,7 @@ export default {
   height: 100px;
 }
 .theme--dark.v-tabs > .v-tabs-bar .v-tab:not(.v-tab--active) {
-  color:  #2c7873;
+  color:  #00d657;
   background: #ffffff;
 }
 .theme--dark.v-tabs > .v-tabs-bar .v-tab{

@@ -12,11 +12,9 @@
         <v-list flat>
           <v-list-item-group v-model="item" color="#2C7873">
             <v-list-item v-for="(item, i) in items" :key="i">
-              <v-list-item-icon class="text-center">
-                <!-- <v-icon v-text="item.icon"></v-icon> -->
-                <v-avatar style="border:2px solid #323232;">
-                  <v-img src="@/assets/images/Frame.svg" width="32px" aspect-ratio="1" contain class="pa-3 ma-3"/>
-                </v-avatar>
+              <v-img :src="item.icon"  contain class="icons"></v-img>
+              <v-list-item-icon class="text-center">   
+                
               </v-list-item-icon>
               <v-list-item-content>
                 <v-list-item-title v-text="item.text"></v-list-item-title>
@@ -35,7 +33,7 @@
           <v-list-item-group v-model="item" color="#2C7873">
             <v-list-item v-for="(item, i) in items2" :key="i">
               <v-list-item-icon>
-                <v-icon v-text="item.icon"></v-icon>
+                <v-img :src="item.icon" class="icons"></v-img>
               </v-list-item-icon>
               <v-list-item-content>
                 <v-list-item-title v-text="item.text"></v-list-item-title>
@@ -51,7 +49,7 @@
           <v-list-item-group v-model="item" color="#2C7873">
             <v-list-item v-for="(item, i) in items3" :key="i">
               <v-list-item-icon>
-                <v-icon v-text="item.icon"></v-icon>
+                <v-img :src="item.icon" class="icons"></v-img>
               </v-list-item-icon>
               <v-list-item-content>
                 <v-list-item-title v-text="item.text"></v-list-item-title>
@@ -65,7 +63,7 @@
           <v-list-item-group v-model="item" color="#2C7873">
             <v-list-item v-for="(item, i) in items4" :key="i">
               <v-list-item-icon>
-                <v-icon v-text="item.icon"></v-icon>
+                <v-img :src="item.icon" class="icons"></v-img>
               </v-list-item-icon>
               <v-list-item-content>
                 <v-list-item-title v-text="item.text"></v-list-item-title>
@@ -79,7 +77,7 @@
           <v-list-item-group v-model="item" color="#2C7873">
             <v-list-item v-for="(item, i) in items5" :key="i">
               <v-list-item-icon>
-                <v-icon v-text="item.icon"></v-icon>
+                <v-img :src="item.icon" class="icons"></v-img>
               </v-list-item-icon>
               <v-list-item-content>
                 <v-list-item-title v-text="item.text"></v-list-item-title>
@@ -126,39 +124,39 @@ export default {
   data: () => ({
     item:[],
     items: [
-      { text: "Find a Reliable Pet Host", icon: "mdi-magnify" },
-      { text: "Day Care Services", icon: "mdi-cards-heart" },
-      { text: "Grooming Services", icon: "mdi-trophy" },
-      { text: "Pet Training Services", icon: "mdi-cart" },
-      { text: "House Setting Services", icon: "mdi-headset" },
+      { text: "Find a Reliable Pet Host", icon: require("../assets/images/icons/dog-training.svg") },
+      { text: "Day Care Services", icon:  require("../assets/images/icons/dayCareServices.svg") },
+      { text: "Grooming Services", icon: require("../assets/images/icons/groomingServices.svg") },
+      { text: "Pet Training Services", icon: require("../assets/images/icons/petTrainingServices.svg") },
+      { text: "House Setting Services", icon: require("../assets/images/icons/houseSettingServices.svg") },
     ],
     items2: [
-      { text: "Local vets directory", icon: "mdi-magnify" },
-      { text: "Pet Park locations", icon: "mdi-cards-heart" },
-      { text: "Local Pet Shop Directory", icon: "mdi-trophy" },
-      { text: "Animal Charities", icon: "mdi-cart" },
-      { text: "Pet Insurance for sale ", icon: "mdi-headset" },
+      { text: "Local vets directory", icon: require("../assets/images/icons/veterinary.svg") },
+      { text: "Pet Park locations", icon: require("../assets/images/icons/petTrainingServices.svg") },
+      { text: "Local Pet Shop Directory", icon: require("../assets/images/icons/localPetShop.svg") },
+      { text: "Animal Charities", icon: require("../assets/images/icons/animalCharity.svg") },
+      { text: "Pet Insurance for sale ", icon: require("../assets/images/icons/pet-insurance.svg") },
     ],
     items3: [
-      { text: "Walkies & Exercise Services", icon: "mdi-magnify" },
-      { text: "Win Prizes", icon: "mdi-cards-heart" },
-      { text: "Aussie Pet BnB March", icon: "mdi-trophy" },
-      { text: "One Stop shop for Pet Products", icon: "mdi-cart" },
-      { text: "Virtual Assistant Desk ", icon: "mdi-headset" },
+      { text: "Walkies & Exercise Services", icon: require("../assets/images/icons/walkiesNServices.svg") },
+      { text: "Win Prizes", icon: require("../assets/images/icons/winPrizes.svg") },
+      { text: "Aussie Pet BnB March", icon: require("../assets/images/icons/aussiePetBNBMarch.svg") },
+      { text: "One Stop shop for Pet Products",  icon: require("../assets/images/icons/oneStopShop.svg") },
+      { text: "Virtual Assistant Desk ", icon: require("../assets/images/icons/virtualAsst.svg") },
     ],
     items4: [
-      { text: "Pet Tube", icon: "mdi-magnify" },
-      { text: "Pet 0 Gram", icon: "mdi-cards-heart" },
-      { text: "Pet Pad", icon: "mdi-trophy" },
-      { text: "Pet Events", icon: "mdi-cart" },
-      { text: "Perfect Match Your Pets", icon: "mdi-headset" },
+      { text: "Pet Tube", icon: require("../assets/images/icons/walkiesNServices.svg") },
+      { text: "Pet 0 Gram", icon: require("../assets/images/icons/walkiesNServices.svg") },
+      { text: "Pet Pad", icon: require("../assets/images/icons/walkiesNServices.svg") },
+      { text: "Pet Events", icon: require("../assets/images/icons/event 1.svg") },
+      { text: "Perfect Match Your Pets", icon: require("../assets/images/icons/perfectMatch.svg") },
     ],
     items5: [
-      { text: "Find your pet / lost pets", icon: "mdi-magnify" },
-      { text: "Adopt & Rescue A Pet", icon: "mdi-cards-heart" },
-      { text: "Pets Wanting New Homes", icon: "mdi-trophy" },
-      { text: "Report Pet cruelty", icon: "mdi-cart" },
-      { text: "Wires", icon: "mdi-headset" },
+      { text: "Find your pet / lost pets", icon: require("../assets/images/icons/lostPet.svg") },
+      { text: "Adopt & Rescue A Pet", icon: require("../assets/images/icons/walkiesNServices.svg") },
+      { text: "Pets Wanting New Homes", icon: require("../assets/images/icons/walkiesNServices.svg") },
+      { text: "Report Pet cruelty", icon: require("../assets/images/icons/rabbit.svg") },
+      { text: "Rescue Services Wild Animals", icon: require("../assets/images/icons/wild-life.svg") },
     ],
 
     QuickEasy: [
@@ -218,11 +216,19 @@ export default {
 .v-list-item__icon {
   margin: 5px 0;
 }
-.v-icon.v-icon {
-  border: 2px solid #52de97;
+/* .v-icon.v-icon {
+  border: 2px solid #faef60;
   border-radius: 50%;
   padding: 3px;
   font-size: 1.3rem;
+} */
+.icons{
+  border: 2px solid #faef60;
+  border-radius: 50%;
+  padding: 15px;
+  font-size: 1.3rem;
+  max-width:30px ;
+  max-height:30px;
 }
 .theme--light.v-icon {
   color: #2c7873;

@@ -140,7 +140,7 @@
         </v-menu>
       </v-col>
       <v-col cols="12" sm="4" class="mt-4">
-        <v-btn color="success" class="full-width" large width="100%">Search</v-btn>
+        <v-btn  class="full-width" large width="100%">Search</v-btn>
       </v-col>
     </v-row>
   </div>
@@ -187,7 +187,7 @@ export default {
 
 <style scoped>
 .theme--dark.v-tabs {
-  border: 2px solid #2c7873;
+  border: 2px solid #00d657;
   border-radius: 5px;
 }
 .theme--dark.v-tabs > .v-tabs-bar .v-tab {
@@ -195,25 +195,40 @@ export default {
   font-size: 0.7rem;
   font-weight: 600;
   text-transform: capitalize;
-  background: #2c7873;
+  background: #00d657;
 }
 .theme--dark.v-tabs > .v-tabs-bar .v-tab:not(.v-tab--active) {
   color: #2c7873;
   background: #ffffff;
 }
 .v-tabs-slider {
-  background-color: #2c7873;
+  background-color: #faff63;
 }
 .v-tabs-bar__content a {
   color: #fff;
 }
 .apply_btn_box{
   width: 100%;
-    background: #2c7873;
+    background: #00d657;
     display: flex;
     margin: 0 !important;
     padding: 7px 12px;
     text-align: center;
     justify-content: center;
 }
+.theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
+    background-color: #ffffff;
+    color: #00d657;
+    border: 2px solid #00d657;
+}
+.theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined):hover{
+  background-color: #00d657;
+    color: #faff63;
+    border: 1px solid #faff63;
+}
+.mdi-magnify-plus-outline::before {
+    content: "\F06ED";
+    color: #00d657;
+}
+
 </style>
