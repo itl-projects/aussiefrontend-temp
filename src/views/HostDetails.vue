@@ -5,7 +5,7 @@
       <v-row>
         <v-col cols="12" sm="3" class="text-center">
           <v-avatar size="200px">
-            <v-img src="http://via.placeholder.com/300" />
+            <v-img :src="avatar" />
           </v-avatar>
         </v-col>
         <v-col cols="12" sm="5">
@@ -134,12 +134,15 @@
             <v-tabs-items v-model="tab">
               <v-tab-item key="about">
                 <v-card flat>
-                  <v-card-text>About</v-card-text>
+                  <v-card-text
+                    class="px-10"
+                    style="font-size: 1.2rem;white-space: pre-line;"
+                  >{{about}}</v-card-text>
                 </v-card>
               </v-tab-item>
               <v-tab-item key="services_rates">
                 <v-card flat>
-                  <v-card-text>About</v-card-text>
+                  <v-card-text>Services and rates</v-card-text>
                 </v-card>
               </v-tab-item>
               <v-tab-item key="photos">
@@ -163,7 +166,88 @@
               </v-tab-item>
               <v-tab-item key="rating">
                 <v-card flat>
-                  <v-card-text>rating</v-card-text>
+                  <v-row>
+                    <v-col cols="12" sm="4">
+                      <v-container class="pt-5">
+                        <v-label class="mt-4">Ratings</v-label>
+                        <v-card class="mt-6">
+                          <v-row>
+                            <v-col cols="4" class="py-0">
+                              <span class="reading-header">Dog Heads</span>
+                            </v-col>
+                            <v-col cols="6" class="py-0">
+                             <v-rating
+                                v-model="dog_rating"
+                                half-increments
+                                style="line-height: 3rem;"
+                                half-icon
+                                readonly
+                              >
+                                <template v-slot:item="props">
+                                  <v-icon
+                                    :color="props.isFilled ? 'orange' : 'grey lighten-1'"
+                                  >mdi-dog</v-icon>
+                                </template>
+                              </v-rating>
+                            </v-col>
+                            <v-col cols="2" class="py-0">
+                              <span class="rating-count">{{dog_rating}}</span>
+                            </v-col>
+                          </v-row>
+                        </v-card>
+                        <v-card class="mt-2">
+                          <v-row>
+                            <v-col cols="4" class="py-0">
+                              <span class="reading-header">Puppy Heads</span>
+                            </v-col>
+                            <v-col cols="6" class="py-0">
+                              <v-rating
+                                v-model="puppy_rating"
+                                half-increments
+                                style="line-height: 3rem;"
+                                half-icon
+                                readonly
+                              >
+                                <template v-slot:item="props">
+                                  <v-icon
+                                    :color="props.isFilled ? 'orange' : 'grey lighten-1'"
+                                  >mdi-dog</v-icon>
+                                </template>
+                              </v-rating>
+                            </v-col>
+                            <v-col cols="2" class="py-0">
+                              <span class="rating-count">{{puppy_rating}}</span>
+                            </v-col>
+                          </v-row>
+                        </v-card>
+                      </v-container>
+                    </v-col>
+                    <v-divider vertical class="my-4" />
+                    <v-col cols="12" sm="7">
+                      <v-list three-line>
+                        <template v-for="(item, index) in items">
+                          <v-subheader v-if="item.header" :key="item.header" v-text="item.header"></v-subheader>
+                          <v-divider v-else-if="item.divider" :key="index" :inset="item.inset"></v-divider>
+                          <v-list-item v-else :key="item.title">
+                            <v-list-item-avatar>
+                              <v-img :src="item.avatar"></v-img>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                              <v-list-item-title v-html="item.title"></v-list-item-title>
+                              <v-list-item-subtitle v-html="item.subtitle"></v-list-item-subtitle>
+                              <v-list-item-content class="py-0">
+                                <v-row class="pl-2 mt-2">
+                                  <v-rating dense readonly v-model="item.rating" class="ml-0 pl-0 py-0"  half-increments  small color="orange">
+                                </v-rating>
+                                <span class="review-rating-count">({{item.rating}})</span>
+                                </v-row>
+                              </v-list-item-content>
+                            </v-list-item-content>
+                          </v-list-item>
+                        </template>
+                      </v-list>
+                    </v-col>
+                  </v-row>
                 </v-card>
               </v-tab-item>
             </v-tabs-items>
@@ -172,18 +256,20 @@
       </v-row>
     </v-container>
     <Footer />
-       <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+    <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
       <v-card>
         <v-toolbar dark color="#2c7873" flat style="border-radius:0" dense>
           <v-toolbar-title>Host Pics</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
-            <v-btn dark text @click="dialog = false"> <v-icon>mdi-close</v-icon> </v-btn>
+            <v-btn dark text @click="dialog = false">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
           </v-toolbar-items>
         </v-toolbar>
-       <v-card-text>
-            <galleryView :pics="pics" :onboarding="onboarding"/>
-       </v-card-text>
+        <v-card-text>
+          <galleryView :pics="pics" :onboarding="onboarding" />
+        </v-card-text>
       </v-card>
     </v-dialog>
   </div>
@@ -206,7 +292,7 @@ export default {
   data() {
     return {
       valid: true,
-      dialog:false,
+      dialog: false,
       closeOnContext: false,
       menu: false,
       tab: null,
@@ -220,18 +306,66 @@ export default {
       ],
       petTypes: [],
       petSelected: "Choose Pet(s)",
-      pics:[],
-      onboarding:0
+      pics: [],
+      onboarding: 0,
+      about: "",
+      avatar: "",
+      hostbio: "",
+      dog_rating: 4.5,
+      puppy_rating: 3.5,
+      items: [
+        { header: "Reviews" },
+        {
+          avatar: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
+          title: "Brunch this weekend?",
+          subtitle:
+            "<span class='text--primary'>Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
+            rating: 4.5
+        },
+        { divider: true, inset: true },
+        {
+          avatar: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
+          title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
+          subtitle:
+            "<span class='text--primary'>to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.",
+            rating: 3.5
+        },
+        { divider: true, inset: true },
+        {
+          avatar: "https://cdn.vuetifyjs.com/images/lists/3.jpg",
+          title: "Oui oui",
+          subtitle:
+            "<span class='text--primary'>Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?",
+            rating: 2.2
+        },
+        { divider: true, inset: true },
+        {
+          avatar: "https://cdn.vuetifyjs.com/images/lists/4.jpg",
+          title: "Birthday gift",
+          subtitle:
+            "<span class='text--primary'>Trevor Hansen</span> &mdash; Have any ideas about what we should get Heidi for her birthday?",
+            rating: 1.2
+        },
+        { divider: true, inset: true },
+        {
+          avatar: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
+          title: "Recipe to try",
+          subtitle:
+            "<span class='text--primary'>Britta Holt</span> &mdash; We should eat this: Grate, Squash, Corn, and tomatillo Tacos.",
+            rating: 4.5
+        }
+      ]
     };
   },
   created: function() {
+    this.getHostDetails();
     this.serviceSelected = this.serviceType[0];
     this.getPetsType();
-    for(let i=1 ;i<=10;i++){
-        this.pics.push({
-            "src" : `https://picsum.photos/500/300?image=${i * 5 + 10}`,
-            "lazy-src" : `https://picsum.photos/10/6?image=${i * 5 + 10}`
-        });
+    for (let i = 1; i <= 10; i++) {
+      this.pics.push({
+        src: `https://picsum.photos/500/300?image=${i * 5 + 10}`,
+        "lazy-src": `https://picsum.photos/10/6?image=${i * 5 + 10}`
+      });
     }
   },
   methods: {
@@ -284,13 +418,18 @@ export default {
           console.log(err);
         });
     },
-    showDialog(index){
-        this.onboarding = index;
-        this.dialog = true;
+    showDialog(index) {
+      this.onboarding = index;
+      this.dialog = true;
     },
-    getHostDetails(){
-      // host_id="auzh100720100008";
-      
+    getHostDetails() {
+      const host_id = "auzh100720100008";
+      axios.get(URL + "/petowner/gethost/?hid=" + host_id).then(res => {
+        if (res.data.status) {
+          this.avatar = "https://aussiepetsbnb.com.au"+res.data.data.avatar;
+          this.about = res.data.data.hostbio;
+        }
+      });
     }
   }
 };
@@ -305,5 +444,30 @@ export default {
   padding: 7px 12px;
   text-align: center;
   justify-content: center;
+}
+.reading-header {
+  height: 100%;
+  width: 100%;
+  display: inline-block;
+  line-height: 3rem;
+  padding-left: 5px;
+  color: #fff;
+  background: #2c7873;
+}
+.rating-count {
+  height: 100%;
+  width: 100%;
+  display: inline-block;
+  background: orange;
+  color: #ffffff;
+  line-height: 3rem;
+  text-align: center;
+  font-size: 1.5rem;
+}
+.review-rating-count{
+  font-size: 0.8rem;
+    display: inline-block;
+    line-height: 1.2rem;
+    margin-left: 2px;;
 }
 </style>
