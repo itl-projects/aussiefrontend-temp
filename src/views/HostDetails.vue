@@ -289,7 +289,7 @@ export default {
         this.dialog = true;
     },
     getHostDetails(){
-      host_id="auzh100720100008";
+      // host_id="auzh100720100008";
       
     }
   }
