@@ -172,16 +172,18 @@
                         <v-label class="mt-4">Ratings</v-label>
                         <v-card class="mt-6">
                           <v-row>
-                            <v-col cols="4" class="py-0">
-                              <span class="reading-header">Dog Heads</span>
+                            <v-col cols="5" sm="4" class="py-0">
+                              <span class="reading-header">DogHeads</span>
                             </v-col>
-                            <v-col cols="6" class="py-0">
+                            <v-col cols="5" sm="6" class="py-0 pl-0 text-center">
                              <v-rating
                                 v-model="dog_rating"
                                 half-increments
                                 style="line-height: 3rem;"
                                 half-icon
                                 readonly
+                                
+                                dense
                               >
                                 <template v-slot:item="props">
                                   <v-icon
@@ -197,16 +199,18 @@
                         </v-card>
                         <v-card class="mt-2">
                           <v-row>
-                            <v-col cols="4" class="py-0">
-                              <span class="reading-header">Puppy Heads</span>
+                            <v-col cols="5" sm="4" class="py-0 ">
+                              <span class="reading-header">PuppyHeads</span>
                             </v-col>
-                            <v-col cols="6" class="py-0">
+                            <v-col cols="5" sm="6" class="py-0 pl-0 text-center">
                               <v-rating
                                 v-model="puppy_rating"
                                 half-increments
                                 style="line-height: 3rem;"
                                 half-icon
                                 readonly
+                               
+                                dense
                               >
                                 <template v-slot:item="props">
                                   <v-icon
@@ -361,12 +365,7 @@ export default {
     this.getHostDetails();
     this.serviceSelected = this.serviceType[0];
     this.getPetsType();
-    for (let i = 1; i <= 10; i++) {
-      this.pics.push({
-        src: `https://picsum.photos/500/300?image=${i * 5 + 10}`,
-        "lazy-src": `https://picsum.photos/10/6?image=${i * 5 + 10}`
-      });
-    }
+   
   },
   methods: {
     increment(num) {
@@ -388,6 +387,14 @@ export default {
         this.petSelected = "Choose Pet(s)";
       }
       this.menu = !this.menu;
+    },
+    fetchPics(){
+      for (let i = 1; i <= 10; i++) {
+      this.pics.push({
+        src: `https://picsum.photos/500/300?image=${i * 5 + 10}`,
+        "lazy-src": `https://picsum.photos/10/6?image=${i * 5 + 10}`
+      });
+    }
     },
     getPetsType() {
       let type = "Dog";
@@ -419,6 +426,7 @@ export default {
         });
     },
     showDialog(index) {
+       this.fetchPics();
       this.onboarding = index;
       this.dialog = true;
     },
@@ -426,7 +434,7 @@ export default {
       const host_id = "auzh100720100008";
       axios.get(URL + "/petowner/gethost/?hid=" + host_id).then(res => {
         if (res.data.status) {
-          this.avatar = "https://aussiepetsbnb.com.au"+res.data.data.avatar;
+          // this.avatar = "https://aussiepetsbnb.com.au"+res.data.data.avatar;
           this.about = res.data.data.hostbio;
         }
       });
@@ -462,7 +470,6 @@ export default {
   color: #ffffff;
   line-height: 3rem;
   text-align: center;
-  font-size: 1.5rem;
 }
 .review-rating-count{
   font-size: 0.8rem;

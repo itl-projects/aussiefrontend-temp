@@ -57,7 +57,7 @@ export default {
         this.onboarding - 1 < 0 ? this.pics.length - 1 : this.onboarding - 1;
     }
   },
-  computed:function(){
+  created:function(){
       this.length = this.pics.length;
   }
 };
