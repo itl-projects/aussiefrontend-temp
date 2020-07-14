@@ -3,13 +3,15 @@
     <v-row class="px-8 mt-10 ml-10">
       <v-col cols="12" sm="3">
         <v-autocomplete
-          :items="['Type a City', 'Alex Nelson']"
           chips
+          v-model="place"
+          :items="places"
           label="Enter suburb or address"
+          :search-input.sync="searchPlace"
+          :loading="place_loading"
           full-width
           hide-details
-          hide-no-data
-          hide-selected
+         
           dense
           single-line
           outlined>
@@ -112,6 +114,8 @@
 
 <script>
 import router from "../../router";
+import axios from "axios";
+import URL from "@/axios/config";
 
 export default {
   name: "PetHostingForm",
@@ -123,8 +127,31 @@ export default {
     modal:false,
     pickup_modal:false,
     menu: false,
+    places:[],
+    searchPlace:null,
+    place_loading:false,
+    place:""
   }),
+  watch:{
+        searchPlace(val) {
+        val && val !== this.city && this.queryPlaces(val)
+      }
+  },
   methods: {
+    queryPlaces(v) {
+        this.place_loading = true;
+        axios.get(URL+'/locations/?relative=true&place_name='+v,{
+      }).then((res) => {
+       
+        this.places = [];
+        this.place_loading = false;
+        if(res.data.status){
+          res.data.data.forEach(el=>{
+              this.places.push(el.place_name);
+          })
+        }
+      });
+      },
     increment(num) {
       this.items[num].count = this.items[num].count + 1;
     },

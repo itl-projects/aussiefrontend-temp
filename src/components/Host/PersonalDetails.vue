@@ -183,8 +183,8 @@ export default {
     states:[],
     place_loading:false,
     searchPlace:null,
-    latitude:"",
-    longitude:"",
+    latitude:0,
+    longitude:0,
     updateLoading:false,
   }
   },
@@ -263,7 +263,7 @@ export default {
       formData.append('zipcode', this.zipcode);
       formData.append('dob', this.dateFormatted);
       formData.append('state_code', this.state_code);
-      formData.append('latitude', this.latitude);
+      formData.append('latitude',this.latitude);
       formData.append('longitude', this.longitude);
       axios.post(URL+'/host/update/', formData, config,{
       }).then((res) => {

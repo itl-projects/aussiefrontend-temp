@@ -55,8 +55,8 @@ var authStore = {
       phone: data.additional_details.phone,
       avatar: "https://aussiepetsbnb.com.au/" + data.additional_details.avatar,
       dob: data.additional_details.dob,
-      latitute: data.additional_details.latitude,
-      longitude: data.additional_details.longitude,
+      latitute: parseFloat(data.additional_details.latitude),
+      longitude: parseFloat(data.additional_details.longitude),
       bio: data.additional_details.ownerbio
         ? data.additional_details.ownerbio
         : data.additional_details.hostbio,

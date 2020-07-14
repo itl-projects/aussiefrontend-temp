@@ -9,7 +9,7 @@
             </v-col>
             <v-col cols="12" class="text-center">
               <v-avatar size="150">
-                <v-img src="https://cdn.vuetifyjs.com/images/john.png"></v-img>
+                <v-img :src="avatar"></v-img>
               </v-avatar>
             </v-col>
           </v-row>
@@ -18,8 +18,7 @@
               v-model="dialog1"
               fullscreen
               hide-overlay
-              transition="dialog-bottom-transition"
-            >
+              transition="dialog-bottom-transition">
               <template v-slot:activator="{ on }">
                 <div class="add-pet mx-auto">
                   <v-row justify="space-around">
@@ -34,10 +33,10 @@
                   <v-row  justify="space-around" >
                     <v-col cols="9">
                       <span style="font-size:0.8rem">Profile complition</span>
-                      <v-progress-linear color="#2c7873" height="10" value="60" striped rounded></v-progress-linear>
+                      <v-progress-linear color="#2c7873" height="10" :value="profile_complition" striped rounded></v-progress-linear>
                     </v-col>
                     <v-col cols="3" class="mt-4">
-                      <v-label style="font-size:0.8rem;">60%</v-label>
+                      <v-label style="font-size:0.8rem;">{{profile_complition}}%</v-label>
                     </v-col>
                   </v-row>
                 </div>
@@ -312,9 +311,11 @@
 
 </template>
 <script>
-import Profile from "@/components/Owner/Profile";
-import authStore from "../../store/auth";
+import Profile from "@/components/Host/PersonalDetails";
+import authStore from "@/store/auth";
 import axios from "axios";
+import URL from "@/axios/config";
+
 export default {
   name: "HostDashboard",
   components: { Profile },
@@ -327,13 +328,16 @@ export default {
       widgets: false,
       ownerName: "",
       name_titile: "",
-      petCount: 0
+      petCount: 0,
+      avatar:"",
+      profile_complition:0
     };
   },
   created: function() {
+    this.getProfileCompletedInfo();
     const udata = JSON.parse(authStore.userDetails());
     this.name = udata.first_name + " " + udata.last_name;
-    this.name_title = udata.first_name.charAt(0) + udata.last_name.charAt(0);
+    this.avatar = udata.avatar;
     if (authStore.getPetCount()) {
       this.petCount = authStore.getPetCount();
     } else {
@@ -344,7 +348,7 @@ export default {
           }
         };
         axios
-          .get("http://95.217.133.127:70/api/petowner/viewpets/", config)
+          .get(URL+"/petowner/viewpets/", config)
           .then(res => {
             if (res.data.message == "#2c7873") {
               this.petCount = res.data.data.length;
@@ -360,6 +364,22 @@ export default {
   methods:{
     identityProofApproved(){
       console.log('to check aprroved status of identity')
+    },
+    getProfileCompletedInfo(){
+      let config = {
+          headers: {
+            Authorization: "Token " + authStore.userToken()
+          }
+        };
+        axios.get(URL+"/host/completion/",config)
+        .then(res=>{
+          if(res.data.status){
+            this.profile_complition = res.data.data.profile_completion;
+          }
+        }).catch(err=>{console.log(err)});
+    },
+    openProfilePage(){
+
     }
   },
   trainingApproved(){

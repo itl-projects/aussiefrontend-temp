@@ -287,6 +287,10 @@ export default {
     showDialog(index){
         this.onboarding = index;
         this.dialog = true;
+    },
+    getHostDetails(){
+      host_id="auzh100720100008";
+      
     }
   }
 };

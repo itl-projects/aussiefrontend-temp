@@ -169,7 +169,7 @@
                           <v-label color="black">Recently updated calendar</v-label>
                         </div>
                         <v-list-item>
-                          <v-list-item-content style="position:relative">
+                          <v-list-item-content style="position:relative;cursor:pointer" @click="showHostDetails">
                             <div class="fee">
                               <p class="mb-0" style="font-size: 0.8rem;">from</p>
                               <h1 style="color:#2c7873">$ 11</h1>
@@ -187,7 +187,7 @@
                                     />
                                   </v-col>
                                   <v-col cols="12 py-0">
-                                    <v-btn text color="#2c7873" small class="px-0">
+                                    <v-btn text color="#2c7873" small class="px-0" @click="showHostDetails">
                                       View More
                                       <v-icon color="#2c7873" class="ml-2" small>mdi-eye</v-icon>
                                     </v-btn>
@@ -263,6 +263,7 @@
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import PetHostingFormDummy from "@/components/TabForms/PetHostingForm_dummy";
+import router from '../router';
 export default {
   name: "HostResult",
   components: {
@@ -351,6 +352,9 @@ export default {
     },
     closeMenu() {
       this.menu = false;
+    },
+    showHostDetails(){
+      router.replace("/hostdetail");
     }
   }
 };
