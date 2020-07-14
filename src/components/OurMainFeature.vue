@@ -12,9 +12,9 @@
         <v-list flat>
           <v-list-item-group v-model="item" color="#2C7873">
             <v-list-item v-for="(item, i) in items" :key="i">
-              <v-img :src="item.icon"  contain class="icons"></v-img>
-              <v-list-item-icon class="text-center">   
-              </v-list-item-icon>
+              <v-list-item-avatar class="text-center pa-2">   
+                <v-img :src="item.icon" contain></v-img>
+              </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title v-text="item.text"></v-list-item-title>
               </v-list-item-content>
@@ -31,9 +31,9 @@
         <v-list flat>
           <v-list-item-group v-model="item" color="#2C7873">
             <v-list-item v-for="(item, i) in items2" :key="i">
-              <v-list-item-icon>
-                <v-img :src="item.icon" class="icons"></v-img>
-              </v-list-item-icon>
+              <v-list-item-avatar class="pa-2">
+                <v-img :src="item.icon" contain></v-img>
+              </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title v-text="item.text"></v-list-item-title>
               </v-list-item-content>
@@ -47,9 +47,9 @@
         <v-list flat>
           <v-list-item-group v-model="item" color="#2C7873">
             <v-list-item v-for="(item, i) in items3" :key="i">
-              <v-list-item-icon>
-                <v-img :src="item.icon" class="icons"></v-img>
-              </v-list-item-icon>
+              <v-list-item-avatar class="pa-2">
+                <v-img :src="item.icon" contain></v-img>
+              </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title v-text="item.text"></v-list-item-title>
               </v-list-item-content>
@@ -61,9 +61,9 @@
         <v-list flat >
           <v-list-item-group v-model="item" color="#2C7873">
             <v-list-item v-for="(item, i) in items4" :key="i">
-              <v-list-item-icon>
-                <v-img :src="item.icon" class="icons"></v-img>
-              </v-list-item-icon>
+              <v-list-item-avatar class="pa-2">
+                <v-img :src="item.icon" contain></v-img>
+              </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title v-text="item.text"></v-list-item-title>
               </v-list-item-content>
@@ -75,9 +75,9 @@
         <v-list flat>
           <v-list-item-group v-model="item" color="#2C7873">
             <v-list-item v-for="(item, i) in items5" :key="i">
-              <v-list-item-icon>
-                <v-img :src="item.icon" class="icons"></v-img>
-              </v-list-item-icon>
+              <v-list-item-avatar class="pa-2">
+                <v-img :src="item.icon" contain></v-img>
+              </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title v-text="item.text"></v-list-item-title>
               </v-list-item-content>
@@ -108,7 +108,7 @@
             </v-avatar>
           </v-card-text>
 
-          <v-card-title class="text-center" style="display: block">{{
+          <v-card-title class="text-center" style="display: block; color: #00d657;">{{
             quickeasy.title
           }}</v-card-title>
           <v-card-text class="text-justify">{{ quickeasy.desc }}</v-card-text>
@@ -215,19 +215,9 @@ export default {
 .v-list-item__icon {
   margin: 5px 0;
 }
-/* .v-icon.v-icon {
-  border: 2px solid #faef60;
-  border-radius: 50%;
-  padding: 3px;
-  font-size: 1.3rem;
-} */
-.icons{
-  border: 2px solid #faef60;
-  border-radius: 50%;
-  padding: 15px;
-  font-size: 1.3rem;
-  max-width:30px ;
-  max-height:30px;
+.v-application--is-ltr .v-list-item__avatar:first-child {
+    border: 1.5px solid #faef60;
+    margin-right: 16px;
 }
 .theme--light.v-icon {
   color: #2c7873;
@@ -243,8 +233,11 @@ export default {
 .v-list-item .v-list-item__title, .v-list-item .v-list-item__subtitle{
   font-weight: bold;
 }
-.content-center{
-  display: flex;
-    justify-content: center;
+.v-image__image{
+    background-size: none !important;
+}
+.v-card:not(.v-sheet--tile):not(.v-card--shaped) {
+    border-radius: 4px;
+    border: 1px solid gold;
 }
 </style>
