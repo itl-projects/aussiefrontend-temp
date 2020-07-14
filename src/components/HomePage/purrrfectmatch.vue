@@ -16,8 +16,7 @@
        </v-col>
        <v-col cols="6">
           <p>Purrrfect match is our pet hook-up, breeding and socialising</p>
-          <p>f your pet is looking for a mate and would like to hook up with one of kind,peurrrfect match is just what you are looking for. Whether it is to connect with other pet owners for breeding purposes or just to arrange play dates for your pet, we have you covered, this is where it all happens. this is where it all happens. </p>
-          <p>Simply create an account, build your profile making sure to add some great photos, and start interacting with other like-minded pet owners! </p>
+          
        </v-col> 
     </v-row>
   </v-container>
