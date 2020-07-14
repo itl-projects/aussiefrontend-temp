@@ -20,6 +20,7 @@ import shop from "@/components/HomePage/shop";
 import ClientReview from "@/components/HomePage/ClientReview";
 import Footer from "@/components/Footer";
 
+
 export default {
   name: "Home",
   components: {
