@@ -12,6 +12,7 @@
 html,
 body {
   font-family: "Baloo Thambi 2", cursive;
+  /* width: 100vw !important; */
 }
 
 #app {

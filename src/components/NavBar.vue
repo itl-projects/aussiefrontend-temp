@@ -1,6 +1,6 @@
 <template>
   <div class="navbar-aussiepetz">
-    <v-toolbar dark color="#00D657">
+    <v-toolbar dark color="#00D657" flat >
       <v-app-bar-nav-icon class="d-flex d-sm-flex d-md-none" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>
         <a href="/">

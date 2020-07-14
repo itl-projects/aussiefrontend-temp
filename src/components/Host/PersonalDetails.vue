@@ -13,6 +13,7 @@
           :removable="true"
           removeButtonClass="ui red button"
           :height="200"
+          :prefill="avatar"
           accept="image/jpeg, image/png, image/gif"
           buttonClass="ui button primary"
           :customStrings="{
@@ -70,7 +71,7 @@
             <span class="red--text">Not Verified</span>
           </v-col>
           <v-col v-if="!email_verified"  :cols="12" :md="2" class="text-center" style="margin:auto">
-            <v-btn color="success" :loading="verifyingEmail" @click="verifyEMail">Verfiy</v-btn>
+            <v-btn color="success" :loading="verifyingEmail" @click="verifyEmail">Verfiy</v-btn>
           </v-col>
         </v-row>
       </v-col>
@@ -138,13 +139,11 @@
         <h5>Tell others about you</h5>
         <v-row>
           <v-col :md="9" :cols="12">
-            <v-textarea solo :counter="true" name="input-7-4" label="Desribe yourself"></v-textarea>
+            <v-textarea solo :counter="true" v-model="hostbio" label="Desribe yourself"></v-textarea>
           </v-col>
-          <v-col :md="3" :cols="12">
-            <h5>Bio of pet Owner</h5>
-          </v-col>
+         
         </v-row>
-        <v-btn type="submit" color="success" @click="updateProfile">Update Profile</v-btn>
+        <v-btn type="submit" color="success" @click="updateProfile" :loading="updateLoading">Update Profile</v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -159,11 +158,12 @@ export default {
   components: { PictureInput },
   data: function(){
     return {
+    alert:{"show":false,"type":null,"message":""},
     date: new Date().toISOString().substr(0, 10),
     dateFormatted: "",
     menu1: false,
-    firstName:"this",
-    lastName: "last",
+    firstName:"",
+    lastName: "",
     contact:"",
     email:"",
     gender:"",
@@ -237,23 +237,13 @@ export default {
       }
     },
     onRemoved() {
-      this.image = "";
+      this.image = null;
     },
     attemptUpload() {
-      // if (this.image){
-      // FormDataPost('http://localhost:8001/user/picture', this.image)
-      //     .then(response=>{
-      //     if (response.data.success){
-      //         this.image = '';
-      //         console.log("Image uploaded successfully ✨");
-      //     }
-      //     })
-      //     .catch(err=>{
-      //     console.error(err);
-      //     });
-      // }
+
     },
     updateProfile: function(){
+      this.updateLoading = true;
        let config = {
         headers: {
           Authorization: "Token " + authStore.userToken()
@@ -275,13 +265,18 @@ export default {
       formData.append('state_code', this.state_code);
       formData.append('latitude', this.latitude);
       formData.append('longitude', this.longitude);
-      axios.post(URL+'/petowner/update/', formData, config,{
+      axios.post(URL+'/host/update/', formData, config,{
       }).then((res) => {
+        this.updateLoading = false;
         if(res.data.status){
-            alert("profile updated successfully");
+           authStore.fecthUserData();
+           this.showAlert("success","profile updated successfully");
         }else{
-          alert("Failed to update profile details");
+          this.showAlert("error","Failed to update profile details")
         }
+      }).catch(()=>{
+        this.updateLoading = false;
+         this.showAlert("error","Failed to update profile details")
       });
     },
     parseDate(date) {
@@ -328,15 +323,19 @@ export default {
       this.contact = data.phone;
       this.email_verified = data.emailverified == 1 ? true : false;
       this.phone_verified = data.phoneverified == 1 ? true : false;
-      this.hostbio = data.hostbio;
+      this.hostbio = data.bio.startsWith("cdata") ? "" : data.bio;
       this.city = data.city;
+      if(this.city != null && this.city != "")
+      this.places.push(data.city);
       this.state = data.state;
       this.zipcode = data.zipcode;
       this.state_code = data.state_code;
       this.billing_address = data.billing_address;
       this.country = data.country;
       this.dateFormatted = data.dob;
-
+      this.avatar = data.avatar;
+      this.latitude = data.latitude;
+      this.longitude = data.longitude;
       if(authStore.isMale()){
         this.gender = "Male";
       }else{

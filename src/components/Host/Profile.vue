@@ -37,7 +37,6 @@
   </div>
 </template>
 <script>
-import authStore from '../../store/auth';
 import ServicesAndRates from "@/components/Host/ServicesAndRates";
 import PersonalDetails from "@/components/Host/PersonalDetails";
 export default {
@@ -45,83 +44,17 @@ export default {
   components:{ServicesAndRates,PersonalDetails},
   data: function(){
     return {
-      tab:null,
-    date: new Date().toISOString().substr(0, 10),
-    dateFormatted: "",
-    menu1: false,
-    firstName:"this",
-    lastName: "last",
-    contact:"",
-    email:"",
-    gender:""
+      tab:null
   }
   },
 
   computed: {
-    computedDateFormatted() {
-      return this.formatDate(this.date);
-    }
+   
   },
-  watch: {
-    date(val) {
-      this.dateFormatted = val;
-    }
-  },
-
   methods: {
     
-    onChanged() {
-      console.log("New picture loaded");
-      if (this.$refs.pictureInput.file) {
-        this.image = this.$refs.pictureInput.file;
-      } else {
-        console.log("Old browser. No support for Filereader API");
-      }
-    },
-    onRemoved() {
-      this.image = "";
-    },
-    attemptUpload() {
-      // if (this.image){
-      // FormDataPost('http://localhost:8001/user/picture', this.image)
-      //     .then(response=>{
-      //     if (response.data.success){
-      //         this.image = '';
-      //         console.log("Image uploaded successfully ✨");
-      //     }
-      //     })
-      //     .catch(err=>{
-      //     console.error(err);
-      //     });
-      // }
-    },
-    formatDate(date) {
-      if (!date) return null;
-
-      const [year, month, day] = date.split("-");
-      return `${month}/${day}/${year}`;
-    },
-    parseDate(date) {
-      if (!date) return null;
-
-      const [month, day, year] = date.split("/");
-      return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-    }
   },
-  created: function(){
-      const data = JSON.parse(authStore.userDetails());
-      this.firstName = data.first_name;
-      this.lastName = data.last_name;
-      this.email = data.email;
-      this.contact = data.phone;
-      if(authStore.isMale()){
-        this.gender = "Male";
-      }else{
-        this.gender = "Female";
-      }
 
-      this.dateFormatted = data.dob ? new Date(data.dob).toISOString().substr(0,10) : new Date().toISOString().substr(0, 10);
-  }
 };
 </script>
 <style scoped>

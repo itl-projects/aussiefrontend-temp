@@ -50,20 +50,19 @@
                     <v-overflow-btn
                       :items="house_conditions"
                       label="Housing Conditions"
-                       hide-details
+                      hide-details
                       hide-no-data
                       flat
                       single-line
                       target="#dropdown-example"
                       multiple
-                      
                     ></v-overflow-btn>
                   </v-col>
                   <v-col cols="6" sm="2" class="py-0 px-0">
                     <v-overflow-btn
                       :items="transport"
                       label="Transport"
-                       hide-details
+                      hide-details
                       hide-no-data
                       flat
                       single-line
@@ -72,41 +71,52 @@
                     ></v-overflow-btn>
                   </v-col>
                   <v-col cols="6" sm="2" class="py-0 px-0">
-                         <v-menu
-          v-model="menu"
-          :close-on-content-click="false"
-          :close-on-click="false"
-          class="pa-0 ma-0"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-select v-bind="attrs" v-on="on" label="Budget"  class="ml-2 mt-2"
-            no-data-text solo flat
-          hide-details
-          hide-no-data
-          single-line
-          ></v-select>
-          </template>
-          <v-list class="pa-0 ma-0">
-            <v-list-item>
-                   <v-row style="max-width:300px;background-color:#f4f4f4" class="text-center" justify="center" align="center" >
-              <v-col cols="12">
-                  <span>The average rate is $50 AUD per night</span>
-              </v-col>
-              <v-col cols="12" class="py-0">
-                  <span style="float:left;font-size:0.8rem">{{ticksLabels[0]}}</span>
-                  <span style="float:right;font-size:0.8rem">{{ticksLabels[1]}}</span>
-                  <v-range-slider v-model="budget" :max="budget_max" :min="budget_min"></v-range-slider>
-              </v-col>
-              <v-col cols="12" class="py-0">
-                  <h3>${{budget[0]}} - ${{budget[1]}} AUD</h3>
-              </v-col>
-            </v-row>
-            </v-list-item>
-            <v-list-item-action >
-              <v-btn outlined @click="closeMenu" color="teal">Apply</v-btn>
-            </v-list-item-action>
-          </v-list>
-        </v-menu>
+                    <v-menu
+                      v-model="menu"
+                      :close-on-content-click="false"
+                      :close-on-click="false"
+                      class="pa-0 ma-0"
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-select
+                          v-bind="attrs"
+                          v-on="on"
+                          label="Budget"
+                          class="ml-2 mt-2"
+                          no-data-text
+                          solo
+                          flat
+                          hide-details
+                          hide-no-data
+                          single-line
+                        ></v-select>
+                      </template>
+                      <v-list class="pa-0 ma-0">
+                        <v-list-item>
+                          <v-row
+                            style="max-width:300px;background-color:#f4f4f4"
+                            class="text-center"
+                            justify="center"
+                            align="center"
+                          >
+                            <v-col cols="12">
+                              <span>The average rate is $50 AUD per night</span>
+                            </v-col>
+                            <v-col cols="12" class="py-0">
+                              <span style="float:left;font-size:0.8rem">{{ticksLabels[0]}}</span>
+                              <span style="float:right;font-size:0.8rem">{{ticksLabels[1]}}</span>
+                              <v-range-slider v-model="budget" :max="budget_max" :min="budget_min"></v-range-slider>
+                            </v-col>
+                            <v-col cols="12" class="py-0">
+                              <h3>${{budget[0]}} - ${{budget[1]}} AUD</h3>
+                            </v-col>
+                          </v-row>
+                        </v-list-item>
+                        <v-list-item-action>
+                          <v-btn outlined @click="closeMenu" color="teal">Apply</v-btn>
+                        </v-list-item-action>
+                      </v-list>
+                    </v-menu>
                   </v-col>
                 </v-row>
                 <v-btn
@@ -261,11 +271,8 @@ export default {
     PetHostingFormDummy
   },
   data: () => ({
-      menu:false,
-      ticksLabels: [
-         "$0 AUD",
-         "$200 AUD"
-        ],
+    menu: false,
+    ticksLabels: ["$0 AUD", "$200 AUD"],
     filter: false,
     filterText: "More Filters",
     about_pet: [
@@ -280,9 +287,9 @@ export default {
       "Fenced Backyard"
     ],
     transport: ["Pick-up and drop-off", "Access to emergency transport"],
-    budget:[50,100],
+    budget: [50, 100],
     budget_min: 0,
-    budget_max:100,
+    budget_max: 100,
     rating: 3,
     itemsPerPageArray: [4, 8, 12],
     page: 1,
@@ -342,8 +349,8 @@ export default {
       else this.filterText = "More Filters";
       this.filter = !this.filter;
     },
-    closeMenu(){
-        this.menu = false;
+    closeMenu() {
+      this.menu = false;
     }
   }
 };
