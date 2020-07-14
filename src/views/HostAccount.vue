@@ -27,18 +27,19 @@
                     <v-menu offset-y>
                       <template v-slot:activator="{ on, attrs }">
                         <v-avatar size="40" v-bind="attrs" v-on="on">
-                          <v-img src="https://cdn.vuetifyjs.com/images/john.png"></v-img>
+                          <v-img :src.sync="avatar"></v-img>
                         </v-avatar>
                       </template>
                       <v-list>
                         <v-list-item to="/">
-                          <v-list-item-icon>
-                            <v-icon color="#2c7873">mdi-account-edit-outline</v-icon>
+                          <v-list-item-icon class="mx-2">
+                            <v-icon color="#2c7873" class="mr-2">mdi-account-edit-outline</v-icon>
+                            home
                           </v-list-item-icon>
-                          <v-list-item-title>Home</v-list-item-title>
+                          <!-- <v-list-item-title>Home</v-list-item-title> -->
                         </v-list-item>
                         <v-list-item @click="logout">
-                          <v-list-item-icon>
+                          <v-list-item-icon class="mx-2">
                             <v-icon color="#2c7873">mdi-power-standby</v-icon>
                           </v-list-item-icon>
                           <v-list-item-title>Logout</v-list-item-title>
@@ -76,6 +77,8 @@ export default {
   },
   data: () => ({
     email_not: true,
+    name:"",
+    avatar:"",
     menu: true,
     items: [
       {
@@ -83,7 +86,11 @@ export default {
         disabled: false,
         href: "/host"
       },
-     
+     {
+        text: "Message",
+        disabled: true,
+        href: "breadcrumbs_link_1"
+      }
     ]
   }),
   beforeUpdate: function(){
@@ -94,7 +101,6 @@ export default {
       if(this.items.length == 2){
         this.items.pop();
       }
-     
         this.items.push(
            {
         text: window.location.pathname.toString().split("/")[2],
@@ -104,6 +110,15 @@ export default {
         )
     
     }
+  },
+  created: function() {
+    let s = window.location.pathname.toString().split("/");
+    this.items[1].text = s[s.length - 1];
+    this.items[1].href = window.location.pathname.toString();
+    const udata = authStore.getUserData();
+    this.name = udata.first_name + " " + udata.last_name;
+    this.avatar = udata.avatar;
+    this.email = udata.email;
   },
   methods: {
     toggleMenu: function() {
@@ -118,6 +133,10 @@ export default {
     isLoggedIn: function() {
       if (!authStore.isSignedIn()) {
         router.replace("/");
+      }else{
+        if(authStore.userType() == "petowner"){
+          router.replace("/petowner")
+        }
       }
     }
   },

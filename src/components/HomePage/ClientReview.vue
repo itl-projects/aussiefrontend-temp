@@ -7,8 +7,8 @@
                     </div>
                 </v-col>
         </v-row>
-        <v-row class="d-flex d-sm-flex d-md-none">
-            <v-col :cols=12 :md=4>
+        <v-row class="d-md-none d-block">
+            <v-col :cols="12" :md="4">
                 <div class="toy-mob">
                     <img src="../../assets/images/toy.png" alt="" style="width:62px">
                 </div>
@@ -18,8 +18,8 @@
             </v-col>
           
         </v-row>
-        <v-row class="d-none d-sm-none d-md-flex">
-            <v-col :cols=12 :md=4>
+        <v-row>
+            <v-col :cols="12" :md="4"  class="d-md-block d-none">
                 <div class="toy">
                     <img src="../../assets/images/toy.png" alt="">
                 </div>
@@ -28,7 +28,7 @@
                 </div>
                 
             </v-col>
-            <v-col :cols=12 :md=8 class="ma-auto">
+            <v-col :cols="12" :md="8" class="ma-auto">
                 <carousel :responsive="{0:{items:1},600:{items:2},1000:{items:2}}" v-bind:nav="false" v-bind:margin=5 :autoplayHoverPause="true" v-bind:autoWidth="false" v-bind:autoplay='true' v-bind:dots="true" v-bind:loop='true' >
                 <div class="item" v-for="(review,i) of reviews" :key="i" >
                     <v-card
@@ -127,9 +127,17 @@ export default {
     margin-right: -15px;
     width: 62px;
     }
+    .toy-mob:nth-child(1){
+            text-align: center;
+    margin-top: 10px;
+    }
+    .cat-mob:nth-child(2){
+        padding-left: 30%;
+    }
+    
     .cat-mob img{
-        width: 50%;
-        margin-top: 20px;
+        width: 30%;
+        /* margin-top: 20px; */
         /*  */
     }
    .toy-mob img{

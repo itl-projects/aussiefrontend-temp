@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer
-    floating=""
+    floating
     v-model="menu"
     height="auto"
     color="#2c7873"
@@ -17,11 +17,11 @@
         <v-list-item-content>
           <div style="display:flex;flex-wrap:wrap">
             <v-list-item-avatar>
-              <v-img src="https://randomuser.me/api/portraits/women/85.jpg"></v-img>
+              <v-img :src="avatar"></v-img>
             </v-list-item-avatar>
             <div>
-              <v-list-item-title class="title">Sandra Adams</v-list-item-title>
-              <v-list-item-subtitle>sandra_a88@gmail.com</v-list-item-subtitle>
+              <v-list-item-title class="title">{{name}}</v-list-item-title>
+              <v-list-item-subtitle>{{ email }}</v-list-item-subtitle>
             </div>
           </div>
         </v-list-item-content>
@@ -31,7 +31,7 @@
     <v-divider></v-divider>
 
     <v-list nav dense shaped class="pl-0">
-     <v-list-item link to="/host" exact>
+      <v-list-item link to="/host" exact>
         <v-list-item-icon class="mr-1 mr-lg-3">
           <v-icon>mdi-desktop-mac-dashboard</v-icon>
         </v-list-item-icon>
@@ -49,8 +49,8 @@
         </v-list-item-icon>
         <v-list-item-title>Message</v-list-item-title>
       </v-list-item>
-     
-       <v-list-item link to="/host/bookings">
+
+      <v-list-item link to="/host/bookings">
         <v-list-item-icon class="mr-1 mr-lg-3">
           <v-icon>mdi-sticker-check</v-icon>
         </v-list-item-icon>
@@ -62,13 +62,13 @@
         </v-list-item-icon>
         <v-list-item-title>Photos</v-list-item-title>
       </v-list-item>
-       <v-list-item link to="/host/calendar">
+      <v-list-item link to="/host/calendar">
         <v-list-item-icon class="mr-1 mr-lg-3">
           <v-icon>mdi-calendar</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Calendar</v-list-item-title>
       </v-list-item>
-       <v-list-item link to="/host/settings">
+      <v-list-item link to="/host/settings">
         <v-list-item-icon class="mr-1 mr-lg-3">
           <v-icon>mdi-tools</v-icon>
         </v-list-item-icon>
@@ -79,17 +79,28 @@
 </template>
 
 <script>
-    export default {
-        name:"HostSidebar",
-        props: ['menu'],
-        data: () => ({
-            my_menu:true
-        }),
-    }
+import authStore from "../../store/auth";
+export default {
+  name: "HostSidebar",
+  props: ["menu"],
+  data: () => ({
+    my_menu: true,
+    name: "",
+    avatar: "",
+    email: ""
+  }),
+  created: function() {
+    const udata = authStore.getUserData();
+    this.name = udata.first_name + " " + udata.last_name;
+    this.avatar = udata.avatar;
+    this.email = udata.email;
+  }
+};
 </script>
 
 <style scoped>
-.v-list-item--dense .v-list-item__icon, .v-list--dense .v-list-item .v-list-item__icon{
-  padding-right:5px !important;
+.v-list-item--dense .v-list-item__icon,
+.v-list--dense .v-list-item .v-list-item__icon {
+  padding-right: 5px !important;
 }
 </style>

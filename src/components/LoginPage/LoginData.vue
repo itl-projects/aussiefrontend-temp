@@ -197,7 +197,7 @@ export default {
     errorEmail: [],
     errorPass: [],
     value: "",
-    passwordrule: [ v => !!v || 'Password is required', v => v.length > 8 || "Enter Valid Password"],
+    passwordrule: [ v => !!v || 'Password is required'],
     emailrule: [
         v => !!v || 'E-mail/Mobile number is required',
       ],
@@ -279,7 +279,7 @@ export default {
               setTimeout(()=>{
                 this.show_error = false;
               },3000);
-              this.message = "Wrong login credentials either email or password is wrong!"
+              this.message = "login credentials email or password is wrong!"
             }
           })
           .catch(e => {

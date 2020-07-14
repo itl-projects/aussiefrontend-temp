@@ -9,10 +9,11 @@
           ref="pictureInput"
           @change="onChanged"
           @remove="onRemoved"
-          :width="200"
-          :removable="true"
+          width="200"
+          height="200"
+          removable
           removeButtonClass="ui red button"
-          :height="200"
+          :prefill="avatar"
           accept="image/jpeg, image/png, image/gif"
           buttonClass="ui button primary"
           :customStrings="{
@@ -172,6 +173,7 @@ export default {
   components: { PictureInput },
   data: function(){
     return {
+    avatar:"https://via.placeholder.com/300",
     snackbar:false,
     snackbarText:"",
     alert:{"show":false,"type":null,"message":""},
@@ -250,10 +252,8 @@ export default {
       });
       },
     onChanged() {
-      console.log("New picture loaded");
       if (this.$refs.pictureInput.file) {
         this.image = this.$refs.pictureInput.file;
-        console.log(this.image);
       } else {
         console.log("Old browser. No support for Filereader API");
       }
@@ -282,7 +282,6 @@ export default {
           Authorization: "Token " + authStore.userToken()
         }
       };
-
       const formData = new FormData();
       if(this.image != null)
         formData.append('avatar', this.image, this.image.name);
@@ -296,13 +295,13 @@ export default {
       formData.append('zipcode', this.zipcode);
       formData.append('state_code', this.state_code);
       formData.append('dob', this.dateFormatted);
-      formData.append('latitude', this.latitude);
-      formData.append('longitude', this.longitude);
+      formData.append('latitude', parseInt(this.latitude));
+      formData.append('longitude', parseInt(this.longitude));
       axios.post(URL+'/petowner/update/', formData, config,{
       }).then((res) => {
         this.updateLoading = false;
-        console.log(res);
         if(res.data.status){
+          authStore.fecthUserData();
           this.showAlert("success","profile updated successfully");
         }else{
           this.showAlert("error","Failed to update profile details")
@@ -324,7 +323,6 @@ export default {
           Authorization: "Token " + authStore.userToken()
         }
       };
-
       axios.post(URL+"/verifyemail/",{email:this.email},config)
       .then(res=>{
         if(res.data.status){
@@ -347,22 +345,9 @@ export default {
       setTimeout(()=>{
         this.alert.show = false;
       },5000);
-    }
-  },
-  created: function(){
-      // let config = {
-      //   headers: {
-      //     Authorization: "Token " + authStore.userToken()
-      //   }
-      // };
-
-      // axios.get(URL+"/userdata/",config)
-      // .then(res=>{
-
-      // }).catch(()=>{
-
-      // })
-      const data = JSON.parse(authStore.userDetails());
+    },
+    getuserDetails(){
+      const data = authStore.getUserData();
       this.firstName = data.first_name;
       this.lastName = data.last_name;
       this.email = data.email;
@@ -370,6 +355,7 @@ export default {
       this.email_verified = data.emailverified == 1 ? true : false;
       this.phone_verified = data.phoneverified == 1 ? true : false;
       this.ownerbio = data.ownerbio;
+      this.places.push(data.city);
       this.city = data.city;
       this.state = data.state;
       this.zipcode = data.zipcode;
@@ -377,13 +363,20 @@ export default {
       this.billing_address = data.billing_address;
       this.country = data.country;
       this.dateFormatted = data.dob;
-
+      this.ownerbio = data.bio;
+      this.avatar = data.avatar;
+      this.latitude = data.latitude;
+      this.longitude = data.longitude;
       if(authStore.isMale()){
         this.gender = "Male";
       }else{
         this.gender = "Female";
       }
       this.dateFormatted = data.dob ? new Date(data.dob).toISOString().substr(0,10) : new Date().toISOString().substr(0, 10);
+    }
+  },
+  created: function(){
+      this.getuserDetails();
   }
 };
 </script>

@@ -1,19 +1,22 @@
 <template>
   <v-container grid-list-xs class="mt-5">
     <v-row>
-      <v-col cols-12>
+      <v-col cols="12">
         <div class="heading text-center">
           <h2>ALL FEATURES & SERVICES</h2>
         </div>
       </v-col>
     </v-row>
-    <v-row class="pt-2 pb-2 pl-10 pr-10">
-      <v-col cols="12" class="ma-auto p-10" :md="4">
+    <v-row>
+      <v-col cols="12" sm="4" class="content-center">
         <v-list flat>
           <v-list-item-group v-model="item" color="#2C7873">
             <v-list-item v-for="(item, i) in items" :key="i">
               <v-list-item-icon class="text-center">
-                <v-icon v-text="item.icon"></v-icon>
+                <!-- <v-icon v-text="item.icon"></v-icon> -->
+                <v-avatar style="border:2px solid #323232;">
+                  <v-img src="@/assets/images/Frame.svg" width="32px" aspect-ratio="1" contain class="pa-3 ma-3"/>
+                </v-avatar>
               </v-list-item-icon>
               <v-list-item-content>
                 <v-list-item-title v-text="item.text"></v-list-item-title>
@@ -22,12 +25,12 @@
           </v-list-item-group>
         </v-list>
       </v-col>
-      <v-col cols="12" :md="5">
-        <div class="image-feature">
-          <img src="@/assets/images/img_1.png" class="ml-10" alt />
+      <v-col cols="12" sm="4" class="content-center">
+        <div class="image-feature content-center">
+          <img src="@/assets/images/img_1.png" alt="sevices" />
         </div>
       </v-col>
-      <v-col cols="12" class="ma-auto p-10" :md="3">
+      <v-col cols="12" :sm="4" class="content-center">
         <v-list flat>
           <v-list-item-group v-model="item" color="#2C7873">
             <v-list-item v-for="(item, i) in items2" :key="i">
@@ -42,8 +45,8 @@
         </v-list>
       </v-col>
     </v-row>
-    <v-row class="pt-2 pb-2 pl-10 pr-10">
-      <v-col cols="12" class="ma-auto p-10" :md="4">
+    <v-row >
+      <v-col cols="12" :sm="4" class="content-center">
         <v-list flat>
           <v-list-item-group v-model="item" color="#2C7873">
             <v-list-item v-for="(item, i) in items3" :key="i">
@@ -57,9 +60,8 @@
           </v-list-item-group>
         </v-list>
       </v-col>
-      <v-col cols="12" :md="1"></v-col>
-      <v-col cols="12" :md="4">
-        <v-list flat class>
+      <v-col cols="12" sm="4" class="content-center">
+        <v-list flat >
           <v-list-item-group v-model="item" color="#2C7873">
             <v-list-item v-for="(item, i) in items4" :key="i">
               <v-list-item-icon>
@@ -72,7 +74,7 @@
           </v-list-item-group>
         </v-list>
       </v-col>
-      <v-col cols="12" class="ma-auto p-10" :md="3">
+      <v-col cols="12" sm="4" class="content-center">
         <v-list flat>
           <v-list-item-group v-model="item" color="#2C7873">
             <v-list-item v-for="(item, i) in items5" :key="i">
@@ -89,7 +91,7 @@
     </v-row>
 
     <v-row class="mt-5">
-      <v-col cols-12>
+      <v-col cols="12">
         <div class="heading text-center">
           <h2>
             Aussie Petz
@@ -98,9 +100,9 @@
         </div>
       </v-col>
     </v-row>
-    <v-row justify="space-around" class="mt-3 p-3">
-      <v-col :cols="12" :md="4" v-for="(quickeasy, i) in QuickEasy" :key="i">
-        <v-card class="mx-auto">
+    <v-row justify="space-around" class="mt-3">
+      <v-col cols="12" sm="4" v-for="(quickeasy, i) in QuickEasy" :key="i">
+        <v-card>
           <v-card-text class="text-center">
             <v-avatar color="#00D657" size="150" style="background:#2c7873">
               <v-icon style="color:#FAEF63; font-size: 5rem;font-weight:bold">{{
@@ -235,5 +237,9 @@ export default {
 }
 .v-list-item .v-list-item__title, .v-list-item .v-list-item__subtitle{
   font-weight: bold;
+}
+.content-center{
+  display: flex;
+    justify-content: center;
 }
 </style>

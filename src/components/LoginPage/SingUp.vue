@@ -5,7 +5,8 @@
       <v-col class="pb-0">
         <v-text-field
           v-model="UserName"
-          :error-messages="nameErrors"
+          :error-messages.sync="nameErrors"
+          :success-messages="nameSuccess"
           label="User Name"
           name="UserName"
           required
@@ -20,6 +21,7 @@
         <v-text-field
           v-model="email"
           :error-messages="emailErrors"
+          :success-messages="emailSuccess"
           label="E-mail"
           name="email"
           required
@@ -66,6 +68,7 @@
         <v-text-field
           v-model="phone"
           :error-messages="numricErrors"
+          :success-messages="phoneSuccess"
           label="Phone Number"
           name="phone"
           hide-details="auto"
@@ -172,6 +175,7 @@ import {
   minLength
 } from "vuelidate/lib/validators";
 import axios from "axios";
+import URL from "@/axios/config";
 import router from "../../router";
 
 export default {
@@ -203,14 +207,16 @@ export default {
     requiredRule: [],
     items: ["Host", "PetOwner"],
     menu: false,
-    phoneErrors:[],
+    nameSuccess:[],
+    phoneSuccess:[],
+    emailSuccess:[],
     signupProgress:false,
     signupLoading:false,
     signupSuccess:false,
     rules: {
           required: value => !!value || 'Required.',
           min: v => v.length >= 8 || 'Min 8 characters',
-          validUsername: v => v.length >= 8 || "Username must be of minimum 6 character",
+          validUsername: v => v.length >= 3 || "Username must be of minimum 3 character",
         }
   }),
 
@@ -222,16 +228,13 @@ export default {
       return errors;
     },
     nameErrors() {
-      
       const errors = [];
       if (!this.$v.UserName.$dirty) return errors;
       !this.$v.UserName.required && errors.push("UserName is required.");
-      this.UserName.length > 10 && errors.push("hello");
       return errors;
     },
     firstErrors() {
       const errors = [];
-      console.log("new"+this.$v.FirstName)
       if (!this.$v.FirstName.$dirty) return errors;
       !this.$v.FirstName.required && errors.push("First Name is required.");
       return errors;
@@ -249,6 +252,13 @@ export default {
       !this.$v.email.required && errors.push("E-mail is required");
       return errors;
     },
+    phoneErrors(){
+      const errors = [];
+      if (!this.$v.phone.$dirty) return errors;
+      !this.$v.phone.phone && errors.push("Enter a valid mobile number");
+      !this.$v.phone.required && errors.push("Mobile number is required");
+      return errors;
+    },
     numricErrors() {
       const errors = [];
       if (!this.$v.phone.$dirty) return errors;
@@ -260,7 +270,7 @@ export default {
     passwordErrors() {
       const errors = [];
       if (!this.$v.password.$dirty) return errors;
-      !this.$v.password.minLength && errors.push("Password must be 8");
+      !this.$v.password.minLength && errors.push("Password must contain atleast 8 characters");
       !this.$v.password.required && errors.push("password is required");
       return errors;
     },
@@ -276,34 +286,60 @@ export default {
     reset () {
         this.$refs.form.reset()
       },
-    // UserName(val){
-    //   // axios.get('/check?value=' + val).then(valid => {
-    //   //     this.errors = valid ? [] : ['async error']
-    //   //   })
+    UserName(val){
+      if(val.length > 3){
+      let data = {username: val};
+      axios.post(URL+"/validate/",data).then(res=>{
+        if(!res.data.status){
+          this.nameErrors = res.data.errors.username;
+        }else if(res.data.status){
+            this.nameSuccess.push(res.data.data.status);
+        }
+      }).catch((err)=>{
+        console.log(err)
+      })
+      }
+    },
+    
+    email(val){
+      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+      if(val.length > 10 && re.test(val)){
       
-    
-    // },
-    
-    FirstName: function(val){
-        console.log(val);
+      this.emailSuccess = [];
+      let data = {email: val};
+
+      axios.post(URL+"/validate/",data).then(res=>{
+        console.log(res);
+        if(!res.data.status){
+          this.emailErrors = res.data.errors.email;
+        }else if(res.data.status){
+            this.emailSuccess.push(res.data.data.status);
+        }
+      }).catch((err)=>{
+        console.log(err)
+      })
+      }
     },
-    LastName: function(val){
-console.log(val);
-    },
-    email: function(val){
-console.log(val);
-    },
-    phone: function(val){
-console.log(val);
-    },
-    password: function(val){
-console.log(val);
-    },
-    repeatPassword: function(val){
-console.log(val);
-    },
-    select: function(val){
-console.log(val);
+    phone(val){
+      let phone_re = /^(\+\d{1,3}[- ]?)?\d{10}$/;
+      
+      if(val.length > 9 && phone_re.test(val)){
+        this.phoneSuccess = [];
+      let data = {phone: val};
+      axios.post(URL+"/validate/",data).then(res=>{
+        if(!res.data.status){
+          this.phoneErrors = res.data.errors.phone;
+        }else if(res.data.status){
+            this.phoneSuccess.push(res.data.data.status);
+        }
+      }).catch((err)=>{
+        console.log(err)
+      })
+      }else{
+        this.phoneSuccess = [];
+        this.phoneErrors.push("Enter a valid phone number");
+      }
     },
   },
   methods: {
@@ -313,7 +349,6 @@ console.log(val);
       window.location.reload();
     },
     submit() {
-
       if(!this.valid){
         return;
       }
@@ -326,9 +361,9 @@ console.log(val);
       var type = this.select;
       var url;
       if (type == "PetOwner") {
-        url = "https://aussiepetsbnb.com.au/api/petowner/register/";
+        url = URL+"/petowner/register/";
       } else if (type == "Host") {
-        url = "https://aussiepetsbnb.com.au/api/host/register/";
+        url = URL+"/host/register/";
       } else {
         this.$v.$touch();
       }
