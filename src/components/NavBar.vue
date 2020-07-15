@@ -1,78 +1,43 @@
 <template>
   <div class="navbar-aussiepetz">
-    <v-toolbar dark color="#00D657" flat >
+    <v-toolbar color="#f4f4f4" flat prominent="">
       <v-app-bar-nav-icon class="d-flex d-sm-flex d-md-none" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>
+      
+      <v-toolbar-title style="align-self: center;">
         <a href="/">
-        <v-img src="@/assets/images/logo/font_logo.png" width="120px" style="filter: drop-shadow(1px 1px 1px white);"></v-img>
+        <v-img src="@/assets/images/logo/font_logo.png" width="200px" style="filter: drop-shadow(1px 1px 1px white);"></v-img>
         </a>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <!-- large View -->
+      
       <v-toolbar-items class="d-none d-sm-none d-md-flex">
-        <v-autocomplete
+            <v-row justify="flex-end">
+              <v-col cols="12" style="text-align: end;">
+                   <v-chip class="text-center mr-2 nav-chip" color="#827F19" outlined ripple text-color="#827F19" style="font-size: medium;">Become a pet host</v-chip>
+        <v-chip class="text-center nav-chip" color="#D47E11" outlined ripple text-color="#D47E11" style="font-size: medium;">Aussie pets BnB Services</v-chip>
+       
+                      <v-autocomplete
           v-model="select"
           :loading="loading"
           :items="items"
           :search-input.sync="search"
           cache-items
           class="mx-4"
-          single-line
           hide-no-data
           hide-details
           label="Search"
-          solo
+          solo 
           flat
           light
           rounded
-          style="align-self: center;"
+          style="align-self: center;display:inline-block;border: 1px solid rgba(54,154,204,1);"
           dense
         >
           <v-icon slot="append">mdi-magnify</v-icon>
         </v-autocomplete>
-        <v-chip class="text-center mr-2 nav-chip" color="#FAEF63" outlined ripple text-color="#FAEF63" style="font-size: medium;">Become a host pet</v-chip>
-        <v-chip class="text-center nav-chip" color="#FAEF63" outlined ripple text-color="#FAEF63" style="font-size: medium;">Aussie pets BnB Services</v-chip>
-        <v-menu :open-on-hover="true" :offset-y="true" >
-          <template v-slot:activator="{ on }">
-            <v-btn text v-on="on">Perfect Match</v-btn>
-          </template>
-          <v-list style="border: 2px solid #FAEF63">
-            <v-list-item v-for="(item, index) in matchItems" :key="index" @click="item.path" >
-              <v-list-item-title class="design">{{ item.title }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-        <v-menu :open-on-hover="true" :offset-y="true">
-          <template v-slot:activator="{ on }">
-            <v-btn text v-on="on">Pet Hub</v-btn>
-          </template>
-          <v-list style="border: 2px solid #FAEF63">
-            <v-list-item v-for="(item, index) in pethubitems" :key="index" @click="item.path">
-              <v-list-item-title class="design">{{ item.title }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-        <v-menu :open-on-hover="true" :offset-y="true">
-          <template v-slot:activator="{ on }">
-            <v-btn text v-on="on" style="text-transform: capitalize;">SHOP</v-btn>
-          </template>
-          <v-list style="border: 2px solid #FAEF63">
-            <v-list-item v-for="(item, index) in shopItems" :key="index" @click="item.path">
-              <v-list-item-title class="design">{{ item.title }}</v-list-item-title>              
-            </v-list-item>
-          </v-list>
-        </v-menu>
-        <v-btn style="text-transform: capitalize;" text to>Advertise with US</v-btn>
-        <v-menu :open-on-hover="true" :offset-y="true">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn text v-bind="attrs" v-on="on" style="text-transform: capitalize;">Directory</v-btn>
-          </template>
-          <v-list style="border: 2px solid #FAEF63">
-            <v-list-item v-for="(item, index) in directoryItems" :key="index" @click="item.path">
-              <v-list-item-title class="design">{{ item.title }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
+     
+        
         <v-menu v-if="isLoggedIn" :open-on-hover="true" :offset-y="true">
           <template v-slot:activator="{ on }">
             <v-btn text v-on="on">
@@ -93,7 +58,9 @@
         </v-menu>
         <v-menu v-else :open-on-hover="true" :offset-y="true">
           <template v-slot:activator="{ on }">
-            <v-btn text v-on="on" style="text-transform: capitalize;">Account</v-btn>
+            <v-btn text icon v-on="on" style="text-transform: capitalize;">
+              <v-icon large>mdi-account-circle-outline</v-icon>
+            </v-btn>
           </template>
           <v-list style="border: 2px solid #FAEF63">
             <v-list-item @click="goToLogin">
@@ -104,17 +71,62 @@
             </v-list-item>
           </v-list>
         </v-menu>
+              </v-col>
+              <v-col cols="12" style="text-align: end;" class="pt-0">
+                 <v-menu :open-on-hover="true" :offset-y="true" >
+          <template v-slot:activator="{ on }">
+            <v-btn text v-on="on" color="#10a722">Perfect Match</v-btn>
+          </template>
+          <v-list style="border: 2px solid #FAEF63">
+            <v-list-item v-for="(item, index) in matchItems" :key="index" @click="item.path" >
+              <v-list-item-title class="design">{{ item.title }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+        <v-menu :open-on-hover="true" :offset-y="true">
+          <template v-slot:activator="{ on }">
+            <v-btn text v-on="on" color="#10a722">Pet Hub</v-btn>
+          </template>
+          <v-list style="border: 2px solid #FAEF63">
+            <v-list-item v-for="(item, index) in pethubitems" :key="index" @click="item.path">
+              <v-list-item-title class="design">{{ item.title }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+        <v-menu :open-on-hover="true" :offset-y="true">
+          <template v-slot:activator="{ on }">
+            <v-btn text v-on="on" style="text-transform: capitalize;" color="#10a722">SHOP</v-btn>
+          </template>
+          <v-list style="border: 2px solid #FAEF63">
+            <v-list-item v-for="(item, index) in shopItems" :key="index" :to="item.path">
+              <v-list-item-title class="design">{{ item.title }}</v-list-item-title>              
+            </v-list-item>
+          </v-list>
+        </v-menu>
+                <v-btn style="text-transform: capitalize;" text color="#10a722">Advertise with US</v-btn>
+        <v-menu :open-on-hover="true" :offset-y="true">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn text v-bind="attrs" v-on="on" style="text-transform: capitalize;" color="#10a722">Directory</v-btn>
+          </template>
+          <v-list style="border: 2px solid #FAEF63">
+            <v-list-item v-for="(item, index) in directoryItems" :key="index" @click="item.path">
+              <v-list-item-title class="design">{{ item.title }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+              </v-col>
+            </v-row>
       </v-toolbar-items>
       <!-- End View -->
       <!-- Mobile View -->
       <v-toolbar-items class="d-flex d-sm-flex d-md-none">
         <v-btn icon>
-          <v-icon>mdi-heart</v-icon>
+          <v-icon>mdi-magnify</v-icon>
         </v-btn>
 
-        <v-btn icon>
+        <!-- <v-btn icon>
           <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
+        </v-btn> -->
       </v-toolbar-items>
     </v-toolbar>
     <!-- End Mobile View -->
@@ -126,7 +138,14 @@
       :clipped="true"
       class="overflow-hidden d-flex d-sm-flex d-md-none"
       style="z-index:99"
+      width="200px"
+      height="100%"
     >
+    <v-app-bar style="justify-content: center;">
+    <a href="/">
+        <v-img src="@/assets/images/logo/font_logo.png" width="120px" style="filter: drop-shadow(1px 1px 1px white);"></v-img>
+        </a>
+    </v-app-bar>
       <v-list-item v-if="isLoggedIn">
         <v-list-item-avatar>
           <v-avatar color="orange" size="40" class="ml-2">
@@ -139,11 +158,55 @@
         </v-list-item-content>
       </v-list-item>
       <v-divider></v-divider>
+       <v-list dense>
+         <v-list-item to="/signup">
+           <v-list-item-title style="color:#827F19">
+             Become a pet host
+       </v-list-item-title>
+         </v-list-item>
+         <v-list-item to="/signup">
+           <v-list-item-title style="color:#D47E11">Aussie pets BnB Services
+       </v-list-item-title>
+         </v-list-item>
+       </v-list>
+   
+   <v-divider/>
+     <v-menu :open-on-hover="true" :offset-y="true" >
+          <template v-slot:activator="{ on }">
+            <v-btn text v-on="on" color="#10a722" width="100%" style="justify-content: start;" class="pl-4">Perfect Match</v-btn>
+          </template>
+          <v-list style="border: 2px solid #FAEF63">
+            <v-list-item v-for="(item, index) in matchItems" :key="index" @click="item.path" >
+              <v-list-item-title class="design">{{ item.title }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+        <v-menu :open-on-hover="true" :offset-y="true">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-bind="attrs" text v-on="on" color="#10a722" width="100%" style="justify-content: start;" class="pl-4">Pet Hub</v-btn>
+          </template>
+          <v-list style="border: 2px solid #FAEF63">
+            <v-list-item v-for="(item, index) in pethubitems" :key="index" @click="item.path">
+              <v-list-item-title class="design">{{ item.title }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+       
+        <v-menu :open-on-hover="true" :offset-y="true">
+          <template v-slot:activator="{ on }">
+            <v-btn text v-on="on" color="#10a722" width="100%" style="justify-content: start;" class="pl-4">SHOP</v-btn>
+          </template>
+          <v-list style="border: 2px solid #FAEF63">
+            <v-list-item v-for="(item, index) in shopItems" :key="index" :to="item.path">
+              <v-list-item-title class="design">{{ item.title }}</v-list-item-title>              
+            </v-list-item>
+          </v-list>
+        </v-menu>
       <v-menu :open-on-hover="true" :offset-y="true">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn text v-bind="attrs" v-on="on" width="100%">Directory</v-btn>
+          <v-btn text v-bind="attrs" v-on="on" width="100%" color="#10a722" style="justify-content: start;" class="pl-4">Directory</v-btn>
         </template>
-        <v-list>
+        <v-list style="border: 2px solid #FAEF63">
           <v-list-item v-for="(item, index) in directoryItems" :key="index">
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item>
@@ -159,6 +222,7 @@
         </v-list-item>
       </v-list>
       <v-list v-else dense>
+        
         <v-list-item @click="goToLogin">
           <v-list-item-title>Sing In</v-list-item-title>
         </v-list-item>
@@ -267,9 +331,9 @@ export default {
         { title: "Pet O Vision", path: "" }
       ],
       shopItems:[
-        { title: "Pet Stuff", path: "" },
-        { title: "Pet Food", path: "" },
-        { title: "Merch", path: "" },
+        { title: "Pet Stuff", path: "/shop" },
+        { title: "Pet Food", path: "/shop" },
+        { title: "Merch", path: "/shop" },
       ],
       matchItems:[
         { title: "Purrrfect Match", path: "" },
@@ -343,8 +407,6 @@ export default {
 </script>
 
 <style scoped>
-
-
 .v-btn:not(.v-btn--round).v-size--default {
   padding: 0 7px;
 }
@@ -359,7 +421,7 @@ export default {
 .v-chip.v-size--own {
   border-radius: 10px;
   font-size: 16px;
-  height: 47px;
+  /* height: 47px; */
   margin-top: 8px;
   margin-left: 10px;
 }

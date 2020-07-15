@@ -19,6 +19,7 @@ import HostProfile from "@/components/Host/Profile";
 import HostBooking from "@/components/Host/Booking";
 import PageNotFound from "@/views/PageNotFound";
 import HostDetailPage from "@/views/HostDetails";
+import ShopPage from "@/views/Shop";
 
 Vue.use(VueRouter);
 
@@ -51,6 +52,11 @@ const routes = [
     path:"/hostdetail",
     name:"HostDetailPage",
     component: HostDetailPage
+  },
+  {
+    path:"/shop",
+    name:"ShopPage",
+    component: ShopPage
   },
   {
     path:"/owner",

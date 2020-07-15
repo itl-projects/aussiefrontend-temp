@@ -30,14 +30,16 @@
             centered
             dark
             icons-and-text
-            class="mb-5"
-          >
+            class="mb-5">
             <v-tab href="#tab-1" @click="signin">Sign In</v-tab>
-
             <v-tab href="#tab-2" @click="signup">Sign Up</v-tab>
           </v-tabs>
           <v-tabs-items v-model="tab">
+             
             <v-tab-item value="tab-1" class="mt-5">
+              <v-alert v-if="alert.show" dense border="left" type="error" dismissible class="mx-5">
+      {{alert.message}}
+    </v-alert>
               <form ref="loginForm" @submit="submit" class="form-size">
                 <v-text-field
                   v-model="email"
@@ -57,8 +59,6 @@
                   :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                   :type="show1 ? 'text' : 'password'"
                   label="Enter Password"
-                  hint="Password"
-                  hide-details="auto"
                   outlined
                   dense
                   @click:append="show1 = !show1"
@@ -66,10 +66,9 @@
                 ></v-text-field>
                 <div class="mt-3" style="text-align: start;">
                   <!-- <a>Forgot password ?</a> -->
-                  <v-btn text small color="warning" @click="showForgotPasswordBox">Forgot password ?</v-btn>
+                  <v-btn text small color="warning" @click="showForgotPasswordBox" >Forgot password ?</v-btn>
                 </div>
-
-                <v-btn block class="mt-4" dark color="#00D657" type="submit">Sign in</v-btn>
+                <v-btn block class="mt-4" dark color="#00D657" type="submit" :loading="logging_in">Sign in</v-btn>
               </form>
             </v-tab-item>
             <v-tab-item value="tab-2" style="padding:0 15px">
@@ -164,7 +163,6 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <ErrorMessage :show="show_error" :message="message"/>
     </div>
   </v-container>
 </template>
@@ -177,12 +175,11 @@ import axios from "axios";
 import URL from "@/axios/config";
 import router from "../../router";
 import authStore from "../../store/auth";
-import ErrorMessage from "@/components/commons/ErrorMessage";
 
 export default {
   name: "LoginData",
   mixins: [validationMixin],
-  components: { SingUp,ErrorMessage },
+  components: { SingUp },
   validations: {
     email: { required, email },
     password: { required, password }
@@ -211,6 +208,8 @@ export default {
     errorForgotEmail: [],
     show_error:false,
     message:"",
+    logging_in:false,
+    alert:{show:false,message:""}
   }),
   watch: {
     email: function(val) {
@@ -266,24 +265,28 @@ export default {
             password: password
           };
         }
+
+        this.logging_in = true;
         axios
           .post(URL+"/login/", data)
           .then(res => {
+            this.logging_in = false;
             this.formSubmitting = false;
             if (res.data.status) {
               authStore.saveUserData(res.data);
               if (res.data.type == "petowner") router.replace("/owner");
               else if (res.data.type == "host") router.replace("/host");
             } else {
-              this.show_error = true;
+              this.alert.show = true;
+              this.alert.message = "login credentials email or password is wrong!";
               setTimeout(()=>{
-                this.show_error = false;
-              },3000);
-              this.message = "login credentials email or password is wrong!"
+                this.alert.show = false;
+                this.alert.message = "";
+              },5000);
             }
           })
-          .catch(e => {
-            console.log("catch",e);
+          .catch(() => {
+            this.logging_in = false;
             this.formSubmitting = false;
           });
         
@@ -346,10 +349,9 @@ export default {
               this.no_email = true;
               this.forgotSuccess = false;
             }
-          }).catch(err=>{
+          }).catch(()=>{
             this.no_email = false;
             this.forgotSuccess = false;
-            console.log(err);
           }).finally(()=>{
             this.forgotLoading = false;
           })
