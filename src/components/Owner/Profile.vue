@@ -295,8 +295,8 @@ export default {
       formData.append('zipcode', this.zipcode);
       formData.append('state_code', this.state_code);
       formData.append('dob', this.dateFormatted);
-      formData.append('latitude', parseInt(this.latitude));
-      formData.append('longitude', parseInt(this.longitude));
+      // formData.append('latitude', parseInt(this.latitude));
+      // formData.append('longitude', parseInt(this.longitude));
       axios.post(URL+'/petowner/update/', formData, config,{
       }).then((res) => {
         this.updateLoading = false;
