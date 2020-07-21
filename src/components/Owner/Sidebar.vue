@@ -16,9 +16,8 @@
       <v-list-item link class="pa-1">
         <v-list-item-content>
           <div style="display:flex;flex-wrap:wrap">
-            <v-list-item-avatar color="orange">
-              <!-- <v-img src="https://randomuser.me/api/portraits/women/85.jpg"></v-img> -->
-              {{ name_title }}
+            <v-list-item-avatar color="#ebebeb">
+              <v-img :src="avatar"></v-img>
             </v-list-item-avatar>
             <div>
               <v-list-item-title class="title">{{name}}</v-list-item-title>
@@ -88,13 +87,15 @@ export default {
     my_menu: true,
     name:"",
     name_title:"",
-    email:""
+    email:"",
+    avatar:""
   }),
   created: function(){
-    const udata = JSON.parse(authStore.userDetails());
+    const udata = authStore.getUserData();
     this.name = udata.first_name + " " + udata.last_name;
     this.name_title = udata.first_name.charAt(0) + udata.last_name.charAt(0);
     this.email = udata.email;
+    this.avatar = udata.avatar;
   },
   methods:{
 

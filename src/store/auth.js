@@ -53,7 +53,7 @@ var authStore = {
       emailverified: data.additional_details.emailverified,
       phoneverified: data.additional_details.phoneverified,
       phone: data.additional_details.phone,
-      avatar: "https://aussiepetsbnb.com.au/" + data.additional_details.avatar,
+      avatar: "https://aussiepetsbnb.com.au/cdata/" + data.additional_details.avatar,
       dob: data.additional_details.dob,
       latitute: parseFloat(data.additional_details.latitude),
       longitude: parseFloat(data.additional_details.longitude),

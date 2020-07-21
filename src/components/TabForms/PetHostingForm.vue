@@ -3,7 +3,6 @@
     <v-row class="px-8 mt-10 ml-10">
       <v-col cols="12" sm="3">
         <v-autocomplete
-          chips
           v-model="place"
           :items="places"
           label="Enter suburb or address"
@@ -11,7 +10,6 @@
           :loading="place_loading"
           full-width
           hide-details
-         
           dense
           single-line
           outlined>
@@ -24,13 +22,13 @@
             <v-dialog
               ref="dialog"
               v-model="modal"
-              :return-value.sync="date"
+              :return-value.sync="start_date"
               persistent
               width="290px"
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
-                  v-model="date"
+                  v-model="start_date"
                   label="Drop off"
                   append-icon="mdi-calendar-plus"
                   v-bind="attrs"
@@ -40,9 +38,9 @@
                 ></v-text-field>
               </template>
               <v-date-picker
-                v-model="date"
+                v-model="start_date"
                 scrollable
-                @input="modal = false;$refs.dialog.save(date)"
+                @input="modal = false;$refs.dialog.save(start_date)"
               ></v-date-picker>
             </v-dialog>
             <v-icon style="margin-top: -25px;">mdi-minus</v-icon>
@@ -113,16 +111,16 @@
 </template>
 
 <script>
-import router from "../../router";
+// import router from "../../router";
 import axios from "axios";
-import URL from "@/axios/config";
+import urls from "@/axios/config";
 
 export default {
   name: "PetHostingForm",
   props:["items"],
   data: () => ({
     closeOnContext:false,
-    date:null,
+    start_date:null,
     pickup_date:null,
     modal:false,
     pickup_modal:false,
@@ -130,17 +128,18 @@ export default {
     places:[],
     searchPlace:null,
     place_loading:false,
-    place:""
+    place:"",
+
   }),
   watch:{
         searchPlace(val) {
-        val && val !== this.city && this.queryPlaces(val)
+        val && val !== this.city && this.queryPlaces(val);
       }
   },
   methods: {
     queryPlaces(v) {
         this.place_loading = true;
-        axios.get(URL+'/locations/?relative=true&place_name='+v,{
+        axios.get(urls.URL+'/locations/?relative=true&place_name='+v,{
       }).then((res) => {
        
         this.places = [];
@@ -164,7 +163,8 @@ export default {
       this.menu = false;
     },
     showHosts() {
-        router.push("/hostsearch");
+        this.$router.push({path:'/hostsearch',query:{city:this.place,start_date:this.start_date}});
+        // router.push("/hostsearch");
     },
   }
 };

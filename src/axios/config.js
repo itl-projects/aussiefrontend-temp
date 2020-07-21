@@ -1,2 +1,6 @@
-const URL = "https://aussiepetsbnb.com.au/api";
-export default URL;
+const urls = {
+    URL : "https://aussiepetsbnb.com.au/api",
+    IMGURL : "https://aussiepetsbnb.com.au/"
+}
+
+export default urls;

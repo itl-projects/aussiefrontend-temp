@@ -7,7 +7,7 @@
           <v-card>
             <v-row>
               <v-col cols="12" class="py-0">
-                <PetHostingFormDummy />
+                <PetHostingFormDummy :drop_date.sync="drop_date" :pickup_date="pickup_date"/>
               </v-col>
 
               <v-col cols="12" class="py-0">
@@ -96,7 +96,7 @@
                           <v-row
                             style="max-width:300px;background-color:#f4f4f4"
                             class="text-center"
-                            justify="center"
+                           
                             align="center"
                           >
                             <v-col cols="12">
@@ -135,9 +135,9 @@
             <v-col cols="8">
               <h2 style="font-weight: normal;">
                 Connecting you with
-                <span style="color: #2c7873;">{{ count }} Pet Sitters</span>
+                <span style="color: #2c7873;">{{ items.length }} Pet Sitters</span>
                 near
-                <span style="color: #2c7873;">{{ near }}</span>
+                <span style="color: #2c7873;">{{ city }}</span>
               </h2>
             </v-col>
             <v-col cols="4">
@@ -154,48 +154,71 @@
         <v-col cols="12">
           <v-row>
             <v-col cols="12" sm="8">
+              <v-row class="text-align:center" v-if="items.length <= 0" style="flex-direction:column">
+            <h2 style="font-weight:100;" class="mx-auto">No Host found in yout city <b style="font-weight:bold;">{{ city == "nothing" ? "" : city }}</b>.</h2>
+            <br/>
+          <v-sheet width="100%" height="auto"  title="no_data">
+            <v-img
+              contain
+              aspect-ratio="1"
+              height="200"
+              src="@/assets/images/no_data_found.svg"
+              style="background:#ffffff"
+            />
+          </v-sheet>
+        </v-row>
               <v-data-iterator
-                :items="items"
+                v-else
+                :items.sync="items"
                 :items-per-page.sync="itemsPerPage"
                 :page="page"
                 hide-default-footer
               >
                 <template v-slot:default="props">
-                  <v-container>
-                    <v-card v-for="(item, i) in props.items" :key="item.name" class="mb-4">
-                      <v-list two-line subheader :key="i" class="pb-0">
+                   
+                  <v-container >
+                   
+                    <v-card v-for="(item, i) in props.items" :key="item.id" class="mb-4" >
+                     <v-hover v-slot:default="{ hover }">
+                      <v-list two-line subheader :key="i" class="pb-0" :elevation="hover ? 6 : 2" :class="hover ? 'cardbox-border':''">
                         <div class="top_header">
                           <v-icon color="#2c7873" class="mr-2">mdi-calendar</v-icon>
                           <v-label color="black">Recently updated calendar</v-label>
                         </div>
                         <v-list-item>
-                          <v-list-item-content style="position:relative;cursor:pointer" @click="showHostDetails">
+                          <v-list-item-content style="position:relative;cursor:pointer" @click="showHostDetails(item.hid)">
                             <div class="fee">
                               <p class="mb-0" style="font-size: 0.8rem;">from</p>
-                              <h1 style="color:#2c7873">$ 11</h1>
+                              <h1 style="color:#2c7873">$ {{item.price}}</h1>
                               <p style="font-size: 0.8rem;">/night</p>
                             </div>
                             <v-row>
                               <v-col cols="4" sm="4" class="py-1">
                                 <v-row class="text-center">
                                   <v-col cols="12 py-1">
-                                    <v-img
+                                    <v-img v-if="item.avatar !== null"
                                       style="border-radius:5px;"
                                       contain
                                       eager
-                                      src="https://randomuser.me/api/portraits/women/85.jpg"
+                                      :src="img_url + item.avatar"
+                                    />
+                                    <v-img v-else
+                                      style="border-radius:5px;"
+                                      contain
+                                      eager
+                                      src="@/assets/images/icon-people-circle.svg"
                                     />
                                   </v-col>
                                   <v-col cols="12 py-0">
-                                    <v-btn text color="#2c7873" small class="px-0" @click="showHostDetails">
+                                    <v-btn text color="#2c7873" small class="px-0" @click="showHostDetails(item.hid)">
                                       View More
                                       <v-icon color="#2c7873" class="ml-2" small>mdi-eye</v-icon>
                                     </v-btn>
                                   </v-col>
                                 </v-row>
                               </v-col>
-                              <v-col cols="8" sm="8" class="py-1">
-                                <h1 style="font-weight: 500;color:#2c7873">Chris. H.</h1>
+                              <v-col cols="8" sm="8" class="py-1" :class="hover ? 'text-underline': ''">
+                                <h1 style="font-weight: 500;color:#2c7873" >{{item.first_name}} {{item.last_name}}</h1>
                                 <div class="flex mt-2 mb-2">
                                   <v-icon>mdi-account-circle</v-icon>
                                   <v-icon>mdi-account-circle</v-icon>
@@ -233,8 +256,11 @@
                           </v-list-item-content>
                         </v-list-item>
                       </v-list>
+                        </v-hover>
                     </v-card>
+                 
                   </v-container>
+                   
                 </template>
 
                 <template v-slot:footer>
@@ -260,10 +286,14 @@
 </template>
 
 <script>
+// import axios from "axios";
+// import URL from "@/axios/config";
+import router from "@/router";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import PetHostingFormDummy from "@/components/TabForms/PetHostingForm_dummy";
-import router from '../router';
+import axios from "axios";
+import urls from "@/axios/config";
 export default {
   name: "HostResult",
   components: {
@@ -273,6 +303,7 @@ export default {
   },
   data: () => ({
     menu: false,
+    img_url: urls.IMGURL,
     ticksLabels: ["$0 AUD", "$200 AUD"],
     filter: false,
     filterText: "More Filters",
@@ -297,43 +328,44 @@ export default {
     itemsPerPage: 5,
     count: 999,
     near: "Ultimo NSW",
-    items: [
-      {
-        name: "Frozen Yogurt"
-      },
-      {
-        name: "Ice cream sandwich"
-      },
-      {
-        name: "Eclair"
-      },
-      {
-        name: "Cupcake"
-      },
-      {
-        name: "Gingerbread"
-      },
-      {
-        name: "Jelly bean"
-      },
-      {
-        name: "Lollipop"
-      },
-      {
-        name: "Honeycomb"
-      },
-      {
-        name: "Donut"
-      },
-      {
-        name: "KitKat"
-      }
-    ]
+    items: [],
+    city:"nothoing",
+    zipcode:0,
+    pet_type:"nothoing",
+    lowerPrice:"nothing",
+    upperPrice:"nothoing",
+    lowerRating:"nothoing",
+    upperRating:"nothoing",
+    service:"nothoing",
+    start_date: "",
+    pickup_date:null,
+    drop_date:null,
+    times:"nothing",
+    max_pet:99999,
   }),
+  watch:{
+    address(){
+      //this.fetchHosts();
+    },
+    start_date(){
+    //  this.fetchHosts();
+    },
+    times(){
+     // this.fetchHosts();
+    }
+  },
+  mounted: function() {
+        this.address = this.$route.query.address == undefined ? "" : this.$route.query.address;
+        this.start_date = this.$route.query.start_date == undefined ? "" : this.$route.query.start_date;
+        this.times = this.$route.query.times == undefined ? "" : this.$route.query.times;
+        this.city = this.$route.query.city == undefined ? "" : this.$route.query.city;
+        this.fetchHosts();
+    },
   computed: {
     numberOfPages() {
       return Math.ceil(this.items.length / this.itemsPerPage);
     }
+  
   },
   methods: {
     nextPage() {
@@ -355,7 +387,27 @@ export default {
     },
     showHostDetails(){
       router.replace("/hostdetail");
+      
+    },
+    fetchHosts(){
+      // &pet_type=${this.pet_type}&lowerPrice=${this.lowerPrice}&upperPrice=${this.upperPrice}}&lowerRating=${this.lowerRating}&upperRating=${this.upperRating}
+      let data = `city=${this.city}`;
+
+    axios.get(urls.URL+"/hostsearch/?"+data)
+    .then(res=>{
+      console.log(res);
+      if(res.data.status){
+        this.items = res.data.data;
+      }
+    })
+
+
     }
+
+
+  },
+  created(){
+    // console.log(this.address,this.start_date)
   }
 };
 </script>
@@ -377,5 +429,11 @@ export default {
   > .v-input__control
   > .v-input__slot {
   border-color: #ffffff !important;
+}
+.text-underline>h1{
+  text-decoration: underline;
+}
+.cardbox-border{
+  /* border: 2px solid #2c7873bf; */
 }
 </style>

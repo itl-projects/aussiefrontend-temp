@@ -8,8 +8,8 @@
               <span style="color:#2c7873;font-size:1.2rem;">Hi, {{name}}</span>
             </v-col>
             <v-col cols="12" class="text-center">
-              <v-avatar size="150" color="orange">
-                {{name_title}}
+              <v-avatar size="150" color="#ebebeb">
+                <v-img :src="avatar"></v-img>
               </v-avatar>
             </v-col>
           </v-row>
@@ -158,7 +158,7 @@ import PetFrom from "@/components/Owner/PetAddForm";
 import Profile from "@/components/Owner/Profile";
 import authStore from "../../store/auth";
 import axios from "axios";
-import URL from "@/axios/config";
+import urls from "@/axios/config";
 export default {
   name: "Account",
   components: { PetFrom, Profile },
@@ -171,13 +171,16 @@ export default {
       widgets: false,
       ownerName: "",
       name_titile: "",
-      petCount: 0
+      petCount: 0,
+      img_url: urls.IMGURL,
+      avatar:"",
     };
   },
   created: function() {
-    const udata = JSON.parse(authStore.userDetails());
+    const udata = authStore.getUserData();
     this.name = udata.first_name + " " + udata.last_name;
     this.name_title = udata.first_name.charAt(0) + udata.last_name.charAt(0);
+    this.avatar = udata.avatar;
     if (authStore.isSignedIn()) {
       let config = {
         headers: {
@@ -185,9 +188,8 @@ export default {
         }
       };
       axios
-        .get(URL + "/petowner/viewpets/", config)
+        .get(urls.URL + "/petowner/viewpets/", config)
         .then(res => {
-          console.log(res.data);
           if (res.data.status) {
             this.petCount = res.data.total_pets;
             authStore.setPetCount(this.petCount);

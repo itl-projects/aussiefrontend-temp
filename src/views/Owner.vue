@@ -25,8 +25,8 @@
                   <v-col cols="4" sm="1">
                     <v-menu offset-y>
                       <template v-slot:activator="{ on, attrs }">
-                        <v-avatar size="40" v-bind="attrs" v-on="on" color="orange">
-                          {{ name_title }}
+                        <v-avatar size="40" v-bind="attrs" v-on="on" color="#ebebeb">
+                          <v-img :src="avatar"></v-img>
                         </v-avatar>
                       </template>
                       <v-list>
@@ -88,7 +88,8 @@ export default {
         disabled: true,
         href: "breadcrumbs_link_1"
       }
-    ]
+    ],
+    avatar:""
   }),
   methods: {
     toggleMenu: function() {
@@ -105,10 +106,11 @@ export default {
     let s = window.location.pathname.toString().split("/");
     this.items[1].text = s[s.length - 1];
     this.items[1].href = window.location.pathname.toString();
-    const udata = JSON.parse(authStore.userDetails());
+    const udata = authStore.getUserData();
     this.name = udata.first_name + " " + udata.last_name;
     this.name_title = udata.first_name.charAt(0) + udata.last_name.charAt(0);
     this.email = udata.email;
+    this.avatar = udata.avatar;
   }
 };
 </script>

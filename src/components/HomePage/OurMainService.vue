@@ -92,7 +92,7 @@ import PetHostingForm from '@/components/TabForms/PetHostingForm';
 import PetCareDayForm from '@/components/TabForms/PetCareDayForm';
 import PetGroomingForm from '@/components/TabForms/PetGrooming';
 import * as axios from "axios";
-import URL from "@/axios/config";
+import urls from "@/axios/config";
 
 export default {
   name: "OurMainService",
@@ -123,7 +123,7 @@ export default {
   methods: {
     getPetsType() {
       let type = "Dog";
-      const url = URL+"/pet/type/?type=" + type;
+      const url = urls.URL+"/pet/type/?type=" + type;
       axios
         .get(url)
         .then(res => {

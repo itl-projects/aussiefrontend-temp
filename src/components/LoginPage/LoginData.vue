@@ -172,7 +172,7 @@ import { validationMixin } from "vuelidate";
 import { required, email, password } from "vuelidate/lib/validators";
 import SingUp from "@/components/LoginPage/SingUp";
 import axios from "axios";
-import URL from "@/axios/config";
+import urls from "@/axios/config";
 import router from "../../router";
 import authStore from "../../store/auth";
 
@@ -268,7 +268,7 @@ export default {
 
         this.logging_in = true;
         axios
-          .post(URL+"/login/", data)
+          .post(urls.URL+"/login/", data)
           .then(res => {
             this.logging_in = false;
             this.formSubmitting = false;
@@ -341,7 +341,7 @@ export default {
       this.forgotProgress = true;
       this.forgotLoading = true;
     
-       axios.post(URL+"/forgot/", data)
+       axios.post(urls.URL+"/forgot/", data)
           .then(res=>{
             if(res.data.status){
               this.forgotSuccess = true;

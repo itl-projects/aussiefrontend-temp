@@ -3,13 +3,14 @@
     <carousel
       :responsive="{0:{items:1},600:{items:1},1000:{items:1}}"
       v-bind:nav="false"
-      v-bind:margin="5"
+      v-bind:margin="0"
       :autoplayHoverPause="true"
       v-bind:autoplay="true"
       v-bind:dots="true"
       v-bind:loop="true"
+      
     >
-      <div class="item">
+      <div class="item" style="height:80vh">
         <div class="bottom-text">
           <h2 class="caption-heading text-primary backInLeft">
             "We Provide The Best
@@ -21,13 +22,13 @@
         <div class="most-bottom-text">
             <p>The best pets clinic at melbourne, more than 20.000+ customers happy.</p>
           </div>
-        <img src="images/silder1.jpg" alt />
+        <v-img src="images/silder1.jpg" alt aspect-ratio="2" eager/>
       </div>
-      <div class="item">
-        <img src="images/silder2.jpg" alt />
+      <div class="item" style="height:80vh">
+        <v-img src="images/silder2.jpg" alt aspect-ratio="2" eager/>
       </div>
-      <div class="item">
-        <img src="images/silder3.jpg" alt />
+      <div class="item" style="height:80vh">
+        <v-img src="images/silder3.jpg" alt aspect-ratio="2" eager/>
       </div>
     </carousel>
   </v-container>

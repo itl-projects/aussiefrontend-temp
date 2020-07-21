@@ -175,7 +175,7 @@ import {
   minLength
 } from "vuelidate/lib/validators";
 import axios from "axios";
-import URL from "@/axios/config";
+import urls from "@/axios/config";
 import router from "../../router";
 
 export default {
@@ -217,7 +217,8 @@ export default {
           required: value => !!value || 'Required.',
           min: v => v.length >= 8 || 'Min 8 characters',
           validUsername: v => v.length >= 3 || "Username must be of minimum 3 character",
-        }
+        },
+        nameErrors:[],
   }),
 
   computed: {
@@ -227,12 +228,7 @@ export default {
       !this.$v.select.required && errors.push("user type is required");
       return errors;
     },
-    nameErrors() {
-      const errors = [];
-      if (!this.$v.UserName.$dirty) return errors;
-      !this.$v.UserName.required && errors.push("UserName is required.");
-      return errors;
-    },
+    
     firstErrors() {
       const errors = [];
       if (!this.$v.FirstName.$dirty) return errors;
@@ -287,17 +283,22 @@ export default {
         this.$refs.form.reset()
       },
     UserName(val){
-      if(val.length > 3){
+      if(val.length > 3 && !val.includes(" ")){
       let data = {username: val};
-      axios.post(URL+"/validate/",data).then(res=>{
-        if(!res.data.status){
-          this.nameErrors = res.data.errors.username;
-        }else if(res.data.status){
+      axios.post(urls.URL+"/validate/",data).then(res=>{
+        this.nameErrors = [];
+        this.nameSuccess =  [];
+        if(res.data.status){
             this.nameSuccess.push(res.data.data.status);
+        }
+        else if(!res.data.status){
+          this.nameErrors.push(res.data.errors.username[0]);
         }
       }).catch((err)=>{
         console.log(err)
       })
+      }else{
+        this.nameErrors.push("Not a valid username");
       }
     },
     
@@ -309,8 +310,7 @@ export default {
       this.emailSuccess = [];
       let data = {email: val};
 
-      axios.post(URL+"/validate/",data).then(res=>{
-        console.log(res);
+      axios.post(urls.URL+"/validate/",data).then(res=>{
         if(!res.data.status){
           this.emailErrors = res.data.errors.email;
         }else if(res.data.status){
@@ -327,7 +327,7 @@ export default {
       if(val.length > 9 && phone_re.test(val)){
         this.phoneSuccess = [];
       let data = {phone: val};
-      axios.post(URL+"/validate/",data).then(res=>{
+      axios.post(urls.URL+"/validate/",data).then(res=>{
         if(!res.data.status){
           this.phoneErrors = res.data.errors.phone;
         }else if(res.data.status){
@@ -361,9 +361,9 @@ export default {
       var type = this.select;
       var url;
       if (type == "PetOwner") {
-        url = URL+"/petowner/register/";
+        url = urls.URL+"/petowner/register/";
       } else if (type == "Host") {
-        url = URL+"/host/register/";
+        url = urls.URL+"/host/register/";
       } else {
         this.$v.$touch();
       }

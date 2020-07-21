@@ -9,6 +9,7 @@ import HostAccount from "@/views/HostAccount";
 import HostDashboard from "@/components/Host/Dashboard";
 import Message from '@/components/commons/Message';
 import Booking from '@/components/commons/Booking';
+import Photos from '@/components/commons/Photos';
 import Account from "@/components/Owner/Account";
 import Profile from "@/components/Owner/Profile";
 import Emergency from "@/components/Owner/Emergency";
@@ -39,9 +40,14 @@ const routes = [
     name:"Signup",
     component: Login
   },
+  // {
+  //   path: "/hostsearch",
+  //   component: HostResult
+  // },
   {
     path: "/hostsearch",
-    component: HostResult
+    component: HostResult,
+    props: {city:true,start_date:false}
   },
   {
     path:"/perfect-match",
@@ -92,6 +98,10 @@ const routes = [
         component: Message
       },
       {
+        path: 'photos',
+        component: Photos
+      },
+      {
         path: "bookings",
         component: Booking
       }
@@ -109,7 +119,7 @@ const routes = [
         },
         {
           path: 'photos',
-          component: Message
+          component: Photos
         },
         {
           path: 'bookings',

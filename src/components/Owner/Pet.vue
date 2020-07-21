@@ -38,7 +38,7 @@
     <v-row  class="mt-3 p-3">
       <v-col :cols="12" :md="4" v-for="(data,i) in petdata" :key="i">
         <v-card class="mx-auto" max-width="400">
-          <v-img class="white--text align-end" height="200px" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg">
+          <v-img class="white--text align-end" height="200px" :src="img_url +data.petImage">
             <v-card-title>{{data.petName}}</v-card-title>
           </v-img>
           <v-card-actions>
@@ -63,7 +63,7 @@
 <script>
 import PetFrom from "@/components/Owner/PetAddForm";
 import axios from "axios";
-import URL from "@/axios/config";
+import urls from "@/axios/config";
 import authStore from "../../store/auth";
 export default {
   name: "Pet",
@@ -74,7 +74,8 @@ export default {
       notifications: false,
       sound: true,
       widgets: false,
-      petdata: []
+      petdata: [],
+      img_url: urls.IMGURL
     };
   },
   created: function(){
@@ -88,7 +89,7 @@ export default {
         }
       };
       axios
-        .get(URL + "/petowner/viewpets/", config)
+        .get(urls.URL + "/petowner/viewpets/", config)
         .then(res => {
           console.log(res.data);
           if (res.data.status) {

@@ -22,14 +22,14 @@
           <div style="display:flex">
             <v-dialog
               ref="dialog"
-              v-model="modal"
-              :return-value.sync="date"
+              v-model="drop_modal"
+              :return-value.sync="drop_date"
               persistent
               width="290px"
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
-                  v-model="date"
+                  v-model="drop_date"
                   label="Drop off"
                   append-icon="mdi-calendar-plus"
                   v-bind="attrs"
@@ -43,9 +43,9 @@
                 ></v-text-field>
               </template>
               <v-date-picker
-                v-model="date"
+                v-model="drop_date"
                 scrollable
-                @input="modal = false;$refs.dialog.save(date)"
+                @input="modal = false;$refs.dialog.save(drop_date)"
               ></v-date-picker>
             </v-dialog>
             <v-icon style="margin-top: 0px;">mdi-minus</v-icon>
@@ -126,10 +126,12 @@
 <script>
 export default {
   name: "PetHostingFormDummy",
-  props:['items'],
+  props:['items',"drop_date","pickup_date"],
   data: () => ({
     closeOnContext:false,
     menu: false,
+    drop_modal:false,
+    pickup_modal:false
   }),
   methods:{
      increment(num) {

@@ -4,12 +4,12 @@
     <v-container fluid>
       <v-row>
         <v-col cols="12" sm="3" class="text-center">
-          <v-avatar size="200px">
-            <v-img :src="avatar" />
+          <v-avatar size="200px" color="#989898" v-if="host_additional_data.avatar">
+            <v-img lazy-src="@/assets/images/icon-people-circle.svg"  :src="img_url.slice(0,img_url.length-1) + host_additional_data.avatar" />
           </v-avatar>
         </v-col>
         <v-col cols="12" sm="5">
-          <h1 style="font-weight: 500; color: #2c7873;">Chris. H.</h1>
+          <h1 style="font-weight: 500; color: #2c7873;">{{host_details.first_name}} {{host_details.last_name}}</h1>
           <div class="flex mt-2 mb-2">
             <v-icon>mdi-account-circle</v-icon>
             <v-icon>mdi-account-circle</v-icon>
@@ -43,7 +43,7 @@
         <v-col cols="12" sm="4">
           <v-card>
             <v-card-title>
-              <v-row justify="space-between" class="py-0">
+              <v-row class="py-0">
                 <v-col cols="6" class="py-0">
                   <h2 style="font-weight: 200;">{{ serviceSelected }}</h2>
                 </v-col>
@@ -137,7 +137,7 @@
                   <v-card-text
                     class="px-10"
                     style="font-size: 1.2rem;white-space: pre-line;"
-                  >{{about}}</v-card-text>
+                  >{{ host_additional_data.hostbio }}</v-card-text>
                 </v-card>
               </v-tab-item>
               <v-tab-item key="services_rates">
@@ -150,14 +150,15 @@
                   <v-card-text>
                     <v-container fluid>
                       <v-row>
-                        <v-col v-for="i in 10" :key="i" cols="12" md="3">
-                          <v-img
-                            :src="`https://picsum.photos/500/300?image=${i * 5 + 10}`"
-                            :lazy-src="`https://picsum.photos/10/6?image=${i * 5 + 10}`"
+                        <v-col v-for="(item,i) in host_photos" :key="i" cols="12" md="2">
+                          <v-card elevation="4">
+                            <v-img
+                            :src="img_url + item.image_path"
                             aspect-ratio="1"
                             style="cursor: pointer;"
-                            @click="showDialog(i-1)"
+                            @click="showDialog(i)"
                           ></v-img>
+                          </v-card>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -182,9 +183,7 @@
                                 style="line-height: 3rem;"
                                 half-icon
                                 readonly
-                                
-                                dense
-                              >
+                                dense>
                                 <template v-slot:item="props">
                                   <v-icon
                                     :color="props.isFilled ? 'orange' : 'grey lighten-1'"
@@ -209,7 +208,6 @@
                                 style="line-height: 3rem;"
                                 half-icon
                                 readonly
-                               
                                 dense
                               >
                                 <template v-slot:item="props">
@@ -272,10 +270,13 @@
           </v-toolbar-items>
         </v-toolbar>
         <v-card-text>
-          <galleryView :pics="pics" :onboarding="onboarding" />
+          <galleryView :img_url="img_url" :pics="host_photos" :onboarding.sync="onboarding" />
         </v-card-text>
       </v-card>
     </v-dialog>
+    <v-overlay :value="overlay">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
   </div>
 </template>
 
@@ -284,7 +285,7 @@ import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import galleryView from "@/components/commons/PictureGallery";
 import * as axios from "axios";
-import URL from "@/axios/config";
+import urls from "@/axios/config";
 
 export default {
   name: "HostDetailPage",
@@ -311,12 +312,14 @@ export default {
       petTypes: [],
       petSelected: "Choose Pet(s)",
       pics: [],
+      host_details:{},
+      host_photos:[],
+      host_additional_data:{},
       onboarding: 0,
-      about: "",
-      avatar: "",
-      hostbio: "",
+      img_url: urls.IMGURL,
       dog_rating: 4.5,
       puppy_rating: 3.5,
+      overlay :false,
       items: [
         { header: "Reviews" },
         {
@@ -391,14 +394,13 @@ export default {
     fetchPics(){
       for (let i = 1; i <= 10; i++) {
       this.pics.push({
-        src: `https://picsum.photos/500/300?image=${i * 5 + 10}`,
-        "lazy-src": `https://picsum.photos/10/6?image=${i * 5 + 10}`
+        image_path: `https://picsum.photos/500/300?image=${i * 5 + 10}`
       });
     }
     },
     getPetsType() {
       let type = "Dog";
-      const url = URL + "/pet/type/?type=" + type;
+      const url = urls.URL + "/pet/type/?type=" + type;
       axios
         .get(url)
         .then(res => {
@@ -426,16 +428,20 @@ export default {
         });
     },
     showDialog(index) {
-       this.fetchPics();
+      //  this.fetchPics();
       this.onboarding = index;
       this.dialog = true;
     },
     getHostDetails() {
+      this.overlay = false;
       const host_id = "auzh100720100008";
-      axios.get(URL + "/petowner/gethost/?hid=" + host_id).then(res => {
+      axios.get(urls.URL + "/petowner/gethost/?hid=" + host_id).then(res => {
+        // console.log(res);
         if (res.data.status) {
-          // this.avatar = "https://aussiepetsbnb.com.au"+res.data.data.avatar;
-          this.about = res.data.data.hostbio;
+          this.overlay = false;
+          this.host_details = res.data.user_details;
+          this.host_photos = res.data.gallery;
+          this.host_additional_data = res.data.additional_data;
         }
       });
     }

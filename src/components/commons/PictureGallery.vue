@@ -8,7 +8,7 @@
               <v-card color="white" height="60vh" flat>
                 <!-- <v-row class="fill-height" align="center" justify="center" tag="v-card-text"> -->
                   <!-- <h1 style="font-size: 5rem;" class="white--text">Slide {{ n }}</h1> -->
-                  <v-img :src="pics[n-1].src" height="60vh" aspect-ratio="1" contain />
+                  <v-img :src="img_url + pics[n-1].image_path" height="60vh" aspect-ratio="1" contain />
                 <!-- </v-row> -->
               </v-card>
             </v-window-item>
@@ -24,7 +24,7 @@
                 height="100"
                 width="100"
                 :input-value="active" @click="toggle" >
-                <v-img :src="pics[n-1].src" width="100px" height="100px"/>
+                <v-img :src="img_url + pics[n-1].image_path" width="100px" height="100px"/>
               </v-card>
                
               </v-item>
@@ -42,7 +42,7 @@
 <script>
 export default {
   name: "galleryView",
-  props: ["pics","onboarding"],
+  props: ["pics","onboarding","img_url"],
   data: () => ({
     model: null,
     length: 3,

@@ -11,14 +11,14 @@
       </v-col>
     </v-row>
     <v-row>
-       <v-col cols="6">
+       <v-col cols="12" sm="6" >
           <h1 class="tag">Give the Best to your pet.</h1>
           <p>Welcome to <font color="#00d657">Aussiepetsbnbz.com.au</font> pet shop, your one-stop online pet store for all your pet's needs. At Aussiepetsnbnz.com.au, we have discount sale prices and great value on a wide range of high-quality pet care products in one place.  </p>
           <p>We have a wide range of pet supplies including Bird Cages, Bird Seed, Bird Supplies, Bird Toys, Cat Litter Crystals, Cat Scratching Post, Cat Supplies, Crystal Cat Litter, Designer Dog Beds, Dog Clippers, Dog Crates, Dog Kennels, Dog Supplies, Fish Foods, Fish Tank Filters, Fish Tank Ornaments, Flea Treatment for Dogs, Special line of Organic Dog Food, Parrot Toys, Pet doors, Pet Supplies, Puppy Pens, Puppy Training Pads, Rabbit Hutches, Reptile & Aquarium Globes, Reptile Supplies, Vegan Dog Food, Vetafarm Bird Food, Zupreem, and so much more.  </p>
           <p>Browse our categories to find the product best suited to your needs. </p>
        </v-col> 
-       <v-col cols="6">
-          <img src="@/assets/images/logo/font_logo.png">
+       <v-col cols="12" sm="6" style="display:flex">
+          <v-img src="@/assets/images/logo/font_logo.png" width="400px" contain/>
        </v-col>
     </v-row>
   </v-container>

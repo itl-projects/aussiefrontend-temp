@@ -167,7 +167,7 @@
 import PictureInput from "vue-picture-input";
 import authStore from '../../store/auth';
 import axios from "axios";
-import URL from "@/axios/config";
+import urls from "@/axios/config";
 export default {
   name: "Profile",
   components: { PictureInput },
@@ -226,7 +226,7 @@ export default {
   methods: {
     queryPlaces(v) {
         this.place_loading = true;
-        axios.get(URL+'/locations/?relative=true&place_name='+v,{
+        axios.get(urls.URL+'/locations/?relative=true&place_name='+v,{
       }).then((res) => {
         this.places = [];
         this.place_loading = false;
@@ -238,7 +238,7 @@ export default {
       });
       },
       placeSelected(){
-        axios.get(URL+'/locations/?relative=true&place_name='+this.city,{
+        axios.get(urls.URL+'/locations/?relative=true&place_name='+this.city,{
          }).then((res) => {
           this.places = [];
           this.place_loading = false;
@@ -297,7 +297,7 @@ export default {
       formData.append('dob', this.dateFormatted);
       // formData.append('latitude', parseInt(this.latitude));
       // formData.append('longitude', parseInt(this.longitude));
-      axios.post(URL+'/petowner/update/', formData, config,{
+      axios.post(urls.URL+'/petowner/update/', formData, config,{
       }).then((res) => {
         this.updateLoading = false;
         if(res.data.status){
@@ -323,7 +323,7 @@ export default {
           Authorization: "Token " + authStore.userToken()
         }
       };
-      axios.post(URL+"/verifyemail/",{email:this.email},config)
+      axios.post(urls.URL+"/verifyemail/",{email:this.email},config)
       .then(res=>{
         if(res.data.status){
         this.showAlert("success","Email verification link has been sent to your registered email address.");

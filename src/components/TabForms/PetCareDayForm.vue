@@ -1,7 +1,7 @@
 <template>
   <div class="px-10 ml-5 mr-7">
-    <v-row class="px-5 justify-center">
-      <v-col cols="12" sm="4">
+    <v-row class="px-2 justify-center" align="center">
+      <v-col cols="12" sm="4" >
         <v-label>How Often ?</v-label>
         <v-tabs v-model="tab" centered dark icons-and-text height="45px" fixed-tabs>
           <v-tabs-slider></v-tabs-slider>
@@ -9,7 +9,7 @@
           <v-tab href="#tab-2">One-Off</v-tab>
         </v-tabs>
       </v-col>
-      <v-col cols="12" sm="8">
+      <v-col cols="12" sm="8" class="py-0">
         <v-tabs-items v-model="tab">
           <v-tab-item :key="'tab-1'" :value="'tab-1'">
             <v-row>
@@ -21,25 +21,28 @@
                 <v-dialog
                   ref="dialog"
                   v-model="modal"
-                  :return-value.sync="date"
+                  :return-value.sync="start_date"
                   persistent
                   width="290px"
                 >
                   <template v-slot:activator="{ on, attrs }">
                     <v-label>Start Week</v-label>
                     <v-text-field
-                      v-model="date"
+                      v-model="start_date"
                       label="Start Week"
                       append-icon="mdi-calendar"
                       v-bind="attrs"
                       v-on="on"
                       solo
+                       hide-details
+                      hide-no-data
+                      hide-selected
                     ></v-text-field>
                   </template>
                   <v-date-picker
-                    v-model="date"
+                    v-model="start_date"
                     scrollable
-                    @input="modal = false;$refs.dialog.save(date)"
+                    @input="modal = false;$refs.dialog.save(start_date)"
                   ></v-date-picker>
                 </v-dialog>
               </v-col>
@@ -50,7 +53,7 @@
             <v-dialog
               ref="dialog"
               v-model="date_requireds_modal"
-              :return-value.sync="date"
+              :return-value.sync="required_date"
               persistent
               width="290px"
             >
@@ -81,16 +84,18 @@
         </v-tabs-items>
       </v-col>
     </v-row>
-    <v-row class="px-5 justify-center">
+    <v-row class="px-3 justify-center" align="center">
       <v-col class="py-0" cols="12" sm="4">
-        <v-label>Start Week</v-label>
+        <v-label>Near</v-label>
         <v-autocomplete
-          :items="['Trevor Handsen', 'Alex Nelson']"
-          chips
+         v-model="place"
+          :items="places"
           label="Enter suburb or address"
-          hide-details
-          hide-no-data
-          hide-selected
+          name="place"
+          :search-input.sync="searchPlace"
+          :loading="place_loading"
+          :error-messages.sync="nameErrors"
+          :rules="[rules.required,rules.validPlace]"
           solo
           single-line
         >
@@ -104,13 +109,11 @@
           v-model="menu"
           :close-on-content-click="closeOnContext"
           class="pa-0 ma-0"
-         
         >
           <template v-slot:activator="{ on, attrs }">
-            <v-select v-bind="attrs" v-on="on" label="Choose Pet(s)" outlined dense no-data-text
-          hide-details
-          hide-no-data
-          single-line></v-select>
+            <v-select v-bind="attrs" v-on="on" label="Choose Pet(s)" solo 
+         
+          ></v-select>
           </template>
           <v-list class="pa-0 ma-0">
             <v-list-item class="pa-0">
@@ -140,13 +143,15 @@
         </v-menu>
       </v-col>
       <v-col cols="12" sm="4" class="mt-4">
-        <v-btn  class="full-width" large width="100%">Search</v-btn>
+        <v-btn class="pt-5 pb-6 mb-5" block @click="showHosts">Search</v-btn>
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+import urls from "@/axios/config";
 export default {
   name: "PetCareDayForm",
   props:["items"],
@@ -164,14 +169,44 @@ export default {
         "Sturday",
         "Sunday"
       ],
-      date: null,
+  
+      start_date: null,
       required_date: null,
       date_requireds_modal:null,
       modal:false,
+      places:[],
+    searchPlace:null,
+    place_loading:false,
+    place:"",
+    rules: {
+          required: value => !!value || 'Required.',
+          validPlace: v => this.places.includes(v) || "please enter correct suburb or address",
+        },
+        nameErrors:[]
     };
   },
-  methods:{
-     increment(num) {
+  
+  watch:{
+        searchPlace(val) {
+        val && val !== this.city && this.queryPlaces(val);
+      }
+  },
+  methods: {
+    queryPlaces(v) {
+        this.place_loading = true;
+        axios.get(urls.URL+'/locations/?relative=true&place_name='+v,{
+      }).then((res) => {
+       
+        this.places = [];
+        this.place_loading = false;
+        if(res.data.status){
+          res.data.data.forEach(el=>{
+              this.places.push(el.place_name);
+          })
+        }
+      });
+      },
+    increment(num) {
       this.items[num].count = this.items[num].count + 1;
     },
     decrement(num) {
@@ -179,7 +214,17 @@ export default {
         this.items[num].count = this.items[num].count - 1;
     },
     closeMenu() {
-      this.menu = !this.menu;
+      console.log()
+      this.menu = false;
+    },
+    showHosts() {
+      if(this.place == ""){
+        this.nameErrors = [];
+        this.nameErrors.push("Enter suburb or address");
+        return ;
+      }
+        this.$router.push({path:'/hostsearch',query:{city:this.place,start_date:this.start_date}});
+        // router.push("/hostsearch");
     },
   }
 };

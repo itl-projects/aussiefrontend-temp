@@ -182,7 +182,7 @@
                 <v-list-item two-line>
                   <v-list-item-content>
                     <v-list-item-title>Pick up/drop off service</v-list-item-title>
-                     <v-list-item-subtitle>Select one or more type of pets from the following</v-list-item-subtitle>
+                     <!-- <v-list-item-subtitle>Select one or more type of pets from the following</v-list-item-subtitle> -->
                   </v-list-item-content>
                   <v-list-item-action>
                     <v-icon color="#2c7873">mdi-information-outline</v-icon>
@@ -195,17 +195,17 @@
                      <v-list-item-subtitle>Pick up/drop service at client home</v-list-item-subtitle>
                   </v-list-item-content>
                   <v-list-item-action>
-                    <v-switch v-model="homePickup"></v-switch>
+                    <v-switch v-model="pick_drop_service"></v-switch>
                   </v-list-item-action>
                 </v-list-item>
               </v-list>
-                <v-row v-if="homePickup" class="pl-8 py-2 pr-2">
+                <v-row v-if="pick_drop_service" class="pl-8 py-2 pr-2">
                   <v-col cols="2" style="display: flex;justify-content: flex-end;">
                   <v-divider vertical class="px-4" ></v-divider>
                 </v-col>
                 <v-col cols="10" class="py-0">
                   <v-label> Cost per pick up/drop off journey</v-label>
-                  <v-text-field placeholder="cost" dense></v-text-field>
+                  <v-text-field v-model="pick_drop_service_cost" placeholder="cost" dense></v-text-field>
                 </v-col>
               </v-row>
             </div>
@@ -229,7 +229,7 @@
                      <v-list-item-subtitle>Less then 24 hours notice</v-list-item-subtitle>
                   </v-list-item-content>
                   <v-list-item-action>
-                    <v-switch></v-switch>
+                    <v-switch v-model="last_min_bookings"></v-switch>
                   </v-list-item-action>
                 </v-list-item>
               </v-list>
@@ -240,7 +240,7 @@
                      <v-list-item-subtitle>For 1 month or longer</v-list-item-subtitle>
                   </v-list-item-content>
                   <v-list-item-action>
-                    <v-switch></v-switch>
+                    <v-switch v-model="long_term_bookings"></v-switch>
                   </v-list-item-action>
                 </v-list-item>
               </v-list>
@@ -258,7 +258,7 @@
                   </v-list-item-action>
                 </v-list-item>
               </v-list>
-              <v-radio-group v-model="policy" :mandatory="false" color="#2c7873">
+              <v-radio-group v-model="cancellation_policy" :mandatory="false" color="#2c7873">
                 <v-list class="py-0 pl-3">
                 <v-list-item two-line>
                   <v-list-item-content>
@@ -266,7 +266,7 @@
                      <v-list-item-subtitle>Allow free cancellation up until 14 day before the start of the booking.</v-list-item-subtitle>
                   </v-list-item-content>
                   <v-list-item-action>
-                    <v-radio value="strict" color="#2c7873" ></v-radio>
+                    <v-radio value="Strict" color="#2c7873" ></v-radio>
                   </v-list-item-action>
                 </v-list-item>
               </v-list>
@@ -277,7 +277,7 @@
                      <v-list-item-subtitle>Allow free cancellation up until 7 day before the start of the booking.</v-list-item-subtitle>
                   </v-list-item-content>
                   <v-list-item-action>
-                    <v-radio value="modrate"  color="#2c7873"></v-radio>
+                    <v-radio value="Modrate"  color="#2c7873"></v-radio>
                   </v-list-item-action>
                 </v-list-item>
               </v-list>
@@ -288,7 +288,7 @@
                      <v-list-item-subtitle>Allow free cancellation up until 12 noon the day before booking starts.</v-list-item-subtitle>
                   </v-list-item-content>
                   <v-list-item-action>
-                    <v-radio value="flexible" color="#2c7873"></v-radio>
+                    <v-radio value="Flexible" color="#2c7873"></v-radio>
                   </v-list-item-action>
                 </v-list-item>
               </v-list>
@@ -305,11 +305,11 @@
                   <v-card-text style="font-size:1rem;" class="pa-0 mt-2">
                     Just the description, temperament and any special quirks or needs... thats all
                   </v-card-text>
-                  <v-textarea rows="2" class="mt-3" dense></v-textarea>
+                  <v-textarea v-model="pref_info" rows="2" class="mt-3" dense></v-textarea>
                   <v-card-text style="font-size:1rem;" class="pa-0 mt-2">
                     Where will you walk my dog? please tell us about nearby parks
                   </v-card-text>
-                  <v-textarea rows="2" class="mt-3" dense></v-textarea>
+                  <v-textarea v-model="pref_park_info" rows="2" class="mt-3" dense></v-textarea>
                   <v-card-text style="font-size:1rem;" class="pa-0 mt-4">
                     What will be the estimated time that you will spend with my pet each day?
                   </v-card-text>
@@ -317,7 +317,7 @@
                   <v-card-text style="font-size:1rem;" class="pa-0 mt-2">
                     I work from home excluding a few errands...pretty much 24 / 7
                   </v-card-text>
-                  <v-textarea rows="2" class="mt-3" dense></v-textarea>
+                  <v-textarea v-model="pref_time_info" rows="2" class="mt-3" dense></v-textarea>
                 </div>
             </div>
           </v-card-text>
@@ -358,7 +358,7 @@
 
 <script>
 import authStore from "../../store/auth";
-import URL from "@/axios/config";
+import urls from "@/axios/config";
 import axios from "axios";
 export default {
   name: "ServicesAndRates",
@@ -370,8 +370,8 @@ export default {
     loading: true,
     success:false,
     items: [],
-    homePickup:false,
-    policy:"",
+    pick_drop_service:false,
+    cancellation_policy: "",
     datas: [
       {
         icon: "mdi-home-variant-outline",
@@ -431,9 +431,15 @@ export default {
       }
     ],
     petTypes:[],
+    last_min_bookings: false,
+    long_term_bookings: false,
+    pref_info: "",
+    pref_park_info:"",
+    pref_time_info: "",
+    types_of_pet : [],
+    pick_drop_service_cost:0
   }),
   mounted() {
-    this.getpetTypes();
     this.getServices();
   },
   methods: {
@@ -443,7 +449,7 @@ export default {
           Authorization: "Token " + authStore.userToken()
         }
       };
-      axios.get(URL + "/host/services/", config).then(res => {
+      axios.get(urls.URL + "/host/services/", config).then(res => {
         if (res.data.status)
           this.items.push(
             JSON.parse(res.data.data[0].pet_hosting.replace(/'/g, '"'))
@@ -466,7 +472,18 @@ export default {
         this.items.push(
           JSON.parse(res.data.data[0].pet_grooming.replace(/'/g, '"'))
         );
-        this.setEnableChecks();
+
+      this.pick_drop_service =  res.data.data[0].pick_drop_service;
+      this.last_min_bookings =  res.data.data[0].last_min_bookings;
+      this.long_term_bookings =  res.data.data[0].long_term_bookings;
+      this.cancellation_policy =  res.data.data[0].cancellation_policy;
+      this.pref_info =  res.data.data[0].pref_info;
+      this.pref_park_info =  res.data.data[0].pref_park_info;
+      this.pref_time_info =  res.data.data[0].pref_time_info;
+      this.types_of_pet = JSON.parse(res.data.data[0].type_of_pet);
+      this.pick_drop_service_cost = res.data.data[0].pick_drop_service_cost;
+      this.getpetTypes();
+      this.setEnableChecks();
       }).finally(()=>{
         this.processing = false;
         this.loading = false;
@@ -480,16 +497,16 @@ export default {
           Authorization: "Token " + authStore.userToken()
         }
       };
-      axios.get(URL +"/pet/type/?type=Dog", config).then(res => {
+      axios.get(urls.URL +"/pet/type/?type=Dog", config).then(res => {
         if(res.data.status){
           res.data.data.forEach(el => {
-              this.petTypes.push({ title: el.subType, checked: false });
+              this.petTypes.push({ title: el.subType, checked: this.types_of_pet.includes(el.subType) });       
           });
-          this.petTypes.push({ title: "Cats", checked: false });
-          this.petTypes.push({ title: "Birds", checked: false});
-          this.petTypes.push({ title: "Rabbit / Guinea Pig", checked: false });
+          this.petTypes.push({ title: "Cats", checked: this.types_of_pet.includes("Cats") });
+          this.petTypes.push({ title: "Birds", checked: this.types_of_pet.includes("Birds")});
+          this.petTypes.push({ title: "Rabbit / Guinea Pig", checked: this.types_of_pet.includes("Rabbit / Guinea Pig") });
         }else{
-          console.log("no pets");
+          this.petTypes = [];
         }
         })
         .catch(err => {
@@ -505,6 +522,15 @@ export default {
         }
       });
     },
+    getSelectedPetypes(){
+      let arr  = [];
+      this.petTypes.forEach(el=>{
+        if(el.checked){
+          arr.push(el.title);
+        }
+      })
+      return arr;
+    },
     saveSettings() {
       this.processing = true;
       this.loading = true;
@@ -514,6 +540,7 @@ export default {
         }
       };
       this.applyChecks();
+      const type_of_pets = this.getSelectedPetypes();
       let data_to_save = {
         pet_hosting: JSON.stringify(this.items[0]),
         pet_sitting: JSON.stringify(this.items[1]),
@@ -521,9 +548,19 @@ export default {
         house_visits: JSON.stringify(this.items[3]),
         exercise_walk_service: JSON.stringify(this.items[4]),
         pet_training: JSON.stringify(this.items[5]),
-        pet_grooming: JSON.stringify(this.items[6])
+        pet_grooming: JSON.stringify(this.items[6]),
+        type_of_pet: JSON.stringify(type_of_pets),
+        pick_drop_service: this.pick_drop_service,
+        pick_drop_service_cost: this.pick_drop_service_cost,
+        last_min_bookings: this.last_min_bookings ,
+        long_term_bookings: this.long_term_bookings ,
+        cancellation_policy: this.cancellation_policy,
+        pref_info : this.pref_info,
+        pref_park_info: this.pref_park_info,
+        pref_time_info : this.pref_time_info ,
       };
-      axios.post(URL + "/host/services/",data_to_save, config).then(res => {
+      console.log(data_to_save);
+      axios.post(urls.URL + "/host/services/",data_to_save, config).then(res => {
         if(res.data.status){
             this.success = true;
         }else{

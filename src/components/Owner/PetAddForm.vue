@@ -226,7 +226,7 @@
 </template>
 <script>
 import axios from "axios";
-import URL from "@/axios/config";
+import urls from "@/axios/config";
 import PictureInput from "vue-picture-input";
 import authStore from "../../store/auth";
 export default {
@@ -312,7 +312,7 @@ export default {
         }
       };
       axios
-        .post(URL+"/pet/register/", data, config)
+        .post(urls.URL+"/pet/register/", data, config)
         .then(res => {
           this.formSubmitting = false;
           if (!res.data.status) {
@@ -354,7 +354,7 @@ export default {
         }
       });
       axios
-        .get(URL+"/pet/breed/?type=" + a)
+        .get(urls.URL+"/pet/breed/?type=" + a)
         .then(res => {
           this.loading = false;
           this.breedTypes = [];
@@ -383,7 +383,7 @@ export default {
         }
       };
       axios
-        .get(URL+"/pet/type/", config)
+        .get(urls.URL+"/pet/type/", config)
         .then(res => {
           this.petTypes = res.data.data;
           res.data.data.forEach(element => {

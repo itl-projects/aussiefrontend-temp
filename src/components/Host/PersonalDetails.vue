@@ -152,7 +152,7 @@
 import authStore from "../../store/auth";
 import PictureInput from "vue-picture-input";
 import axios from "axios";
-import URL from "@/axios/config";
+import urls from "@/axios/config";
 export default {
   name: "PersonalDetails",
   components: { PictureInput },
@@ -204,7 +204,7 @@ export default {
   methods: {
     queryPlaces(v) {
         this.place_loading = true;
-        axios.get(URL+'/locations/?relative=true&place_name='+v,{
+        axios.get(urls.URL+'/locations/?relative=true&place_name='+v,{
       }).then((res) => {
         this.places = [];
         this.place_loading = false;
@@ -216,7 +216,7 @@ export default {
       });
       },
       placeSelected(){
-        axios.get(URL+'/locations/?relative=true&place_name='+this.city,{
+        axios.get(urls.URL+'/locations/?relative=true&place_name='+this.city,{
          }).then((res) => {
           this.places = [];
           this.place_loading = false;
@@ -265,7 +265,7 @@ export default {
       formData.append('state_code', this.state_code);
       // formData.append('latitude',this.latitude);
       // formData.append('longitude', this.longitude);
-      axios.post(URL+'/host/update/', formData, config,{
+      axios.post(urls.URL+'/host/update/', formData, config,{
       }).then((res) => {
         this.updateLoading = false;
         if(res.data.status){
@@ -292,7 +292,7 @@ export default {
         }
       };
 
-      axios.post(URL+"/verifyemail/",{email:this.email},config)
+      axios.posturls(urls.URL+"/verifyemail/",{email:this.email},config)
       .then(res=>{
         if(res.data.status){
         this.showAlert("success","Email verification link has been sent to your registered email address.");

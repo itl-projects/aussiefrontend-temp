@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-xs class="mt-5">
     <v-row class="mt-5">
-      <v-col cols-12>
+      <v-col cols="12" sm="6">
         <div class="heading text-center">
           <h2>
             Purrfect
@@ -10,8 +10,8 @@
         </div>
       </v-col>
     </v-row>
-    <v-row>
-       <v-col cols="6">
+    <v-row class="text-center">
+       <v-col cols="12" sm="6" class="text-center">
           <img src="@/assets/images/logo/font_logo.png" width="200px">
        </v-col>
        <v-col cols="6">

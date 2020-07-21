@@ -2,23 +2,21 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-
 import vuetify from "./plugins/vuetify";
 import "@fortawesome/fontawesome-free/css/all.css"; // Ensure you are using css-loader
 import Vuetify from "vuetify/lib";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import "@mdi/font/css/materialdesignicons.css";
-import * as axiosApi from "axios";
+// import * as axiosApi from "axios";
 
-const axios = axiosApi.create({
-  baseURL: "http://95.217.133.127:70",
-});
+// const axios = axiosApi.create({
+//   baseURL: "http://95.217.133.127:70",
+// });
 
 //Use the window object to make it available globally.
-window.axios = axios;
+// window.axios = axios;
 Vue.config.productionTip = false;
 Vue.component("font-awesome-icon", FontAwesomeIcon);
-
 new Vue({
   router,
   store,

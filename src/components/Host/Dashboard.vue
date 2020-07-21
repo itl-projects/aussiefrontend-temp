@@ -314,7 +314,7 @@
 import Profile from "@/components/Host/PersonalDetails";
 import authStore from "@/store/auth";
 import axios from "axios";
-import URL from "@/axios/config";
+import urls from "@/axios/config";
 
 export default {
   name: "HostDashboard",
@@ -348,7 +348,7 @@ export default {
           }
         };
         axios
-          .get(URL+"/petowner/viewpets/", config)
+          .get(urls.URL+"/petowner/viewpets/", config)
           .then(res => {
             if (res.data.message == "#2c7873") {
               this.petCount = res.data.data.length;
@@ -371,7 +371,7 @@ export default {
             Authorization: "Token " + authStore.userToken()
           }
         };
-        axios.get(URL+"/host/completion/",config)
+        axios.get(urls.URL+"/host/completion/",config)
         .then(res=>{
           if(res.data.status){
             this.profile_complition = res.data.data.profile_completion;
