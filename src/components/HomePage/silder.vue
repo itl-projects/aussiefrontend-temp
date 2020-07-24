@@ -10,7 +10,7 @@
       v-bind:loop="true"
       
     >
-      <div class="item" style="height:80vh">
+      <div class="item">
         <div class="bottom-text">
           <h2 class="caption-heading text-primary backInLeft">
             "We Provide The Best
@@ -24,10 +24,10 @@
           </div>
         <v-img src="images/silder1.jpg" alt aspect-ratio="2" eager/>
       </div>
-      <div class="item" style="height:80vh">
+      <div class="item">
         <v-img src="images/silder2.jpg" alt aspect-ratio="2" eager/>
       </div>
-      <div class="item" style="height:80vh">
+      <div class="item">
         <v-img src="images/silder3.jpg" alt aspect-ratio="2" eager/>
       </div>
     </carousel>
@@ -49,6 +49,9 @@ export default {
 .container {
   padding: 0px;
 }
+.item{
+  height: 80vh;
+}
 
 .caption-heading {
   color: #ffffff;
@@ -61,7 +64,7 @@ export default {
   padding: 0;
 }
 .owl-carousel.owl-drag .owl-item {
-  height: 70vh !important;
+  /* height: 30vh !important; */
 }
 @media only screen and (max-width: 600px) {
   .caption-heading {
@@ -72,6 +75,9 @@ export default {
     font-size: 18px;
     font-weight: 800;
   }
+  .item{
+  height: 30vh;
+}
   .item p {
     font-size: 18px;
     color: #ffffff;

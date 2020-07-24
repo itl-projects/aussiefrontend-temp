@@ -1,5 +1,5 @@
 import axios from "axios";
-import URL from "@/axios/config";
+import urls from "@/axios/config";
 import router from "@/router";
 
 var authStore = {
@@ -11,7 +11,7 @@ var authStore = {
       },
     };
     axios
-      .get(URL + "/userdata", config)
+      .get(urls.URL + "/userdata", config)
       .then((res) => {
         console.log(res);
         if (res.data.status) {
@@ -53,7 +53,7 @@ var authStore = {
       emailverified: data.additional_details.emailverified,
       phoneverified: data.additional_details.phoneverified,
       phone: data.additional_details.phone,
-      avatar: "https://aussiepetsbnb.com.au/cdata/" + data.additional_details.avatar,
+      avatar: urls.IMGURL + data.additional_details.avatar_path,
       dob: data.additional_details.dob,
       latitute: parseFloat(data.additional_details.latitude),
       longitude: parseFloat(data.additional_details.longitude),

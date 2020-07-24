@@ -1,15 +1,19 @@
 <template>
+
   <v-navigation-drawer
-    floating
-    v-model="menu"
-    height="auto"
+    :mini-variant.sync="miniVariant"
+      :clipped.sync="clipped"
+      :fixed.sync="fixed"
+      app
+    v-model.lazy="my_menu"
     color="#2c7873"
     dark
     style="border-radius: 0;"
+    
   >
     <v-list>
       <v-list-item class="px-2 bg-primary" to="/">
-        <h1 v-if="!menu">AP</h1>
+        <h1 v-if="miniVariant">AP</h1>
         <v-img v-else src="@/assets/images/logo/font_logo.png" width="12" class="mx-sm-5"></v-img>
       </v-list-item>
       <v-divider></v-divider>
@@ -62,12 +66,12 @@
         </v-list-item-icon>
         <v-list-item-title>Photos</v-list-item-title>
       </v-list-item>
-      <v-list-item link to="/host/calendar">
+      <!-- <v-list-item link to="/host/calendar">
         <v-list-item-icon class="mr-1 mr-lg-3">
           <v-icon>mdi-calendar</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Calendar</v-list-item-title>
-      </v-list-item>
+      </v-list-item> -->
       <v-list-item link to="/host/settings">
         <v-list-item-icon class="mr-1 mr-lg-3">
           <v-icon>mdi-tools</v-icon>
@@ -76,19 +80,29 @@
       </v-list-item>
     </v-list>
   </v-navigation-drawer>
+
 </template>
 
 <script>
 import authStore from "../../store/auth";
 export default {
   name: "HostSidebar",
-  props: ["menu"],
+  props: ["menu","miniVariant","clipped","fixed"],
   data: () => ({
-    my_menu: true,
     name: "",
     avatar: "",
-    email: ""
+    email: "",
   }),
+  computed: {
+        my_menu: {
+            get: function() {
+                return this.menu
+            },
+            set: function(value) {
+                this.$emit('menuchanged', value)
+            }
+        }
+    },
   created: function() {
     const udata = authStore.getUserData();
     this.name = udata.first_name + " " + udata.last_name;

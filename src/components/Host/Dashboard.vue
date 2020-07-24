@@ -142,20 +142,20 @@
             <v-row justify="center" class="text-center">
               <v-col cols="4">
                 <v-label>
-                  4
-                  <v-icon large>mdi-dog</v-icon>
+                  0
+                  <v-icon x-large>mdi-dog</v-icon>
                 </v-label>
               </v-col>
               <v-col cols="4">
                 <v-label>
                   0
-                  <v-icon large color="warning">mdi-trophy-variant</v-icon>
+                  <v-icon x-large color="warning">mdi-trophy-variant</v-icon>
                 </v-label>
               </v-col>
               <v-col cols="4">
                 <v-label>
-                  4
-                  <v-icon large>mdi-dog</v-icon>
+                  0
+                  <v-icon x-large>mdi-dog</v-icon>
                 </v-label>
               </v-col>
             </v-row>

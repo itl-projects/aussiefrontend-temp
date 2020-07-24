@@ -13,7 +13,7 @@
           </v-btn>
         </div>
       </v-col>
-      <v-col v-if="photos.length <= 0" cols="12">
+      <v-col v-if="photos.length <= 0" cols="12" class="px-4">
         <v-row v-if="image_loading">
           <v-col v-for="i in 10" :key="i" cols="4" md="3">
             <v-skeleton-loader type="image" class="mx-auto" max-width="300" />
@@ -31,7 +31,7 @@
           </v-sheet>
         </v-row>
       </v-col>
-      <v-col v-else v-for="(item,i) in photos" :key="i" cols="4" md="3">
+      <v-col v-else v-for="(item,i) in photos" :key="i" cols="4" md="3" class="px-4">
         <v-hover v-slot:default="{ hover }">
           <v-card :elevation="hover ? 6 : 2">
             <v-img :src="`${img_url}${item.image_path}`" aspect-ratio="1" style="cursor: pointer;">
@@ -69,7 +69,7 @@
           <v-btn icon dark @click="dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Selected Images</v-toolbar-title>
+          <v-toolbar-title>Images to upload</v-toolbar-title>
           <v-spacer></v-spacer>
         </v-toolbar>
         <v-list three-line subheader>
@@ -121,7 +121,7 @@
           <v-btn icon dark @click="showPhoho = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Selected Images</v-toolbar-title>
+          <v-toolbar-title>Gallery View</v-toolbar-title>
           <v-spacer></v-spacer>
         </v-toolbar>
          <v-card-text>

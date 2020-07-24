@@ -1,15 +1,17 @@
 <template>
   <v-navigation-drawer
-    floating
-    v-model="menu"
-    height="auto"
+    :mini-variant.sync="miniVariant"
+      :clipped.sync="clipped"
+      :fixed.sync="fixed"
+      app
+    v-model.lazy="my_menu"
     color="#2c7873"
     dark
     style="border-radius: 0;"
   >
     <v-list>
       <v-list-item class="px-2 bg-primary" to="/">
-        <h1 v-if="!menu">AP</h1>
+        <h1 v-if="miniVariant">AP</h1>
         <v-img v-else src="@/assets/images/logo/font_logo.png" width="12" class="mx-sm-5"></v-img>
       </v-list-item>
       <v-divider></v-divider>
@@ -31,18 +33,18 @@
     <v-divider></v-divider>
 
     <v-list nav dense shaped class="pl-0">
-      <v-list-item  link key="dashboard" to="/owner" exact>
-          <v-list-item-icon class="mr-1 mr-lg-3">
-            <v-icon>mdi-view-dashboard-variant-outline</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title>Dashboard</v-list-item-title>
-        </v-list-item>
-      <v-list-item  link key="profile" to="/owner/profile">
-          <v-list-item-icon class="mr-1 mr-lg-3">
-            <v-icon >mdi-account-edit-outline</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title>Profile</v-list-item-title>
-        </v-list-item>
+      <v-list-item link key="dashboard" to="/owner" exact>
+        <v-list-item-icon class="mr-1 mr-lg-3">
+          <v-icon>mdi-view-dashboard-variant-outline</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>Dashboard</v-list-item-title>
+      </v-list-item>
+      <v-list-item link key="profile" to="/owner/profile">
+        <v-list-item-icon class="mr-1 mr-lg-3">
+          <v-icon>mdi-account-edit-outline</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>Profile</v-list-item-title>
+      </v-list-item>
       <v-list-item link>
         <v-list-item-icon class="mr-1 mr-lg-3">
           <v-icon>mdi-wallet</v-icon>
@@ -61,13 +63,13 @@
         </v-list-item-icon>
         <v-list-item-title>Pet</v-list-item-title>
       </v-list-item>
-       <v-list-item link to="/owner/bookings">
+      <v-list-item link to="/owner/bookings">
         <v-list-item-icon class="mr-1 mr-lg-3">
           <v-icon>mdi-sticker-check</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Booking</v-list-item-title>
       </v-list-item>
-       <v-list-item link to="/owner/settings">
+      <v-list-item link to="/owner/settings">
         <v-list-item-icon class="mr-1 mr-lg-3">
           <v-icon>mdi-tools</v-icon>
         </v-list-item-icon>
@@ -82,25 +84,31 @@ import authStore from "../../store/auth";
 
 export default {
   name: "PetOwnerSidebar",
-  props: ["menu"],
+  props: ["menu", "miniVariant", "clipped", "fixed"],
   data: () => ({
-    my_menu: true,
-    name:"",
-    name_title:"",
-    email:"",
-    avatar:""
+    name: "",
+    name_title: "",
+    email: "",
+    avatar: ""
   }),
-  created: function(){
+  computed: {
+    my_menu: {
+      get: function() {
+        return this.menu;
+      },
+      set: function(value) {
+        this.$emit("menuchanged", value);
+      }
+    }
+  },
+  created: function() {
     const udata = authStore.getUserData();
     this.name = udata.first_name + " " + udata.last_name;
     this.name_title = udata.first_name.charAt(0) + udata.last_name.charAt(0);
     this.email = udata.email;
     this.avatar = udata.avatar;
   },
-  methods:{
-
-  },
-  
+  methods: {}
 };
 </script>
 

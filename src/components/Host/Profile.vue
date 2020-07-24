@@ -22,14 +22,11 @@
         <v-tab-item key="experience">
           <v-card-text>Balance household</v-card-text>
         </v-tab-item>
-        <v-tab-item key="photo_gallery">
-          <v-card-text>Balance settings</v-card-text>
-        </v-tab-item>
         <v-tab-item key="settings">
-          <v-card-text>Balance settings</v-card-text>
+          <v-card-text>settings</v-card-text>
         </v-tab-item>
         <v-tab-item key="pets">
-          <v-card-text>Balance settings</v-card-text>
+          <v-card-text>Pets </v-card-text>
         </v-tab-item>
       </v-tabs-items>
     </v-card>

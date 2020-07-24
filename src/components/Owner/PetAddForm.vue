@@ -314,7 +314,6 @@ export default {
       axios
         .post(urls.URL+"/pet/register/", data, config)
         .then(res => {
-          this.formSubmitting = false;
           if (!res.data.status) {
             for(let error in res.data.errors){
               this.message = this.message
@@ -343,6 +342,9 @@ export default {
               this.error = false;
             }, 5000);
             console.log(e);
+        })
+        .finally(()=>{
+          this.formSubmitting = false;
         });
     },
     changePetType(a) {

@@ -96,9 +96,7 @@
                           <v-row
                             style="max-width:300px;background-color:#f4f4f4"
                             class="text-center"
-                           
-                            align="center"
-                          >
+                            align="center">
                             <v-col cols="12">
                               <span>The average rate is $50 AUD per night</span>
                             </v-col>
@@ -124,8 +122,7 @@
                   class="mr-3 mb-3"
                   style="float: right;"
                   color="info"
-                  text
-                >clear filter</v-btn>
+                  text>clear filter</v-btn>
               </v-col>
             </v-row>
           </v-card>
@@ -196,11 +193,11 @@
                               <v-col cols="4" sm="4" class="py-1">
                                 <v-row class="text-center">
                                   <v-col cols="12 py-1">
-                                    <v-img v-if="item.avatar !== null"
+                                    <v-img v-if="item.avatar_path !== null"
                                       style="border-radius:5px;"
                                       contain
                                       eager
-                                      :src="img_url + item.avatar"
+                                      :src="img_url + item.avatar_path"
                                     />
                                     <v-img v-else
                                       style="border-radius:5px;"
@@ -386,7 +383,7 @@ export default {
       this.menu = false;
     },
     showHostDetails(){
-      router.replace("/hostdetail");
+      router.push("/hostdetail");
       
     },
     fetchHosts(){
@@ -400,14 +397,11 @@ export default {
         this.items = res.data.data;
       }
     })
-
-
     }
-
-
   },
   created(){
     // console.log(this.address,this.start_date)
+    window.scroll({top:0,left: 0, behavior: 'smooth'});
   }
 };
 </script>

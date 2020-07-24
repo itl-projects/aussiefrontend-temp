@@ -28,7 +28,10 @@ import MatchProfile from "@/components/PerfectMatch/MatchProfile";
 import FilterForm from "@/components/PerfectMatch/FilterForm";
     export default {
         name:"PerfectMatch",
-        components:{ NavBar, Footer,silder,ProfileSearch,FilterForm, MatchProfile}
+        components:{ NavBar, Footer,silder,ProfileSearch,FilterForm, MatchProfile},
+        created(){
+          window.scroll({top:0,left: 0, behavior: 'smooth'});
+        }
     }
 </script>
 

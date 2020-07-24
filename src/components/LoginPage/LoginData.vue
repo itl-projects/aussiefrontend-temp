@@ -270,6 +270,7 @@ export default {
         axios
           .post(urls.URL+"/login/", data)
           .then(res => {
+            console.log(res);
             this.logging_in = false;
             this.formSubmitting = false;
             if (res.data.status) {

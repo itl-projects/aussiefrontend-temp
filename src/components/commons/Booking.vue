@@ -13,8 +13,12 @@
               <v-col cols="12" sm="6" class="mx-auto">
                   <v-row align="center" justify="space-around">
                       <v-label>Filter By</v-label>
-                       <v-select class="mx-4" :items="['pet1','pet2']" label="Status" color="#2c7873" solo hide-details multiple></v-select>
+                      <v-col cols="12" sm="5">
+                       <v-select :items="['pet1','pet2']" label="Status" color="#2c7873" solo hide-details multiple></v-select>
+                      </v-col>
+                      <v-col cols="12" sm="5">
                         <v-select :items="['pet1','pet2']" label="All Users" color="#2c7873" solo hide-details multiple></v-select>
+                      </v-col>
                   </v-row>
               </v-col>
           </v-row>
@@ -23,14 +27,14 @@
           <v-row>
             <v-col  cols="12" class="py-0">
               <v-row align="center" class="py-2">
-                <v-col cols="1" class="py-0">
-                  <v-avatar class="ml-3">
+                <v-col cols="3" sm="1" class="py-0">
+                  <v-avatar class="ml-sm-3 ml-1">
                     <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="ABC" />
                   </v-avatar>
                 </v-col>
-                <v-col cols="1" class="py-0">ABC</v-col>
-                <v-col cols="7" class="py-0">{{ item.name }}</v-col>
-                <v-col cols="3" class="py-0">
+                <v-col cols="3" sm="1" class="py-0">ABC</v-col>
+                <v-col cols="6" sm="7" class="py-0">{{ item.name }}</v-col>
+                <v-col cols="12" sm="3" class="py-0 text-center">
                   <v-btn color="info" class="mr-2" text style="text-transform:none">Accept</v-btn>
                   <v-btn color="red" text style="text-transform:none">Decline</v-btn>
                 </v-col>

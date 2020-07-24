@@ -34,6 +34,10 @@ export default {
     purrrfectmatch,
     ClientReview,
     Footer
-  }
+  },
+  created(){
+    window.scroll({top:0,left: 0, behavior: 'smooth'});
+  },
+
 };
 </script>

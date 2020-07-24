@@ -5,11 +5,16 @@
       <v-row>
         <v-col cols="12" sm="3" class="text-center">
           <v-avatar size="200px" color="#989898" v-if="host_additional_data.avatar">
-            <v-img lazy-src="@/assets/images/icon-people-circle.svg"  :src="img_url.slice(0,img_url.length-1) + host_additional_data.avatar" />
+            <v-img
+              lazy-src="@/assets/images/icon-people-circle.svg"
+              :src="img_url.slice(0,img_url.length-1) + host_additional_data.avatar"
+            />
           </v-avatar>
         </v-col>
         <v-col cols="12" sm="5">
-          <h1 style="font-weight: 500; color: #2c7873;">{{host_details.first_name}} {{host_details.last_name}}</h1>
+          <h1
+            style="font-weight: 500; color: #2c7873;"
+          >{{host_details.first_name}} {{host_details.last_name}}</h1>
           <div class="flex mt-2 mb-2">
             <v-icon>mdi-account-circle</v-icon>
             <v-icon>mdi-account-circle</v-icon>
@@ -126,7 +131,9 @@
             <v-tabs v-model="tab" background-color="teal" dark fixed-tabs center-active show-arrows>
               <v-tabs-slider color="orange"></v-tabs-slider>
               <v-tab key="about">About</v-tab>
+              <v-tab key="pet-accept">Pet Accept</v-tab>
               <v-tab key="services_rates">Services and Rates</v-tab>
+              <v-tab key="policy">Policy</v-tab>
               <v-tab key="photos">Photos</v-tab>
               <v-tab key="rating">Rating and Review</v-tab>
             </v-tabs>
@@ -140,9 +147,94 @@
                   >{{ host_additional_data.hostbio }}</v-card-text>
                 </v-card>
               </v-tab-item>
+              <v-tab-item key="pet-accept">
+                <v-card flat>
+                  <v-card-text class="px-10" style="font-size: 1.2rem;white-space: pre-line;">
+                    <v-row>
+                      <v-col class="text-center mb-2" cols="2">
+                        <v-badge icon="mdi-check" color="green">
+                          <v-icon large>mdi-dog</v-icon>
+                        </v-badge>
+                        <br />
+                        <v-label>Small Dog</v-label>
+                      </v-col>
+                      <v-col class="text-center mb-2" cols="2">
+                        <v-badge icon="mdi-check" color="green">
+                          <v-icon large>mdi-dog</v-icon>
+                        </v-badge>
+                        <br />
+                        <v-label>Small Dog</v-label>
+                      </v-col>
+                      <v-col class="text-center mb-2" cols="2">
+                        <v-badge icon="mdi-check" color="green">
+                          <v-icon large>mdi-dog</v-icon>
+                        </v-badge>
+                        <br />
+                        <v-label>Small Dog</v-label>
+                      </v-col>
+                      <v-col class="text-center mb-2" cols="2">
+                        <v-badge icon="mdi-check" color="green">
+                          <v-icon large>mdi-dog</v-icon>
+                        </v-badge>
+                        <br />
+                        <v-label>Small Dog</v-label>
+                      </v-col>
+                      <v-col class="text-center mb-2" cols="2">
+                        <v-badge icon="mdi-check" color="green">
+                          <v-icon large>mdi-paw</v-icon>
+                        </v-badge>
+                        <br />
+                        <v-label>Puppy</v-label>
+                      </v-col>
+                      <v-col class="text-center mb-2" cols="2">
+                        <v-badge icon="mdi-check" color="green">
+                          <v-icon large>mdi-cat</v-icon>
+                        </v-badge>
+                        <br />
+                        <v-label>Cat</v-label>
+                      </v-col>
+                      <v-col class="text-center mb-2" cols="2">
+                        <v-badge icon="mdi-check" color="green">
+                          <v-icon large>mdi-owl</v-icon>
+                        </v-badge>
+                        <br />
+                        <v-label>Birds</v-label>
+                      </v-col>
+                      <v-col class="text-center mb-2" cols="2">
+                        <v-badge icon="mdi-check" color="green">
+                          <v-icon large>mdi-rabbit</v-icon>
+                          <v-icon large>mdi-pig</v-icon>
+                        </v-badge>
+                        <br />
+                        <v-label>Rabbit/Guinea Pig</v-label>
+                      </v-col>
+                    </v-row>
+                  </v-card-text>
+                </v-card>
+              </v-tab-item>
               <v-tab-item key="services_rates">
                 <v-card flat>
                   <v-card-text>Services and rates</v-card-text>
+                </v-card>
+              </v-tab-item>
+               <v-tab-item key="policy">
+                <v-card flat>
+                  <v-card-text>
+                    <v-container fluid>
+                      <v-row>
+                        <v-col v-for="(item,i) in host_photos" :key="i" cols="12" md="2">
+                          <v-card elevation="4">
+                            <v-img
+                              :src="img_url + item.image_path"
+                              aspect-ratio="1"
+                              style="cursor: pointer;"
+                              @click="showDialog(i)"
+                            ></v-img>
+                          </v-card>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-card-text>
                 </v-card>
               </v-tab-item>
               <v-tab-item key="photos">
@@ -153,11 +245,11 @@
                         <v-col v-for="(item,i) in host_photos" :key="i" cols="12" md="2">
                           <v-card elevation="4">
                             <v-img
-                            :src="img_url + item.image_path"
-                            aspect-ratio="1"
-                            style="cursor: pointer;"
-                            @click="showDialog(i)"
-                          ></v-img>
+                              :src="img_url + item.image_path"
+                              aspect-ratio="1"
+                              style="cursor: pointer;"
+                              @click="showDialog(i)"
+                            ></v-img>
                           </v-card>
                         </v-col>
                       </v-row>
@@ -177,13 +269,14 @@
                               <span class="reading-header">DogHeads</span>
                             </v-col>
                             <v-col cols="5" sm="6" class="py-0 pl-0 text-center">
-                             <v-rating
+                              <v-rating
                                 v-model="dog_rating"
                                 half-increments
                                 style="line-height: 3rem;"
                                 half-icon
                                 readonly
-                                dense>
+                                dense
+                              >
                                 <template v-slot:item="props">
                                   <v-icon
                                     :color="props.isFilled ? 'orange' : 'grey lighten-1'"
@@ -198,7 +291,7 @@
                         </v-card>
                         <v-card class="mt-2">
                           <v-row>
-                            <v-col cols="5" sm="4" class="py-0 ">
+                            <v-col cols="5" sm="4" class="py-0">
                               <span class="reading-header">PuppyHeads</span>
                             </v-col>
                             <v-col cols="5" sm="6" class="py-0 pl-0 text-center">
@@ -239,9 +332,16 @@
                               <v-list-item-subtitle v-html="item.subtitle"></v-list-item-subtitle>
                               <v-list-item-content class="py-0">
                                 <v-row class="pl-2 mt-2">
-                                  <v-rating dense readonly v-model="item.rating" class="ml-0 pl-0 py-0"  half-increments  small color="orange">
-                                </v-rating>
-                                <span class="review-rating-count">({{item.rating}})</span>
+                                  <v-rating
+                                    dense
+                                    readonly
+                                    v-model="item.rating"
+                                    class="ml-0 pl-0 py-0"
+                                    half-increments
+                                    small
+                                    color="orange"
+                                  ></v-rating>
+                                  <span class="review-rating-count">({{item.rating}})</span>
                                 </v-row>
                               </v-list-item-content>
                             </v-list-item-content>
@@ -311,15 +411,14 @@ export default {
       ],
       petTypes: [],
       petSelected: "Choose Pet(s)",
-      pics: [],
-      host_details:{},
-      host_photos:[],
-      host_additional_data:{},
+      host_details: {},
+      host_photos: [],
+      host_additional_data: {},
       onboarding: 0,
       img_url: urls.IMGURL,
       dog_rating: 4.5,
       puppy_rating: 3.5,
-      overlay :false,
+      overlay: false,
       items: [
         { header: "Reviews" },
         {
@@ -327,7 +426,7 @@ export default {
           title: "Brunch this weekend?",
           subtitle:
             "<span class='text--primary'>Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
-            rating: 4.5
+          rating: 4.5
         },
         { divider: true, inset: true },
         {
@@ -335,7 +434,7 @@ export default {
           title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
           subtitle:
             "<span class='text--primary'>to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.",
-            rating: 3.5
+          rating: 3.5
         },
         { divider: true, inset: true },
         {
@@ -343,7 +442,7 @@ export default {
           title: "Oui oui",
           subtitle:
             "<span class='text--primary'>Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?",
-            rating: 2.2
+          rating: 2.2
         },
         { divider: true, inset: true },
         {
@@ -351,7 +450,7 @@ export default {
           title: "Birthday gift",
           subtitle:
             "<span class='text--primary'>Trevor Hansen</span> &mdash; Have any ideas about what we should get Heidi for her birthday?",
-            rating: 1.2
+          rating: 1.2
         },
         { divider: true, inset: true },
         {
@@ -359,7 +458,7 @@ export default {
           title: "Recipe to try",
           subtitle:
             "<span class='text--primary'>Britta Holt</span> &mdash; We should eat this: Grate, Squash, Corn, and tomatillo Tacos.",
-            rating: 4.5
+          rating: 4.5
         }
       ]
     };
@@ -368,7 +467,7 @@ export default {
     this.getHostDetails();
     this.serviceSelected = this.serviceType[0];
     this.getPetsType();
-   
+    window.scroll({top:0,left: 0, behavior: 'smooth'});
   },
   methods: {
     increment(num) {
@@ -391,13 +490,7 @@ export default {
       }
       this.menu = !this.menu;
     },
-    fetchPics(){
-      for (let i = 1; i <= 10; i++) {
-      this.pics.push({
-        image_path: `https://picsum.photos/500/300?image=${i * 5 + 10}`
-      });
-    }
-    },
+   
     getPetsType() {
       let type = "Dog";
       const url = urls.URL + "/pet/type/?type=" + type;
@@ -428,7 +521,6 @@ export default {
         });
     },
     showDialog(index) {
-      //  this.fetchPics();
       this.onboarding = index;
       this.dialog = true;
     },
@@ -477,10 +569,10 @@ export default {
   line-height: 3rem;
   text-align: center;
 }
-.review-rating-count{
+.review-rating-count {
   font-size: 0.8rem;
-    display: inline-block;
-    line-height: 1.2rem;
-    margin-left: 2px;;
+  display: inline-block;
+  line-height: 1.2rem;
+  margin-left: 2px;
 }
 </style>
