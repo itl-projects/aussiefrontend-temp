@@ -13,12 +13,12 @@
           :removable="true"
           removeButtonClass="ui red button"
           :height="200"
-          :prefill="avatar"
+          :prefill.sync="avatar"
           accept="image/jpeg, image/png, image/gif"
           buttonClass="ui button primary"
           :customStrings="{
-                        upload: '<h1>Upload it!</h1>',
-                        drag: 'Drag and drop your image here'}"></picture-input>
+            upload: '<h1>Upload it!</h1>',
+             drag: 'Drag and drop your image here'}"></picture-input>
       </v-col>
       <v-col :cols="12" :md="8" class="mt-5">
         <h5>Personal Details</h5>
@@ -186,6 +186,7 @@ export default {
     latitude:0,
     longitude:0,
     updateLoading:false,
+    avatar:"",
   }
   },
   computed: {
@@ -316,7 +317,7 @@ export default {
     }
   },
   created: function(){
-      const data = JSON.parse(authStore.userDetails());
+      const data = authStore.getUserData();
       this.firstName = data.first_name;
       this.lastName = data.last_name;
       this.email = data.email;

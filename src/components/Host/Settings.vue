@@ -6,7 +6,7 @@
         <v-tab key="overview">Overview</v-tab>
         <v-tab key="balance">Balance</v-tab>
         <v-tab key="aussiepetz_credits">Aussiepetz Credits</v-tab>
-        <v-tab key="personal_details">Personal Details</v-tab>
+        <!-- <v-tab key="personal_details">Personal Details</v-tab> -->
         <v-tab key="settings">Settings</v-tab>
       </v-tabs>
       <v-tabs-items v-model="tab">
@@ -21,9 +21,9 @@
         <v-tab-item key="aussiepetz_credits">
           <v-card-text>Balance settings</v-card-text>
         </v-tab-item>
-        <v-tab-item key="personal_details">
+        <!-- <v-tab-item key="personal_details">
           <PersonalDetails/>
-        </v-tab-item>
+        </v-tab-item> -->
         <v-tab-item key="settings">
           <v-card-text>Balance settings</v-card-text>
         </v-tab-item>
@@ -34,10 +34,12 @@
 
 <script>
 import HostSettingOverview from '@/components/Host/SettingOverview';
-import PersonalDetails from "@/components/Host/PersonalDetails";
+// import PersonalDetails from "@/components/Host/PersonalDetails";
 export default {
   name: "HostSettings",
-  components:{HostSettingOverview,PersonalDetails},
+  components:{HostSettingOverview,
+  // PersonalDetails
+  },
   data: () => ({
     tab: null
   })

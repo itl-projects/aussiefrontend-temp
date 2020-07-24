@@ -43,7 +43,8 @@
             <v-btn text v-on="on">
               Hi, {{ name }}
               <v-avatar color="orange" size="50" class="ml-2">
-                <span class="white--text" style="font-size:1rem">{{ name_title }}</span>
+                <span v-if="pic == ''" class="white--text" style="font-size:1rem">{{ name_title }}</span>
+                <v-img v-else :src="pic"></v-img>
               </v-avatar>
             </v-btn>
           </template>
@@ -365,7 +366,7 @@ export default {
   created: function() {
     if (authStore.isSignedIn()) {
       this.isLoggedIn = true;
-      const udata = JSON.parse(authStore.userDetails());
+      const udata = authStore.getUserData();
       this.name = udata.first_name + " " + udata.last_name;
       this.pic = "" + udata.avatar;
       this.name_title = udata.first_name.charAt(0) + udata.last_name.charAt(0);
