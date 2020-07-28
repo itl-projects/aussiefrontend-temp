@@ -202,7 +202,7 @@ export default {
     this.fetchAllMessages();
 
     this.connection = new WebSocket(
-      `ws://95.217.133.127:8001/chats/${this.uname}/${this.current_uname}/`
+      `wss://95.217.133.127:8001/chats/${this.uname}/${this.current_uname}/`
     );
 
     this.connection.onmessage = (e) => {
