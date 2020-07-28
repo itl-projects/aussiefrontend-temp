@@ -1,5 +1,14 @@
 <template>
 <v-container>
+<v-row>
+  <v-col>
+      <v-alert v-if="alert.show" dense border="left" :type="alert.type" dismissible>
+      {{alert.message}}
+    </v-alert>
+  </v-col>
+
+</v-row>
+
   <v-form @submit.prevent="submit" class="mt-2" ref="form" v-model="valid">
     <v-row>
       <v-col class="pb-0">
@@ -20,8 +29,9 @@
       <v-col cols="12" sm="6" class="pb-0">
         <v-text-field
           v-model="email"
-          :error-messages="emailErrors"
-          :success-messages="emailSuccess"
+          :error-messages.sync="emailErrors"
+          :success-messages.sync="emailSuccess"
+          :rules="[rules.required]"
           label="E-mail"
           name="email"
           required
@@ -36,7 +46,8 @@
       <v-col>
         <v-text-field
           v-model="FirstName"
-          :error-messages="firstErrors"
+          :error-messages.sync="firstErrors"
+          :rules="[rules.required]"
           name="FirstName"
           label="First Name"
           hide-details="auto"
@@ -51,6 +62,7 @@
         <v-text-field
           v-model="LastName"
           :error-messages="lastErrors"
+          :rules="[rules.required]"
           name="LastName"
           label="Last Name"
           hide-details="auto"
@@ -69,6 +81,7 @@
           v-model="phone"
           :error-messages="numricErrors"
           :success-messages="phoneSuccess"
+          :rules="[rules.required]"
           label="Phone Number"
           name="phone"
           hide-details="auto"
@@ -83,6 +96,7 @@
         <v-select
           v-model="select"
           :items="items"
+          :rules="[rules.required]"
           :error-messages="selectErrors"
           label="User type"
           hide-details="auto"
@@ -102,6 +116,7 @@
           :error-messages="passwordErrors"
           :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
           :type="show1 ? 'text' : 'password'"
+          :rules="[rules.required]"
           name="password"
           label="Password"
           hint="At least 8 characters"
@@ -118,6 +133,7 @@
       <v-col cols="12" sm="6">
         <v-text-field
           v-model="repeatPassword"
+          :rules="[rules.required]"
           :error-messages="repeatPasswordErrors"
           :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
           :type="show1 ? 'text' : 'password'"
@@ -135,34 +151,9 @@
         ></v-text-field>
       </v-col>
     </v-row>
-    <v-btn color="#00D657" type="submit" class="mr-4 mt-5 px-10 white--text" :disabled="!valid">Sign up</v-btn>
+    <v-btn color="#00D657" type="submit" class="mr-4 mt-5 px-10 white--text" :disabled="!valid" :loading="signupLoading">Sign up</v-btn>
   </v-form>
-  <v-overlay :value="signupProgress">
-      <v-progress-circular v-if="signupLoading" indeterminate size="64"></v-progress-circular>
-      <v-row v-else
-        class="text-center"
-        style="background: #ffffff; border-radius: 6px;padding:20px 30px;">
-        <v-col cols="12" class="m-0 p-0">
-          <v-responsive
-            class="text-center grey lighten-2 d-inline-flex align-center justify-center ma-3"
-            height="52"
-            width="52"
-            style="border-radius: 50%;">
-            <v-icon v-if="signupSuccess" :large="true" color="success">mdi-check-outline</v-icon>
-            <v-icon v-else :large="true" color="red">mdi-alert-circle</v-icon>
-          </v-responsive>
-          <br />
-          <span v-if="signupSuccess" class="success--text"> Success! Account has been created successfully
-          <br/>Now Signin to access your account.
-          </span>
-          <span v-else class="red--text">Sorry! Failed to create account<br/>Try after sometime </span>
-          <br />
-          <v-divider class="mt-5"></v-divider>
-          <v-btn v-if="signupSuccess" color="success" class="mt-5 pl-5 pr-5" @click="goToLogin">done</v-btn>
-           <v-btn v-else color="red" class="mt-5 pl-5 pr-5" @click="signupProgress = false">close</v-btn>
-        </v-col>
-      </v-row>
-    </v-overlay>
+  
 </v-container>
 </template>
 <script>
@@ -194,6 +185,7 @@ export default {
     }
   },
   data: () => ({
+    alert:{"show":false,"type":null,"message":""},
     valid: true,
     show1: false,
     UserName: "",
@@ -210,15 +202,15 @@ export default {
     nameSuccess:[],
     phoneSuccess:[],
     emailSuccess:[],
-    signupProgress:false,
     signupLoading:false,
-    signupSuccess:false,
     rules: {
           required: value => !!value || 'Required.',
           min: v => v.length >= 8 || 'Min 8 characters',
           validUsername: v => v.length >= 3 || "Username must be of minimum 3 character",
         },
         nameErrors:[],
+        emailErrors:[],
+        phoneErrors:[]
   }),
 
   computed: {
@@ -241,25 +233,12 @@ export default {
       !this.$v.LastName.required && errors.push("Last Name is required.");
       return errors;
     },
-    emailErrors() {
-      const errors = [];
-      if (!this.$v.email.$dirty) return errors;
-      !this.$v.email.email && errors.push("Must be valid e-mail");
-      !this.$v.email.required && errors.push("E-mail is required");
-      return errors;
-    },
-    phoneErrors(){
-      const errors = [];
-      if (!this.$v.phone.$dirty) return errors;
-      !this.$v.phone.phone && errors.push("Enter a valid mobile number");
-      !this.$v.phone.required && errors.push("Mobile number is required");
-      return errors;
-    },
+    
     numricErrors() {
       const errors = [];
       if (!this.$v.phone.$dirty) return errors;
       !this.$v.phone.integer && errors.push("Must be valid number");
-      !this.$v.phone.minLength && errors.push("phone length must be 10");
+      !this.$v.phone.minLength && errors.push("Not a valid phone number");
       !this.$v.phone.required && errors.push("phone number is required");
       return errors;
     },
@@ -289,57 +268,51 @@ export default {
         this.nameErrors = [];
         this.nameSuccess =  [];
         if(res.data.status){
-            this.nameSuccess.push(res.data.data.status);
+            this.nameSuccess = [res.data.data.status];
         }
         else if(!res.data.status){
-          this.nameErrors.push(res.data.errors.username[0]);
+          this.nameErrors = res.data.errors.username;
         }
-      }).catch((err)=>{
-        console.log(err)
+      }).catch(()=>{
       })
       }else{
-        this.nameErrors.push("Not a valid username");
+        this.nameErrors = ["Not a valid username"];
       }
     },
     
     email(val){
+      this.emailErrors = [];
+      this.emailSuccess =  [];
       var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
       if(val.length > 10 && re.test(val)){
-      
-      this.emailSuccess = [];
       let data = {email: val};
-
       axios.post(urls.URL+"/validate/",data).then(res=>{
         if(!res.data.status){
           this.emailErrors = res.data.errors.email;
         }else if(res.data.status){
-            this.emailSuccess.push(res.data.data.status);
+            this.emailSuccess = [res.data.data.status];
         }
-      }).catch((err)=>{
-        console.log(err)
+      }).catch(()=>{
+        
       })
+      }else{
+        this.emailErrors= ["Enter valid email address"];
       }
     },
     phone(val){
-      let phone_re = /^(\+\d{1,3}[- ]?)?\d{10}$/;
-      
-      if(val.length > 9 && phone_re.test(val)){
-        this.phoneSuccess = [];
+      this.phoneErrors = [];
+      this.phoneSuccess = [];
       let data = {phone: val};
       axios.post(urls.URL+"/validate/",data).then(res=>{
         if(!res.data.status){
           this.phoneErrors = res.data.errors.phone;
         }else if(res.data.status){
-            this.phoneSuccess.push(res.data.data.status);
+            this.phoneSuccess = [res.data.data.status];
         }
-      }).catch((err)=>{
-        console.log(err)
+      }).catch(()=>{
       })
-      }else{
-        this.phoneSuccess = [];
-        this.phoneErrors.push("Enter a valid phone number");
-      }
+      
     },
   },
   methods: {
@@ -377,7 +350,6 @@ export default {
         password != null &&
         type != null
       ) {
-        this.signupProgress = true;
         this.signupLoading = true;
         axios
           .post(url, {
@@ -389,19 +361,31 @@ export default {
             password
           })
           .then(res => {
-            this.signupLoading = false;
+            
             if(res.data.status){
-            this.signupSuccess = true;
+             this.showAlert("success","Success! you account has been created successfully.")
             }else{
-            //  if(res.data.errors.username){
-               
-            //  }
+              if(res.data.errors.username){
+                this.nameErrors = res.data.errors.username;
+              }
+              if(res.data.errors.email){
+                this.emailErrors = res.data.errors.email
+              }
+              if(res.data.errors.phone){
+                this.phoneErrors = res.data.errors.phone;
+              }
+              if(res.data.errors.password){
+                this.numricErrors.push(res.data.errors.password);
+              }
+              
+              //this.showAlert("red","Error! Failed to create account.")
             }
           })
-          .catch(e => {
-          this.signupLoading = false;
-          this.signupSuccess = false;
-          console.log(e);
+          .catch(() => {
+          this.showAlert("red","Error! Server not responding. Try after sometime.")
+          })
+          .finally(()=>{
+            this.signupLoading = false;
           });
       } else {
         this.$v.$touch();
@@ -416,6 +400,14 @@ export default {
       this.password = "";
       this.repeatPassword = "";
       this.select = "";
+    },
+    showAlert(type,message){
+      this.alert.show = true;
+      this.alert.type = type;
+      this.alert.message = message;
+      setTimeout(()=>{
+        this.alert.show = false;
+      },5000);
     }
   }
 };

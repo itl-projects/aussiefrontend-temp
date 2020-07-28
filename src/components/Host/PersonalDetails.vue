@@ -1,8 +1,6 @@
 <template>
   <v-container grid-list-xs class="mt-10 p-5" style="border:1px soild">
-    <v-alert v-if="alert.show" dense border="left" :type="alert.type" dismissible>
-      {{alert.message}}
-    </v-alert>
+    
     <v-row justify="space-around">
       <v-col :cols="12" :md="3">
         <picture-input
@@ -17,7 +15,7 @@
           accept="image/jpeg, image/png, image/gif"
           buttonClass="ui button primary"
           :customStrings="{
-            upload: '<h1>Upload it!</h1>',
+            upload: '<h1>Profile Image</h1>',
              drag: 'Drag and drop your image here'}"></picture-input>
       </v-col>
       <v-col :cols="12" :md="8" class="mt-5">
@@ -143,7 +141,17 @@
           </v-col>
          
         </v-row>
-        <v-btn type="submit" color="success" @click="updateProfile" :loading="updateLoading">Update Profile</v-btn>
+        <v-row>
+          <v-col cols="12" sm="3">
+             <v-btn type="submit" color="success" @click="updateProfile" :loading="updateLoading">Update Profile</v-btn>
+          </v-col>
+          <v-col cols="12" sm="9">
+            <v-alert v-if="alert.show" dense border="left" :type="alert.type" dismissible>
+      {{alert.message}}
+    </v-alert>
+          </v-col>
+        </v-row>
+       
       </v-col>
     </v-row>
   </v-container>
@@ -258,11 +266,17 @@ export default {
       formData.append('first_name', this.firstName);
       formData.append('last_name', this.lastName);
       formData.append('gender', this.gender);
+      if(this.hostbio)
       formData.append('hostbio', this.hostbio);
-      formData.append('city', this.city);
-      formData.append('state', this.state);
-      formData.append('zipcode', this.zipcode);
+      if(this.city)
+        formData.append('city', this.city);
+      if(this.city)
+        formData.append('state', this.state);
+      if(this.zipcode)
+        formData.append('zipcode', this.zipcode);
+       if(this.dateFormatted)
       formData.append('dob', this.dateFormatted);
+     if(this.state_code)
       formData.append('state_code', this.state_code);
       // formData.append('latitude',this.latitude);
       // formData.append('longitude', this.longitude);
@@ -334,7 +348,7 @@ export default {
       this.billing_address = data.billing_address;
       this.country = data.country;
       this.dateFormatted = data.dob;
-      this.avatar = data.avatar;
+      this.avatar = data.avatar.includes("null") ? "" :  data.avatar;
       this.latitude = data.latitude;
       this.longitude = data.longitude;
       if(authStore.isMale()){

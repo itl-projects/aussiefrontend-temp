@@ -6,7 +6,7 @@
         <v-tab key="services">Services and Rates</v-tab>
         <v-tab key="about">About</v-tab>
         <v-tab key="experience">Experience</v-tab>
-        <v-tab key="photo_gallery">Photo Gallery</v-tab>
+        <v-tab key="documents">Documents</v-tab>
         <v-tab key="household">Household</v-tab>
         <v-tab key="pets">Pets</v-tab>
       </v-tabs>

@@ -59,15 +59,15 @@
           <v-breadcrumbs :items="items"></v-breadcrumbs>
         </div>
                 <v-divider></v-divider>
-      <!-- <v-container class="fill-height" fluid>
-         <v-row
+      <v-container  fluid>
+         <!-- <v-row
           justify="center"
           align="center" >
           <v-col> -->
           <router-view></router-view>          
           <!-- </v-col>
-        </v-row>
-      </v-container> -->
+        </v-row> -->
+      </v-container>
     </v-content>
   </v-app>
 
@@ -90,7 +90,7 @@ export default {
     email_not: true,
     name: "",
     avatar: "",
-    menu: false,
+    menu: true,
     items: [
       {
         text: "Dashboard",

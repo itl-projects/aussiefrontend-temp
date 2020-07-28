@@ -19,7 +19,7 @@ var authStore = {
           if (this.userType() == "petowner")
             data = {
               user_details: res.data.data,
-              additional_details: res.data.additional_details,
+              additional_details: res.data.additional_data,
             };
           else if (this.userType() == "host") {
             data = {

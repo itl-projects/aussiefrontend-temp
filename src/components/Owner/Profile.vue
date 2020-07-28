@@ -289,12 +289,19 @@ export default {
       formData.append('first_name', this.firstName);
       formData.append('last_name', this.lastName);
       formData.append('gender', this.gender);
-      formData.append('ownerbio', this.ownerbio);
-      formData.append('city', this.city);
-      formData.append('state', this.state);
-      formData.append('zipcode', this.zipcode);
-      formData.append('state_code', this.state_code);
+      
+      if(this.ownerbio)
+        formData.append('ownerbio', this.ownerbio);
+      if(this.city)
+        formData.append('city', this.city);
+      if(this.city)
+        formData.append('state', this.state);
+      if(this.zipcode)
+        formData.append('zipcode', this.zipcode);
+       if(this.dateFormatted)
       formData.append('dob', this.dateFormatted);
+     if(this.state_code)
+      formData.append('state_code', this.state_code);
       // formData.append('latitude', parseInt(this.latitude));
       // formData.append('longitude', parseInt(this.longitude));
       axios.post(urls.URL+'/petowner/update/', formData, config,{
@@ -354,7 +361,7 @@ export default {
       this.contact = data.phone;
       this.email_verified = data.emailverified == 1 ? true : false;
       this.phone_verified = data.phoneverified == 1 ? true : false;
-      this.ownerbio = data.ownerbio;
+      this.ownerbio = data.bio.startsWith("cdata") ? "" : data.bio;
       this.places.push(data.city);
       this.city = data.city;
       this.state = data.state;
@@ -363,8 +370,7 @@ export default {
       this.billing_address = data.billing_address;
       this.country = data.country;
       this.dateFormatted = data.dob;
-      this.ownerbio = data.bio;
-      this.avatar = data.avatar;
+      this.avatar = data.avatar.includes("null") ? "" :  data.avatar;
       this.latitude = data.latitude;
       this.longitude = data.longitude;
       if(authStore.isMale()){

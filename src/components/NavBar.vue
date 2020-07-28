@@ -12,7 +12,7 @@
       <!-- large View -->
       
       <v-toolbar-items class="d-none d-sm-none d-md-flex">
-            <v-row justify="flex-end">
+            <v-row justify="end">
               <v-col cols="12" style="text-align: end;">
                    <v-chip class="text-center mr-2 nav-chip" color="#827F19" outlined ripple text-color="#827F19" style="font-size: medium;">Become a pet host</v-chip>
         <v-chip class="text-center nav-chip" color="#D47E11" outlined ripple text-color="#D47E11" style="font-size: medium;">Aussie pets BnB Services</v-chip>

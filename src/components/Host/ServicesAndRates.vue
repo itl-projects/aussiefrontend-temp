@@ -266,7 +266,7 @@
                      <v-list-item-subtitle>Allow free cancellation up until 14 day before the start of the booking.</v-list-item-subtitle>
                   </v-list-item-content>
                   <v-list-item-action>
-                    <v-radio value="Strict" color="#2c7873" ></v-radio>
+                    <v-radio value="strict" color="#2c7873" ></v-radio>
                   </v-list-item-action>
                 </v-list-item>
               </v-list>
@@ -277,7 +277,7 @@
                      <v-list-item-subtitle>Allow free cancellation up until 7 day before the start of the booking.</v-list-item-subtitle>
                   </v-list-item-content>
                   <v-list-item-action>
-                    <v-radio value="Modrate"  color="#2c7873"></v-radio>
+                    <v-radio value="modrate"  color="#2c7873"></v-radio>
                   </v-list-item-action>
                 </v-list-item>
               </v-list>
@@ -288,7 +288,7 @@
                      <v-list-item-subtitle>Allow free cancellation up until 12 noon the day before booking starts.</v-list-item-subtitle>
                   </v-list-item-content>
                   <v-list-item-action>
-                    <v-radio value="Flexible" color="#2c7873"></v-radio>
+                    <v-radio value="flexible" color="#2c7873"></v-radio>
                   </v-list-item-action>
                 </v-list-item>
               </v-list>

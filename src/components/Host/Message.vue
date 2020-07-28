@@ -10,7 +10,7 @@
         <v-card>
           <v-card-title class="subheading font-weight-bold">All Messages</v-card-title>
           <v-divider></v-divider>
-          <v-content>
+          <!-- <v-content> -->
           <v-row>
             <v-col v-for="(item,i) in props.items" :key="item.name" cols="12" class="py-0">
               <v-row :class="{ 'blue--text': sortBy === true }" align="center" class="py-2">
@@ -21,7 +21,7 @@
                 </v-col>
                 <v-col cols="1" class="py-0">ABC</v-col>
                 <v-col cols="7" class="py-0">{{ item.name }}</v-col>
-                <v-col cols="2" class="py-0">
+                <v-col cols="12" class="py-0" sm="2">
                   <v-btn color="info" class="mr-2" text style="text-transform:none">View</v-btn>
                   <v-btn color="red" text style="text-transform:none">Delete</v-btn>
                 </v-col>
@@ -30,7 +30,7 @@
               <v-divider v-if="i < props.items.length-1" class="mt-1"></v-divider>
             </v-col>
           </v-row>
-          </v-content>
+          <!-- </v-content> -->
         </v-card>
       </template>
       <template v-slot:footer>

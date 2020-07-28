@@ -37,7 +37,7 @@
           <v-tabs-items v-model="tab">
              
             <v-tab-item value="tab-1" class="mt-5">
-              <v-alert v-if="alert.show" dense border="left" type="error" dismissible class="mx-5">
+              <v-alert v-if="alert.show" dense border="left" type="error" dismissible class="mx-sm-10 text-start">
       {{alert.message}}
     </v-alert>
               <form ref="loginForm" @submit="submit" class="form-size">
@@ -279,7 +279,7 @@ export default {
               else if (res.data.type == "host") router.replace("/host");
             } else {
               this.alert.show = true;
-              this.alert.message = "login credentials email or password is wrong!";
+              this.alert.message = "Error !  Wrong login credentials.";
               setTimeout(()=>{
                 this.alert.show = false;
                 this.alert.message = "";

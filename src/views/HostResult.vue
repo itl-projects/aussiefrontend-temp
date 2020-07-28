@@ -382,9 +382,8 @@ export default {
     closeMenu() {
       this.menu = false;
     },
-    showHostDetails(){
-      router.push("/hostdetail");
-      
+    showHostDetails(host_id){
+      router.push({path:"/hostdetail",query:{city:this.city,query:host_id}});
     },
     fetchHosts(){
       // &pet_type=${this.pet_type}&lowerPrice=${this.lowerPrice}&upperPrice=${this.upperPrice}}&lowerRating=${this.lowerRating}&upperRating=${this.upperRating}
@@ -392,7 +391,6 @@ export default {
 
     axios.get(urls.URL+"/hostsearch/?"+data)
     .then(res=>{
-      console.log(res);
       if(res.data.status){
         this.items = res.data.data;
       }
@@ -427,7 +425,5 @@ export default {
 .text-underline>h1{
   text-decoration: underline;
 }
-.cardbox-border{
-  /* border: 2px solid #2c7873bf; */
-}
+
 </style>

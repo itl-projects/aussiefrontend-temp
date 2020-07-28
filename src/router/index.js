@@ -8,6 +8,7 @@ import PerfectMatch from "@/views/PerfectMatch";
 import HostAccount from "@/views/HostAccount";
 import HostDashboard from "@/components/Host/Dashboard";
 import Message from '@/components/commons/Message';
+import MessageBox from '@/components/commons/MessageBox';
 import Booking from '@/components/commons/Booking';
 import Photos from '@/components/commons/Photos';
 import Account from "@/components/Owner/Account";
@@ -57,7 +58,8 @@ const routes = [
   {
     path:"/hostdetail",
     name:"HostDetailPage",
-    component: HostDetailPage
+    component: HostDetailPage,
+    props: {city:true,query:true}
   },
   {
     path:"/shop",
@@ -116,6 +118,11 @@ const routes = [
         {
           path: 'messages',
           component: Message
+        },
+        {
+          path: 'chat-messages',
+          component: MessageBox,
+          props: {uname:true}
         },
         {
           path: 'photos',
