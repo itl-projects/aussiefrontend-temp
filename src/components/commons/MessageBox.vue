@@ -114,7 +114,7 @@ export default {
       let time = new Date().toISOString().split("T");
       let msg = JSON.stringify({
         type: "message",
-        message: this.message_text,
+        message: this.message_text.trim(),
         sender: this.current_uname,
         receiver: this.uname,
         date: time[0],
@@ -202,7 +202,7 @@ export default {
     this.fetchAllMessages();
 
     this.connection = new WebSocket(
-      `wss://95.217.133.127:8001/chats/${this.uname}/${this.current_uname}/`
+      `ws://95.217.133.127:8001/chats/${this.uname}/${this.current_uname}/`
     );
 
     this.connection.onmessage = (e) => {

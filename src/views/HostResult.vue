@@ -391,6 +391,7 @@ export default {
 
     axios.get(urls.URL+"/hostsearch/?"+data)
     .then(res=>{
+      console.log(res);
       if(res.data.status){
         this.items = res.data.data;
       }
