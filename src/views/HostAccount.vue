@@ -17,13 +17,13 @@
       <v-spacer></v-spacer>
       <v-row align="center" justify="end" class="mr-4">
         <v-col cols="4" sm="1">
-          <v-badge color="success" content="6" overlap>
+          <v-badge color="success" content="0" overlap value="0">
             <v-icon>mdi-bell</v-icon>
           </v-badge>
         </v-col>
 
         <v-col cols="4" sm="1">
-          <v-badge v-model="email_not" overlap color="primary" content="6">
+          <v-badge v-model="email_not" overlap color="primary" content="0" value="0">
             <v-icon>mdi-email</v-icon>
           </v-badge>
         </v-col>

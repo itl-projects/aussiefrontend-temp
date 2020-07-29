@@ -759,7 +759,7 @@
           </v-card>
         </v-col>
       </v-row>
-        <v-overlay :value="overlay" :opacity="opacity" color="white" :absolute="'true'" >
+        <v-overlay :value="overlay" :opacity="opacity" color="white" :absolute="true" >
       <v-progress-circular indeterminate size="64" color="#2c7873"></v-progress-circular>
     </v-overlay>
     </v-container>
@@ -1003,6 +1003,7 @@ isFormValid(){
       this.overlay = true;
       const host_id = this.host_id;
       axios.get(urls.URL + "/petowner/gethost/?hid=" + host_id).then(res => {
+        console.log(res);
         if (res.data.status) {
           this.overlay = false;
           let count = 0;

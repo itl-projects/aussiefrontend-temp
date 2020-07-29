@@ -9,6 +9,8 @@ import HostAccount from "@/views/HostAccount";
 import HostDashboard from "@/components/Host/Dashboard";
 import Message from '@/components/commons/Message';
 import MessageBox from '@/components/commons/MessageBox';
+import CanceledBookings from '@/components/commons/CanceledBookings';
+import Contracts from '@/components/commons/Contracts';
 import Booking from '@/components/commons/Booking';
 import Photos from '@/components/commons/Photos';
 import Account from "@/components/Owner/Account";
@@ -132,6 +134,15 @@ const routes = [
           path: 'bookings',
           component: HostBooking
         },
+        {
+          path: 'canceled-bookings',
+          component: CanceledBookings
+        },
+        {
+          path: 'contracts',
+          component: Contracts
+        },
+        
         {
           path: 'calendar',
           component: Message

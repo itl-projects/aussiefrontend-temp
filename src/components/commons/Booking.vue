@@ -8,7 +8,7 @@
     >
       <template v-slot:default="props">
           <v-container>
-          <v-card-title class="subheading font-weight-bold mb-2">All Booking</v-card-title>
+          <v-card-title class="subheading font-weight-bold mb-2">RUnning Booking</v-card-title>
           <v-row class="mb-4" >
               <v-col cols="12" sm="6" class="mx-auto">
                   <v-row align="center" justify="space-around">
@@ -23,7 +23,7 @@
               </v-col>
           </v-row>
        
-               <v-card v-for="(item,i) in props.items" :key="item.name" class="mb-2">
+          <v-card v-for="(item,i) in props.items" :key="item.name" class="mb-2">
           <v-row>
             <v-col  cols="12" class="py-0">
               <v-row align="center" class="py-2">

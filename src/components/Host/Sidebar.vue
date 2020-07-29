@@ -53,12 +53,23 @@
         </v-list-item-icon>
         <v-list-item-title>Message</v-list-item-title>
       </v-list-item>
-
+      <v-list-item link to="/host/contracts">
+        <v-list-item-icon class="mr-1 mr-lg-3">
+          <v-icon>mdi-file-document-multiple</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>Contracts</v-list-item-title>
+      </v-list-item>
       <v-list-item link to="/host/bookings">
         <v-list-item-icon class="mr-1 mr-lg-3">
           <v-icon>mdi-sticker-check</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Bookings</v-list-item-title>
+      </v-list-item>
+        <v-list-item link to="/host/canceled-bookings">
+        <v-list-item-icon class="mr-1 mr-lg-3">
+          <v-icon>mdi-file-cancel</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>Canceled Bookings</v-list-item-title>
       </v-list-item>
       <v-list-item link to="/host/photos">
         <v-list-item-icon class="mr-1 mr-lg-3">
@@ -66,12 +77,7 @@
         </v-list-item-icon>
         <v-list-item-title>Photos</v-list-item-title>
       </v-list-item>
-      <!-- <v-list-item link to="/host/calendar">
-        <v-list-item-icon class="mr-1 mr-lg-3">
-          <v-icon>mdi-calendar</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>Calendar</v-list-item-title>
-      </v-list-item> -->
+    
       <v-list-item link to="/host/settings">
         <v-list-item-icon class="mr-1 mr-lg-3">
           <v-icon>mdi-tools</v-icon>

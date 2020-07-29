@@ -1,7 +1,6 @@
 <template>
   <v-container fluid>
-    <v-card-title class="subheading font-weight-bold">All Booking</v-card-title>
-    <v-card-text>
+    <!-- <v-card-text>
       <v-row class="mb-4" align="center">
         <v-col cols="12" sm="1">
           <v-label>Filter By</v-label>
@@ -27,105 +26,46 @@
           ></v-select>
         </v-col>
       </v-row>
-    </v-card-text>
+    </v-card-text> -->
     <v-row>
-      <v-col cols="12" sm="8">
-        <v-data-iterator
-          :items="items"
-          :items-per-page.sync="itemsPerPage"
-          :page="page"
-          hide-default-footer
-        >
-          <template v-slot:default="props">
-            <v-container>
-              <v-card v-for="(item,i) in props.items" :key="item.name" class="mb-2">
-                <v-list two-line subheader :key="i" class="pb-0">
-                  <v-list-item>
-                    <v-list-item-avatar>
-                      <v-img src="https://randomuser.me/api/portraits/women/85.jpg"></v-img>
-                    </v-list-item-avatar>
+      <v-col cols="12" sm="8" class="py-0">
+        <v-row>
+          <v-col cols="12">
+            <v-card-title class="subheading font-weight-bold">Running Booking</v-card-title>
+            <BookingUI :items.sync="items"/>
+          </v-col>
+          <v-col cols="12">
+            <v-divider/>
+          </v-col>
+          <v-col cols="12">
 
-                    <v-list-item-content>
-                      <v-list-item-title>
-                        <v-row>
-                          <v-col cols="12" sm="4" class="py-1">
-                            <h5>Peter H.</h5>
-                            <div class="mt-2">
-                              <v-icon small>mdi-paw</v-icon>Pets:
-                              <a href="#">Indi</a>
-                            </div>
-                          </v-col>
-                          <v-col cols="12" sm="4" class="py-1">
-                            <h5>Pet Hosting-2 Nights</h5>
-                            <div class="mt-2">
-                              <v-icon small>mdi-calendar</v-icon>
-                              <span style="font-size:0.8rem">20-04-202 - 23-05-2020</span>
-                            </div>
-                          </v-col>
-                          <v-col cols="12" sm="4" class="py-1">
-                            Ref: 989898
-                            <div class="mt-2">
-                              <h3>$ {{item.calories}}</h3>
-                            </div>
-                          </v-col>
-                        </v-row>
-                      </v-list-item-title>
-                     
-                    </v-list-item-content>
+    <!---Scheduled bookingss-->
+    <v-card-title class=" font-weight-bold">Schedule Bookings</v-card-title>
+    <BookingUI :items.sync="items"/>
+          </v-col>
+        </v-row>
 
-                    <v-list-item-action>
-                      <v-btn icon>
-                        <v-icon color="info">mdi-chevron-right</v-icon>
-                      </v-btn>
-                    </v-list-item-action>
-                  </v-list-item>
-                </v-list>
-              </v-card>
-            </v-container>
-          </template>
-
-          <template v-slot:footer>
-            <div class="text-center mt-6">
-              <v-pagination
-                v-model="page"
-                :length="numberOfPages"
-                @next="nextPage"
-                @previous="formerPage"
-                @input="updateItemsPerPage"
-                circle
-              ></v-pagination>
-            </div>
-          </template>
-        </v-data-iterator>
       </v-col>
       <v-col cols="12" sm="4">
         <RecurringBooking />
       </v-col>
     </v-row>
+    
   </v-container>
 </template>
 
 
 <script>
 import RecurringBooking from "@/components/Host/RecurringBookings";
+import BookingUI from "@/components/commons/BookingUi";
 export default {
   name: "HostBooking",
-  components: { RecurringBooking },
+  components: { RecurringBooking,BookingUI },
   data() {
     return {
       itemsPerPageArray: [4, 8, 12],
       page: 1,
       itemsPerPage: 5,
-      keys: [
-        "Name",
-        "Calories",
-        "Fat",
-        "Carbs",
-        "Protein",
-        "Sodium",
-        "Calcium",
-        "Iron"
-      ],
       items: [
         {
           name: "Frozen Yogurt",
