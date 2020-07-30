@@ -360,7 +360,6 @@
 import authStore from "../../store/auth";
 import urls from "@/axios/config";
 import axios from "axios";
-import router from '../../router';
 export default {
   name: "ServicesAndRates",
   data: () => ({
