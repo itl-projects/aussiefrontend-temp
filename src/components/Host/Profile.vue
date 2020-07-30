@@ -35,6 +35,8 @@
 <script>
 import ServicesAndRates from "@/components/Host/ServicesAndRates";
 import PersonalDetails from "@/components/Host/PersonalDetails";
+import authStore from "../../store/auth";
+import router from '../../router';
 export default {
   name: "Profile",
   components: { ServicesAndRates, PersonalDetails },
@@ -49,7 +51,7 @@ export default {
   created: function() {
     if (!authStore.isSignedIn()) {
       authStore.logout();
-      router.replace("/login");
+      router.replace("/");
     }
   }
 };
