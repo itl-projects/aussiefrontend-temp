@@ -103,7 +103,9 @@ export default {
   },
   methods: {
     keyEntered(event) {
+      
       if (event.key == "Enter" && event.shiftKey == false) {
+        event.preventDefault();
         this.sendMessage();
       }
     },
@@ -114,7 +116,7 @@ export default {
       let time = new Date().toISOString().split("T");
       let msg = JSON.stringify({
         type: "message",
-        message: this.message_text.trim(),
+        message: this.message_text.toString().trim(),
         sender: this.current_uname,
         receiver: this.uname,
         date: time[0],

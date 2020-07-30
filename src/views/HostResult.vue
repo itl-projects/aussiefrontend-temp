@@ -299,6 +299,8 @@ export default {
     PetHostingFormDummy
   },
   data: () => ({
+    services : ['pet_hosting', 'pet_sitting', 'pet_day_care', 'house_visits', 'exercise_walk_service', 'pet_training', 'pet_grooming'],
+    service_choosen:"",
     menu: false,
     img_url: urls.IMGURL,
     ticksLabels: ["$0 AUD", "$200 AUD"],
@@ -356,6 +358,7 @@ export default {
         this.start_date = this.$route.query.start_date == undefined ? "" : this.$route.query.start_date;
         this.times = this.$route.query.times == undefined ? "" : this.$route.query.times;
         this.city = this.$route.query.city == undefined ? "" : this.$route.query.city;
+        this.service_choosen = this.$route.query.service == undefined ? this.services[0] : this.$route.query.service;
         this.fetchHosts();
     },
   computed: {
@@ -383,11 +386,11 @@ export default {
       this.menu = false;
     },
     showHostDetails(host_id){
-      router.push({path:"/hostdetail",query:{city:this.city,query:host_id}});
+      router.push({path:"/hostdetail",query:{city:this.city,query:host_id,service:this.service_choosen}});
     },
     fetchHosts(){
       // &pet_type=${this.pet_type}&lowerPrice=${this.lowerPrice}&upperPrice=${this.upperPrice}}&lowerRating=${this.lowerRating}&upperRating=${this.upperRating}
-      let data = `city=${this.city}`;
+      let data = `service=${this.service_choosen}&city=${this.city}`;
 
     axios.get(urls.URL+"/hostsearch/?"+data)
     .then(res=>{

@@ -15,25 +15,25 @@
             <v-col cols="12">
               <v-tabs-items v-model="tab">
                 <v-tab-item :key="'tab-1'" :value="'tab-1'">
-                  <PetHostingForm :items="items"/>
+                  <PetHostingForm :items="items" :serviceType="services[0]"/>
                 </v-tab-item>
                 <v-tab-item :key="'tab-2'" :value="'tab-2'">
-                  <PetHostingForm :items="items"/>
+                  <PetHostingForm :items="items" :serviceType="services[1]"/>
                 </v-tab-item>
                 <v-tab-item :key="'tab-3'" :value="'tab-3'">
-                 <PetCareDayForm :items="items"/>
+                 <PetCareDayForm :items="items" :serviceType="services[2]"/>
                 </v-tab-item>
                 <v-tab-item :key="'tab-4'" :value="'tab-4'">
-                   <PetCareDayForm :items="items"/>
+                   <PetCareDayForm :items="items" :serviceType="services[3]"/>
                 </v-tab-item>
                 <v-tab-item :key="'tab-5'" :value="'tab-5'">
-                   <PetCareDayForm :items="items"/>
+                   <PetCareDayForm :items="items" :serviceType="services[4]"/>
                 </v-tab-item>
                 <v-tab-item :key="'tab-6'" :value="'tab-6'">
-                  <PetGroomingForm :items="items"/>
+                  <PetGroomingForm :items="items" :serviceType="services[5]"/>
                 </v-tab-item>
                 <v-tab-item :key="'tab-7'" :value="'tab-7'">
-                  <PetGroomingForm :items="items"/>
+                  <PetGroomingForm :items="items" :serviceType="services[6]"/>
                 </v-tab-item>
               </v-tabs-items>
             </v-col>
@@ -99,14 +99,13 @@ export default {
   components:{PetHostingForm,PetCareDayForm,PetGroomingForm},
   data() {
     return {
+    services : ['pet_hosting', 'pet_sitting', 'pet_day_care', 'house_visits', 'exercise_walk_service', 'pet_training', 'pet_grooming'],
     items:[],
     date: null,
     pickup_date: null,
     modal: false,
     pickup_modal: false,
     tab: null,
-    text:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     icons: false,
       centered: true,
       grow: false,

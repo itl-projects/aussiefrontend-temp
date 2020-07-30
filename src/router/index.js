@@ -50,7 +50,7 @@ const routes = [
   {
     path: "/hostsearch",
     component: HostResult,
-    props: {city:true,start_date:false}
+    props: {city:true,service:true,start_date:false}
   },
   {
     path:"/perfect-match",
@@ -61,7 +61,7 @@ const routes = [
     path:"/hostdetail",
     name:"HostDetailPage",
     component: HostDetailPage,
-    props: {city:true,query:true}
+    props: {city:true,service:true,query:true}
   },
   {
     path:"/shop",

@@ -379,6 +379,7 @@ export default {
         puppy_charge: false,
         discount: false,
         heading: "Pet Hosting",
+        title: "pet_hosting",
         enabled: false
       },
       {
@@ -387,6 +388,7 @@ export default {
         puppy_charge: false,
         discount: false,
         heading: "Pet Sitting",
+        title: "pet_sitting",
         enabled: false
       },
       {
@@ -395,6 +397,7 @@ export default {
         puppy_charge: false,
         discount: false,
         heading: "Pet day Care",
+         title: "pet_day_care",
         enabled: false
       },
       {
@@ -403,6 +406,7 @@ export default {
         puppy_charge: false,
         discount: false,
         heading: "House Visit",
+         title: "house_visit",
         enabled: false
       },
       {
@@ -411,6 +415,7 @@ export default {
         puppy_charge: false,
         discount: false,
         heading: "Excersice Walk Service",
+         title: "excersice_walk_service",
         enabled: false
       },
       {
@@ -419,6 +424,7 @@ export default {
         puppy_charge: false,
         discount: false,
         heading: "Pet Training",
+        title: "pet_training",
         enabled: false
       },
       {
@@ -427,6 +433,7 @@ export default {
         puppy_charge: false,
         discount: false,
         heading: "Pet Grooming",
+        title: "pet_grooming",
         enabled: false
       }
     ],
@@ -539,7 +546,7 @@ export default {
           Authorization: "Token " + authStore.userToken()
         }
       };
-      this.applyChecks();
+      let active_services = this.applyChecks();
       const type_of_pets = this.getSelectedPetypes();
       let data_to_save = {
         pet_hosting: JSON.stringify(this.items[0]),
@@ -557,7 +564,8 @@ export default {
         cancellation_policy: this.cancellation_policy,
         pref_info : this.pref_info,
         pref_park_info: this.pref_park_info,
-        pref_time_info : this.pref_time_info ,
+        pref_time_info : this.pref_time_info,
+        active_services : JSON.stringify(active_services)
       };
       console.log(data_to_save);
       axios.post(urls.URL + "/host/services/",data_to_save, config).then(res => {
@@ -575,13 +583,16 @@ export default {
       });
     },
     applyChecks(){
+      let active_services = [];
       this.datas.forEach((el,i)=>{
           if(el.enabled){
+            active_services.push(this.datas[i].title);
             this.items[i].optional = "on";
           }else{
             this.items[i].optional = "off";
           }
-      })
+      });
+      return active_services;
     }
   }
 };

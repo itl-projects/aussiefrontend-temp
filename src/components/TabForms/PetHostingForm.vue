@@ -78,7 +78,7 @@
           class="pa-0 ma-0"
         >
           <template v-slot:activator="{ on, attrs }">
-            <v-select v-bind="attrs" v-on="on" label="My Pets" outlined dense></v-select>
+            <v-select v-bind="attrs" v-on="on" :label="petSelected" outlined dense></v-select>
           </template>
           <v-list class="pa-0 ma-0">
             <v-row style="max-width:300px">
@@ -117,7 +117,7 @@ import urls from "@/axios/config";
 
 export default {
   name: "PetHostingForm",
-  props:["items"],
+  props:["items","serviceType"],
   data: () => ({
     closeOnContext:false,
     start_date:null,
@@ -129,6 +129,7 @@ export default {
     searchPlace:null,
     place_loading:false,
     place:"",
+    petSelected: "Choose Pet(s)",
 
   }),
   watch:{
@@ -159,11 +160,21 @@ export default {
         this.items[num].count = this.items[num].count - 1;
     },
     closeMenu() {
-      console.log()
+      this.petSelected = "";
+      this.items.forEach(el => {
+        if (el.count > 0) {
+          if (this.petSelected == "") this.petSelected = el.title;
+          else this.petSelected = this.petSelected + "," + el.title;
+        }
+      });
+      if (this.petSelected == "") {
+        this.petSelected = "Choose Pet(s)";
+      }
       this.menu = false;
     },
     showHosts() {
-        this.$router.push({path:'/hostsearch',query:{city:this.place,start_date:this.start_date}});
+      console.log(this.serviceType);
+        this.$router.push({path:'/hostsearch',query:{city:this.place,service:this.serviceType,start_date:this.start_date}});
         // router.push("/hostsearch");
     },
   }

@@ -351,27 +351,6 @@
                                   </v-col>
                                 </v-row>
                               </v-col>
-                              <!-- <v-col cols="12" sm="6">
-                                <v-row align="center">
-                                  <v-col cols="2">
-                                    <v-avatar color="white">
-                                      <v-icon x-large color="rgb(63, 224, 126)">mdi-car-hatchback</v-icon>
-                                    </v-avatar>
-                                  </v-col>
-                                  <v-col cols="5">
-                                    <v-label>Pet Sitting</v-label>
-                                    <br />
-                                    <span class="grey--text">At Pet's Home</span>
-                                  </v-col>
-                                  <v-divider vertical />
-                                  <v-col cols="4">
-                                    <v-label>
-                                      $33
-                                      <span class="grey--text">/ night</span>
-                                    </v-label>
-                                  </v-col>
-                                </v-row>
-                              </v-col> -->
                             </v-row>
                           </v-col>
                         </v-row>
@@ -630,15 +609,6 @@
                 </v-card>
               </v-tab-item>
               
-              <!-- <v-tab-item key="policy">
-                <v-card flat>
-                  <v-card-text>
-                    <v-container fluid class="px-6">
-                     
-                    </v-container>
-                  </v-card-text>
-                </v-card>
-              </v-tab-item> -->
               <v-tab-item key="photos">
                 <v-card flat>
                   <v-card-text>
@@ -810,6 +780,7 @@ export default {
       tab: null,
       rating: 3,
       serviceSelected: "",
+      service_choosen:"",
       serviceType: [
         {img:"mdi-dog",title:"Pet Hosting", type:1,price:0},
         {img:"mdi-dog",title:"Pet Sitting", type:1,price:0},
@@ -920,13 +891,15 @@ export default {
   created: function() {
     this.city = this.$route.query.city == undefined ? "" : this.$route.query.city;
     this.host_id = this.$route.query.query == undefined ? "" : this.$route.query.query;
+    this.service_choosen = this.$route.query.service == undefined ? "" : this.$route.query.service;
     if(this.host_id == "" || this.host_id == null){
       router.back();
-    }
+    }else{
     this.getHostDetails();
     this.serviceSelected = this.serviceType[0];
     this.getPetsType();
     window.scroll({ top: 0, left: 0, behavior: "smooth" });
+    }
   },
   methods: {
     increment(num) {

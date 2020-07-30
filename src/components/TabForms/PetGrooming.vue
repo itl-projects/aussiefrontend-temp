@@ -89,7 +89,7 @@ import axios from "axios";
 import urls from "@/axios/config";
 export default {
   name: "PetGroomingForm",
-  props:["items"],
+  props:["items","serviceType"],
   data: function() {
     return {
     closeOnContext:false,
@@ -137,7 +137,16 @@ export default {
         this.items[num].count = this.items[num].count - 1;
     },
     closeMenu() {
-      console.log()
+      this.petSelected = "";
+      this.items.forEach(el => {
+        if (el.count > 0) {
+          if (this.petSelected == "") this.petSelected = el.title;
+          else this.petSelected = this.petSelected + "," + el.title;
+        }
+      });
+      if (this.petSelected == "") {
+        this.petSelected = "Choose Pet(s)";
+      }
       this.menu = false;
     },
     showHosts() {
@@ -146,7 +155,7 @@ export default {
         this.nameErrors.push("Enter suburb or address");
         return ;
       }
-        this.$router.push({path:'/hostsearch',query:{city:this.place,start_date:this.start_date}});
+        this.$router.push({path:'/hostsearch',query:{city:this.place,service:this.serviceType,start_date:this.start_date}});
         // router.push("/hostsearch");
     },
   }
