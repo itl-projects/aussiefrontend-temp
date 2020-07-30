@@ -447,12 +447,7 @@ export default {
     types_of_pet : [],
     pick_drop_service_cost:0
   }),
-  created:function(){
-    if(authStore.isSignedIn()){
-        authStore.logout();
-        router.replace('/login');
-          }
-  },
+  
   mounted() {
     this.getServices();
   },

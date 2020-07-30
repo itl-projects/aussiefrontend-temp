@@ -6,7 +6,7 @@
           <v-card-title class="subheading font-weight-bold py-1">
             <v-row align="center">
               <v-col cols="3" class="py-0" sm="1">
-                <v-avatar class="ml-3">
+                <v-avatar class="ml-3" color="#707070">
                   <img :src="reciever.avatar" :lazy-src="reciever.avatar" alt="ABC" />
                 </v-avatar>
               </v-col>
@@ -34,7 +34,7 @@
                     class="px-4 chat-message mb-6"
                     style="max-width:50%;position:relative;width:auto;"
                   >
-                    <pre class="message">{{ item.message }}</pre>
+                    <pre class="message">{{ item.message.trim() }}</pre>
                     <span style="float: right;font-size: 0.9rem;">{{ item.time | formatDate }}</span>
                   </div>
                 </v-row>
@@ -57,7 +57,7 @@
                 ></v-textarea>
               </v-col>
               <v-col cols="1">
-                <v-btn small fab dark color="teal" @click="sendMessage">
+                <v-btn small fab dark color="orange" @click="sendMessage">
                   <v-icon dark>mdi-send</v-icon>
                 </v-btn>
               </v-col>
@@ -103,7 +103,6 @@ export default {
   },
   methods: {
     keyEntered(event) {
-      
       if (event.key == "Enter" && event.shiftKey == false) {
         event.preventDefault();
         this.sendMessage();

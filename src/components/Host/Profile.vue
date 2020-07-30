@@ -12,12 +12,12 @@
       </v-tabs>
       <v-tabs-items v-model="tab">
         <v-tab-item key="services">
-         <v-container>
-              <ServicesAndRates/>
-         </v-container>
+          <v-container>
+            <ServicesAndRates />
+          </v-container>
         </v-tab-item>
-         <v-tab-item key="about">
-          <PersonalDetails/>
+        <v-tab-item key="about">
+          <PersonalDetails />
         </v-tab-item>
         <v-tab-item key="experience">
           <v-card-text>Balance household</v-card-text>
@@ -26,11 +26,10 @@
           <v-card-text>settings</v-card-text>
         </v-tab-item>
         <v-tab-item key="pets">
-          <v-card-text>Pets </v-card-text>
+          <v-card-text>Pets</v-card-text>
         </v-tab-item>
       </v-tabs-items>
     </v-card>
-    
   </div>
 </template>
 <script>
@@ -38,20 +37,21 @@ import ServicesAndRates from "@/components/Host/ServicesAndRates";
 import PersonalDetails from "@/components/Host/PersonalDetails";
 export default {
   name: "Profile",
-  components:{ServicesAndRates,PersonalDetails},
-  data: function(){
+  components: { ServicesAndRates, PersonalDetails },
+  data: function() {
     return {
-      tab:null
+      tab: null
+    };
+  },
+
+  computed: {},
+  methods: {},
+  created: function() {
+    if (!authStore.isSignedIn()) {
+      authStore.logout();
+      router.replace("/login");
+    }
   }
-  },
-
-  computed: {
-   
-  },
-  methods: {
-    
-  },
-
 };
 </script>
 <style scoped>

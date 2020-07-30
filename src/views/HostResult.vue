@@ -269,6 +269,7 @@
                       @previous="formerPage"
                       @input="updateItemsPerPage"
                       circle
+                      color="#2c7873"
                     ></v-pagination>
                   </div>
                 </template>

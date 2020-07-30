@@ -20,7 +20,6 @@
                       :value="item.total_messages"
                       color="orange accent-4"
                       avatar
-                      
                       overlap
                     >
                       <v-avatar class="ml-3" color="#989898">
@@ -81,6 +80,7 @@
             @input="updateItemsPerPage"
             circle
             color="#2c7873"
+          
           ></v-pagination>
         </div>
       </template>
