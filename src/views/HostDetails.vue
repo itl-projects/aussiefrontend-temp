@@ -6,52 +6,55 @@
         <v-col cols="12" sm="8">
           <v-row>
             <v-col cols="12" sm="4" class="text-center">
-          <v-avatar size="200px" color="#989898" v-if="host_additional_data.avatar">
-            <v-img
-              lazy-src="@/assets/images/icon-people-circle.svg"
-              :src="img_url.slice(0,img_url.length-1) + host_additional_data.avatar"
-            />
-          </v-avatar>
-        </v-col>
-        <v-col cols="12" sm="8">
-          <h1
-            style="font-weight: 500; color: #2c7873;"
-          >{{host_details.first_name}} {{host_details.last_name}}</h1>
-          <div class="flex mt-2 mb-2">
-            <v-icon>mdi-acc-countircle</v-icon>
-            <v-icon>mdi-acc-countircle</v-icon>
-            <v-icon>mdi-acc-countircle</v-icon>
-            <v-icon>mdi-acc-countircle</v-icon>
-          </div>
-          <v-label class="heading" style="font-size: 1.4rem;">Reliable and VERY caring dog sitter.</v-label>
-          <div class="flex mt-2">
-            <v-btn outlined color="#2c7873" x-small>7 Repeat guest</v-btn>
-            <v-rating
-              style="display: inline-block;"
-              v-model="rating"
-              color="warning"
-              half-increments
-              dense
-              small
-              size="18"
-            ></v-rating>
-            <v-btn
-              small
-              text
-              color="#2c7873"
-              style="letter-spacing: 0; text-transform: lowercase;"
-            >28 reviews</v-btn>
-          </div>
-          <div class="flex">
-            <v-chip small class="mt-2">respond within a day</v-chip>
-            <v-chip class="ml-2 mt-2" small>92% response rate</v-chip>
-          </div>
-        </v-col>
+              <v-avatar size="200px" color="#989898" v-if="host_additional_data.avatar">
+                <v-img
+                  lazy-src="@/assets/images/icon-people-circle.svg"
+                  :src="img_url.slice(0,img_url.length-1) + host_additional_data.avatar"
+                />
+              </v-avatar>
+            </v-col>
+            <v-col cols="12" sm="8">
+              <h1
+                style="font-weight: 500; color: #2c7873;"
+              >{{host_details.first_name}} {{host_details.last_name}}</h1>
+              <div class="flex mt-2 mb-2">
+                <v-icon>mdi-acc-countircle</v-icon>
+                <v-icon>mdi-acc-countircle</v-icon>
+                <v-icon>mdi-acc-countircle</v-icon>
+                <v-icon>mdi-acc-countircle</v-icon>
+              </div>
+              <v-label
+                class="heading"
+                style="font-size: 1.4rem;"
+              >Reliable and VERY caring dog sitter.</v-label>
+              <div class="flex mt-2">
+                <v-btn outlined color="#2c7873" x-small>7 Repeat guest</v-btn>
+                <v-rating
+                  style="display: inline-block;"
+                  v-model="rating"
+                  color="warning"
+                  half-increments
+                  dense
+                  small
+                  size="18"
+                ></v-rating>
+                <v-btn
+                  small
+                  text
+                  color="#2c7873"
+                  style="letter-spacing: 0; text-transform: lowercase;"
+                >28 reviews</v-btn>
+              </div>
+              <div class="flex">
+                <v-chip small class="mt-2">respond within a day</v-chip>
+                <v-chip class="ml-2 mt-2" small>92% response rate</v-chip>
+              </div>
+            </v-col>
           </v-row>
           <v-row>
             <v-col cols="12" class="px-sm-10 about-box ml-sm-1 mt-4">
-              <h3>About Host: </h3>
-              <span> {{ host_additional_data.hostbio }} </span>
+              <h3>About Host:</h3>
+              <span>{{ host_additional_data.hostbio }}</span>
             </v-col>
           </v-row>
         </v-col>
@@ -65,17 +68,36 @@
                   >{{ serviceSelected.title }}</h2>
                 </v-col>
                 <v-col cols="6" class="py-0 text-end">
-                  <h3 style="font-weight:400;color: #2c7873; display: inline-block;">${{serviceSelected.price}}</h3>
+                  <h3
+                    style="font-weight:400;color: #2c7873; display: inline-block;"
+                  >${{serviceSelected.price}}</h3>
                   <span style="font-size: 0.7rem;">/night</span>
                 </v-col>
               </v-row>
             </v-card-title>
             <v-divider></v-divider>
             <v-card-text>
+              <v-alert
+                v-if="alert.show"
+                dense
+                border="left"
+                :type="alert.type"
+                dismissible
+                class="text-start"
+              >{{alert.message}}</v-alert>
               <v-container>
                 <v-form ref="form" v-model="valid">
                   <v-label>I'm looking for</v-label>
-                  <v-select :rules="[rules.required]" return-object v-model="serviceSelected" item-text="title" :items="serviceType" outlined dense @change="selectChange"></v-select>
+                  <v-select
+                    :rules="[rules.required]"
+                    return-object
+                    v-model="serviceSelected"
+                    item-text="title"
+                    :items="serviceType"
+                    outlined
+                    dense
+                    @change="selectChange"
+                  ></v-select>
                   <v-spacer></v-spacer>
                   <v-label>My Pet(s)</v-label>
                   <v-menu v-model="menu" :close-on-content-click="closeOnContext" class="pa-0 ma-0">
@@ -83,6 +105,7 @@
                       <v-select
                         v-bind="attrs"
                         v-on="on"
+                        v-model="petSelected"
                         :label="petSelected"
                         :error-messages="petSelectErrors"
                         :rules="[rules.required]"
@@ -125,7 +148,7 @@
                       </v-list-item-action>
                     </v-list>
                   </v-menu>
-                  
+
                   <v-spacer />
                   <v-row v-if="dayService">
                     <v-col cols="12" class="pb-0">
@@ -144,6 +167,7 @@
                             v-model="start_date"
                             label="Select Date"
                             :error-messages="errorStartDate"
+                            :rules="[rules.required]"
                             append-icon="mdi-calendar"
                             outlined
                             dense
@@ -151,14 +175,22 @@
                             v-on="on"
                           ></v-text-field>
                         </template>
-                        <v-date-picker v-model="start_date" scrollable  color="#2c7873" :min="min_date" multiple>
+                        <v-date-picker
+                          v-model="start_date"
+                          scrollable
+                          color="#2c7873"
+                          :min="min_date"
+                        >
                           <v-spacer></v-spacer>
                           <v-btn text color="#2c7873" @click="start_modal = false">Cancel</v-btn>
-                          <v-btn text color="#2c7873" @click="$refs.start_dialog.save(start_date)">OK</v-btn>
+                          <v-btn
+                            text
+                            color="#2c7873"
+                            @click="$refs.start_dialog.save(start_date)"
+                          >OK</v-btn>
                         </v-date-picker>
                       </v-dialog>
                     </v-col>
-                   
                   </v-row>
                   <v-row v-else>
                     <v-col cols="12" class="pb-0">
@@ -169,6 +201,7 @@
                         ref="start_dialog"
                         v-model="start_modal"
                         :return-value.sync="start_date"
+                        :rules="[rules.required]"
                         persistent
                         width="290px"
                       >
@@ -186,10 +219,19 @@
                             v-on="on"
                           ></v-text-field>
                         </template>
-                        <v-date-picker v-model="start_date" scrollable  color="#2c7873" :min="min_date">
+                        <v-date-picker
+                          v-model="start_date"
+                          scrollable
+                          color="#2c7873"
+                          :min="min_date"
+                        >
                           <v-spacer></v-spacer>
                           <v-btn text color="#2c7873" @click="start_modal = false">Cancel</v-btn>
-                          <v-btn text color="#2c7873" @click="$refs.start_dialog.save(start_date)">OK</v-btn>
+                          <v-btn
+                            text
+                            color="#2c7873"
+                            @click="$refs.start_dialog.save(start_date)"
+                          >OK</v-btn>
                         </v-date-picker>
                       </v-dialog>
                     </v-col>
@@ -198,6 +240,7 @@
                         ref="pickup_dialog"
                         v-model="pickup_modal"
                         :return-value.sync="pickup_date"
+                        :rules="[rules.required]"
                         persistent
                         width="290px"
                       >
@@ -215,10 +258,19 @@
                             v-on="on"
                           ></v-text-field>
                         </template>
-                        <v-date-picker v-model="pickup_date" scrollable color="#2c7873" :min="min_date">
+                        <v-date-picker
+                          v-model="pickup_date"
+                          scrollable
+                          color="#2c7873"
+                          :min="min_date"
+                        >
                           <v-spacer></v-spacer>
                           <v-btn text color="#2c7873" @click="pickup_modal = false">Cancel</v-btn>
-                          <v-btn text color="#2c7873" @click="$refs.pickup_dialog.save(pickup_date)">OK</v-btn>
+                          <v-btn
+                            text
+                            color="#2c7873"
+                            @click="$refs.pickup_dialog.save(pickup_date)"
+                          >OK</v-btn>
                         </v-date-picker>
                       </v-dialog>
                     </v-col>
@@ -226,10 +278,12 @@
 
                   <v-spacer />
                   <v-btn
-                    :disabled="valid"
+                    :disabled="!valid"
                     color="#2c7873"
                     class="mt-8 white--text"
                     block
+                    @click="generateContract"
+                    :loading="generatingContract"
                   >Contact Host</v-btn>
                 </v-form>
               </v-container>
@@ -244,19 +298,18 @@
               <v-tabs-slider color="orange"></v-tabs-slider>
               <v-tab key="services_rates">Services and Rates</v-tab>
               <v-tab key="pet-accept">Pet Accept</v-tab>
-              
+
               <v-tab key="photos">Photos</v-tab>
               <v-tab key="rating">Rating and Review</v-tab>
             </v-tabs>
 
             <v-tabs-items v-model="tab">
-             
               <v-tab-item key="services_rates">
                 <v-card flat>
                   <v-card-text>
                     <!-- <v-container fluid> -->
-                      <h2 class="top-heading">Services</h2>
-                       <!-- <v-divider/> -->
+                    <h2 class="top-heading">Services</h2>
+                    <!-- <v-divider/> -->
                     <v-row>
                       <v-col cols="12" sm="6" class="py-0">
                         <v-row>
@@ -287,9 +340,7 @@
                                       $ {{pet_hosting.price}}
                                       <span class="grey--text">/ night</span>
                                     </v-label>
-                                    <v-label v-else>
-                                     not offered
-                                    </v-label>
+                                    <v-label v-else>not offered</v-label>
                                   </v-col>
                                 </v-row>
                               </v-col>
@@ -312,13 +363,11 @@
                                   </v-col>
                                   <v-divider vertical />
                                   <v-col cols="4">
-                                     <v-label v-if="pet_sitting.provided">
+                                    <v-label v-if="pet_sitting.provided">
                                       $ {{pet_sitting.price}}
                                       <span class="grey--text">/ night</span>
                                     </v-label>
-                                    <v-label v-else>
-                                     not offered
-                                    </v-label>
+                                    <v-label v-else>not offered</v-label>
                                   </v-col>
                                 </v-row>
                               </v-col>
@@ -345,9 +394,7 @@
                                       $ {{pick_drop_service.price}}
                                       <span class="grey--text">/ night</span>
                                     </v-label>
-                                    <v-label v-else>
-                                     not offered
-                                    </v-label>
+                                    <v-label v-else>not offered</v-label>
                                   </v-col>
                                 </v-row>
                               </v-col>
@@ -376,13 +423,11 @@
                               </v-col>
                               <v-divider vertical />
                               <v-col cols="4">
-                               <v-label v-if="pet_day_care.provided">
-                                      $ {{pet_day_care.price}}
-                                      <span class="grey--text">/ night</span>
-                                    </v-label>
-                                    <v-label v-else>
-                                     not offered
-                                    </v-label>
+                                <v-label v-if="pet_day_care.provided">
+                                  $ {{pet_day_care.price}}
+                                  <span class="grey--text">/ night</span>
+                                </v-label>
+                                <v-label v-else>not offered</v-label>
                               </v-col>
                             </v-row>
                           </v-col>
@@ -404,12 +449,10 @@
                               <v-divider vertical />
                               <v-col cols="4">
                                 <v-label v-if="house_visits.provided">
-                                      $ {{house_visits.price}}
-                                      <span class="grey--text">/ night</span>
-                                    </v-label>
-                                    <v-label v-else>
-                                     not offered
-                                    </v-label>
+                                  $ {{house_visits.price}}
+                                  <span class="grey--text">/ night</span>
+                                </v-label>
+                                <v-label v-else>not offered</v-label>
                               </v-col>
                             </v-row>
                           </v-col>
@@ -436,12 +479,10 @@
                               <v-divider vertical />
                               <v-col cols="4">
                                 <v-label v-if="excercise_walk_service.provided">
-                                      $ {{excercise_walk_service.price}}
-                                      <span class="grey--text">/ night</span>
-                                    </v-label>
-                                    <v-label v-else>
-                                     not offered
-                                    </v-label>
+                                  $ {{excercise_walk_service.price}}
+                                  <span class="grey--text">/ night</span>
+                                </v-label>
+                                <v-label v-else>not offered</v-label>
                               </v-col>
                             </v-row>
                           </v-col>
@@ -463,12 +504,10 @@
                               <v-divider vertical />
                               <v-col cols="4">
                                 <v-label v-if="pet_grooming.provided">
-                                      $ {{pet_grooming.price}}
-                                      <span class="grey--text">/ night</span>
-                                    </v-label>
-                                    <v-label v-else>
-                                     not offered
-                                    </v-label>
+                                  $ {{pet_grooming.price}}
+                                  <span class="grey--text">/ night</span>
+                                </v-label>
+                                <v-label v-else>not offered</v-label>
                               </v-col>
                             </v-row>
                           </v-col>
@@ -495,48 +534,54 @@
                               <v-divider vertical />
                               <v-col cols="4">
                                 <v-label v-if="pet_training.provided">
-                                      $ {{pet_training.price}}
-                                      <span class="grey--text">/ night</span>
-                                    </v-label>
-                                    <v-label v-else>
-                                     not offered
-                                    </v-label>
+                                  $ {{pet_training.price}}
+                                  <span class="grey--text">/ night</span>
+                                </v-label>
+                                <v-label v-else>not offered</v-label>
                               </v-col>
                             </v-row>
                           </v-col>
                         </v-row>
                       </v-col>
                     </v-row>
-                    <v-divider/>
+                    <v-divider />
                     <v-row>
                       <v-col cols="12" sm="12">
                         <h2 class="top-heading">Policy</h2>
-                         <v-row class="ml-6">
-                        <v-col cols="12">
-                          <v-badge :icon="cancellation_policy.provided ? 'mdi-check' : 'mdi-close'" :color="cancellation_policy.provided ? 'green' : 'grey'"  left offset-y="15" offset-x="-5">
-                            <b>Cancellation: {{cancellation_policy.type}}</b>
-                          </v-badge>
-                          <p
-                            class="mb-0"
-                          >A full refund will be offered to Pet Owners if they cancel up until 7 days before the booking at 12 noon. After which Pet Owners will be charged 50% of the total booking value.</p>
-                        </v-col>
-                        <v-col cols="12">
-                          <v-badge
-                            :icon="long_term_bookings.provided  ? 'mdi-check' : 'mdi-close'" :color="long_term_bookings.provided  ? 'green' : 'grey'" 
-                            left
-                            offset-y="15"
-                            offset-x="-5"
-                          >Accepts long-term bookings</v-badge>
-                        </v-col>
-                        <v-col cols="12">
-                          <v-badge
-                            :icon="last_min_bookings.provided  ? 'mdi-check' : 'mdi-close'" :color="last_min_bookings.provided  ? 'green' : 'grey'" 
-                            left
-                            offset-y="15"
-                            offset-x="-5"
-                          >Accepts last-minute bookings</v-badge>
-                        </v-col>
-                      </v-row>
+                        <v-row class="ml-6">
+                          <v-col cols="12">
+                            <v-badge
+                              :icon="cancellation_policy.provided ? 'mdi-check' : 'mdi-close'"
+                              :color="cancellation_policy.provided ? 'green' : 'grey'"
+                              left
+                              offset-y="15"
+                              offset-x="-5"
+                            >
+                              <b>Cancellation: {{cancellation_policy.type}}</b>
+                            </v-badge>
+                            <p
+                              class="mb-0"
+                            >A full refund will be offered to Pet Owners if they cancel up until 7 days before the booking at 12 noon. After which Pet Owners will be charged 50% of the total booking value.</p>
+                          </v-col>
+                          <v-col cols="12">
+                            <v-badge
+                              :icon="long_term_bookings.provided  ? 'mdi-check' : 'mdi-close'"
+                              :color="long_term_bookings.provided  ? 'green' : 'grey'"
+                              left
+                              offset-y="15"
+                              offset-x="-5"
+                            >Accepts long-term bookings</v-badge>
+                          </v-col>
+                          <v-col cols="12">
+                            <v-badge
+                              :icon="last_min_bookings.provided  ? 'mdi-check' : 'mdi-close'"
+                              :color="last_min_bookings.provided  ? 'green' : 'grey'"
+                              left
+                              offset-y="15"
+                              offset-x="-5"
+                            >Accepts last-minute bookings</v-badge>
+                          </v-col>
+                        </v-row>
                       </v-col>
                     </v-row>
                     <!-- </v-container> -->
@@ -548,56 +593,80 @@
                   <v-card-text class="px-10" style="font-size: 1.2rem;white-space: pre-line;">
                     <v-row>
                       <v-col class="text-center mb-2" cols="2">
-                        <v-badge :icon="pet_types.includes('Dog Small (0-10kg)') ? 'mdi-check' : 'mdi-close'" :color="pet_types.includes('Dog Small (0-10kg)') ? 'green' : 'grey'">
+                        <v-badge
+                          :icon="pet_types.includes('Dog Small (0-10kg)') ? 'mdi-check' : 'mdi-close'"
+                          :color="pet_types.includes('Dog Small (0-10kg)') ? 'green' : 'grey'"
+                        >
                           <v-icon large>mdi-donkey</v-icon>
                         </v-badge>
                         <br />
                         <v-label>Small Dog</v-label>
                       </v-col>
-                      <v-col class="text-center mb-2" cols="2" >
-                        <v-badge :icon="pet_types.includes('Medium Dog(11-20kg)') ? 'mdi-check' : 'mdi-close'" :color="pet_types.includes('Medium Dog(11-20kg)') ? 'green' : 'grey'" >
+                      <v-col class="text-center mb-2" cols="2">
+                        <v-badge
+                          :icon="pet_types.includes('Medium Dog(11-20kg)') ? 'mdi-check' : 'mdi-close'"
+                          :color="pet_types.includes('Medium Dog(11-20kg)') ? 'green' : 'grey'"
+                        >
                           <v-icon large>mdi-dog</v-icon>
                         </v-badge>
                         <br />
                         <v-label>Medium Dog</v-label>
                       </v-col>
                       <v-col class="text-center mb-2" cols="2">
-                        <v-badge :icon="pet_types.includes('Large Dog(21-40kg)') ? 'mdi-check' : 'mdi-close'" :color="pet_types.includes('Large Dog(21-40kg)') ? 'green' : 'grey'">
+                        <v-badge
+                          :icon="pet_types.includes('Large Dog(21-40kg)') ? 'mdi-check' : 'mdi-close'"
+                          :color="pet_types.includes('Large Dog(21-40kg)') ? 'green' : 'grey'"
+                        >
                           <v-icon large>mdi-dog-side</v-icon>
                         </v-badge>
                         <br />
                         <v-label>Large Dog</v-label>
                       </v-col>
                       <v-col class="text-center mb-2" cols="2">
-                        <v-badge :icon="pet_types.includes('Gaint Dog(41+kg)') ? 'mdi-check' : 'mdi-close'" :color="pet_types.includes('Gaint Dog(41+kg)') ? 'green' : 'grey'">
+                        <v-badge
+                          :icon="pet_types.includes('Gaint Dog(41+kg)') ? 'mdi-check' : 'mdi-close'"
+                          :color="pet_types.includes('Gaint Dog(41+kg)') ? 'green' : 'grey'"
+                        >
                           <v-icon large>mdi-dog-service</v-icon>
                         </v-badge>
                         <br />
                         <v-label>Gaint Dog</v-label>
                       </v-col>
                       <v-col class="text-center mb-2" cols="2">
-                        <v-badge :icon="pet_types.includes('Puppy') ? 'mdi-check' : 'mdi-close'" :color="pet_types.includes('Puppy') ? 'green' : 'grey'">
+                        <v-badge
+                          :icon="pet_types.includes('Puppy') ? 'mdi-check' : 'mdi-close'"
+                          :color="pet_types.includes('Puppy') ? 'green' : 'grey'"
+                        >
                           <v-icon large>mdi-paw</v-icon>
                         </v-badge>
                         <br />
                         <v-label>Puppy</v-label>
                       </v-col>
                       <v-col class="text-center mb-2" cols="2">
-                        <v-badge :icon="pet_types.includes('Cats') ? 'mdi-check' : 'mdi-close'" :color="pet_types.includes('Cats') ? 'green' : 'grey'">
+                        <v-badge
+                          :icon="pet_types.includes('Cats') ? 'mdi-check' : 'mdi-close'"
+                          :color="pet_types.includes('Cats') ? 'green' : 'grey'"
+                        >
                           <v-icon large>mdi-cat</v-icon>
                         </v-badge>
                         <br />
                         <v-label>Cats</v-label>
                       </v-col>
                       <v-col class="text-center mb-2" cols="2">
-                        <v-badge :icon="pet_types.includes('Birds') ? 'mdi-check' : 'mdi-close'" :color="pet_types.includes('Birds') ? 'green' : 'grey'">
+                        <v-badge
+                          :icon="pet_types.includes('Birds') ? 'mdi-check' : 'mdi-close'"
+                          :color="pet_types.includes('Birds') ? 'green' : 'grey'"
+                        >
                           <v-icon large>mdi-owl</v-icon>
                         </v-badge>
                         <br />
                         <v-label>Birds</v-label>
                       </v-col>
                       <v-col class="text-center mb-2" cols="2">
-                        <v-badge :icon="pet_types.includes('Rabbit / Guinea Pig') ? 'mdi-check' : 'mdi-close'" :color="pet_types.includes('Rabbit / Guinea Pig') ? 'green' : 'grey'">
+                        <v-badge
+                          :icon="pet_types.includes('Rabbit / Guinea Pig') ? 'mdi-check' : 'mdi-close'"
+                          :color="pet_types.includes('Rabbit / Guinea Pig') ? 'green' : 'grey'"
+                        >
                           <v-icon large>mdi-rabbit</v-icon>
                           <v-icon large>mdi-pig</v-icon>
                         </v-badge>
@@ -608,7 +677,7 @@
                   </v-card-text>
                 </v-card>
               </v-tab-item>
-              
+
               <v-tab-item key="photos">
                 <v-card flat>
                   <v-card-text>
@@ -729,9 +798,9 @@
           </v-card>
         </v-col>
       </v-row>
-        <v-overlay :value="overlay" :opacity="opacity" color="white" :absolute="true" >
-      <v-progress-circular indeterminate size="64" color="#2c7873"></v-progress-circular>
-    </v-overlay>
+      <v-overlay :value="overlay" :opacity="opacity" color="white" :absolute="true">
+        <v-progress-circular indeterminate size="64" color="#2c7873"></v-progress-circular>
+      </v-overlay>
     </v-container>
     <Footer />
     <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
@@ -750,7 +819,57 @@
         </v-card-text>
       </v-card>
     </v-dialog>
-  
+    <v-dialog v-model="login_dialog" persistent max-width="400">
+      <v-card>
+        <v-card-title class="login-box-title">Login</v-card-title>
+        <v-card-text>
+          <v-alert
+            v-if="alert.show"
+            dense
+            border="left"
+            type="error"
+            dismissible
+            class="mx-sm-10 text-start"
+          >{{alert.message}}</v-alert>
+
+          <form ref="loginForm" @submit="loginUser" class="form-size">
+            <v-text-field
+              v-model="email"
+              :rules="emailrule"
+              :error-messages="errorEmail"
+              label="Enter E-mail / Mobile number"
+              outlined
+              required
+              dense
+              hide-details="auto"
+            ></v-text-field>
+            <v-text-field
+              class="mt-3"
+              v-model="password"
+              :rules="passwordrule"
+              :error-messages="errorPass"
+              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="show1 ? 'text' : 'password'"
+              label="Enter Password"
+              outlined
+              dense
+              @click:append="show1 = !show1"
+              required
+            ></v-text-field>
+            <v-btn
+              block
+              class="mt-4"
+              dark
+              color="#2c7873"
+              type="submit"
+              :loading="logging_in"
+            >Sign in</v-btn>
+
+            <v-btn block class="mt-4" dark color="red" @click="login_dialog = false">Cancel</v-btn>
+          </form>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -760,7 +879,8 @@ import Footer from "@/components/Footer";
 import galleryView from "@/components/commons/PictureGallery";
 import * as axios from "axios";
 import urls from "@/axios/config";
-import router from '../router';
+import router from "@/router";
+import authStore from "@/store/auth";
 
 export default {
   name: "HostDetailPage",
@@ -771,8 +891,18 @@ export default {
   },
   data() {
     return {
-      host_id:null,
-      city:null,
+      passwordrule: [v => !!v || "Password is required"],
+      emailrule: [v => !!v || "E-mail/Mobile number is required"],
+      email: "",
+      password: "",
+      show1: false,
+      errorEmail: [],
+      errorPass: [],
+      logging_in: false,
+      login_dialog: false,
+      alert: { show: false, message: "", type: "" },
+      host_id: null,
+      city: null,
       valid: true,
       dialog: false,
       closeOnContext: false,
@@ -780,15 +910,58 @@ export default {
       tab: null,
       rating: 3,
       serviceSelected: "",
-      service_choosen:"",
+      service_choosen: "",
+      generatingContract: false,
       serviceType: [
-        {img:"mdi-dog",title:"Pet Hosting", type:1,price:0},
-        {img:"mdi-dog",title:"Pet Sitting", type:1,price:0},
-        {img:"mdi-dog",title:"Pet Day Care", type:2,price:0},
-        {img:"mdi-dog",title:"House Visiting", type:2,price:0},
-        {img:"mdi-dog",title:"Dog Walking", type:2,price:0},         
-        {img:"mdi-dog",title:"Dog Grooming", type:2,price:0},
-        {img:"mdi-dog",title:"Pet Training", type:2,price:0},
+        {
+          img: "mdi-dog",
+          title: "Pet Hosting",
+          type: 1,
+          price: 0,
+          name: "pet_hosting"
+        },
+        {
+          img: "mdi-dog",
+          title: "Pet Sitting",
+          type: 1,
+          price: 0,
+          name: "pet_sitting"
+        },
+        {
+          img: "mdi-dog",
+          title: "Pet Day Care",
+          type: 2,
+          price: 0,
+          name: "pet_day_care"
+        },
+        {
+          img: "mdi-dog",
+          title: "House Visiting",
+          type: 2,
+          price: 0,
+          name: "house_visits"
+        },
+        {
+          img: "mdi-dog",
+          title: "Excersice Walk Service",
+          type: 2,
+          price: 0,
+          name: "excersice_walk_service"
+        },
+        {
+          img: "mdi-dog",
+          title: "Pet Grooming",
+          type: 2,
+          price: 0,
+          name: "pet_grooming"
+        },
+        {
+          img: "mdi-dog",
+          title: "Pet Training",
+          type: 2,
+          price: 0,
+          name: "pet_training"
+        }
       ],
       petTypes: [],
       petSelected: "Choose Pet(s)",
@@ -843,62 +1016,68 @@ export default {
           rating: 4.5
         }
       ],
-      start_modal:false,
-      pickup_modal:false,
+      start_modal: false,
+      pickup_modal: false,
       start_date: null,
       pickup_date: null,
       isDayHosting: false,
-      min_date:new Date().toISOString().substr(0, 10),
-      cancellation_policy:{provided:false,type:""},
-      excercise_walk_service:{provided:false,price:0},
-      house_visits:{provided:false,price:0},
-      last_min_bookings:{provided:false,price:0},
-      long_term_bookings:{provided:false,price:0},
-      pet_day_care:{provided:false,price:0},
-      pet_grooming:{provided:false,price:0},
-      pet_hosting:{provided:false,price:0},
-      pet_sitting:{provided:false,price:0},
-      pet_training:{provided:false,price:0},
-      pick_drop_service:{provided:false,price:0},
-      pet_types:[],
-      dayService:false,
+      min_date: new Date().toISOString().substr(0, 10),
+      cancellation_policy: { provided: false, type: "" },
+      excercise_walk_service: { provided: false, price: 0 },
+      house_visits: { provided: false, price: 0 },
+      last_min_bookings: { provided: false, price: 0 },
+      long_term_bookings: { provided: false, price: 0 },
+      pet_day_care: { provided: false, price: 0 },
+      pet_grooming: { provided: false, price: 0 },
+      pet_hosting: { provided: false, price: 0 },
+      pet_sitting: { provided: false, price: 0 },
+      pet_training: { provided: false, price: 0 },
+      pick_drop_service: { provided: false, price: 0 },
+      pet_types: [],
+      dayService: false,
       rules: {
-          required: value => !!value || 'Required.',
-          min: v => v.length >= 8 || 'select min in 1 pet',
-          validUsername: v => v.length >= 3 || "Username must be of minimum 3 character",
-        },
+        required: value => !!value || "Required.",
+        min: v => v.length >= 8 || "select min in 1 pet",
+        validUsername: v =>
+          v.length >= 3 || "Username must be of minimum 3 character"
+      }
     };
   },
-  computed:{
-    errorStartDate(){
+  computed: {
+    errorStartDate() {
       const errors = [];
-      if (this.start_date == null) errors.push('start date');
+      if (this.start_date == null) errors.push("start date");
       return errors;
     },
-    errorEndDate(){
+    errorEndDate() {
       const errors = [];
-      if (this.pickup_date == null) errors.push('end date');
-      if (this.pickup_date < this.start_date) errors.push('pickup date cannot be before drop off date');
-      if (this.pickup_date == this.start_date) errors.push('drop off date and pickup date cannot be same');
+      if (this.pickup_date == null) errors.push("end date");
+      if (this.pickup_date < this.start_date)
+        errors.push("pickup date cannot be before drop off date");
+      if (this.pickup_date == this.start_date)
+        errors.push("drop off date and pickup date cannot be same");
       return errors;
     },
-    petSelectErrors(){
+    petSelectErrors() {
       const errors = [];
-      if (this.petSelected === "Choose Pet(s)") errors.push('Choose pets');
+      if (this.petSelected === "Choose Pet(s)") errors.push("Choose pets");
       return errors;
     }
   },
   created: function() {
-    this.city = this.$route.query.city == undefined ? "" : this.$route.query.city;
-    this.host_id = this.$route.query.query == undefined ? "" : this.$route.query.query;
-    this.service_choosen = this.$route.query.service == undefined ? "" : this.$route.query.service;
-    if(this.host_id == "" || this.host_id == null){
+    this.city =
+      this.$route.query.city == undefined ? "" : this.$route.query.city;
+    this.host_id =
+      this.$route.query.query == undefined ? "" : this.$route.query.query;
+    this.service_choosen =
+      this.$route.query.service == undefined ? "" : this.$route.query.service;
+    if (this.host_id == "" || this.host_id == null) {
       router.back();
-    }else{
-    this.getHostDetails();
-    this.serviceSelected = this.serviceType[0];
-    this.getPetsType();
-    window.scroll({ top: 0, left: 0, behavior: "smooth" });
+    } else {
+      this.getHostDetails();
+      this.serviceSelected = this.serviceType[0];
+
+      window.scroll({ top: 0, left: 0, behavior: "smooth" });
     }
   },
   methods: {
@@ -921,48 +1100,52 @@ export default {
         this.petSelected = "Choose Pet(s)";
       }
       this.menu = !this.menu;
-      this.isFormValid()
+      this.isFormValid();
     },
 
-isFormValid(){
-  if(this.serviceSelected == 2){
-    if(  this.start_date == null && this.pickup_date == null){
-      return false;
-    }else if(this.pickup_date == this.start_date){
-        return false;
-    }
-  }
-  if(this.serviceSelected == 1){
-    if(this.start_date == null){
-      return false;
-    }
-  }
-  this.valid = false;
-},
+    isFormValid() {
+      if (this.serviceSelected.type == 2) {
+        if (this.start_date == null && this.pickup_date == null) {
+          return false;
+        } else if (this.pickup_date == this.start_date) {
+          return false;
+        }
+      }
+      if (this.serviceSelected.type == 1) {
+        if (this.start_date == null) {
+          return false;
+        }
+      }
+      this.valid = false;
+    },
     getPetsType() {
       let type = "Dog";
-      const url = urls.URL + "/pet/type/?type=" + type;
       axios
-        .get(url)
+        .get(urls.URL + "/pet/type/?type=" + type)
         .then(res => {
           res.data.data.forEach(el => {
-            if (el.typeid % 2 == 0)
-              this.petTypes.push({ title: el.subType, count: 0 });
-            else
-              this.petTypes.push({
-                title: el.subType,
-                count: 0,
-                class: "grey lighten-4"
-              });
+            if (this.pet_types.includes(el.subType)) {
+              if (el.typeid % 2 == 0)
+                this.petTypes.push({ title: el.subType, count: 0 });
+              else
+                this.petTypes.push({
+                  title: el.subType,
+                  count: 0,
+                  class: "grey lighten-4"
+                });
+            }
           });
+          if (this.pet_types.includes("Cats"))
+            this.petTypes.push({ title: "Cats", count: 0 });
 
-          this.petTypes.push({ title: "Cats", count: 0 });
-          this.petTypes.push({
-            title: "Birds",
-            count: 0,
-            class: "grey lighten-4"
-          });
-          this.petTypes.push({ title: "Rabbit / Guinea Pig", count: 0 });
+          if (this.pet_types.includes("Birds"))
+            this.petTypes.push({
+              title: "Birds",
+              count: 0,
+              class: "grey lighten-4"
+            });
+          if (this.pet_types.includes("Rabbit / Guinea Pig"))
+            this.petTypes.push({ title: "Rabbit / Guinea Pig", count: 0 });
         })
         .catch(err => {
           console.log(err);
@@ -975,96 +1158,247 @@ isFormValid(){
     getHostDetails() {
       this.overlay = true;
       const host_id = this.host_id;
-      axios.get(urls.URL + "/petowner/gethost/?hid=" + host_id).then(res => {
-        console.log(res);
-        if (res.data.status) {
-          this.overlay = false;
-          let count = 0;
-          this.overlay = false;
-          this.host_details = res.data.user_details;
-          this.host_photos = res.data.gallery;
-          this.host_additional_data = res.data.additional_data;
-          if(res.data.services.cancellation_policy != null){
-            this.cancellation_policy.provided = true;
-            this.cancellation_policy.type = res.data.services.cancellation_policy;
+      axios
+        .get(urls.URL + "/petowner/gethost/?hid=" + host_id)
+        .then(res => {
+          if (res.data.status) {
+            this.overlay = false;
+            let count = 0;
+            this.overlay = false;
+            this.host_details = res.data.user_details;
+            this.host_photos = res.data.gallery;
+            this.host_additional_data = res.data.additional_data;
+            if (res.data.services.cancellation_policy != null) {
+              this.cancellation_policy.provided = true;
+              this.cancellation_policy.type =
+                res.data.services.cancellation_policy;
+            }
+            if (JSON.parse(res.data.services.pet_hosting).optional == "on") {
+              this.pet_hosting.provided = true;
+              this.pet_hosting.price = JSON.parse(
+                res.data.services.pet_hosting
+              ).base_rate_pernight;
+              this.serviceType[0].price = this.pet_hosting.price;
+            } else {
+              this.serviceType.splice(0, 1);
+              count = count + 1;
+            }
+            if (JSON.parse(res.data.services.pet_sitting).optional == "on") {
+              this.pet_sitting.provided = true;
+              this.pet_sitting.price = JSON.parse(
+                res.data.services.pet_sitting
+              ).base_rate_pernight;
+              this.serviceType[1 - count].price = this.pet_sitting.price;
+            } else {
+              this.serviceType.splice(1 - count, 1);
+              count = count + 1;
+            }
+            if (JSON.parse(res.data.services.pet_day_care).optional == "on") {
+              this.pet_day_care.provided = true;
+              this.pet_day_care.price = JSON.parse(
+                res.data.services.pet_day_care
+              ).base_rate_pernight;
+              this.serviceType[2 - count].price = this.pet_day_care.price;
+            } else {
+              this.serviceType.splice(2 - count, 1);
+              count = count + 1;
+            }
+            if (JSON.parse(res.data.services.house_visits).optional == "on") {
+              this.house_visits.provided = true;
+              this.house_visits.price = JSON.parse(
+                res.data.services.house_visits
+              ).base_rate_pernight;
+              this.serviceType[3 - count].price = this.house_visits.price;
+            } else {
+              this.serviceType.splice(3 - count, 1);
+              count = count + 1;
+            }
+            if (
+              JSON.parse(res.data.services.exercise_walk_service).optional ==
+              "on"
+            ) {
+              this.excercise_walk_service.provided = true;
+              this.excercise_walk_service.price = JSON.parse(
+                res.data.services.excercise_walk_service
+              ).base_rate_pernight;
+              this.serviceType[
+                4 - count
+              ].price = this.excercise_walk_service.price;
+            } else {
+              this.serviceType.splice(4 - count, 1);
+              count = count + 1;
+            }
+            if (JSON.parse(res.data.services.pet_grooming).optional == "on") {
+              this.pet_grooming.provided = true;
+              this.pet_grooming.price = JSON.parse(
+                res.data.services.pet_grooming
+              ).base_rate_pernight;
+              this.serviceType[5 - count].price = this.pet_grooming.price;
+            } else {
+              this.serviceType.splice(5 - count, 1);
+              count = count + 1;
+            }
+            if (JSON.parse(res.data.services.pet_training).optional == "on") {
+              this.pet_training.provided = true;
+              this.pet_training.price = JSON.parse(
+                res.data.services.pet_training
+              ).base_rate_pernight;
+              this.serviceType[6 - count].price = this.pet_training.price;
+            } else {
+              this.serviceType.splice(6 - count, 1);
+            }
+            if (res.data.services.pick_drop_service) {
+              this.pick_drop_service.provided = true;
+              this.pick_drop_service.price =
+                res.data.services.pick_drop_service_cost;
+            }
+            this.pet_types = JSON.parse(res.data.services.type_of_pet);
+            this.getPetsType();
+            this.last_min_bookings = res.data.services.last_min_bookings;
+            this.long_term_bookings = res.data.services.long_term_bookings;
+          } else {
+            router.back();
           }
-           if(JSON.parse(res.data.services.pet_hosting).optional == "on"){
-            this.pet_hosting.provided = true;
-            this.pet_hosting.price = JSON.parse(res.data.services.pet_hosting).base_rate_pernight; 
-            this.serviceType[0].price = this.pet_hosting.price;
-          }else{
-            this.serviceType.splice(0,1);
-            count = count + 1;
-          }
-          if(JSON.parse(res.data.services.pet_sitting).optional == "on"){
-            this.pet_sitting.provided = true;
-            this.pet_sitting.price = JSON.parse(res.data.services.pet_sitting).base_rate_pernight; 
-            this.serviceType[1-count].price = this.pet_sitting.price;
-          }else{
-            this.serviceType.splice(1-count,1);
-            count = count + 1;
-          }
-          if(JSON.parse(res.data.services.pet_day_care).optional == "on"){
-            this.pet_day_care.provided = true;
-            this.pet_day_care.price = JSON.parse(res.data.services.pet_day_care).base_rate_pernight; 
-            this.serviceType[2-count].price = this.pet_day_care.price;
-          }
-          else{
-            this.serviceType.splice(2-count,1);
-            count = count+ 1;
-          }
-           if(JSON.parse(res.data.services.house_visits).optional == "on"){
-            
-            this.house_visits.provided = true;
-            this.house_visits.price = JSON.parse(res.data.services.house_visits).base_rate_pernight;
-            this.serviceType[3-count].price = this.house_visits.price; 
-          }else{
-            this.serviceType.splice(3-count,1);
-            count = count + 1;
-          }
-          if(JSON.parse(res.data.services.exercise_walk_service).optional == "on"){
-            this.excercise_walk_service.provided = true;
-            this.excercise_walk_service.price = JSON.parse(res.data.services.excercise_walk_service).base_rate_pernight; 
-          this.serviceType[4-count].price = this.excercise_walk_service.price;
-          }else{
-            this.serviceType.splice(4-count,1);
-             count = count + 1;
-          }
-           if(JSON.parse(res.data.services.pet_grooming).optional == "on"){
-            this.pet_grooming.provided = true;
-            this.pet_grooming.price = JSON.parse(res.data.services.pet_grooming).base_rate_pernight; 
-            this.serviceType[5-count].price = this.pet_grooming.price;
-          }else{
-            this.serviceType.splice(5-count,1);
-            count = count + 1;
-          }
-           if(JSON.parse(res.data.services.pet_training).optional == "on"){
-            this.pet_training.provided = true;
-            this.pet_training.price = JSON.parse(res.data.services.pet_training).base_rate_pernight;
-            this.serviceType[6-count].price = this.pet_training.price;
-          }else{
-            this.serviceType.splice(6-count,1);
-          }
-          if(res.data.services.pick_drop_service){
-            this.pick_drop_service.provided = true;
-            this.pick_drop_service.price = res.data.services.pick_drop_service_cost;
-        }
-          this.pet_types = JSON.parse(res.data.services.type_of_pet);
-          this.last_min_bookings = res.data.services.last_min_bookings;
-          this.long_term_bookings = res.data.services.long_term_bookings;
-
-        }else{
+        })
+        .catch(() => {
           router.back();
-        }
-        
-      }).catch(()=>{
-router.back();
-      }).finally(()=>{
-        
-      });
+        })
+        .finally(() => {});
     },
-    selectChange(){
+    selectChange() {
       this.dayService = this.serviceSelected.type == 2 ? true : false;
+    },
+    generateContract() {
+      this.generatingContract = true;
+      if(this.petSelected=="Choose Pet(s)"){
+        this.petSelectErrors = ["please choose pets"];
+      }
+      if (authStore.isSignedIn()) {
+        let pets = [];
+        this.petTypes.forEach(el => {
+          if (el.count > 0) {
+            pets.push(el);
+          }
+        });
+        let data = {
+          petType: this.petSelected,
+          services: this.serviceSelected.name,
+          details: JSON.stringify(pets),
+          hid: this.host_id,
+          price:this.serviceSelected.price
+        };
+        if (this.dayService) {
+          data["day_or_night"] = "day";
+          data["singleDate"] = this.start_date;
+        } else {
+          data["day_or_night"] = "night";
+          data["startDate"] = this.start_date;
+          data["endDate"] = this.pickup_date;
+        }
+        let config = {
+          headers: {
+            Authorization: "Token " + authStore.userToken()
+          }
+        };
+        axios
+          .post(urls.URL + "/petowner/contractinvite/", data, config)
+          .then(res => {
+            //console.log(res);
+            if (res.data.status) {
+              this.valid = true;
+
+              this.showAlert(
+                "Contract has been generated successfully. Wait for host to accept your request.",
+                "success"
+              );
+            } else {
+              this.showAlert("Error !  falied to generate contract", "error");
+            }
+          })
+          .catch(() => {
+            this.showAlert("Error !  falied to generate contract", "error");
+          })
+          .finally(() => {
+            this.generatingContract = false;
+          });
+      } else {
+        this.login_dialog = true;
+      }
+    },
+    loginUser(e) {
+      e.preventDefault();
+      var ep_emailval = this.email;
+      var password = this.password;
+      var username;
+      if (this.vaildNumber(ep_emailval)) {
+        if (
+          ep_emailval.length < 10 ||
+          ep_emailval.length > 10 ||
+          !this.vaildNumber(ep_emailval)
+        ) {
+          this.errorEmail.pop();
+          this.errorEmail.push("Please enter a valid phone number.");
+        } else {
+          username = ep_emailval;
+        }
+      } else {
+        if (this.validEmail(ep_emailval) == false) {
+          this.errorEmail.pop();
+          this.errorEmail.push("Please enter valid email address.");
+        } else {
+          username = ep_emailval;
+        }
+      }
+      if (username != null && password != null) {
+        this.formSubmitting = true;
+        let data = {
+          phone: username,
+          password: password
+        };
+        if (username.includes("@")) {
+          data = {
+            email: username,
+            password: password
+          };
+        }
+
+        this.logging_in = true;
+        axios
+          .post(urls.URL + "/login/", data)
+          .then(res => {
+            this.formSubmitting = false;
+            if (res.data.status) {
+              authStore.saveUserData(res.data);
+              this.login_dialog = false;
+            } else {
+              this.showAlert("Error !  Wrong login credentials.", "error");
+            }
+          })
+          .catch(() => {
+            this.showAlert("Error !  Wrong login credentials.", "error");
+          })
+          .finally(() => {
+            this.logging_in = false;
+          });
+      }
+    },
+    validEmail: function(email) {
+      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
+    },
+    vaildNumber: function(value) {
+      var re = /^\d*$/;
+      return re.test(value);
+    },
+    showAlert(message, type) {
+      this.alert.type = type;
+      this.alert.message = message;
+      this.alert.show = true;
+      setTimeout(() => {
+        this.alert.type = "";
+        this.alert.message = "";
+        this.alert.show = false;
+      }, 8000);
     }
   }
 };
@@ -1113,18 +1447,24 @@ router.back();
   border-radius: 10px;
   margin-top: 4px;
 }
-label{
+label {
   color: #323232 !important;
 }
-.about-box{
-         background: #02706514;
-    border-left: 6px solid #009688;
-    /* color: #fff; */
+.about-box {
+  background: #02706514;
+  border-left: 6px solid #009688;
+  /* color: #fff; */
 }
-.top-heading{
+.top-heading {
   border-left: 5px solid #2c7873;
-    background: #dfdfdf;
-    padding: 10px 20px;
-    color:#2c7873;
+  background: #dfdfdf;
+  padding: 10px 20px;
+  color: #2c7873;
+}
+.login-box-title {
+  background: #2c7873;
+  color: #fff;
+  justify-content: center;
+  margin-bottom: 25px;
 }
 </style>

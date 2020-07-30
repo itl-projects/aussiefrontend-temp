@@ -1,12 +1,12 @@
 <template>
-    <v-container fluid>
-    <v-card-title class=" font-weight-bold">Pending Contracts</v-card-title>
+  <v-container fluid>
+    <v-card-title class="font-weight-bold">Pending Contracts</v-card-title>
     <v-row>
       <v-col cols="12" sm="12" class="py-0">
         <v-data-iterator
-          :items="items"
-          :items-per-page.sync="itemsPerPage"
-          :page="page"
+          :items="pendings"
+          :items-per-page.sync="pendingItemsPerPage"
+          :page="pendingPage"
           hide-default-footer
         >
           <template v-slot:default="props">
@@ -15,73 +15,84 @@
                 <v-list two-line subheader :key="i" class="pb-0">
                   <v-list-item class="list-item">
                     <v-list-item-avatar>
-                      <v-img src="https://randomuser.me/api/portraits/women/85.jpg"></v-img>
+                      <v-img v-if="userType=='host'" :src="img_url + item.petowner_details.avatar_path"></v-img>
+                       <v-img v-if="userType=='owner'" :src="img_url + item.host_details.avatar_path"></v-img>
                     </v-list-item-avatar>
 
                     <v-list-item-content class="py-0">
                       <v-list-item-title>
                         <v-row>
                           <v-col cols="12" sm="3" class="py-0">
-                            <h5>Peter H.</h5>
+                            <h5 v-if="userType=='owner'">{{ item.host_details.first_name +" "+item.host_details.last_name}}</h5>
+                            <h5 v-if="userType=='host'">{{ item.petowner_details.first_name +" "+item.petowner_details.last_name}}</h5>
                             <div class="mt-2">
                               <v-icon small>mdi-paw</v-icon>Pets:
-                              <a href="#">Indi</a>
+                              <a href="#">{{ item.petType}}</a>
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
-                            <h5>Pet Hosting-2 Nights</h5>
+                            <h5 v-if="item.services == 'pet_hosting' || item.services == 'pet_sitting'">
+                              {{ item.services}}-{{ countDay(item.startDate,item.endDate) }} Nights
+                              </h5>
+                            <h5 v-else>{{ item.services}}</h5>
                             <div class="mt-2">
                               <v-icon small>mdi-calendar</v-icon>
-                              <span style="font-size:0.8rem">20-04-202 - 23-05-2020</span>
+                              <span v-if="item.services == 'pet_hosting' || item.services == 'pet_sitting'" style="font-size:0.8rem">
+                                {{ item.startDate | formatDate}}- {{ item.endDate | formatDate}}
+                                </span>
+                              <span v-else style="font-size:0.8rem">{{ item.singleDate | formatDate}}</span>
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
                             Ref: 989898
                             <div class="mt-2">
-                              <h3>${{item.calories}}</h3>
+                              <h3>${{item.contractStatus}}</h3>
                             </div>
                           </v-col>
                         </v-row>
                       </v-list-item-title>
-                     
                     </v-list-item-content>
 
-                    <v-list-item-action>
-                     <v-row>
-                          <v-btn text color="#2c7873" dark small>
-                        Accept
-                      </v-btn>
-                      <v-btn text color="red" dark small>
-                        Decline
-                      </v-btn>
-                     </v-row>
+                    <v-list-item-action >
+                      <v-row v-if="userType == 'host'">
+                        <v-btn text color="#2c7873" dark small @click="updateContract(item.contractID,'accept')">Accept</v-btn>
+                        <v-btn text color="red" dark small @click="updateContract(item.contractID,'reject')">Decline</v-btn>
+                      </v-row>
+                      <v-chip v-if="userType == 'owner'" small color="orange" dark>Waiting for owner to accept</v-chip>
                     </v-list-item-action>
                   </v-list-item>
                 </v-list>
               </v-card>
             </v-container>
           </template>
-
+          <template v-slot:no-data>
+    <v-card>
+             <v-divider></v-divider>
+    <v-row justify="center" class="py-10">
+      <v-progress-circular v-if="loading" color="#2c7873" indeterminate/>
+      <v-label v-else>No Contracts</v-label>
+    </v-row>
+    </v-card>
+  </template>
           <template v-slot:footer>
             <div class="text-center mt-6">
               <v-pagination
-                v-model="page"
-                :length="numberOfPages"
-                @next="nextPage"
-                @previous="formerPage"
-                @input="updateItemsPerPage"
+                v-model="pendingPage"
+                :length="numberOfPendingPages"
+                @next="nextPendingPage"
+                @previous="formerPendingPage"
+                @input="updatePendingItemsPerPage"
                 circle
-                 color="#2c7873"
+                color="#2c7873"
               ></v-pagination>
             </div>
           </template>
         </v-data-iterator>
       </v-col>
-    
     </v-row>
-    <v-divider class="mt-6"/>
+    <v-divider class="mt-6" />
     <!---accepted contracts-->
-    <v-card-title class=" font-weight-bold">Accepted Contracts</v-card-title>
+    <v-card-title class="font-weight-bold">Accepted Contracts</v-card-title>
     <v-row>
       <v-col cols="12" sm="12" class="py-0">
         <v-data-iterator
@@ -96,46 +107,65 @@
                 <v-list two-line subheader :key="i" class="pb-0">
                   <v-list-item class="list-item">
                     <v-list-item-avatar>
-                      <v-img src="https://randomuser.me/api/portraits/women/85.jpg"></v-img>
+                      <v-img v-if="userType=='host'" :src="img_url + item.petowner_details.avatar_path"></v-img>
+                       <v-img v-if="userType=='owner'" :src="img_url + item.host_details.avatar_path"></v-img>
                     </v-list-item-avatar>
 
                     <v-list-item-content class="py-0">
                       <v-list-item-title>
                         <v-row>
                           <v-col cols="12" sm="3" class="py-0">
-                            <h5>Peter H.</h5>
+                            <h5 v-if="userType=='owner'">{{ item.host_details.first_name +" "+item.host_details.last_name}}</h5>
+                            <h5 v-if="userType=='host'">{{ item.petowner_details.first_name +" "+item.petowner_details.last_name}}</h5>
                             <div class="mt-2">
                               <v-icon small>mdi-paw</v-icon>Pets:
-                              <a href="#">Indi</a>
+                             <a href="#">{{ item.petType}}</a>
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
-                            <h5>Pet Hosting-2 Nights</h5>
+                            <h5 v-if="item.services == 'pet_hosting' || item.services == 'pet_sitting'">
+                              {{ item.services}}-{{ countDay(item.startDate,item.endDate) }} Nights
+                              </h5>
+                            <h5 v-else>{{ item.services}}</h5>
                             <div class="mt-2">
                               <v-icon small>mdi-calendar</v-icon>
-                              <span style="font-size:0.8rem">20-04-202 - 23-05-2020</span>
+                              <span v-if="item.services == 'pet_hosting' || item.services == 'pet_sitting'" style="font-size:0.8rem">
+                                {{ item.startDate | formatDate}}- {{ item.endDate | formatDate}}
+                                </span>
+                              <span v-else style="font-size:0.8rem">{{ item.singleDate | formatDate}}</span>
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
                             Ref: 989898
                             <div class="mt-2">
-                              <h3>${{item.calories}}</h3>
+                               <h3>${{item.contractStatus}}</h3>
                             </div>
                           </v-col>
                         </v-row>
                       </v-list-item-title>
-                     
                     </v-list-item-content>
 
                     <v-list-item-action>
-                     <v-chip small color="orange" dark>Waiting for owner</v-chip>
+                      <v-row v-if="userType == 'owner'" >
+                        <v-btn text color="#2c7873" dark small @click="bookContract(item.contractID,'accept')">Book</v-btn>
+                        <v-btn text color="red" dark small @click="bookContract(item.contractID,'reject')">Decline</v-btn>
+                      </v-row>
+                      <v-chip v-if="userType == 'host'" small color="orange" dark>Waiting for owner to book</v-chip>
                     </v-list-item-action>
                   </v-list-item>
                 </v-list>
               </v-card>
             </v-container>
           </template>
-
+ <template v-slot:no-data>
+    <v-card>
+             <v-divider></v-divider>
+    <v-row justify="center" class="py-10">
+      <v-progress-circular v-if="loading" color="#2c7873" indeterminate/>
+      <v-label v-else>No Accepted Contracts</v-label>
+    </v-row>
+    </v-card>
+  </template>
           <template v-slot:footer>
             <div class="text-center mt-6">
               <v-pagination
@@ -151,131 +181,53 @@
           </template>
         </v-data-iterator>
       </v-col>
-    
     </v-row>
   </v-container>
 </template>
 
 <script>
 // import BookingUI from "@/components/commons/BookingUi";
-    export default {
-        name:"Contracts",
-        // components:{BookingUI},
-        data() {
+import * as axios from "axios";
+import urls from "@/axios/config";
+import authStore from "@/store/auth";
+const DateFilter = function(value) {
+  return value.split('/').join('-');
+}
+
+export default {
+  name: "Contracts",
+  filters: {
+    formatDate: DateFilter
+  },
+  props: ["userType"],
+  data() {
     return {
       itemsPerPageArray: [4, 8, 12],
       page: 1,
+      pendingPage: 1,
+      pendingItemsPerPage: 5,
       itemsPerPage: 5,
-      items: [
-        {
-          name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          sodium: 87,
-          calcium: "14%",
-          iron: "1%"
-        },
-        {
-          name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          sodium: 129,
-          calcium: "8%",
-          iron: "1%"
-        },
-        {
-          name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          sodium: 337,
-          calcium: "6%",
-          iron: "7%"
-        },
-        {
-          name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          sodium: 413,
-          calcium: "3%",
-          iron: "8%"
-        },
-        {
-          name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          sodium: 327,
-          calcium: "7%",
-          iron: "16%"
-        },
-        {
-          name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          sodium: 50,
-          calcium: "0%",
-          iron: "0%"
-        },
-        {
-          name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          sodium: 38,
-          calcium: "0%",
-          iron: "2%"
-        },
-        {
-          name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          sodium: 562,
-          calcium: "0%",
-          iron: "45%"
-        },
-        {
-          name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          sodium: 326,
-          calcium: "2%",
-          iron: "22%"
-        },
-        {
-          name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          sodium: 54,
-          calcium: "12%",
-          iron: "6%"
-        }
-      ]
+      items: [],
+      pendings:[],
+      loading:true,
+      img_url:urls.IMGURL
     };
-        },
-        computed: {
+  },
+  computed: {
+    numberOfPendingPages() {
+      return Math.ceil(this.pendings.length / this.pendingItemsPerPage);
+    },
     numberOfPages() {
       return Math.ceil(this.items.length / this.itemsPerPage);
     }
   },
+  created:function(){
+    this.getConracts();
+  },
   methods: {
+    countDay(val1,val2){
+      return new Date(val2).getDate()-new Date(val1).getDate();
+    },
     nextPage() {
       if (this.page + 1 < this.numberOfPages) this.page += 1;
     },
@@ -284,17 +236,78 @@
     },
     updateItemsPerPage(input) {
       this.page = input;
+    },
+    nextPendingPage() {
+      if (this.pendingPage + 1 < this.numberOfPendingPages) this.pendingPage += 1;
+    },
+    formerPendingPage() {
+      if (this.pendingPage - 1 > 1) this.pendingPage -= 1;
+    },
+    updatePendingItemsPerPage(input) {
+      this.pendingPage = input;
+    },
+    getConracts(){
+      this.loading = true;
+      let url = urls.URL;
+      if(this.userType === "owner") url = url + "/petowner/viewcontract/";
+      else if(this.userType === "host") url = url + "/host/viewcontract/";
+      let config = {
+          headers: {
+            Authorization: "Token " + authStore.userToken()
+          }
+        };
+      this.pendings = [];
+      this.items = [];
+      axios
+          .get(url , config)
+          .then(res => {
+            console.log(res);
+           if(res.data.status){
+             res.data.data.forEach(el=>{
+               if(el.contractStatus == 110){
+                 this.pendings.push(el);
+               }else{
+                 this.items.push(el);
+               }
+             })
+           }
+          })
+          .catch(() => {
+            this.items = [];
+          })
+          .finally(() => {
+            this.loading = false;
+          });
+    },
+    updateContract(cid,status){
+       let config = {
+          headers: {
+            Authorization: "Token " + authStore.userToken()
+          }
+        };
+      let data = {contractID:cid,action:[status]}
+        axios.post(urls.URL+"/host/updatecontract/",data,config)
+        .then(res=>{
+            if(res.data.status){
+              this.getConracts();
+            }
+        }).catch(()=>{
+
+        }).finally(()=>{
+            
+        })
+    },
+    bookContract(cid,status){
+        console.error(cid,status);
     }
   }
-    }
+};
 </script>
 
 <style scoped>
-
-
 @media only screen and (max-width: 600px) {
-.list-item{
+  .list-item {
     flex-direction: column !important;
-}
+  }
 }
 </style>

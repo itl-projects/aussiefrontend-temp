@@ -63,6 +63,12 @@
         </v-list-item-icon>
         <v-list-item-title>Pet</v-list-item-title>
       </v-list-item>
+      <v-list-item link to="/owner/contracts">
+        <v-list-item-icon class="mr-1 mr-lg-3">
+          <v-icon>mdi-file-document-multiple</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>Contracts</v-list-item-title>
+      </v-list-item>
       <v-list-item link to="/owner/bookings">
         <v-list-item-icon class="mr-1 mr-lg-3">
           <v-icon>mdi-sticker-check</v-icon>

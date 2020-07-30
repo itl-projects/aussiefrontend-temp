@@ -84,7 +84,7 @@ export default {
     clipped: false,
     fixed: false,
     email_not: true,
-    menu: false,
+    menu: true,
     name: "",
     name_title: "",
     items: [

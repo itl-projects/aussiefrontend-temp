@@ -1,17 +1,7 @@
 <template>
   <v-form ref="form" v-on:submit.prevent="add" v-model="valid">
     <v-container>
-      <v-row>
-        <v-col cols="12" sm="12" v-if="success">
-          <v-alert border="left" colored-border type="success" elevation="2">{{ message }}</v-alert>
-        </v-col>
-        <v-col cols="12" sm="12" v-if="warning">
-          <v-alert border="left" colored-border type="warning" elevation="2">{{ message }}</v-alert>
-        </v-col>
-        <v-col cols="12" sm="12" v-if="error">
-          <v-alert border="left" colored-border type="error" elevation="2">{{ message }}</v-alert>
-        </v-col>
-      </v-row>
+
       <v-row>
         <v-col cols="12" sm="2">
           <picture-input
@@ -20,6 +10,8 @@
             @remove="onRemoved"
             :width="200"
             :removable="true"
+            :prefill="'https://aussiepetsbnb.com.au'+ this.petImageSrc"
+            :alertOnError="false"
             removeButtonClass="ui red button"
             :height="200"
             accept="image/jpeg, image/png, image/gif"
@@ -27,6 +19,7 @@
             :customStrings="{
                         upload: '<h1>Upload it!</h1>',
                         drag: 'Drag and drop your pet image here'}"
+            
           ></picture-input>
         </v-col>
         <v-col cols="12" sm="10">
@@ -107,7 +100,7 @@
           </v-row>
 
           <v-row>
-            <v-col cols="12" sm="4" >
+            <v-col cols="12" sm="4">
               <v-select
                 v-model="petGenderSelected"
                 :items="petGenders"
@@ -119,21 +112,21 @@
                 hide-details="auto"
               ></v-select>
             </v-col>
-           <v-col cols="12" sm="8" >
-             <v-row>
+            <v-col cols="12" sm="8">
+              <v-row>
                 <v-switch v-model="desexed" class="ma-2" label="Desexed"></v-switch>
-            <v-switch v-model="microchipped" class="ma-2" label="Microchipped"></v-switch>
-            <v-switch v-model="isSocial" class="ma-2" label="Is Social"></v-switch>
-            <v-switch v-model="isTrained" class="ma-2" label="Is Trained"></v-switch>
-             </v-row>
-           </v-col>
+                <v-switch v-model="microchipped" class="ma-2" label="Microchipped"></v-switch>
+                <v-switch v-model="isSocial" class="ma-2" label="Is Social"></v-switch>
+                <v-switch v-model="isTrained" class="ma-2" label="Is Trained"></v-switch>
+              </v-row>
+            </v-col>
           </v-row>
           <v-row>
             <v-col cols="12" sm="4" v-if="isSocial">
               <v-textarea
                 v-model="instructionSocial"
                 outlined
-                label="Social Intructions"
+                label="Social Instructions"
                 rows="3"
                 counter="250"
                 hide-details="auto"
@@ -143,7 +136,7 @@
               <v-textarea
                 v-model="instructionTraining"
                 outlined
-                label="Training Intructions"
+                label="Training Instructions"
                 rows="3"
                 counter="250"
                 hide-details="auto"
@@ -153,7 +146,7 @@
               <v-textarea
                 v-model="emergencyInstruction"
                 outlined
-                label="Emergency Intructions"
+                label="Emergency Instructions"
                 :rules="requiredRule"
                 required
                 rows="3"
@@ -163,7 +156,6 @@
             </v-col>
           </v-row>
           <v-row>
-           
             <v-col cols="12" sm="4">
               <v-textarea
                 v-model="noteForHost"
@@ -176,7 +168,7 @@
                 hide-details="auto"
               ></v-textarea>
             </v-col>
-             <v-col cols="12" sm="4">
+            <v-col cols="12" sm="4">
               <v-textarea
                 v-model="veterinaryDetails"
                 outlined
@@ -185,30 +177,46 @@
                 hide-details="auto"
               >
                 <template v-slot:label>
-                <div>
-                  Veterinary Details <small>(optional)</small>
-                </div>
-              </template>
+                  <div>
+                    Veterinary Details
+                    <small>(optional)</small>
+                  </div>
+                </template>
               </v-textarea>
             </v-col>
             <v-col cols="12" sm="4">
               <v-textarea
                 v-model="additionalInformation"
                 outlined
-                label=""
+                label
                 rows="3"
                 counter="250"
                 hide-details="auto"
-              ><template v-slot:label>
-                <div>
-                  Any Aditional Informations <small>(optional)</small>
-                </div>
-              </template>
-              
+              >
+                <template v-slot:label>
+                  <div>
+                    Any Aditional Informations
+                    <small>(optional)</small>
+                  </div>
+                </template>
               </v-textarea>
             </v-col>
           </v-row>
-          <v-btn type="submit" color="success" :disabled="!valid">Submit</v-btn>
+                <v-row>
+                  <v-col cols="2">
+                    <v-btn v-if="petID == null" type="submit" color="success" :disabled="!valid" :loading="submitting">Submit</v-btn>
+                    <v-btn v-else type="submit" color="success" :disabled="!valid" :loading="submitting">Update</v-btn>
+                    </v-col>
+        <v-col cols="8" sm="8" v-if="success">
+          <v-alert dense border="left" colored-border type="success" elevation="2">{{ message }}</v-alert>
+        </v-col>
+        <v-col cols="8" sm="8" v-if="warning">
+          <v-alert dense border="left" colored-border type="warning" elevation="2">{{ message }}</v-alert>
+        </v-col>
+        <v-col cols="8" sm="8" v-if="error">
+          <v-alert dense border="left" colored-border type="error" elevation="2">{{ message }}</v-alert>
+        </v-col>
+      </v-row>
         </v-col>
       </v-row>
       <v-snackbar v-model="snackbar" :vertical="vertical">
@@ -218,31 +226,30 @@
         </template>
       </v-snackbar>
       <v-overlay :value="formSubmitting">
-      <v-progress-circular indeterminate size="64"></v-progress-circular>
-    </v-overlay>
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
     </v-container>
   </v-form>
-  
 </template>
 <script>
 import axios from "axios";
 import urls from "@/axios/config";
 import PictureInput from "vue-picture-input";
 import authStore from "../../store/auth";
+
 export default {
   name: "PetAddForm",
   components: { PictureInput },
+  props: ["petData"],
+  
   data() {
     return {
       valid: true,
-      loading:false,
+      loading: false,
       success: false,
       error: false,
       warning: false,
-      formSubmitting:false,
-      petName: "",
-      petAge: "",
-      petWeight: "",
+      formSubmitting: false,
       nameRules: [v => !!v || "Pet Name is required"],
       requiredRule: [v => !!v || "field is required"],
       fileRules: [
@@ -253,11 +260,14 @@ export default {
       ],
       petType: [],
       petSubType: [],
-      petTypeSelected: "",
       breedTypes: [],
-      breedSelected: "",
-      petTypes: [],
       petGenders: ["Male", "Female", "Other"],
+      petTypes: [],
+      petWeight: "",
+      petAge: "",
+      petName: "",
+      petTypeSelected: "",
+      breedSelected: "",
       petGenderSelected: "",
       desexed: false,
       microchipped: false,
@@ -274,11 +284,16 @@ export default {
       vertical: true,
       petImage: null,
       message: "",
-      formErrors:{}
+      formErrors: {},
+      submitting:false,
+      petID:null,
+      petImageSrc:"",
     };
   },
   methods: {
+    
     add() {
+      if(this.petID != null){ return;}
       if (!this.valid) {
         this.message = "Please fill all the required field";
         this.warning = true;
@@ -288,6 +303,7 @@ export default {
         return;
       }
       this.formSubmitting = true;
+      this.submitting = true;
       const data = {
         petType: this.petTypeSelected,
         petbreed: this.breedSelected,
@@ -296,28 +312,38 @@ export default {
         petAge: parseInt(this.petAge),
         petGender: this.petGenderSelected,
         desexed: this.desexed,
-        microchipped: this.microchipped,
-        isSocial: this.isSocial,
-        instructionSocial: this.instructionSocial,
-        isTrained: this.isTrained,
-        instructionTraining: this.instructionTraining,
-        emergencyInstruction: this.emergencyInstruction,
-        veterinaryDetails: this.veterinaryDetails,
-        noteForHost: this.noteForHost,
-        additionalInformation: this.additionalInformation
+        microchipped: this.microchipped
       };
-       let config = {
+      if (this.isSocial) {
+        data["isSocial"] = this.isSocial;
+        data["instructionSocial"] = this.instructionSocial
+          ? this.instructionSocial
+          : "No instructions";
+      }
+      if (this.isTrained) {
+        data["isTrained"] = this.isTrained;
+        data["instructionSocial"] = this.instructionTraining
+          ? this.instructionTraining
+          : "No instructions";
+      }
+      if (this.emergencyInstruction)
+        data["emergencyInstruction"] = this.emergencyInstruction;
+      if (this.veterinaryDetails)
+        data["veterinaryDetails"] = this.veterinaryDetails;
+      if (this.noteForHost) data["noteForHost"] = this.noteForHost;
+      if (this.additionalInformation)
+        data["additionalInformation"] = this.additionalInformation;
+      let config = {
         headers: {
           Authorization: "Token " + authStore.userToken()
         }
       };
       axios
-        .post(urls.URL+"/pet/register/", data, config)
+        .post(urls.URL + "/pet/register/", data, config)
         .then(res => {
           if (!res.data.status) {
-            for(let error in res.data.errors){
-              this.message = this.message
-              +error+" field is required !\n";
+            for (let error in res.data.errors) {
+              this.message = this.message + error + " field is required !\n";
             }
             this.error = true;
             setTimeout(() => {
@@ -339,12 +365,13 @@ export default {
           this.message = "Sorry! Failed to add your pet.";
           this.error = true;
           setTimeout(() => {
-              this.error = false;
-            }, 5000);
-            console.log(e);
+            this.error = false;
+          }, 5000);
+          console.log(e);
         })
-        .finally(()=>{
+        .finally(() => {
           this.formSubmitting = false;
+          this.submitting = false;
         });
     },
     changePetType(a) {
@@ -356,13 +383,14 @@ export default {
         }
       });
       axios
-        .get(urls.URL+"/pet/breed/?type=" + a)
+        .get(urls.URL + "/pet/breed/?type=" + a)
         .then(res => {
           this.loading = false;
           this.breedTypes = [];
           res.data.data.forEach(element => {
             this.breedTypes.push(element.breed);
           });
+          this.breedSelected = this.petData.petbreed;
         })
         .catch(e => {
           console.log(e);
@@ -385,7 +413,7 @@ export default {
         }
       };
       axios
-        .get(urls.URL+"/pet/type/", config)
+        .get(urls.URL + "/pet/type/", config)
         .then(res => {
           this.petTypes = res.data.data;
           res.data.data.forEach(element => {
@@ -393,6 +421,7 @@ export default {
               this.petType.push(element.type);
             }
           });
+          this.changePetType(this.petTypeSelected);
         })
         .catch(e => {
           console.log(e);
@@ -400,9 +429,28 @@ export default {
     }
   },
   created: function() {
-    // `this` points to the vm instance
-    // console.log("a is: " + this.a);
     this.getPetTypes();
+    if (this.petData != {} || this.petData != undefined) {
+      this.additionalInformation = this.petData.additionalInformation;
+      this.desexed = this.petData.desexed;
+      this.emergencyInstruction = this.petData.emergencyInstruction;
+      this.instructionSocial = this.petData.instructionSocial;
+      this.instructionTraining = this.petData.instructionTraining;
+      this.isSocial = this.petData.isSocial;
+      this.isTrained = this.petData.isTrained;
+      this.microchipped = this.petData.microchipped;
+      this.noteForHost = this.petData.noteForHost;
+      this.petAge = this.petData.petAge;
+      this.petImageSrc  = this.petData.petImage;
+      this.petGenderSelected = this.petData.petGender;
+      this.petName = this.petData.petName;
+     this.petTypeSelected = this.petData.petType;
+     
+      this.petWeight = this.petData.petWeight;
+      
+      this.veterinaryDetails = this.petData.veterinaryDetails;
+      this.petID = this.petData.petID;
+    }
   }
 };
 </script>

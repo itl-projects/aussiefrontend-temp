@@ -132,7 +132,7 @@
             <v-col cols="8">
               <h2 style="font-weight: normal;">
                 Connecting you with
-                <span style="color: #2c7873;">{{ items.length }} Pet Sitters</span>
+                <span style="color: #2c7873;text-transform: capitalize;">{{ items.length }} {{service_choosen | formatName}}</span>
                 near
                 <span style="color: #2c7873;">{{ city }}</span>
               </h2>
@@ -291,12 +291,18 @@ import Footer from "@/components/Footer";
 import PetHostingFormDummy from "@/components/TabForms/PetHostingForm_dummy";
 import axios from "axios";
 import urls from "@/axios/config";
+const fixName = function(value) {
+  return value.replace('_',' ');
+}
 export default {
   name: "HostResult",
   components: {
     NavBar,
     Footer,
     PetHostingFormDummy
+  },
+  filters: {
+    formatName: fixName
   },
   data: () => ({
     services : ['pet_hosting', 'pet_sitting', 'pet_day_care', 'house_visits', 'exercise_walk_service', 'pet_training', 'pet_grooming'],
@@ -340,7 +346,7 @@ export default {
     pickup_date:null,
     drop_date:null,
     times:"nothing",
-    max_pet:99999,
+    max_pet:10,
   }),
   watch:{
     address(){

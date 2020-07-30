@@ -360,6 +360,7 @@
 import authStore from "../../store/auth";
 import urls from "@/axios/config";
 import axios from "axios";
+import router from '../../router';
 export default {
   name: "ServicesAndRates",
   data: () => ({
@@ -406,7 +407,7 @@ export default {
         puppy_charge: false,
         discount: false,
         heading: "House Visit",
-         title: "house_visit",
+         title: "house_visits",
         enabled: false
       },
       {
@@ -446,6 +447,12 @@ export default {
     types_of_pet : [],
     pick_drop_service_cost:0
   }),
+  created:function(){
+    if(authStore.isSignedIn()){
+        authStore.logout();
+        router.replace('/login');
+          }
+  },
   mounted() {
     this.getServices();
   },
@@ -567,7 +574,7 @@ export default {
         pref_time_info : this.pref_time_info,
         active_services : JSON.stringify(active_services)
       };
-      console.log(data_to_save);
+      // console.log(data_to_save);
       axios.post(urls.URL + "/host/services/",data_to_save, config).then(res => {
         if(res.data.status){
             this.success = true;

@@ -10,7 +10,6 @@ import HostDashboard from "@/components/Host/Dashboard";
 import Message from '@/components/commons/Message';
 import MessageBox from '@/components/commons/MessageBox';
 import CanceledBookings from '@/components/commons/CanceledBookings';
-import Contracts from '@/components/commons/Contracts';
 import Booking from '@/components/commons/Booking';
 import Photos from '@/components/commons/Photos';
 import Account from "@/components/Owner/Account";
@@ -24,6 +23,8 @@ import HostBooking from "@/components/Host/Booking";
 import PageNotFound from "@/views/PageNotFound";
 import HostDetailPage from "@/views/HostDetails";
 import ShopPage from "@/views/Shop";
+import OwnerContract from "@/components/Owner/Contract";
+import HostContract from "@/components/Host/Contract";
 
 Vue.use(VueRouter);
 
@@ -106,6 +107,10 @@ const routes = [
         component: Photos
       },
       {
+        path: 'contracts',
+        component: OwnerContract
+      },
+      {
         path: "bookings",
         component: Booking
       }
@@ -140,7 +145,7 @@ const routes = [
         },
         {
           path: 'contracts',
-          component: Contracts
+          component: HostContract
         },
         
         {
