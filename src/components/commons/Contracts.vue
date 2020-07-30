@@ -14,7 +14,7 @@
               <v-card v-for="(item,i) in props.items" :key="item.name" class="mb-2 py-0">
                 <v-list two-line subheader :key="i" class="pb-0">
                   <v-list-item class="list-item">
-                    <v-list-item-avatar>
+                    <v-list-item-avatar color="#707070">
                       <v-img v-if="userType=='host'" :src="img_url + item.petowner_details.avatar_path"></v-img>
                        <v-img v-if="userType=='owner'" :src="img_url + item.host_details.avatar_path"></v-img>
                     </v-list-item-avatar>
@@ -58,7 +58,7 @@
                         <v-btn text color="#2c7873" dark small @click="updateContract(item.contractID,'accept')">Accept</v-btn>
                         <v-btn text color="red" dark small @click="updateContract(item.contractID,'reject')">Decline</v-btn>
                       </v-row>
-                      <v-chip v-if="userType == 'owner'" small color="orange" dark>Waiting for owner to accept</v-chip>
+                      <v-chip v-if="userType == 'owner'" small color="orange" dark>Waiting for host to accept</v-chip>
                     </v-list-item-action>
                   </v-list-item>
                 </v-list>
@@ -106,7 +106,7 @@
               <v-card v-for="(item,i) in props.items" :key="item.name" class="mb-2 py-0">
                 <v-list two-line subheader :key="i" class="pb-0">
                   <v-list-item class="list-item">
-                    <v-list-item-avatar>
+                    <v-list-item-avatar color="#707070">
                       <v-img v-if="userType=='host'" :src="img_url + item.petowner_details.avatar_path"></v-img>
                        <v-img v-if="userType=='owner'" :src="img_url + item.host_details.avatar_path"></v-img>
                     </v-list-item-avatar>
