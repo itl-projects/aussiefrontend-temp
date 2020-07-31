@@ -287,7 +287,7 @@ export default {
           }
         };
       let data = {contractID:cid,action:[status]}
-        axios.post(urls.URL+"/owner/updatecontract/",data,config)
+        axios.post(urls.URL+"/host/updatecontract/",data,config)
         .then(res=>{
             if(res.data.status){
               this.getConracts();
@@ -312,7 +312,7 @@ export default {
         "name",
         this.items[index].host_details.first_name + " " + this.items[index].host_details.last_name
       );
-      router.push({ path: "/host/chat-messages/" });
+      router.push({ path: "/owner/chat-messages/" });
     }
   }
 };
