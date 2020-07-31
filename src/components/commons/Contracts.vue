@@ -147,6 +147,7 @@
 
                     <v-list-item-action>
                       <v-row v-if="userType == 'owner'" >
+                        <v-btn text color="#2c7873" dark small @click="doChat(i)">Chat</v-btn>
                         <v-btn text color="#2c7873" dark small @click="bookContract(item.contractID,'accept')">Book</v-btn>
                         <v-btn text color="red" dark small @click="bookContract(item.contractID,'reject')">Decline</v-btn>
                       </v-row>
@@ -186,7 +187,7 @@
 </template>
 
 <script>
-// import BookingUI from "@/components/commons/BookingUi";
+import router from "../../router";
 import * as axios from "axios";
 import urls from "@/axios/config";
 import authStore from "@/store/auth";
@@ -299,6 +300,19 @@ export default {
     },
     bookContract(cid,status){
         console.error(cid,status);
+    },
+    doChat(index){
+      localStorage.setItem("msg_id", 0);
+      localStorage.setItem("uname", this.items[index].host_details.username);
+      localStorage.setItem(
+        "uname_img",
+        urls.IMGURL + this.items[index].host_details.avatar_path
+      );
+      localStorage.setItem(
+        "name",
+        this.items[index].host_details.first_name + " " + this.items[index].host_details.last_name
+      );
+      router.push({ path: "/host/chat-messages/" });
     }
   }
 };
