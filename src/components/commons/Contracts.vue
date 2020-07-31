@@ -207,14 +207,18 @@
                           small
                           @click="bookContract(item.contractID,'reject')"
                         >Decline</v-btn>
+                        
                       </v-row>
-                      <v-btn v-if="userType == 'host'" dark small @click="doChat(i)">Chat</v-btn>
+                      <v-row  v-if="userType == 'host'">
+                        <v-btn color="#2c7873" text dark small @click="doChat(i)">Chat</v-btn>
                       <v-chip
-                        v-if="userType == 'host'"
                         small
                         color="orange"
+                        class="ml-3"
                         dark
                       >Waiting for owner to book</v-chip>
+                      </v-row>
+                      
                     </v-list-item-action>
                   </v-list-item>
                 </v-list>
