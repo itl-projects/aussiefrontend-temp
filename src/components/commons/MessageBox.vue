@@ -188,9 +188,14 @@ export default {
     }
   },
   created: function() {
-      if(!localStorage.getItem('msg_id')){
-          this.sendBack();
-      }
+    if(authStore. userType()=='host')
+      router.replace({ path: "/host/chat-messages/" });
+    else
+      router.replace({ path: "/owner/chat-messages/" });
+
+    if(!localStorage.getItem('msg_id')){
+        this.sendBack();
+    }
     this.uname = localStorage.getItem("uname");
     this.avatar = authStore.getUserData().avatar;
     this.current_uname = authStore.getUserData().username;

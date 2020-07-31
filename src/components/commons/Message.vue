@@ -35,12 +35,12 @@
                     cols="3"
                     class="py-0 text-center"
                     sm="2"
-                  >{{item.first_name +item.last_name}}</v-col>
+                  >{{item.first_name +" " +item.last_name}}</v-col>
                   <v-col cols="6" sm="6" class="last-message-box py-1">
                     <pre style="white-space: pre-line;color:#2c7873">
                   {{ item.last_msg ? item.last_msg : 'no messages' }}
                   </pre>
-                  <span class="last-message-time">{{  item.dt | formatDate }}</span>
+                  <span v-if="item.dt !='' || item.dt != null" class="last-message-time">{{  item.dt | formatDate }}</span>
                   </v-col>
                   <v-col cols="12" class="py-0 px-4 pt-2" sm="3">
                     <v-btn
@@ -139,7 +139,10 @@ export default {
         "name",
         this.items[index].first_name + " " + this.items[index].last_name
       );
-      router.push({ path: "/host/chat-messages/" });
+      if(authStore. userType()=='host')
+        router.push({ path: "/host/chat-messages/" });
+      else
+        router.push({ path: "/owner/chat-messages/" });
     },
     getMessageList() {
       if (authStore.isSignedIn()) {
@@ -152,7 +155,7 @@ export default {
           .get(urls.URL + "/chats/chatlist/", config)
           .then(res => {
             this.loading = false;
-            console.log(res);
+            // console.log(res);
             if (res.data.status) {
               this.items = res.data.data;
             }

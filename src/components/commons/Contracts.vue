@@ -214,6 +214,7 @@ export default {
       img_url:urls.IMGURL
     };
   },
+ 
   computed: {
     numberOfPendingPages() {
       return Math.ceil(this.pendings.length / this.pendingItemsPerPage);
@@ -223,6 +224,10 @@ export default {
     }
   },
   created:function(){
+     if(authStore. userType()=='host')
+      router.replace({ path: "/host/contracts/" });
+    else
+      router.replace({ path: "/owner/contracts/" });
     this.getConracts();
   },
   methods: {
@@ -262,7 +267,7 @@ export default {
       axios
           .get(url , config)
           .then(res => {
-            console.log(res);
+            // console.log(res);
            if(res.data.status){
              res.data.data.forEach(el=>{
                if(el.contractStatus == 110){

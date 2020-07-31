@@ -103,6 +103,10 @@ const routes = [
         component: Message
       },
       {
+        path: 'chat-messages',
+        component: MessageBox
+      },
+      {
         path: 'photos',
         component: Photos
       },
