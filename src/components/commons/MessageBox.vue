@@ -96,9 +96,7 @@ export default {
         avatar: "",
         uname: ""
       },
-      messages: [{
-        
-      }]
+      messages: []
     };
   },
   methods: {
