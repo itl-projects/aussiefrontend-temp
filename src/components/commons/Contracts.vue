@@ -15,32 +15,46 @@
                 <v-list two-line subheader :key="i" class="pb-0">
                   <v-list-item class="list-item">
                     <v-list-item-avatar color="#707070">
-                      <v-img v-if="userType=='host'" :src="img_url + item.petowner_details.avatar_path"></v-img>
-                       <v-img v-if="userType=='owner'" :src="img_url + item.host_details.avatar_path"></v-img>
+                      <v-img
+                        v-if="userType=='host'"
+                        :src="img_url + item.petowner_details.avatar_path"
+                      ></v-img>
+                      <v-img
+                        v-if="userType=='owner'"
+                        :src="img_url + item.host_details.avatar_path"
+                      ></v-img>
                     </v-list-item-avatar>
 
                     <v-list-item-content class="py-0">
                       <v-list-item-title>
                         <v-row>
                           <v-col cols="12" sm="3" class="py-0">
-                            <h5 v-if="userType=='owner'">{{ item.host_details.first_name +" "+item.host_details.last_name}}</h5>
-                            <h5 v-if="userType=='host'">{{ item.petowner_details.first_name +" "+item.petowner_details.last_name}}</h5>
+                            <h5
+                              v-if="userType=='owner'"
+                            >{{ item.host_details.first_name +" "+item.host_details.last_name}}</h5>
+                            <h5
+                              v-if="userType=='host'"
+                            >{{ item.petowner_details.first_name +" "+item.petowner_details.last_name}}</h5>
                             <div class="mt-2">
                               <v-icon small>mdi-paw</v-icon>Pets:
                               <a href="#">{{ item.petType}}</a>
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
-                            <h5 v-if="item.services == 'pet_hosting' || item.services == 'pet_sitting'">
-                              {{ item.services}}-{{ countDay(item.startDate,item.endDate) }} Nights
-                              </h5>
+                            <h5
+                              v-if="item.services == 'pet_hosting' || item.services == 'pet_sitting'"
+                            >{{ item.services}}-{{ countDay(item.startDate,item.endDate) }} Nights</h5>
                             <h5 v-else>{{ item.services}}</h5>
                             <div class="mt-2">
                               <v-icon small>mdi-calendar</v-icon>
-                              <span v-if="item.services == 'pet_hosting' || item.services == 'pet_sitting'" style="font-size:0.8rem">
-                                {{ item.startDate | formatDate}}- {{ item.endDate | formatDate}}
-                                </span>
-                              <span v-else style="font-size:0.8rem">{{ item.singleDate | formatDate}}</span>
+                              <span
+                                v-if="item.services == 'pet_hosting' || item.services == 'pet_sitting'"
+                                style="font-size:0.8rem"
+                              >{{ item.startDate | formatDate}}- {{ item.endDate | formatDate}}</span>
+                              <span
+                                v-else
+                                style="font-size:0.8rem"
+                              >{{ item.singleDate | formatDate}}</span>
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
@@ -53,12 +67,29 @@
                       </v-list-item-title>
                     </v-list-item-content>
 
-                    <v-list-item-action >
+                    <v-list-item-action>
                       <v-row v-if="userType == 'host'">
-                        <v-btn text color="#2c7873" dark small @click="updateContract(item.contractID,'accept')">Accept</v-btn>
-                        <v-btn text color="red" dark small @click="updateContract(item.contractID,'reject')">Decline</v-btn>
+                        <v-btn
+                          text
+                          color="#2c7873"
+                          dark
+                          small
+                          @click="updateContract(item.contractID,'accept')"
+                        >Accept</v-btn>
+                        <v-btn
+                          text
+                          color="red"
+                          dark
+                          small
+                          @click="updateContract(item.contractID,'reject')"
+                        >Decline</v-btn>
                       </v-row>
-                      <v-chip v-if="userType == 'owner'" small color="orange" dark>Waiting for host to accept</v-chip>
+                      <v-chip
+                        v-if="userType == 'owner'"
+                        small
+                        color="orange"
+                        dark
+                      >Waiting for host to accept</v-chip>
                     </v-list-item-action>
                   </v-list-item>
                 </v-list>
@@ -66,14 +97,14 @@
             </v-container>
           </template>
           <template v-slot:no-data>
-    <v-card>
-             <v-divider></v-divider>
-    <v-row justify="center" class="py-10">
-      <v-progress-circular v-if="loading" color="#2c7873" indeterminate/>
-      <v-label v-else>No Contracts</v-label>
-    </v-row>
-    </v-card>
-  </template>
+            <v-card>
+              <v-divider></v-divider>
+              <v-row justify="center" class="py-10">
+                <v-progress-circular v-if="loading" color="#2c7873" indeterminate />
+                <v-label v-else>No Contracts</v-label>
+              </v-row>
+            </v-card>
+          </template>
           <template v-slot:footer>
             <div class="text-center mt-6">
               <v-pagination
@@ -107,38 +138,52 @@
                 <v-list two-line subheader :key="i" class="pb-0">
                   <v-list-item class="list-item">
                     <v-list-item-avatar color="#707070">
-                      <v-img v-if="userType=='host'" :src="img_url + item.petowner_details.avatar_path"></v-img>
-                       <v-img v-if="userType=='owner'" :src="img_url + item.host_details.avatar_path"></v-img>
+                      <v-img
+                        v-if="userType=='host'"
+                        :src="img_url + item.petowner_details.avatar_path"
+                      ></v-img>
+                      <v-img
+                        v-if="userType=='owner'"
+                        :src="img_url + item.host_details.avatar_path"
+                      ></v-img>
                     </v-list-item-avatar>
 
                     <v-list-item-content class="py-0">
                       <v-list-item-title>
                         <v-row>
                           <v-col cols="12" sm="3" class="py-0">
-                            <h5 v-if="userType=='owner'">{{ item.host_details.first_name +" "+item.host_details.last_name}}</h5>
-                            <h5 v-if="userType=='host'">{{ item.petowner_details.first_name +" "+item.petowner_details.last_name}}</h5>
+                            <h5
+                              v-if="userType=='owner'"
+                            >{{ item.host_details.first_name +" "+item.host_details.last_name}}</h5>
+                            <h5
+                              v-if="userType=='host'"
+                            >{{ item.petowner_details.first_name +" "+item.petowner_details.last_name}}</h5>
                             <div class="mt-2">
                               <v-icon small>mdi-paw</v-icon>Pets:
-                             <a href="#">{{ item.petType}}</a>
+                              <a href="#">{{ item.petType}}</a>
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
-                            <h5 v-if="item.services == 'pet_hosting' || item.services == 'pet_sitting'">
-                              {{ item.services}}-{{ countDay(item.startDate,item.endDate) }} Nights
-                              </h5>
+                            <h5
+                              v-if="item.services == 'pet_hosting' || item.services == 'pet_sitting'"
+                            >{{ item.services}}-{{ countDay(item.startDate,item.endDate) }} Nights</h5>
                             <h5 v-else>{{ item.services}}</h5>
                             <div class="mt-2">
                               <v-icon small>mdi-calendar</v-icon>
-                              <span v-if="item.services == 'pet_hosting' || item.services == 'pet_sitting'" style="font-size:0.8rem">
-                                {{ item.startDate | formatDate}}- {{ item.endDate | formatDate}}
-                                </span>
-                              <span v-else style="font-size:0.8rem">{{ item.singleDate | formatDate}}</span>
+                              <span
+                                v-if="item.services == 'pet_hosting' || item.services == 'pet_sitting'"
+                                style="font-size:0.8rem"
+                              >{{ item.startDate | formatDate}}- {{ item.endDate | formatDate}}</span>
+                              <span
+                                v-else
+                                style="font-size:0.8rem"
+                              >{{ item.singleDate | formatDate}}</span>
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
                             Ref: 989898
                             <div class="mt-2">
-                               <h3>${{item.contractStatus}}</h3>
+                              <h3>${{item.contractStatus}}</h3>
                             </div>
                           </v-col>
                         </v-row>
@@ -146,27 +191,45 @@
                     </v-list-item-content>
 
                     <v-list-item-action>
-                      <v-row v-if="userType == 'owner'" >
+                      <v-row v-if="userType == 'owner'">
                         <v-btn text color="#2c7873" dark small @click="doChat(i)">Chat</v-btn>
-                        <v-btn text color="#2c7873" dark small @click="bookContract(item.contractID,'accept')">Book</v-btn>
-                        <v-btn text color="red" dark small @click="bookContract(item.contractID,'reject')">Decline</v-btn>
+                        <v-btn
+                          text
+                          color="#2c7873"
+                          dark
+                          small
+                          @click="bookContract(item.contractID,'accept')"
+                        >Book</v-btn>
+                        <v-btn
+                          text
+                          color="red"
+                          dark
+                          small
+                          @click="bookContract(item.contractID,'reject')"
+                        >Decline</v-btn>
                       </v-row>
-                      <v-chip v-if="userType == 'host'" small color="orange" dark>Waiting for owner to book</v-chip>
+                      <v-btn v-if="userType == 'host'" dark small @click="doChat(i)">Chat</v-btn>
+                      <v-chip
+                        v-if="userType == 'host'"
+                        small
+                        color="orange"
+                        dark
+                      >Waiting for owner to book</v-chip>
                     </v-list-item-action>
                   </v-list-item>
                 </v-list>
               </v-card>
             </v-container>
           </template>
- <template v-slot:no-data>
-    <v-card>
-             <v-divider></v-divider>
-    <v-row justify="center" class="py-10">
-      <v-progress-circular v-if="loading" color="#2c7873" indeterminate/>
-      <v-label v-else>No Accepted Contracts</v-label>
-    </v-row>
-    </v-card>
-  </template>
+          <template v-slot:no-data>
+            <v-card>
+              <v-divider></v-divider>
+              <v-row justify="center" class="py-10">
+                <v-progress-circular v-if="loading" color="#2c7873" indeterminate />
+                <v-label v-else>No Accepted Contracts</v-label>
+              </v-row>
+            </v-card>
+          </template>
           <template v-slot:footer>
             <div class="text-center mt-6">
               <v-pagination
@@ -192,8 +255,8 @@ import * as axios from "axios";
 import urls from "@/axios/config";
 import authStore from "@/store/auth";
 const DateFilter = function(value) {
-  return value.split('/').join('-');
-}
+  return value.split("/").join("-");
+};
 
 export default {
   name: "Contracts",
@@ -209,12 +272,12 @@ export default {
       pendingItemsPerPage: 5,
       itemsPerPage: 5,
       items: [],
-      pendings:[],
-      loading:true,
-      img_url:urls.IMGURL
+      pendings: [],
+      loading: true,
+      img_url: urls.IMGURL
     };
   },
- 
+
   computed: {
     numberOfPendingPages() {
       return Math.ceil(this.pendings.length / this.pendingItemsPerPage);
@@ -223,16 +286,15 @@ export default {
       return Math.ceil(this.items.length / this.itemsPerPage);
     }
   },
-  created:function(){
-     if(authStore. userType()=='host')
+  created: function() {
+    if (authStore.userType() == "host")
       router.replace({ path: "/host/contracts/" });
-    else
-      router.replace({ path: "/owner/contracts/" });
+    else router.replace({ path: "/owner/contracts/" });
     this.getConracts();
   },
   methods: {
-    countDay(val1,val2){
-      return new Date(val2).getDate()-new Date(val1).getDate();
+    countDay(val1, val2) {
+      return new Date(val2).getDate() - new Date(val1).getDate();
     },
     nextPage() {
       if (this.page + 1 < this.numberOfPages) this.page += 1;
@@ -244,7 +306,8 @@ export default {
       this.page = input;
     },
     nextPendingPage() {
-      if (this.pendingPage + 1 < this.numberOfPendingPages) this.pendingPage += 1;
+      if (this.pendingPage + 1 < this.numberOfPendingPages)
+        this.pendingPage += 1;
     },
     formerPendingPage() {
       if (this.pendingPage - 1 > 1) this.pendingPage -= 1;
@@ -252,72 +315,91 @@ export default {
     updatePendingItemsPerPage(input) {
       this.pendingPage = input;
     },
-    getConracts(){
+    getConracts() {
       this.loading = true;
       let url = urls.URL;
-      if(this.userType === "owner") url = url + "/petowner/viewcontract/";
-      else if(this.userType === "host") url = url + "/host/viewcontract/";
+      if (this.userType === "owner") url = url + "/petowner/viewcontract/";
+      else if (this.userType === "host") url = url + "/host/viewcontract/";
       let config = {
-          headers: {
-            Authorization: "Token " + authStore.userToken()
-          }
-        };
+        headers: {
+          Authorization: "Token " + authStore.userToken()
+        }
+      };
       this.pendings = [];
       this.items = [];
       axios
-          .get(url , config)
-          .then(res => {
-            // console.log(res);
-           if(res.data.status){
-             res.data.data.forEach(el=>{
-               if(el.contractStatus == 110){
-                 this.pendings.push(el);
-               }else{
-                 this.items.push(el);
-               }
-             })
-           }
-          })
-          .catch(() => {
-            this.items = [];
-          })
-          .finally(() => {
-            this.loading = false;
-          });
-    },
-    updateContract(cid,status){
-       let config = {
-          headers: {
-            Authorization: "Token " + authStore.userToken()
+        .get(url, config)
+        .then(res => {
+          // console.log(res);
+          if (res.data.status) {
+            res.data.data.forEach(el => {
+              if (el.contractStatus == 110) {
+                this.pendings.push(el);
+              } else {
+                this.items.push(el);
+              }
+            });
           }
-        };
-      let data = {contractID:cid,action:[status]}
-        axios.post(urls.URL+"/host/updatecontract/",data,config)
-        .then(res=>{
-            if(res.data.status){
-              this.getConracts();
-            }
-        }).catch(()=>{
-
-        }).finally(()=>{
-            
         })
+        .catch(() => {
+          this.items = [];
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
-    bookContract(cid,status){
-        console.error(cid,status);
+    updateContract(cid, status) {
+      let config = {
+        headers: {
+          Authorization: "Token " + authStore.userToken()
+        }
+      };
+      let data = { contractID: cid, action: [status] };
+      axios
+        .post(urls.URL + "/host/updatecontract/", data, config)
+        .then(res => {
+          if (res.data.status) {
+            this.getConracts();
+          }
+        })
+        .catch(() => {})
+        .finally(() => {});
     },
-    doChat(index){
+    bookContract(cid, status) {
+      console.error(cid, status);
+    },
+    doChat(index) {
       localStorage.setItem("msg_id", 0);
-      localStorage.setItem("uname", this.items[index].host_details.username);
-      localStorage.setItem(
-        "uname_img",
-        urls.IMGURL + this.items[index].host_details.avatar_path
-      );
-      localStorage.setItem(
-        "name",
-        this.items[index].host_details.first_name + " " + this.items[index].host_details.last_name
-      );
-      router.push({ path: "/owner/chat-messages/" });
+      if (authStore.userType() == "host") {
+        localStorage.setItem(
+          "uname",
+          this.items[index].petowner_details.username
+        );
+        localStorage.setItem(
+          "uname_img",
+          urls.IMGURL + this.items[index].petowner_details.avatar_path
+        );
+        localStorage.setItem(
+          "name",
+          this.items[index].petowner_details.first_name +
+            " " +
+            this.items[index].petowner_details.last_name
+        );
+        router.replace({ path: "/host/chat-messages" });
+      } else {
+        localStorage.setItem("uname", this.items[index].host_details.username);
+        localStorage.setItem(
+          "uname_img",
+          urls.IMGURL + this.items[index].host_details.avatar_path
+        );
+        localStorage.setItem(
+          "name",
+          this.items[index].host_details.first_name +
+            " " +
+            this.items[index].host_details.last_name
+        );
+        router.replace({ path: "/owner/chat-messages/" });
+      }
     }
   }
 };
