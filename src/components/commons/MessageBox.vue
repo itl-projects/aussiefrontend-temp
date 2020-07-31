@@ -1,7 +1,6 @@
 <template>
   <v-container>
-    <v-data-iterator :items="messages" disable-pagination hide-default-footer>
-      <template v-slot:default="props">
+   
         <v-card>
           <v-card-title class="subheading font-weight-bold py-1">
             <v-row align="center">
@@ -17,7 +16,7 @@
           <!-- <v-content> -->
           <v-container class="py-0" style="position:relative">
             <v-row id="message-box" class="message-box-container py-2">
-              <v-col v-for="(item,i) in props.items" :key="i" cols="12" class="py-0">
+              <v-col v-for="(item,i) in messages" :key="i" cols="12" class="py-0">
                 <v-row class="py-0" :class="item.sender == current_uname ? 'message-end' : ''">
                   <v-col cols="2" sm="1" class="px-sm-0 text-end">
                     <v-avatar class="px-sm-0" width="32" height="32">
@@ -65,8 +64,7 @@
           </v-container>
           <!-- </v-content> -->
         </v-card>
-      </template>
-    </v-data-iterator>
+  
   </v-container>
 </template>
 
@@ -98,7 +96,9 @@ export default {
         avatar: "",
         uname: ""
       },
-      messages: []
+      messages: [{
+        
+      }]
     };
   },
   methods: {
