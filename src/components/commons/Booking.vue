@@ -435,8 +435,8 @@ export default {
     getBookings() {
       this.loading = true;
       let url = urls.URL;
-      if (this.userType === "petowner") url = url + "/petowner/viewcontract";
-      else if (this.userType === "host") url = url + "/host/viewcontract";
+      if (this.userType === "petowner") url = url + "/petowner/viewcontract/?type=booking";
+      else if (this.userType === "host") url = url + "/host/viewcontract/?type=booking";
       let config = {
         headers: {
           Authorization: "Token " + authStore.userToken()
@@ -445,7 +445,7 @@ export default {
       this.pendings = [];
       this.items = [];
       axios
-        .get(url + "?type=booking", config)
+        .get(url, config)
         .then(res => {
           // console.log(res);
           if (res.data.status) {

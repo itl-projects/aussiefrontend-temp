@@ -400,12 +400,12 @@ export default {
   },
   created: function() {
     this.userType = authStore.userType();
-    const loc = window.location.pathname.toString().split("/");
-    if(loc.length > 2){
-    if (this.userType == "host" && (loc[1] !="host" && loc[2] == 'contracts'))
-      router.replace({ path: "/host/contracts/" });
-    else if(this.userType == "petowner" && (loc[1] !="owner" && loc[2] == 'contracts')) router.replace({ path: "/owner/contracts/" });
-    }
+    // const loc = window.location.pathname.toString().split("/");
+    // if(loc.length > 2){
+    // if (this.userType == "host" && (loc[1] !="host" && loc[2] == 'contracts'))
+    //   router.replace({ path: "/host/contracts/" });
+    // else if(this.userType == "petowner" && (loc[1] !="owner" && loc[2] == 'contracts')) router.replace({ path: "/owner/contracts/" });
+    // }
     this.getConracts();
     this.getCompltedContaracts();
   },
@@ -445,8 +445,8 @@ export default {
     getConracts() {
       this.loading = true;
       let url = urls.URL;
-      if (this.userType === "petowner") url = url + "/petowner/viewcontract";
-      else if (this.userType === "host") url = url + "/host/viewcontract";
+      if (this.userType === "petowner") url = url + "/petowner/viewcontract/?type=contract";
+      else if (this.userType === "host") url = url + "/host/viewcontract/?type=contract";
       let config = {
         headers: {
           Authorization: "Token " + authStore.userToken()
@@ -455,16 +455,16 @@ export default {
       this.pendings = [];
       this.items = [];
       axios
-        .get(url+"?type=contract", config)
+        .get(url, config)
         .then(res => {
-          // console.log(res);
           if (res.data.status) {
             res.data.data.pending;
             this.pendings = res.data.data.pending;
             this.items = res.data.data.accepted;
           }
         })
-        .catch(() => {
+        .catch((err) => {
+          alert(err)
         })
         .finally(() => {
           this.loading = false;
