@@ -1260,8 +1260,9 @@ export default {
             router.back();
           }
         })
-        .catch(() => {
-          router.back();
+        .catch((err) => {
+          console.error(err);
+          //router.back();
         })
         .finally(() => {});
     },

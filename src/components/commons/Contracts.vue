@@ -37,7 +37,7 @@
                             >{{ item.petowner_details.first_name +" "+item.petowner_details.last_name}}</h5>
                             <div class="mt-2">
                               <v-icon small>mdi-paw</v-icon>Pets:
-                              <a href="#">{{ item.petType}}</a>
+                              <a href="#" style="white-space: pre-wrap;">{{ item.petType}}</a>
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
@@ -160,7 +160,7 @@
                             >{{ item.petowner_details.first_name +" "+item.petowner_details.last_name}}</h5>
                             <div class="mt-2">
                               <v-icon small>mdi-paw</v-icon>Pets:
-                              <a href="#">{{ item.petType}}</a>
+                              <a href="#" style="white-space: pre-wrap;">{{ item.petType}}</a>
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
@@ -192,7 +192,7 @@
 
                     <v-list-item-action>
                       <v-row v-if="userType == 'owner'">
-                        <v-btn text color="#2c7873" dark small @click="doChat(i)">Chat</v-btn>
+                        <v-btn text color="#2c7873" dark small @click="doChat(item)">Chat</v-btn>
                         <v-btn
                           text
                           color="#2c7873"
@@ -210,7 +210,7 @@
                         
                       </v-row>
                       <v-row  v-if="userType == 'host'">
-                        <v-btn color="#2c7873" text dark small @click="doChat(i)">Chat</v-btn>
+                        <v-btn color="#2c7873" text dark small @click="doChat(item)">Chat</v-btn>
                       <v-chip
                         small
                         color="orange"
@@ -290,7 +290,7 @@
                             >{{ item.petowner_details.first_name +" "+item.petowner_details.last_name}}</h5>
                             <div class="mt-2">
                               <v-icon small>mdi-paw</v-icon>Pets:
-                              <a href="#">{{ item.petType}}</a>
+                              <a href="#" style="white-space: pre-wrap;">{{ item.petType}}</a>
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
@@ -515,35 +515,35 @@ export default {
         .catch(() => {})
         .finally(() => {});
     },
-    doChat(index) {
-      localStorage.setItem("msg_id", 0);
+    doChat(item) {
+      localStorage.setItem("msg_id", item.chat_id);
       if (authStore.userType() == "host") {
         localStorage.setItem(
           "uname",
-          this.items[index].petowner_details.username
+          item.petowner_details.username
         );
         localStorage.setItem(
           "uname_img",
-          urls.IMGURL + this.items[index].petowner_details.avatar_path
+          urls.IMGURL + item.petowner_details.avatar_path
         );
         localStorage.setItem(
           "name",
-          this.items[index].petowner_details.first_name +
+          item.petowner_details.first_name +
             " " +
-            this.items[index].petowner_details.last_name
+            item.petowner_details.last_name
         );
         router.replace({ path: "/host/chat-messages" });
       } else {
-        localStorage.setItem("uname", this.items[index].host_details.username);
+        localStorage.setItem("uname", item.host_details.username);
         localStorage.setItem(
           "uname_img",
-          urls.IMGURL + this.items[index].host_details.avatar_path
+          urls.IMGURL + item.host_details.avatar_path
         );
         localStorage.setItem(
           "name",
-          this.items[index].host_details.first_name +
+          item.host_details.first_name +
             " " +
-            this.items[index].host_details.last_name
+            item.host_details.last_name
         );
         router.replace({ path: "/owner/chat-messages/" });
       }

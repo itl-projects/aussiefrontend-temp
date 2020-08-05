@@ -39,7 +39,7 @@
                                     >{{ item.petowner_details.first_name +" "+item.petowner_details.last_name}}</h5>
                                     <div class="mt-2">
                                       <v-icon small>mdi-paw</v-icon>Pets:
-                                      <a href="#">{{ item.petType}}</a>
+                                      <a href="#" style="white-space: pre-wrap;">{{ item.petType}}</a>
                                     </div>
                                   </v-col>
                                   <v-col cols="12" sm="4" class="py-1">
@@ -69,13 +69,13 @@
                               </v-list-item-title>
                             </v-list-item-content>
 
-                            <v-list-item-action>
+                            <v-list-item-action style="min-width:130px">
                               <v-row v-if="userType == 'petowner'">
                                 <v-btn text color="#2c7873" dark small @click="doChat(item)">Chat</v-btn>
                                 <v-btn v-if=" isBookingCompleted(item.endDate) &&item.contractStatus != 21101" text color="#2c7873" dark small  @click="updateBooking(item.contractID,'complete')">Completed</v-btn>
                                 <v-btn v-if="item.contractStatus == 21101" text color="#2c7873" dark small >Do Payment</v-btn>
                               </v-row>
-                              <v-row v-if="userType == 'host'">
+                              <v-row v-if="userType == 'host'" justify="start">
                                 <v-btn color="#2c7873" text dark small @click="doChat(item)">Chat</v-btn>
                                 <v-btn v-if="isBookingCompleted(item.endDate) && item.contractStatus != 41101" text color="#2c7873" dark small  @click="updateBooking(item.contractID,'complete')">Completed</v-btn>
                                 <v-chip
@@ -84,7 +84,7 @@
                         color="orange"
                         class="ml-3"
                         dark
-                      >Waiting for pet payment</v-chip>
+                      >Waiting for owner payment</v-chip>
                               </v-row>
                               
                             </v-list-item-action>
@@ -157,7 +157,7 @@
                             >{{ item.petowner_details.first_name +" "+item.petowner_details.last_name}}</h5>
                             <div class="mt-2">
                               <v-icon small>mdi-paw</v-icon>Pets:
-                              <a href="#">{{ item.petType}}</a>
+                              <a href="#" style="white-space: pre-wrap;">{{ item.petType}}</a>
                             </div>
                           </v-col>
                           <v-col cols="12" sm="4" class="py-1">
@@ -270,10 +270,10 @@
                             >{{ item.petowner_details.first_name +" "+item.petowner_details.last_name}}</h5>
                             <div class="mt-2">
                               <v-icon small>mdi-paw</v-icon>Pets:
-                              <a href="#">{{ item.petType}}</a>
+                              <a href="#" style="white-space: pre-wrap;">{{ item.petType}}</a>
                             </div>
                           </v-col>
-                          <v-col cols="12" sm="4" class="py-1">
+                          <v-col cols="12" sm="3" class="py-1">
                             <h5 class="capitalized"
                               v-if="item.services == 'pet_hosting' || item.services == 'pet_sitting'"
                             >{{ item.services | formatName}}-{{ countDay(item.startDate,item.endDate) }} Nights</h5>
@@ -471,7 +471,7 @@ export default {
         .finally(() => {});
     },
     doChat(item) {
-      localStorage.setItem("msg_id", 0);
+      localStorage.setItem("msg_id", item.chat_id);
       if (authStore.userType() == "host") {
         localStorage.setItem(
           "uname",
