@@ -73,7 +73,7 @@
         <v-card-text class="py-2">
           <v-row>
             <v-col cols="12" v-for="(item,i) in pending" :key="i+10" class="py-0">
-              <v-row dense align="center" class="border-below pb-1">
+              <v-row dense align="center" class="border-below pb-1" v-if="item.status">
                 <v-col cols="6">
                  <span style="font-size:0.8rem"> {{ item.title}}</span>
                   <v-progress-linear
@@ -380,14 +380,16 @@ export default {
       avatar: "",
       profile_complition: 0,
       pending: [
-        { title: "Address Proof", completed: "0", link: "/host/profile" },
-        { title: "Admin Verification", completed: "0", link: "" },
-        { title: "Email Verification", completed: "0", link: "/host/profile" },
-        { title: "Phone Verification", completed: "0", link: "/host/profile" },
-        { title: "Profile Photo", completed: "0", link: "/host/profile" },
-        { title: "Id Proof", completed: "0", link: "" },
-        { title: "Quiz", completed: "0", link: "" },
-        { title: "Invite 5 Friends", completed: "0", link: "" }
+        { title: "Address Proof", completed: "0", link: "/host/profile",status:false },
+        { title: "Admin Verification", completed: "0", link: "",status:false },
+        { title: "Email Verification", completed: "0", link: "/host/profile",status:false },
+        { title: "Phone Verification", completed: "0", link: "/host/profile",status:false },
+        { title: "Profile Photo", completed: "0", link: "/host/profile",status:false },
+        { title: "Basic Profile Info", completed: "0", link: "/host/profile",status:false },
+        { title: "Services and Rates", completed: "0", link: "/host/profile",status:false },
+        { title: "Id Proof", completed: "0", link: "",status:false },
+        { title: "Quiz", completed: "0", link: "",status:false },
+        { title: "Invite 5 Friends", completed: "0", link: "",status:false }
       ]
     };
   },
@@ -437,14 +439,49 @@ export default {
         .then(res => {
           if (res.data.status) {
             this.profile_complition = res.data.data.profile_completion;
-            this.pending[0].completed = res.data.pending.address_proof;
+            if(res.data.pending.address_proof){
+              this.pending[0].completed = res.data.pending.address_proof;
+              this.pending[0].status = true;
+            }
+            
+            if(res.data.pending.admin_verification){
             this.pending[1].completed = res.data.pending.admin_verification;
+this.pending[1].status = true;
+            }
+            if(res.data.pending.email_verification){
             this.pending[2].completed = res.data.pending.email_verification;
+this.pending[2].status = true;
+            }
+            if(res.data.pending.phone_verification){
+
             this.pending[3].completed = res.data.pending.phone_verification;
+            this.pending[3].status = true;
+            }
+            if(res.data.pending.profile_photo){
             this.pending[4].completed = res.data.pending.profile_photo;
-            this.pending[5].completed = res.data.pending.id_proof;
-            this.pending[6].completed = res.data.pending.quiz;
-            this.pending[7].completed = res.data.pending.invite_5_friends;
+this.pending[4].status = true;
+            }
+            if(res.data.pending.basic_profile_info){
+            this.pending[5].completed = res.data.pending.basic_profile_info;
+this.pending[5].status = true;
+            }
+            if(res.data.pending.service_and_rates){
+            this.pending[6].completed = res.data.pending.service_and_rates;
+this.pending[6].status = true;
+            }
+            if(res.data.pending.id_proof){
+            this.pending[7].completed = res.data.pending.id_proof;
+this.pending[7].status = true;
+            }
+            if(res.data.pending.quiz){
+            this.pending[8].completed = res.data.pending.quiz;
+            this.pending[8].status = true;
+            }
+            if(res.data.pending.invite_5_friends){
+            this.pending[9].completed = res.data.pending.invite_5_friends;
+this.pending[9].status = true;
+            }
+
           }
         })
         .catch(err => {
