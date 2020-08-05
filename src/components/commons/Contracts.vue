@@ -401,9 +401,11 @@ export default {
   created: function() {
     this.userType = authStore.userType();
     const loc = window.location.pathname.toString().split("/");
+    if(loc.length > 2){
     if (this.userType == "host" && (loc[1] !="host" && loc[2] == 'contracts'))
       router.replace({ path: "/host/contracts/" });
     else if(this.userType == "petowner" && (loc[1] !="owner" && loc[2] == 'contracts')) router.replace({ path: "/owner/contracts/" });
+    }
     this.getConracts();
     this.getCompltedContaracts();
   },
