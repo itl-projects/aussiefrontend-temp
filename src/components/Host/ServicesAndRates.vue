@@ -4,6 +4,7 @@
     <h5>Let us know pet services(s) you would like to ogg to aussiepets</h5>
     <v-row>
       <v-col cols="12" sm="8" class="mx-auto">
+        <v-form ref="form" v-model="valid">
         <v-card>
           <v-card-title>Your pet service type</v-card-title>
           <v-card-subtitle>Select the pet service you will offer</v-card-subtitle>
@@ -30,7 +31,7 @@
                 <v-col cols="10" sm="8">
                   <v-label>
                     Base rate pet night (
-                    <b>$</b>)
+                    <b>$</b>) <span style="color:red;font-size:1.2rem">*</span>
                   </v-label>
                   <v-text-field
                     placeholder="price"
@@ -250,15 +251,15 @@
               <v-list class="py-0">
                 <v-list-item two-line>
                   <v-list-item-content>
-                    <v-list-item-title>Cancellation Policy</v-list-item-title>
+                    <v-list-item-title>Cancellation Policy <span style="color:red;">*</span></v-list-item-title>
                      <v-list-item-subtitle>Select the policy which is suitable for you in relation to bookings.</v-list-item-subtitle>
                   </v-list-item-content>
                   <v-list-item-action>
-                    <v-icon color="#2c7873">mdi-information-outline</v-icon>
+                    <v-icon color="#2c7873" title="required">mdi-information-outline</v-icon>
                   </v-list-item-action>
                 </v-list-item>
               </v-list>
-              <v-radio-group v-model="cancellation_policy" :mandatory="false" color="#2c7873">
+              <v-radio-group v-model="cancellation_policy" :mandatory="false" color="#2c7873" :rules="[rules.required]">
                 <v-list class="py-0 pl-3">
                 <v-list-item two-line>
                   <v-list-item-content>
@@ -273,11 +274,11 @@
               <v-list class="py-0 pl-3">
                 <v-list-item two-line>
                   <v-list-item-content>
-                    <v-list-item-title>Modrate</v-list-item-title>
+                    <v-list-item-title>Moderate</v-list-item-title>
                      <v-list-item-subtitle>Allow free cancellation up until 7 day before the start of the booking.</v-list-item-subtitle>
                   </v-list-item-content>
                   <v-list-item-action>
-                    <v-radio value="modrate"  color="#2c7873"></v-radio>
+                    <v-radio value="moderate"  color="#2c7873"></v-radio>
                   </v-list-item-action>
                 </v-list-item>
               </v-list>
@@ -297,7 +298,7 @@
             <v-divider></v-divider>
             <div class="prefrence">
                 <div class="pa-2">
-                  <h2>Your Preferences</h2>
+                  <h2>Your Preferences <span style="color:red;font-size:1.2rem">*</span></h2>
                   <v-card-text style="font-size:1rem;" class="pa-0 mt-4">
                     What information do you will need to know about a pet before accepting a booking?
                   </v-card-text>
@@ -305,11 +306,11 @@
                   <v-card-text style="font-size:1rem;" class="pa-0 mt-2">
                     Just the description, temperament and any special quirks or needs... thats all
                   </v-card-text>
-                  <v-textarea v-model="pref_info" rows="2" class="mt-3" dense></v-textarea>
+                  <v-textarea v-model="pref_info" rows="2" class="mt-3" dense :rules="[rules.required]"></v-textarea>
                   <v-card-text style="font-size:1rem;" class="pa-0 mt-2">
                     Where will you walk my dog? please tell us about nearby parks
                   </v-card-text>
-                  <v-textarea v-model="pref_park_info" rows="2" class="mt-3" dense></v-textarea>
+                  <v-textarea v-model="pref_park_info" rows="2" class="mt-3" dense :rules="[rules.required]"></v-textarea>
                   <v-card-text style="font-size:1rem;" class="pa-0 mt-4">
                     What will be the estimated time that you will spend with my pet each day?
                   </v-card-text>
@@ -317,16 +318,17 @@
                   <v-card-text style="font-size:1rem;" class="pa-0 mt-2">
                     I work from home excluding a few errands...pretty much 24 / 7
                   </v-card-text>
-                  <v-textarea v-model="pref_time_info" rows="2" class="mt-3" dense></v-textarea>
+                  <v-textarea v-model="pref_time_info" rows="2" class="mt-3" dense :rules="[rules.required]"></v-textarea>
                 </div>
             </div>
           </v-card-text>
           <v-card-actions>
             <v-row justify="center">
-              <v-btn color="#2c7873" dark width="200px" large @click="saveSettings">Save</v-btn>
+              <v-btn color="#2c7873" class="white--text" width="200px" large @click="saveSettings" :disabled="!valid">Save</v-btn>
             </v-row>
           </v-card-actions>
         </v-card>
+        </v-form>
       </v-col>
     </v-row>
    <v-overlay :value="processing">
@@ -344,12 +346,12 @@
             <v-icon v-else :large="true" color="red">mdi-alert-circle</v-icon>
           </v-responsive>
           <br />
-          <span v-if="success" class="success--text"> Success! Setting has been saved successfully</span>
-          <span v-else class="red--text"> Sorry! Failed to save settings </span>
+          <span v-if="success" class="success--text"> {{ alert.msg }} </span>
+          <span v-else class="red--text"> {{ alert.msg }} </span>
           <br />
           <v-divider class="mt-5"></v-divider>
            <v-btn v-if="success" color="#2c7873" class="mt-5 pl-5 pr-5" @click="processing = false">Okay</v-btn>
-           <v-btn v-else color="red" class="mt-5 pl-5 pr-5" @click="processing = false">Try Again</v-btn>
+           <v-btn v-else color="red" class="mt-5 pl-5 pr-5" @click="processing = false">Try Later</v-btn>
         </v-col>
       </v-row>
     </v-overlay>
@@ -363,6 +365,7 @@ import axios from "axios";
 export default {
   name: "ServicesAndRates",
   data: () => ({
+    alert:{msg:""},
     puppyCharge: false,
     discount: false,
     additionalCharge: false,
@@ -372,6 +375,8 @@ export default {
     items: [],
     pick_drop_service:false,
     cancellation_policy: "",
+    valid:true,
+    rules:{required: value => !!value || 'Required.'},
     datas: [
       {
         icon: "mdi-home-variant-outline",
@@ -542,6 +547,9 @@ export default {
     saveSettings() {
       this.processing = true;
       this.loading = true;
+     
+      this.processing = true;
+      this.loading = true;
       let config = {
         headers: {
           Authorization: "Token " + authStore.userToken()
@@ -549,6 +557,21 @@ export default {
       };
       let active_services = this.applyChecks();
       const type_of_pets = this.getSelectedPetypes();
+
+      let status = false;
+      this.items.forEach((arr,i)=>{
+        if(arr.optional == "on" && arr.base_rate_pernight == ""){
+            this.alert.msg = "Please provide "+this.datas[i].heading+" Base Price";
+            status = true;
+            return ;
+        }
+      });
+      if(status){
+        this.success = false;
+        this.loading = false;
+        return;
+      }
+
       let data_to_save = {
         pet_hosting: JSON.stringify(this.items[0]),
         pet_sitting: JSON.stringify(this.items[1]),
@@ -571,12 +594,15 @@ export default {
       // console.log(data_to_save);
       axios.post(urls.URL + "/host/services/",data_to_save, config).then(res => {
         if(res.data.status){
-            this.success = true;
+          this.alert.msg = "Success! Setting has been saved successfully";
+          this.success = true;
         }else{
+          this.alert.msg = "Sorry! Failed to save settings";
           this.success = false;
         }
       })
       .catch(err=>{
+      this.alert.msg = "Sorry! Failed to save settings";
        this.success = false;
         console.log(err);
       }).finally(()=>{
