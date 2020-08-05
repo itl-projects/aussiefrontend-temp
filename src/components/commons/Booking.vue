@@ -72,14 +72,21 @@
                             <v-list-item-action style="min-width:130px">
                               <v-row v-if="userType == 'petowner'">
                                 <v-btn text color="#2c7873" dark small @click="doChat(item)">Chat</v-btn>
-                                <v-btn v-if=" isBookingCompleted(item.endDate) &&item.contractStatus != 21101" text color="#2c7873" dark small  @click="updateBooking(item.contractID,'complete')">Completed</v-btn>
-                                <v-btn v-if="item.contractStatus == 21101" text color="#2c7873" dark small >Do Payment</v-btn>
+                                <v-btn v-if=" isBookingCompleted(item.endDate) && item.contractStatus == 21100" text color="#2c7873" dark small  @click="updateBooking(item.contractID,'complete')">Completed</v-btn>
+                                <v-chip
+                                 v-if="isBookingCompleted(item.endDate) && item.contractStatus == 21101"
+                        small
+                        color="orange"
+                        class="ml-3"
+                        dark
+                      >Waiting for host to complete</v-chip>
+                                <v-btn v-if="item.contractStatus == 31101" text color="#2c7873" dark small >Do Payment</v-btn>
                               </v-row>
                               <v-row v-if="userType == 'host'" justify="start">
                                 <v-btn color="#2c7873" text dark small @click="doChat(item)">Chat</v-btn>
-                                <v-btn v-if="isBookingCompleted(item.endDate) && item.contractStatus != 41101" text color="#2c7873" dark small  @click="updateBooking(item.contractID,'complete')">Completed</v-btn>
+                                <v-btn v-if="isBookingCompleted(item.endDate) && item.contractStatus != 31101" text color="#2c7873" dark small  @click="updateBooking(item.contractID,'complete')">Completed</v-btn>
                                 <v-chip
-                                 v-if="item.contractStatus == 41101"
+                                 v-if="item.contractStatus == 41101 && item.contractStatus != 31101"
                         small
                         color="orange"
                         class="ml-3"
@@ -460,8 +467,11 @@ export default {
         }
       };
       let data = { contractID: cid, action: [status] };
+      let url = urls.URL;
+      if (this.userType === "petowner") url = url + "/petowner/updatecontract/";
+      else if (this.userType === "host") url = url + "/host/updatecontract/";
       axios
-        .post(urls.URL + "/host/updatecontract/", data, config)
+        .post(url, data, config)
         .then(res => {
           if (res.data.status) {
             this.getBookings();
