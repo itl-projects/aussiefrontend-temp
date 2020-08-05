@@ -225,10 +225,10 @@
       <v-list v-else dense>
         
         <v-list-item @click="goToLogin">
-          <v-list-item-title>Sing In</v-list-item-title>
+          <v-list-item-title>Sign In</v-list-item-title>
         </v-list-item>
         <v-list-item @click="goToSignup">
-          <v-list-item-title>Sing Up</v-list-item-title>
+          <v-list-item-title>Sign Up</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>

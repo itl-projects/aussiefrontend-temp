@@ -72,7 +72,7 @@
                             <v-list-item-action style="min-width:130px">
                               <v-row v-if="userType == 'petowner'">
                                 <v-btn text color="#2c7873" dark small @click="doChat(item)">Chat</v-btn>
-                                <v-btn v-if=" isBookingCompleted(item.endDate) && item.contractStatus == 21100" text color="#2c7873" dark small  @click="updateBooking(item.contractID,'complete')">Completed</v-btn>
+                                <v-btn v-if=" isBookingCompleted(item.endDate) && (item.contractStatus == 21100 || item.contractStatus == 41100)" text color="#2c7873" dark small  @click="updateBooking(item.contractID,'complete')">Completed</v-btn>
                                 <v-chip
                                  v-if="isBookingCompleted(item.endDate) && item.contractStatus == 21101"
                         small
