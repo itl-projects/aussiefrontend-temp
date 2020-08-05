@@ -54,7 +54,7 @@
                               <span
                                 v-else
                                 style="font-size:0.8rem"
-                              >{{ item.singleDate | formatDate}}</span>
+                              >{{ item.dateTime.split('T')[0] }}</span>
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
@@ -177,7 +177,7 @@
                               <span
                                 v-else
                                 style="font-size:0.8rem"
-                              >{{ item.singleDate | formatDate}}</span>
+                              >{{ item.dateTime.split('T')[0] }}</span>
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
@@ -307,7 +307,7 @@
                               <span
                                 v-else
                                 style="font-size:0.8rem"
-                              >{{ item.singleDate | formatDate}}</span>
+                              >{{ item.dateTime.split('T')[0] }}</span>
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
