@@ -9,11 +9,11 @@
           @remove="onRemoved"
           :width="200"
           :removable="true"
-          removeButtonClass="ui red button"
+          removeButtonClass="py-2 text-small v-btn v-btn--contained px-2 red theme--dark"
           :height="200"
           :prefill.sync="avatar"
           accept="image/jpeg, image/png, image/gif"
-          buttonClass="ui button primary"
+          buttonClass="py-2 text-small v-btn v-btn--contained px-2 theme--dark orange"
           :customStrings="{
             upload: '<h1>Profile Image</h1>',
              drag: 'Drag and drop your image here'}"></picture-input>
@@ -360,5 +360,8 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style>
+.text-small{
+  font-size: 0.6rem !important;
+}
 </style>

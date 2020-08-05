@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-card-title class="font-weight-bold">Pending Contracts</v-card-title>
     <v-row>
-      <v-col cols="12" sm="12" class="py-0">
+      <v-col cols="12" sm="12" class="py-0 px-0">
         <v-data-iterator
           :items="pendings"
           :items-per-page.sync="pendingItemsPerPage"
@@ -10,7 +10,7 @@
           hide-default-footer
         >
           <template v-slot:default="props">
-            <v-container>
+            <div>
               <v-card v-for="(item,i) in props.items" :key="item.name" class="mb-2 py-0">
                 <v-list two-line subheader :key="i" class="pb-0">
                   <v-list-item class="list-item">
@@ -41,10 +41,10 @@
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
-                            <h5
+                            <h5 class="capitalized"
                               v-if="item.services == 'pet_hosting' || item.services == 'pet_sitting'"
-                            >{{ item.services}}-{{ countDay(item.startDate,item.endDate) }} Nights</h5>
-                            <h5 v-else>{{ item.services}}</h5>
+                            >{{ item.services | formatName}}-{{ countDay(item.startDate,item.endDate) }} Nights</h5>
+                            <h5 class="capitalized" v-else>{{ item.services | formatName}}</h5>
                             <div class="mt-2">
                               <v-icon small>mdi-calendar</v-icon>
                               <span
@@ -58,9 +58,9 @@
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
-                            Ref: 989898
+                            Ref: <b>{{ item.contractID}}</b>
                             <div class="mt-2">
-                              <h3>${{item.price}}</h3>
+                              <span>Price: </span><h3 style="display:inline-block">${{item.price}}</h3>
                             </div>
                           </v-col>
                         </v-row>
@@ -94,7 +94,7 @@
                   </v-list-item>
                 </v-list>
               </v-card>
-            </v-container>
+            </div>
           </template>
           <template v-slot:no-data>
             <v-card>
@@ -125,7 +125,7 @@
     <!---accepted contracts-->
     <v-card-title class="font-weight-bold">Accepted Contracts</v-card-title>
     <v-row>
-      <v-col cols="12" sm="12" class="py-0">
+      <v-col cols="12" sm="12" class="py-0 px-0">
         <v-data-iterator
           :items="items"
           :items-per-page.sync="itemsPerPage"
@@ -133,7 +133,7 @@
           hide-default-footer
         >
           <template v-slot:default="props">
-            <v-container>
+            <div>
               <v-card v-for="(item,i) in props.items" :key="item.name" class="mb-2 py-0">
                 <v-list two-line subheader :key="i" class="pb-0">
                   <v-list-item class="list-item">
@@ -164,10 +164,10 @@
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
-                            <h5
+                            <h5 class="capitalized"
                               v-if="item.services == 'pet_hosting' || item.services == 'pet_sitting'"
-                            >{{ item.services}}-{{ countDay(item.startDate,item.endDate) }} Nights</h5>
-                            <h5 v-else>{{ item.services}}</h5>
+                            >{{ item.services | formatName}}-{{ countDay(item.startDate,item.endDate) }} Nights</h5>
+                            <h5 class="capitalized" v-else>{{ item.services | formatName}}</h5>
                             <div class="mt-2">
                               <v-icon small>mdi-calendar</v-icon>
                               <span
@@ -181,9 +181,9 @@
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
-                            Ref: 989898
+                            Ref: <b>{{ item.contractID}}</b>
                             <div class="mt-2">
-                              <h3>${{item.price}}</h3>
+                              <span>Price: </span><h3 style="display:inline-block">${{item.price}}</h3>
                             </div>
                           </v-col>
                         </v-row>
@@ -223,7 +223,7 @@
                   </v-list-item>
                 </v-list>
               </v-card>
-            </v-container>
+            </div>
           </template>
           <template v-slot:no-data>
             <v-card>
@@ -255,7 +255,7 @@
     <!---accepted contracts-->
     <v-card-title class="font-weight-bold">Completed Contracts</v-card-title>
     <v-row>
-      <v-col cols="12" sm="12" class="py-0">
+      <v-col cols="12" sm="12" class="py-0 px-0">
         <v-data-iterator
           :items="completed"
           :items-per-page.sync="completedItemsPerPage"
@@ -263,7 +263,7 @@
           hide-default-footer
         >
           <template v-slot:default="props">
-            <v-container>
+            <div>
               <v-card v-for="(item,i) in props.items" :key="item.name" class="mb-2 py-0">
                 <v-list two-line subheader :key="i" class="pb-0">
                   <v-list-item class="list-item">
@@ -294,10 +294,10 @@
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
-                            <h5
+                            <h5 class="capitalized"
                               v-if="item.services == 'pet_hosting' || item.services == 'pet_sitting'"
-                            >{{ item.services}}-{{ countDay(item.startDate,item.endDate) }} Nights</h5>
-                            <h5 v-else>{{ item.services}}</h5>
+                            >{{ item.services | formatName}}-{{ countDay(item.startDate,item.endDate) }} Nights</h5>
+                            <h5 class="capitalized" v-else>{{ item.services | formatName}}</h5>
                             <div class="mt-2">
                               <v-icon small>mdi-calendar</v-icon>
                               <span
@@ -311,9 +311,9 @@
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
-                            Ref: 989898
+                            Ref: <b>{{ item.contractID}}</b>
                             <div class="mt-2">
-                              <h3>${{item.price}}</h3>
+                              <span>Price: </span><h3 style="display:inline-block">${{item.price}}</h3>
                             </div>
                           </v-col>
                         </v-row>
@@ -323,7 +323,7 @@
                   </v-list-item>
                 </v-list>
               </v-card>
-            </v-container>
+            </div>
           </template>
           <template v-slot:no-data>
             <v-card>
@@ -361,11 +361,14 @@ import authStore from "@/store/auth";
 const DateFilter = function(value) {
   return value.split("/").join("-");
 };
-
+const fixName = function(value) {
+  return value.replace('_',' ');
+};
 export default {
   name: "Contracts",
   filters: {
-    formatDate: DateFilter
+    formatDate: DateFilter,
+    formatName: fixName
   },
   props: ["userType"],
   data() {
@@ -550,6 +553,9 @@ export default {
 </script>
 
 <style scoped>
+.capitalized{
+  text-transform: capitalize;
+}
 @media only screen and (max-width: 600px) {
   .list-item {
     flex-direction: column !important;

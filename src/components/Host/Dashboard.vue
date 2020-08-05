@@ -73,9 +73,9 @@
         <v-card-text class="py-2">
           <v-row>
             <v-col cols="12" v-for="(item,i) in pending" :key="i+10" class="py-0">
-              <v-row dense align="end" class="border-below pb-1">
+              <v-row dense align="center" class="border-below pb-1">
                 <v-col cols="6">
-                  {{ item.title}}
+                 <span style="font-size:0.8rem"> {{ item.title}}</span>
                   <v-progress-linear
                     color="#2c7873"
                     height="5"
@@ -85,7 +85,7 @@
                   ></v-progress-linear>
                 </v-col>
                 <v-col cols="2">
-                  <p class="mb-0 text-center">{{ item.completed}}</p>
+                  <p class="mb-0 text-center" style="font-size:0.8rem">{{ item.completed}} %</p>
                 </v-col>
                 <v-col cols="4">
                   <v-btn
@@ -380,15 +380,14 @@ export default {
       avatar: "",
       profile_complition: 0,
       pending: [
-        { title: "Address Proof", completed: "0%", link: "/host/profile" },
-        { title: "Age", completed: "0%", link: "/host/profile" },
-        { title: "Billing Address", completed: "0%", link: "/host/profile" },
-        { title: "Country", completed: "0%", link: "/host/profile" },
-        { title: "Duration", completed: "0%", link: "/host/profile" },
-        { title: "Id Proof", completed: "0%", link: "/host/profile" },
-        { title: "Pet Type", completed: "0%", link: "/host/profile" },
-        { title: "Price", completed: "0%", link: "/host/profile" },
-        { title: "Proof Of Service", completed: "0%", link: "/host/profile" }
+        { title: "Address Proof", completed: "0", link: "/host/profile" },
+        { title: "Admin Verification", completed: "0", link: "" },
+        { title: "Email Verification", completed: "0", link: "/host/profile" },
+        { title: "Phone Verification", completed: "0", link: "/host/profile" },
+        { title: "Profile Photo", completed: "0", link: "/host/profile" },
+        { title: "Id Proof", completed: "0", link: "" },
+        { title: "Quiz", completed: "0", link: "" },
+        { title: "Invite 5 Friends", completed: "0", link: "" }
       ]
     };
   },
@@ -439,14 +438,13 @@ export default {
           if (res.data.status) {
             this.profile_complition = res.data.data.profile_completion;
             this.pending[0].completed = res.data.pending.address_proof;
-            this.pending[1].completed = res.data.pending.age;
-            this.pending[2].completed = res.data.pending.billing_address;
-            this.pending[3].completed = res.data.pending.country;
-            this.pending[4].completed = res.data.pending.duration;
+            this.pending[1].completed = res.data.pending.admin_verification;
+            this.pending[2].completed = res.data.pending.email_verification;
+            this.pending[3].completed = res.data.pending.phone_verification;
+            this.pending[4].completed = res.data.pending.profile_photo;
             this.pending[5].completed = res.data.pending.id_proof;
-            this.pending[6].completed = res.data.pending.pet_type;
-            this.pending[7].completed = res.data.pending.price;
-            this.pending[8].completed = res.data.pending.proof_of_service;
+            this.pending[6].completed = res.data.pending.quiz;
+            this.pending[7].completed = res.data.pending.invite_5_friends;
           }
         })
         .catch(err => {

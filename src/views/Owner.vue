@@ -61,8 +61,9 @@
         <v-row justify="center" align="center">
           <v-col> -->
             
-            
+            <v-container  fluid>
             <router-view></router-view>
+            </v-container>
           <!-- </v-col>
         </v-row>
       </v-container> -->

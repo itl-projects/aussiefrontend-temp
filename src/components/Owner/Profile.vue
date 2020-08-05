@@ -12,10 +12,10 @@
           width="200"
           height="200"
           removable
-          removeButtonClass="ui red button"
+          removeButtonClass="py-2 text-small v-btn v-btn--contained px-2 red theme--dark"
           :prefill="avatar"
           accept="image/jpeg, image/png, image/gif"
-          buttonClass="ui button primary"
+          buttonClass="py-2 text-small v-btn v-btn--contained px-2 theme--dark orange"
           :customStrings="{
                         upload: '<h1>Upload it!</h1>',
                         drag: 'Drag and drop your image here'}"
@@ -387,4 +387,7 @@ export default {
 };
 </script>
 <style scoped>
+.text-small{
+  font-size: 0.6rem !important;
+}
 </style>

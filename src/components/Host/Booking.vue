@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <div>
     <!-- <v-card-text>
       <v-row class="mb-4" align="center">
         <v-col cols="12" sm="1">
@@ -45,7 +45,7 @@
       </v-col>
     </v-row>
     
-  </v-container>
+  </div>
 </template>
 
 
