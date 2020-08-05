@@ -499,8 +499,11 @@ export default {
         }
       };
       let data = { contractID: cid, action: [status] };
+      let url = urls.URL;
+      if (this.userType === "owner") url = url + "/petowner/updatecontract/";
+      else if (this.userType === "host") url = url + "/host/updatecontract/";
       axios
-        .post(urls.URL + "/host/updatecontract/", data, config)
+        .post(url, data, config)
         .then(res => {
           if (res.data.status) {
             this.getConracts();

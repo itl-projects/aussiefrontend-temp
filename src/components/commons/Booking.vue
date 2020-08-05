@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     
-          <v-card-title class="subheading font-weight-bold mb-2">Running Booking</v-card-title>
+          <v-card-title class="subheading font-weight-bold mb-2 py-0">Ongoing Booking</v-card-title>
     
             <v-row>
               <v-col cols="12" sm="12" class="py-0">
@@ -22,7 +22,7 @@
                                 :src="img_url + item.petowner_details.avatar_path"
                               ></v-img>
                               <v-img
-                                v-if="userType=='owner'"
+                                v-if="userType=='petowner'"
                                 :src="img_url + item.host_details.avatar_path"
                               ></v-img>
                             </v-list-item-avatar>
@@ -132,7 +132,7 @@
                         :src="img_url + item.petowner_details.avatar_path"
                       ></v-img>
                       <v-img
-                        v-if="userType=='owner'"
+                        v-if="userType=='petowner'"
                         :src="img_url + item.host_details.avatar_path"
                       ></v-img>
                     </v-list-item-avatar>
@@ -245,7 +245,7 @@
                         :src="img_url + item.petowner_details.avatar_path"
                       ></v-img>
                       <v-img
-                        v-if="userType=='owner'"
+                        v-if="userType=='petowner'"
                         :src="img_url + item.host_details.avatar_path"
                       ></v-img>
                     </v-list-item-avatar>
@@ -370,11 +370,12 @@ export default {
     }
   },
   created: function() {
-    const loc = window.location.pathname.toString().split("/");
-     if (authStore.userType() == "host" && (loc[1] !="host" && loc[2] == 'contracts'))
-      router.replace({ path: "/host/bookings/" });
-    else if(authStore.userType() == "petowner" && (loc[1] !="owner" && loc[2] == 'contracts')) router.replace({ path: "/owner/bookings/" });
     this.userType = authStore.userType();
+    const loc = window.location.pathname.toString().split("/");
+     if (this.userType == "host" && (loc[1] !="host" && loc[2] == 'contracts'))
+      router.replace({ path: "/host/bookings/" });
+    else if(this.userType == "petowner" && (loc[1] !="owner" && loc[2] == 'contracts')) router.replace({ path: "/owner/bookings/" });
+    
     this.getBookings();
   },
   methods: {
