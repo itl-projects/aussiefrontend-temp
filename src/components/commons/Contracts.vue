@@ -20,7 +20,7 @@
                         :src="img_url + item.petowner_details.avatar_path"
                       ></v-img>
                       <v-img
-                        v-if="userType=='owner'"
+                        v-if="userType=='petowner'"
                         :src="img_url + item.host_details.avatar_path"
                       ></v-img>
                     </v-list-item-avatar>
@@ -30,7 +30,7 @@
                         <v-row>
                           <v-col cols="12" sm="3" class="py-0">
                             <h5
-                              v-if="userType=='owner'"
+                              v-if="userType=='petowner'"
                             >{{ item.host_details.first_name +" "+item.host_details.last_name}}</h5>
                             <h5
                               v-if="userType=='host'"
@@ -85,7 +85,7 @@
                         >Decline</v-btn>
                       </v-row>
                       <v-chip
-                        v-if="userType == 'owner'"
+                        v-if="userType == 'petowner'"
                         small
                         color="orange"
                         dark
@@ -143,7 +143,7 @@
                         :src="img_url + item.petowner_details.avatar_path"
                       ></v-img>
                       <v-img
-                        v-if="userType=='owner'"
+                        v-if="userType=='petowner'"
                         :src="img_url + item.host_details.avatar_path"
                       ></v-img>
                     </v-list-item-avatar>
@@ -153,7 +153,7 @@
                         <v-row>
                           <v-col cols="12" sm="3" class="py-0">
                             <h5
-                              v-if="userType=='owner'"
+                              v-if="userType=='petowner'"
                             >{{ item.host_details.first_name +" "+item.host_details.last_name}}</h5>
                             <h5
                               v-if="userType=='host'"
@@ -191,7 +191,7 @@
                     </v-list-item-content>
 
                     <v-list-item-action>
-                      <v-row v-if="userType == 'owner'">
+                      <v-row v-if="userType == 'petowner'">
                         <v-btn text color="#2c7873" dark small @click="doChat(item)">Chat</v-btn>
                         <v-btn
                           text
@@ -273,7 +273,7 @@
                         :src="img_url + item.petowner_details.avatar_path"
                       ></v-img>
                       <v-img
-                        v-if="userType=='owner'"
+                        v-if="userType=='petowner'"
                         :src="img_url + item.host_details.avatar_path"
                       ></v-img>
                     </v-list-item-avatar>
@@ -283,7 +283,7 @@
                         <v-row>
                           <v-col cols="12" sm="3" class="py-0">
                             <h5
-                              v-if="userType=='owner'"
+                              v-if="userType=='petowner'"
                             >{{ item.host_details.first_name +" "+item.host_details.last_name}}</h5>
                             <h5
                               v-if="userType=='host'"
@@ -370,7 +370,6 @@ export default {
     formatDate: DateFilter,
     formatName: fixName
   },
-  props: ["userType"],
   data() {
     return {
       itemsPerPageArray: [4, 8, 12],
@@ -400,10 +399,11 @@ export default {
     }
   },
   created: function() {
+    this.userType = authStore.userType();
     const loc = window.location.pathname.toString().split("/");
-    if (authStore.userType() == "host" && (loc[1] !="host" && loc[2] == 'contracts'))
+    if (this.userType == "host" && (loc[1] !="host" && loc[2] == 'contracts'))
       router.replace({ path: "/host/contracts/" });
-    else if(authStore.userType() == "petowner" && (loc[1] !="owner" && loc[2] == 'contracts')) router.replace({ path: "/owner/contracts/" });
+    else if(this.userType == "petowner" && (loc[1] !="owner" && loc[2] == 'contracts')) router.replace({ path: "/owner/contracts/" });
     this.getConracts();
     this.getCompltedContaracts();
   },
@@ -443,7 +443,7 @@ export default {
     getConracts() {
       this.loading = true;
       let url = urls.URL;
-      if (this.userType === "owner") url = url + "/petowner/viewcontract";
+      if (this.userType === "petowner") url = url + "/petowner/viewcontract";
       else if (this.userType === "host") url = url + "/host/viewcontract";
       let config = {
         headers: {
@@ -471,7 +471,7 @@ export default {
     getCompltedContaracts(){
       this.loading = true;
       let url = urls.URL;
-      if (this.userType === "owner") url = url + "/petowner/oldcontract/";
+      if (this.userType === "petowner") url = url + "/petowner/oldcontract/";
       else if (this.userType === "host") url = url + "/host/oldcontract/";
       let config = {
         headers: {
@@ -483,7 +483,7 @@ export default {
       axios
         .get(url, config)
         .then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.data.status) {
             res.data.data.pending;
             this.completed = res.data.data;
@@ -503,7 +503,7 @@ export default {
       };
       let data = { contractID: cid, action: [status] };
       let url = urls.URL;
-      if (this.userType === "owner") url = url + "/petowner/updatecontract/";
+      if (this.userType === "petowner") url = url + "/petowner/updatecontract/";
       else if (this.userType === "host") url = url + "/host/updatecontract/";
       axios
         .post(url, data, config)

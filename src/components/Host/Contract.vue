@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Contracts :userType="'host'"/>
+        <Contracts/>
     </div>
 </template>
 

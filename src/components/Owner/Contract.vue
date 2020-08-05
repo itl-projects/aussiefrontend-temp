@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Contracts :userType="'owner'"/>
+        <Contracts/>
     </div>
 </template>
 
