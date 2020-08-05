@@ -86,7 +86,7 @@
                                 <v-btn color="#2c7873" text dark small @click="doChat(item)">Chat</v-btn>
                                 <v-btn v-if="isBookingCompleted(item.endDate) && item.contractStatus != 31101" text color="#2c7873" dark small  @click="updateBooking(item.contractID,'complete')">Completed</v-btn>
                                 <v-chip
-                                 (v-if="item.contractStatus != 41101 || item.contractStatus != 21101) && item.contractStatus == 31101"
+                                 v-if="(item.contractStatus != 41101 || item.contractStatus != 21101) && item.contractStatus == 31101"
                         small
                         color="orange"
                         class="ml-3"
