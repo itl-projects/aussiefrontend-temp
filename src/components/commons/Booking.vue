@@ -394,7 +394,7 @@ export default {
       return new Date(val2).getDate() - new Date(val1).getDate();
     },
     isBookingCompleted(end_date) {
-      return new Date().getDate() - new Date(end_date).getDate() <= 0 ? true : false;
+      return new Date(end_date).getDate() - new Date().getDate() <= 0 ? true : false;
     },    nextPage() {
       if (this.page + 1 < this.numberOfPages) this.page += 1;
     },
