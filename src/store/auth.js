@@ -115,15 +115,6 @@ var authStore = {
     localStorage.removeItem("user_data");
     localStorage.removeItem("user_token");
     localStorage.removeItem("user_type");
-  },
+  }
 };
 export default authStore;
-//AuthStore;
-// {
-//   saveUserData,
-//   userToken,
-//   userDetails,
-//   userType,
-//   isSignedIn,
-//   logout,
-// };

@@ -23,9 +23,20 @@
         </v-col>
 
         <v-col cols="4" sm="1">
-          <v-badge v-model="email_not" overlap color="primary" content="0" value="0">
-            <v-icon>mdi-email</v-icon>
+          
+          <v-menu offset-y>
+            <template v-slot:activator="{ on, attrs }">
+              <v-badge v-model="message_notification.count" overlap color="primary" :content="message_notification.count" :value="message_notification.count">
+            <v-icon  v-bind="attrs" v-on="on">mdi-email</v-icon>
           </v-badge>
+            </template>
+            <v-list v-if="message_notification.items.length > 0">
+              <v-list-item  v-for="(item,i) in message_notification" :key="'message-'+i" @click="showMessage(i)">
+                <v-list-item-title>{{ item.message }}</v-list-item-title>
+              </v-list-item>
+              
+            </v-list>
+          </v-menu>
         </v-col>
 
         <v-col cols="4" sm="1">
@@ -76,6 +87,7 @@
 <script>
 import router from "../router";
 import authStore from "../store/auth";
+import notificationsStore from "../store/notifications";
 import HostSidebar from "@/components/Host/Sidebar";
 
 export default {
@@ -102,7 +114,9 @@ export default {
         disabled: true,
         href: "breadcrumbs_link_1"
       }
-    ]
+    ],
+    connection:null,
+    message_notification: notificationsStore.getMessages
   }),
   beforeUpdate: function() {
     if (window.location.pathname.toString().split("/").length == 2) {
@@ -120,6 +134,7 @@ export default {
     }
   },
   created: function() {
+    console.log(this.message_notification);
     let s = window.location.pathname.toString().split("/");
     this.items[1].text = s[s.length - 1];
     this.items[1].href = window.location.pathname.toString();
@@ -128,6 +143,25 @@ export default {
     this.avatar = udata.avatar;
     this.email = udata.email;
     window.scroll({ top: 0, left: 0, behavior: "smooth" });
+    this.connection = new WebSocket(
+      `wss://aussiepetsbnb.com.au/ws/notifications`
+    );
+
+    this.connection.onmessage = (e) => {
+      let data = JSON.parse(e.data);
+      if(data.message){
+        notificationsStore.saveMessage(data.message);
+        this.message_notification = notificationsStore.getMessages;
+
+
+      }
+      
+    };
+    this.connection.onopen = function(event) {
+      console.log(event);
+    this.connection.send(JSON.stringify({"type": "start_notification", "message":"New contract generated",
+    "user":authStore.getUsername()}))
+    };
   },
   methods: {
     toggleMenu: function() {
@@ -150,6 +184,10 @@ export default {
     },
     menuChanged(val){
       this.menu = val;
+    },
+    showMessage(index){
+      let data = this.message_notification.items[index];
+      console.log(data);
     }
   },
   beforeRouteEnter(to, from, next) {
