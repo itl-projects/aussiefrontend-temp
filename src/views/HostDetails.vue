@@ -472,7 +472,7 @@
                               </v-col>
                               <v-col cols="5">
                                 <v-label>
-                                  c &
+                                  Exercise &
                                   <br />walkies services
                                 </v-label>
                               </v-col>
@@ -694,6 +694,10 @@
                             ></v-img>
                           </v-card>
                         </v-col>
+                        <v-col class="text-center" cols="12">
+                          <h4>No Photos Uploaded by Host</h4>
+                          </v-col>
+
                       </v-row>
                     </v-container>
                   </v-card-text>
@@ -1116,7 +1120,7 @@ export default {
           return false;
         }
       }
-      this.valid = false;
+      this.valid = true;
     },
     getPetsType() {
       let type = "Dog";
