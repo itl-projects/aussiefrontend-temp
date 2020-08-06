@@ -84,8 +84,12 @@
           </v-card-text>
 
           <v-card-actions>
-            <v-btn text color="deep-purple accent-4">Apply Now</v-btn>
+            <v-col cols="12" sm="6">
+              <v-btn text color="deep-purple accent-4">Apply Now</v-btn>
+            </v-col>
+            <v-col cols="12" sm="6">
             <v-btn text color="deep-purple accent-4">More Information</v-btn>
+            </v-col>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -103,9 +107,9 @@
                   transition="dialog-bottom-transition"
                 >
                   <template v-slot:activator="{ on }">
-                    <div class="add-pet mr-10">
-                      <v-row justify="space-between">
-                        <v-icon large color="#2c7873">mdi-paw</v-icon>
+                    <div class="add-pet">
+                      <v-row justify="center">
+                        <v-icon large color="#2c7873" class="mr-2">mdi-paw</v-icon>
                         <h2 style="color:#2c7873">Add Pet</h2>
                       </v-row>
                       <div

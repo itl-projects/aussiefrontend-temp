@@ -6,11 +6,15 @@ var notifications = {
 
     saveMessage(msg){
         let data = JSON.parse(localStorage.getItem('messages'));
+        
         if(data){
-            data.count = data.count - 1; 
-            data.items.push(msg);
+            let temp = data.items.filter((el)=>{return el.id == msg.id });
+            if(temp.length <=0){
+                data.items.push(msg);
+                data.count = data.items.length; 
+            }
         }else{
-            data = {count:1,items:msg};
+            data = {count:1,items:[msg]};
         }
         localStorage.setItem('messages',JSON.stringify(data));
     },
@@ -28,11 +32,14 @@ var notifications = {
             });
         index.forEach(i=>{
             data.items.splice(i,1);
-            data.count = data.count - 1;
+            data.count = data.items.length;
         });
 
         localStorage.setItem('messages',JSON.stringify(data));
         }
+    },
+    clearAllNotifications(){
+        localStorage.removeItem('messages');
     }
 };
 

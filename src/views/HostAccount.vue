@@ -24,17 +24,27 @@
 
         <v-col cols="4" sm="1">
           
-          <v-menu offset-y>
+          <v-menu offset-y max-height="300px">
             <template v-slot:activator="{ on, attrs }">
-              <v-badge v-model="message_notification.count" overlap color="primary" :content="message_notification.count" :value="message_notification.count">
+              <v-badge overlap color="primary" :content="message_notification.count" :value="message_notification.count">
             <v-icon  v-bind="attrs" v-on="on">mdi-email</v-icon>
           </v-badge>
             </template>
-            <v-list v-if="message_notification.items.length > 0">
-              <v-list-item  v-for="(item,i) in message_notification" :key="'message-'+i" @click="showMessage(i)">
-                <v-list-item-title>{{ item.message }}</v-list-item-title>
+            <v-list v-if="message_notification.items.length > 0" class="py-0">
+              <v-list-item  v-for="(item,i) in message_notification.items" :key="'message-'+i" @click="showMessage(i)" style="border-bottom: 1px solid #dfdfdf;">
+                <v-list-item-title>
+                  <v-icon class="mr-2">mdi-email</v-icon>
+                  <span style="font-size:0.8rem">{{ item.message }}</span>
+                </v-list-item-title>
+                
               </v-list-item>
-              
+              <v-list-item>
+                <v-list-item-action>
+                  <v-list-item-action-text>
+                    <v-btn small text @click="clearAllMessages">clear all</v-btn>
+                  </v-list-item-action-text>
+                </v-list-item-action>
+              </v-list-item>
             </v-list>
           </v-menu>
         </v-col>
@@ -134,7 +144,6 @@ export default {
     }
   },
   created: function() {
-    console.log(this.message_notification);
     let s = window.location.pathname.toString().split("/");
     this.items[1].text = s[s.length - 1];
     this.items[1].href = window.location.pathname.toString();
@@ -144,23 +153,21 @@ export default {
     this.email = udata.email;
     window.scroll({ top: 0, left: 0, behavior: "smooth" });
     this.connection = new WebSocket(
-      `wss://aussiepetsbnb.com.au/ws/notifications`
+      `wss://aussiepetsbnb.com.au/ws/notifications/`
     );
 
     this.connection.onmessage = (e) => {
       let data = JSON.parse(e.data);
-      if(data.message){
-        notificationsStore.saveMessage(data.message);
+      if(data.data){
+        if(data.data.type == 'message'){
+        notificationsStore.saveMessage(data.data);
         this.message_notification = notificationsStore.getMessages;
-
-
-      }
-      
+        }
+      }      
     };
-    this.connection.onopen = function(event) {
-      console.log(event);
-    this.connection.send(JSON.stringify({"type": "start_notification", "message":"New contract generated",
-    "user":authStore.getUsername()}))
+    this.connection.onopen = (event)=> {
+    console.log(event);
+    this.connection.send(JSON.stringify({"type": "start_notification","user":authStore.getUsername()}))
     };
   },
   methods: {
@@ -186,8 +193,13 @@ export default {
       this.menu = val;
     },
     showMessage(index){
-      let data = this.message_notification.items[index];
-      console.log(data);
+      notificationsStore.deleteMessage(this.message_notification.items[index].id);
+      this.message_notification = notificationsStore.getMessages;
+      router.push('/host/messages');
+    },
+    clearAllMessages(){
+      notificationsStore.clearAllNotifications();
+      this.message_notification = notificationsStore.getMessages;
     }
   },
   beforeRouteEnter(to, from, next) {
