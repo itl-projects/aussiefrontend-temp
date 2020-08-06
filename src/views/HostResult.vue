@@ -198,6 +198,8 @@
                                       contain
                                       eager
                                       :src="img_url + item.avatar_path"
+                                      max-width="200px"
+                                      max-height="200px"
                                     />
                                     <v-img v-else
                                       style="border-radius:5px;"

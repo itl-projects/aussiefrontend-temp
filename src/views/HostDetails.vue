@@ -472,14 +472,14 @@
                               </v-col>
                               <v-col cols="5">
                                 <v-label>
-                                  Exercise &
+                                  c &
                                   <br />walkies services
                                 </v-label>
                               </v-col>
                               <v-divider vertical />
                               <v-col cols="4">
-                                <v-label v-if="excercise_walk_service.provided">
-                                  $ {{excercise_walk_service.price}}
+                                <v-label v-if="exercise_walk_service.provided">
+                                  $ {{exercise_walk_service.price}}
                                   <span class="grey--text">/ night</span>
                                 </v-label>
                                 <v-label v-else>not offered</v-label>
@@ -1023,7 +1023,7 @@ export default {
       isDayHosting: false,
       min_date: new Date().toISOString().substr(0, 10),
       cancellation_policy: { provided: false, type: "" },
-      excercise_walk_service: { provided: false, price: 0 },
+      exercise_walk_service: { provided: false, price: 0 },
       house_visits: { provided: false, price: 0 },
       last_min_bookings: { provided: false, price: 0 },
       long_term_bookings: { provided: false, price: 0 },
@@ -1217,13 +1217,13 @@ export default {
               JSON.parse(res.data.services.exercise_walk_service).optional ==
               "on"
             ) {
-              this.excercise_walk_service.provided = true;
-              this.excercise_walk_service.price = JSON.parse(
-                res.data.services.excercise_walk_service
+              this.exercise_walk_service.provided = true;
+              this.exercise_walk_service.price = JSON.parse(
+                res.data.services.exercise_walk_service
               ).base_rate_pernight;
               this.serviceType[
                 4 - count
-              ].price = this.excercise_walk_service.price;
+              ].price = this.exercise_walk_service.price;
             } else {
               this.serviceType.splice(4 - count, 1);
               count = count + 1;
