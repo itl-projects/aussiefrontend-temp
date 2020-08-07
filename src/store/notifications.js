@@ -53,8 +53,9 @@ var notifications = {
     },
     clearAllNotificationByType(type){
         let data = JSON.parse(localStorage.getItem('notifications'));
-        let index = [];
+        
         if(data){
+            let index = [];
             data.items.forEach((el,i)=>{
                 if(el.type == type){
                     index.push(i);

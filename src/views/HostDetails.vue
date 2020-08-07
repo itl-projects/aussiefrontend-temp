@@ -1274,11 +1274,12 @@ export default {
       this.dayService = this.serviceSelected.type == 2 ? true : false;
     },
     generateContract() {
-      this.generatingContract = true;
+      
       if(this.petSelected=="Choose Pet(s)"){
         this.petSelectErrors = ["please choose pets"];
       }
       if (authStore.isSignedIn()) {
+        this.generatingContract = true;
         let pets = [];
         this.petTypes.forEach(el => {
           if (el.count > 0) {

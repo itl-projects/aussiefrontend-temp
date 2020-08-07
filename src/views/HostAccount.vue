@@ -162,9 +162,9 @@
 </template>
 
 <script>
-import router from "../router";
-import authStore from "../store/auth";
-import notificationsStore from "../store/notifications";
+import router from "@/router";
+import authStore from "@/store/auth";
+import notificationsStore from "@/store/notifications";
 import HostSidebar from "@/components/Host/Sidebar";
 
 export default {
@@ -231,8 +231,12 @@ export default {
           notificationsStore.saveMessage(data.data, data.data.type);
           if (data.data.type == "message")
             this.message_notification = notificationsStore.getMessages;
-          else if (data.data.type == "contract" || data.data.type == "booking")
-            this.other_notification = notificationsStore.getOtherNotifications;
+          else if (data.data.type == "contract" || data.data.type == "booking"){
+            setTimeout(()=>{
+              this.other_notification = notificationsStore.getOtherNotifications;
+            },300);
+          }
+            
         }
       }
     };

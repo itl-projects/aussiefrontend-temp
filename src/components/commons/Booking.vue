@@ -38,8 +38,9 @@
                                       v-if="userType=='host'"
                                     >{{ item.petowner_details.first_name +" "+item.petowner_details.last_name}}</h5>
                                     <div class="mt-2">
-                                      <v-icon small>mdi-paw</v-icon>Pets:
-                                      <a href="#" style="white-space: pre-wrap;">{{ item.petType}}</a>
+                                      <!-- <v-icon small>mdi-paw</v-icon> -->
+                                      <span style="font-size:0.8rem">Pets:</span>
+                                      <a href="#" style="white-space: pre-wrap;font-size:0.8rem">{{ item.petType}}</a>
                                     </div>
                                   </v-col>
                                   <v-col cols="12" sm="4" class="py-1">
@@ -59,10 +60,10 @@
                                       >{{ item.dateTime.split('T')[0] }}</span>
                                     </div>
                                   </v-col>
-                                  <v-col cols="12" sm="3" class="py-1">
-                                    Ref: <b>{{ item.contractID}}</b>
+                                  <v-col cols="12" sm="3" class="py-0">
+                                    <span style="font-size:0.8rem">Ref: {{ item.contractID}}</span>
                                     <div class="mt-2">
-                                      <span >Price: </span><h3 style="display:inline-block">${{item.price}}</h3>
+                                      <span style="font-size:0.9rem">Price: <b>${{item.price}}</b></span>
                                     </div>
                                   </v-col>
                                 </v-row>
@@ -163,8 +164,9 @@
                               v-if="userType=='host'"
                             >{{ item.petowner_details.first_name +" "+item.petowner_details.last_name}}</h5>
                             <div class="mt-2">
-                              <v-icon small>mdi-paw</v-icon>Pets:
-                              <a href="#" style="white-space: pre-wrap;">{{ item.petType}}</a>
+                              <!-- <v-icon small>mdi-paw</v-icon> -->
+                              <span style="font-size:0.8rem">Pets:</span>
+                              <a href="#" style="white-space: pre-wrap;font-size:0.8rem">{{ item.petType}}</a>
                             </div>
                           </v-col>
                           <v-col cols="12" sm="4" class="py-1">
@@ -185,9 +187,9 @@
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
-                            Ref: <b>{{ item.contractID}}</b>
+                            <span style="font-size:0.8rem">Ref: {{ item.contractID}}</span>
                             <div class="mt-2">
-                              <span>Price: </span><h3 style="display:inline-block">${{item.price}}</h3>
+                              <span style="font-size:0.9rem">Price: <b>${{item.price}}</b> </span>
                             </div>
                           </v-col>
                         </v-row>
@@ -276,8 +278,9 @@
                               v-if="userType=='host'"
                             >{{ item.petowner_details.first_name +" "+item.petowner_details.last_name}}</h5>
                             <div class="mt-2">
-                              <v-icon small>mdi-paw</v-icon>Pets:
-                              <a href="#" style="white-space: pre-wrap;">{{ item.petType}}</a>
+                              <!-- <v-icon small>mdi-paw</v-icon> -->
+                              <span style="font-size:0.9rem">Pets:</span>
+                              <a href="#" style="white-space: pre-wrap;font-size:0.8rem;">{{ item.petType}}</a>
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
@@ -298,9 +301,9 @@
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
-                            Ref: <b>{{ item.contractID}}</b>
+                            <span style="font-size:0.8rem">Ref: {{ item.contractID}}</span>
                             <div class="mt-2">
-                              <span>Price: </span><h3 style="display:inline-block">${{item.price}}</h3>
+                              <span style="font-size:0.9rem">Price: <b>${{item.price}}</b></span>
                             </div>
                           </v-col>
                         </v-row>
@@ -346,6 +349,7 @@ import router from "../../router";
 import * as axios from "axios";
 import urls from "@/axios/config";
 import authStore from "@/store/auth";
+import notificationsStore from "@/store/notifications";
 const DateFilter = function(value) {
   return value.split("/").join("-");
 };
@@ -372,7 +376,8 @@ export default {
       loading: true,
       img_url: urls.IMGURL,
       completed: [],
-      userType:""
+      userType:"",
+      connection: null,
     };
   },
 
@@ -395,6 +400,34 @@ export default {
       router.replace({ path: "/host/bookings/" });
     else if(this.userType == "petowner" && (loc[1] !="owner" && loc[2] == 'contracts')) router.replace({ path: "/owner/bookings/" });
     }
+    window.scroll({ top: 0, left: 0, behavior: "smooth" });
+    this.connection = new WebSocket(
+      `wss://aussiepetsbnb.com.au/ws/notifications/`
+    );
+
+    this.connection.onmessage = e => {
+      let data = JSON.parse(e.data);
+      if (data.data) {
+        if (data.data.type) {
+          if (data.data.type == "booking"){
+            this.getBookings();
+
+            setTimeout(()=>{
+              notificationsStore.clearAllNotificationByType(data.data.type);
+            },100);
+          }
+        }
+      }
+    };
+    this.connection.onopen = event => {
+      console.log(event);
+      this.connection.send(
+        JSON.stringify({
+          type: "start_notification",
+          user: authStore.getUsername()
+        })
+      );
+    };
     this.getBookings();
   },
   methods: {
