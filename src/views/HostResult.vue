@@ -198,6 +198,7 @@
                                       contain
                                       eager
                                       :src="img_url + item.avatar_path"
+                                      :lazy-src="img_url + item.avatar_path"
                                       max-width="200px"
                                       max-height="200px"
                                     />
@@ -206,6 +207,7 @@
                                       contain
                                       eager
                                       src="@/assets/images/icon-people-circle.svg"
+                                      lazy-src="@/assets/images/icon-people-circle.svg"
                                     />
                                   </v-col>
                                   <v-col cols="12 py-0">

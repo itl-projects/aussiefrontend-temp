@@ -12,31 +12,99 @@
       <v-btn icon @click.stop="miniVariant = !miniVariant">
         <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
       </v-btn>
-     
+
       <v-toolbar-title>Dashboard</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-row align="center" justify="end" class="mr-4">
         <v-col cols="4" sm="1">
-          <v-badge color="success" content="0" overlap value="0">
-            <v-icon>mdi-bell</v-icon>
-          </v-badge>
+          <v-menu offset-y max-height="300px">
+            <template v-slot:activator="{ on, attrs }">
+              <v-badge
+                overlap
+                color="orange"
+                :content="other_notification.count"
+                :value="other_notification.count"
+              >
+                <v-icon v-bind="attrs" v-on="on">mdi-bell</v-icon>
+              </v-badge>
+            </template>
+            <v-list v-if="other_notification.items.length > 0" class="py-0">
+              <v-list-item
+                v-for="(item,i) in other_notification.items"
+                :key="'message-'+i"
+                @click="showNotification(i)"
+                style="border-bottom: 1px solid #dfdfdf;"
+              >
+                <v-list-item-title>
+                  <v-row>
+                    <v-col class="py-0" cols="2">
+                      <v-icon v-if="item.type == 'contract'">mdi-file-document-multiple</v-icon>
+                      <v-icon v-else class="mr-2">mdi-sticker-check</v-icon>
+                    </v-col>
+                    <v-col class="py-0" cols="10">
+                      <v-row>
+                        <v-col class="py-0" cols="12">
+                          <span style="font-size:0.8rem">{{ item.message }}</span>
+                        </v-col>
+                        <v-col class="py-0" cols="12">
+                          <span
+                            style="font-size:0.6rem;color: #2c7873;float: right;margin-top: 2px;"
+                          >{{ item.date +" "+item.time }}</span>
+                        </v-col>
+                      </v-row>
+                    </v-col>
+                  </v-row>
+                </v-list-item-title>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-action>
+                  <v-list-item-action-text>
+                    <v-btn small text @click="clearAllNotifications">clear all</v-btn>
+                  </v-list-item-action-text>
+                </v-list-item-action>
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </v-col>
 
         <v-col cols="4" sm="1">
-          
           <v-menu offset-y max-height="300px">
             <template v-slot:activator="{ on, attrs }">
-              <v-badge overlap color="primary" :content="message_notification.count" :value="message_notification.count">
-            <v-icon  v-bind="attrs" v-on="on">mdi-email</v-icon>
-          </v-badge>
+              <v-badge
+                overlap
+                color="primary"
+                :content="message_notification.count"
+                :value="message_notification.count"
+              >
+                <v-icon v-bind="attrs" v-on="on">mdi-email</v-icon>
+              </v-badge>
             </template>
             <v-list v-if="message_notification.items.length > 0" class="py-0">
-              <v-list-item  v-for="(item,i) in message_notification.items" :key="'message-'+i" @click="showMessage(i)" style="border-bottom: 1px solid #dfdfdf;">
+              <v-list-item
+                v-for="(item,i) in message_notification.items"
+                :key="'message-'+i"
+                @click="showMessage(i)"
+                style="border-bottom: 1px solid #dfdfdf;"
+              >
                 <v-list-item-title>
-                  <v-icon class="mr-2">mdi-email</v-icon>
-                  <span style="font-size:0.8rem">{{ item.message }}</span>
+                  <v-row>
+                    <v-col class="py-0" cols="2">
+                      <v-icon class="mr-2">mdi-email</v-icon>
+                    </v-col>
+                    <v-col class="py-0" cols="10">
+                      <v-row>
+                        <v-col class="py-0" cols="12">
+                          <span style="font-size:0.8rem">{{ item.message }}</span>
+                        </v-col>
+                        <v-col class="py-0" cols="12">
+                          <span
+                            style="font-size:0.6rem;color: #2c7873;float: right;margin-top: 2px;"
+                          >{{ item.date +" "+item.time }}</span>
+                        </v-col>
+                      </v-row>
+                    </v-col>
+                  </v-row>
                 </v-list-item-title>
-                
               </v-list-item>
               <v-list-item>
                 <v-list-item-action>
@@ -74,24 +142,23 @@
         </v-col>
       </v-row>
     </v-app-bar>
-    
+
     <v-content>
       <div>
-          <v-breadcrumbs :items="items"></v-breadcrumbs>
-        </div>
-                <v-divider></v-divider>
-      <v-container  fluid>
-         <!-- <v-row
+        <v-breadcrumbs :items="items"></v-breadcrumbs>
+      </div>
+      <v-divider></v-divider>
+      <v-container fluid>
+        <!-- <v-row
           justify="center"
           align="center" >
-          <v-col> -->
-          <router-view></router-view>          
-          <!-- </v-col>
-        </v-row> -->
+        <v-col>-->
+        <router-view></router-view>
+        <!-- </v-col>
+        </v-row>-->
       </v-container>
     </v-content>
   </v-app>
-
 </template>
 
 <script>
@@ -125,7 +192,8 @@ export default {
         href: "breadcrumbs_link_1"
       }
     ],
-    connection:null,
+    connection: null,
+    other_notification: notificationsStore.getOtherNotifications,
     message_notification: notificationsStore.getMessages
   }),
   beforeUpdate: function() {
@@ -156,18 +224,26 @@ export default {
       `wss://aussiepetsbnb.com.au/ws/notifications/`
     );
 
-    this.connection.onmessage = (e) => {
+    this.connection.onmessage = e => {
       let data = JSON.parse(e.data);
-      if(data.data){
-        if(data.data.type == 'message'){
-        notificationsStore.saveMessage(data.data);
-        this.message_notification = notificationsStore.getMessages;
+      if (data.data) {
+        if (data.data.type) {
+          notificationsStore.saveMessage(data.data, data.data.type);
+          if (data.data.type == "message")
+            this.message_notification = notificationsStore.getMessages;
+          else if (data.data.type == "contract" || data.data.type == "booking")
+            this.other_notification = notificationsStore.getOtherNotifications;
         }
-      }      
+      }
     };
-    this.connection.onopen = (event)=> {
-    console.log(event);
-    this.connection.send(JSON.stringify({"type": "start_notification","user":authStore.getUsername()}))
+    this.connection.onopen = event => {
+      console.log(event);
+      this.connection.send(
+        JSON.stringify({
+          type: "start_notification",
+          user: authStore.getUsername()
+        })
+      );
     };
   },
   methods: {
@@ -189,17 +265,30 @@ export default {
         }
       }
     },
-    menuChanged(val){
+    menuChanged(val) {
       this.menu = val;
     },
-    showMessage(index){
-      notificationsStore.deleteMessage(this.message_notification.items[index].id);
-      this.message_notification = notificationsStore.getMessages;
-      router.push('/host/messages');
+    showNotification(index) {
+      const type = this.other_notification.items[index].type;
+      notificationsStore.clearAllNotificationByType(type);
+      this.other_notification = notificationsStore.getOtherNotifications;
+      if (type == "contract") router.push("/host/contracts");
+      else if (type == "booking") router.push("/host/bookings");
     },
-    clearAllMessages(){
+    showMessage(index) {
+      notificationsStore.deleteMessage(
+        this.message_notification.items[index].id
+      );
+      this.message_notification = notificationsStore.getMessages;
+      router.push("/host/messages");
+    },
+    clearAllMessages() {
       notificationsStore.clearAllNotifications();
       this.message_notification = notificationsStore.getMessages;
+    },
+    clearAllNotifications() {
+      notificationsStore.clearAllOtherNotifications();
+      this.other_notification = notificationsStore.getOtherNotifications;
     }
   },
   beforeRouteEnter(to, from, next) {

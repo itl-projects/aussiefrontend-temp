@@ -12,7 +12,7 @@
           </p>
         </div>
         <div class="login-image">
-          <img class="v-image" src="images/cat1.png" />
+          <img class="v-image" src="images/cat1.png" lazy-src="images/cat1.png" />
         </div>
       </v-col>
       <v-col :cols="12" :md="6" class="text-center">
