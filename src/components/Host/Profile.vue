@@ -22,8 +22,8 @@
         <v-tab-item key="experience">
           <v-card-text>Balance household</v-card-text>
         </v-tab-item>
-        <v-tab-item key="settings">
-          <v-card-text>settings</v-card-text>
+        <v-tab-item key="documents">
+          <Document/>
         </v-tab-item>
         <v-tab-item key="pets">
           <v-card-text>Pets</v-card-text>
@@ -35,11 +35,12 @@
 <script>
 import ServicesAndRates from "@/components/Host/ServicesAndRates";
 import PersonalDetails from "@/components/Host/PersonalDetails";
+import Document from "@/components/Host/Document";
 import authStore from "../../store/auth";
 import router from '../../router';
 export default {
   name: "Profile",
-  components: { ServicesAndRates, PersonalDetails },
+  components: { ServicesAndRates, PersonalDetails,Document },
   data: function() {
     return {
       tab: null
@@ -52,7 +53,15 @@ export default {
     if (!authStore.isSignedIn()) {
       authStore.logout();
       router.replace("/");
+    }else{
+      let type = window.location.hash;
+      if(type == "#profile"){
+          this.tab = 1;
+      }else if(type == "#document"){
+        this.tab = 3;
+      }
     }
+    window.scroll({ top: 0, left: 0, behavior: "smooth" });
   }
 };
 </script>

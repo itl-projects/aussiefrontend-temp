@@ -454,6 +454,7 @@ export default {
   
   mounted() {
     this.getServices();
+    window.scroll({ top: 0, left: 0, behavior: "smooth" });
   },
   methods: {
     getServices() {

@@ -411,7 +411,9 @@ export default {
         if (data.data.type) {
           if (data.data.type == "booking"){
             this.getBookings();
-
+             this.connection.send(
+        JSON.stringify({type: data.data.type, action: "delete"})
+      );
             setTimeout(()=>{
               notificationsStore.clearAllNotificationByType(data.data.type);
             },100);

@@ -380,14 +380,14 @@ export default {
       avatar: "",
       profile_complition: 0,
       pending: [
-        { title: "Address Proof", completed: "0", link: "/host/profile",status:false },
+        { title: "Address Proof", completed: "0", link: "/host/profile#document",status:false },
         { title: "Admin Verification", completed: "0", link: "",status:false },
-        { title: "Email Verification", completed: "0", link: "/host/profile",status:false },
-        { title: "Phone Verification", completed: "0", link: "/host/profile",status:false },
-        { title: "Profile Photo", completed: "0", link: "/host/profile",status:false },
-        { title: "Basic Profile Info", completed: "0", link: "/host/profile",status:false },
+        { title: "Email Verification", completed: "0", link: "/host/profile#profile",status:false },
+        { title: "Phone Verification", completed: "0", link: "/host/profile#profile",status:false },
+        { title: "Profile Photo", completed: "0", link: "/host/profile#profile",status:false },
+        { title: "Basic Profile Info", completed: "0", link: "/host/profile#profile",status:false },
         { title: "Services and Rates", completed: "0", link: "/host/profile",status:false },
-        { title: "Id Proof", completed: "0", link: "",status:false },
+        { title: "Id Proof", completed: "0", link: "/host/profile#document",status:false },
         { title: "Quiz", completed: "0", link: "",status:false },
         { title: "Invite 5 Friends", completed: "0", link: "",status:false }
       ]
@@ -422,6 +422,7 @@ export default {
         authStore.logout();
         router.replace("/");
       }
+    window.scroll({ top: 0, left: 0, behavior: "smooth" });
     }
   },
   methods: {

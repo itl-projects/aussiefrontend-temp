@@ -69,7 +69,7 @@
                     </v-list-item-content>
 
                     <v-list-item-action>
-                      <v-row v-if="userType == 'host'">
+                      <v-row v-if="userType == 'host' && item.contractStatus != 20000">
                         <v-btn
                           text
                           color="#2c7873"
@@ -86,11 +86,23 @@
                         >Decline</v-btn>
                       </v-row>
                       <v-chip
-                        v-if="userType == 'petowner'"
+                        v-if="userType == 'host' && item.contractStatus == 20000"
+                        small
+                        color="red"
+                        dark
+                      >Contract Rejected by Owner</v-chip>
+                      <v-chip
+                        v-if="userType == 'petowner' && item.contractStatus != 40000"
                         small
                         color="orange"
                         dark
                       >Waiting for host to accept</v-chip>
+                      <v-chip
+                        v-if="userType == 'petowner' && item.contractStatus == 40000"
+                        small
+                        color="red"
+                        dark
+                      >Contract Rejected by Host</v-chip>
                     </v-list-item-action>
                   </v-list-item>
                 </v-list>
@@ -193,7 +205,7 @@
                     </v-list-item-content>
 
                     <v-list-item-action>
-                      <v-row v-if="userType == 'petowner'">
+                      <v-row v-if="userType == 'petowner' && item.contractStatus != 40000">
                         <v-btn text color="#2c7873" dark small @click="doChat(item)">Chat</v-btn>
                         <v-btn
                           text
@@ -209,9 +221,15 @@
                           small
                           @click="updateContract(item.contractID,'reject')"
                         >Decline</v-btn>
-                        
                       </v-row>
-                      <v-row  v-if="userType == 'host'">
+                      <v-chip
+                        v-if="userType == 'petowner' && item.contractStatus == 40000"
+                        small
+                        color="red"
+                        dark
+                      >Contract Rejected by Host</v-chip>  
+
+                      <v-row  v-if="userType == 'host' && item.contractStatus != 20000">
                         <v-btn color="#2c7873" text dark small @click="doChat(item)">Chat</v-btn>
                       <v-chip
                         small
@@ -220,6 +238,12 @@
                         dark
                       >Waiting for owner to book</v-chip>
                       </v-row>
+                      <v-chip
+                        v-if="userType == 'host' && item.contractStatus == 20000"
+                        small
+                        color="red"
+                        dark
+                      >Contract Rejected by Owner</v-chip>
                       
                     </v-list-item-action>
                   </v-list-item>
@@ -422,7 +446,9 @@ export default {
         if (data.data.type) {
           if (data.data.type == "contract"){
             this.getConracts();
-
+            this.connection.send(
+        JSON.stringify({type: data.data.type, action: "delete"})
+      );
             setTimeout(()=>{
               notificationsStore.clearAllNotificationByType(data.data.type);
             },100);

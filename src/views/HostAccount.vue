@@ -47,6 +47,7 @@
                           <span style="font-size:0.8rem">{{ item.message }}</span>
                         </v-col>
                         <v-col class="py-0" cols="12">
+                         
                           <span
                             style="font-size:0.6rem;color: #2c7873;float: right;margin-top: 2px;"
                           >{{ item.date +" "+item.time }}</span>
@@ -87,18 +88,21 @@
                 style="border-bottom: 1px solid #dfdfdf;"
               >
                 <v-list-item-title>
-                  <v-row>
-                    <v-col class="py-0" cols="2">
+                  <v-row align="center">
+                    <v-col class="py-0" cols="1">
                       <v-icon class="mr-2">mdi-email</v-icon>
                     </v-col>
-                    <v-col class="py-0" cols="10">
+                    <v-col class="py-0" cols="11">
                       <v-row>
                         <v-col class="py-0" cols="12">
                           <span style="font-size:0.8rem">{{ item.message }}</span>
                         </v-col>
                         <v-col class="py-0" cols="12">
+                           <span
+                            style="font-size:0.7rem;color: #2c7873;float: left;margin-top: 2px;"
+                          >{{ item.count }} new messages</span>
                           <span
-                            style="font-size:0.6rem;color: #2c7873;float: right;margin-top: 2px;"
+                            style="font-size:0.7rem;color: #2c7873;float: right;margin-top: 2px;"
                           >{{ item.date +" "+item.time }}</span>
                         </v-col>
                       </v-row>
@@ -226,6 +230,7 @@ export default {
 
     this.connection.onmessage = e => {
       let data = JSON.parse(e.data);
+      console.log(e);
       if (data.data) {
         if (data.data.type) {
           notificationsStore.saveMessage(data.data, data.data.type);
@@ -275,14 +280,23 @@ export default {
     showNotification(index) {
       const type = this.other_notification.items[index].type;
       notificationsStore.clearAllNotificationByType(type);
+      this.connection.send(
+        JSON.stringify({type: type, action: "delete"})
+      );
       this.other_notification = notificationsStore.getOtherNotifications;
       if (type == "contract") router.push("/host/contracts");
       else if (type == "booking") router.push("/host/bookings");
     },
     showMessage(index) {
       notificationsStore.deleteMessage(
-        this.message_notification.items[index].id
+        this.message_notification.items[index].message_id
       );
+       
+      if(this.message_notification.items[index].message_id){
+        this.connection.send(
+        JSON.stringify({message_id: this.message_notification.items[index].message_id, action: "delete"})
+      );
+      }
       this.message_notification = notificationsStore.getMessages;
       router.push("/host/messages");
     },
@@ -293,6 +307,13 @@ export default {
     clearAllNotifications() {
       notificationsStore.clearAllOtherNotifications();
       this.other_notification = notificationsStore.getOtherNotifications;
+      this.connection.send(
+        JSON.stringify({type: "contract", action: "delete"})
+      );
+      this.connection.send(
+        JSON.stringify({type: "booking", action: "delete"})
+      );
+      
     }
   },
   beforeRouteEnter(to, from, next) {

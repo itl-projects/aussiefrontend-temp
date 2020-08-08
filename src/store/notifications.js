@@ -10,12 +10,20 @@ var notifications = {
         let data = JSON.parse(localStorage.getItem(type));
 
         if(data){
-            let temp = data.items.filter((el)=>{return el.id == msg.id });
+            let temp = data.items.filter((el)=>{return el.message_id == msg.message_id });
             if(temp.length <=0){
+                msg['count'] = 1;
                 data.items.push(msg);
                 data.count = data.items.length; 
+            }else{
+                data.items.forEach((el,i)=>{
+                    if(el.message_id == msg.message_id){
+                        data.items[i].count = data.items[i].count + 1;
+                    }
+                })
             }
         }else{
+            msg['count'] = 1;
             data = {count:1,items:[msg]};
         }
         localStorage.setItem(type,JSON.stringify(data));
@@ -32,7 +40,7 @@ var notifications = {
         let index = [];
         if(data){
             data.items.forEach((el,i)=>{
-                if(el.id == id){
+                if(el.message_id == id){
                     index.push(i);
                 }
             });

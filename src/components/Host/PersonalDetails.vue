@@ -357,6 +357,7 @@ export default {
         this.gender = "Female";
       }
       this.dateFormatted = data.dob ? new Date(data.dob).toISOString().substr(0,10) : new Date().toISOString().substr(0, 10);
+    window.scroll({ top: 0, left: 0, behavior: "smooth" });
   }
 };
 </script>
