@@ -25,6 +25,7 @@ import HostDetailPage from "@/views/HostDetails";
 import ShopPage from "@/views/Shop";
 import OwnerContract from "@/components/Owner/Contract";
 import HostContract from "@/components/Host/Contract";
+import HostQuiz from "@/components/Host/Quiz";
 
 Vue.use(VueRouter);
 
@@ -163,6 +164,10 @@ const routes = [
         {
           path: 'profile',
           component: HostProfile
+        },
+        {
+          path: 'quiz',
+          component: HostQuiz
         }
       ]
     },

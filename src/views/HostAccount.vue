@@ -152,7 +152,7 @@
         <v-breadcrumbs :items="items"></v-breadcrumbs>
       </div>
       <v-divider></v-divider>
-      <v-container fluid>
+      <v-container  class="fill-height" fluid>
         <!-- <v-row
           justify="center"
           align="center" >
