@@ -184,7 +184,6 @@ export default {
       this.questions[this.index]['optionSelected'] = event;
     },
     nextQuestion(next) {
-      
       if (this.index + 1 < this.questions.length) {
          this.index = this.index + 1;
         this.currentQuestion = this.questions[this.index];
@@ -209,8 +208,11 @@ export default {
         if (res.data.status) {
           this.quiz_id = res.data.quiz_id;
           this.questions = res.data.data;
+          this.questions.forEach(el=>{
+            this.answers[el.id] = [0];
+          })
           this.currentQuestion = this.questions[0];
-           this.showQuestion = true;
+          this.showQuestion = true;
           this.startTimer();
 
         }
