@@ -8,7 +8,7 @@
       <v-col cols="12" sm="8" v-if="showQuestion && !showResult">
        
         <v-card v-if="currentQuestion">
-          <v-card-title>
+          <v-card-title class="py-0">
  <v-row align="center">
           <v-col cols="2" sm="2">
             <h3>{{ index + 1 }} / {{ questions.length }}</h3>
@@ -211,7 +211,7 @@ export default {
           this.questions.forEach(el=>{
             this.answers[el.id] = [0];
           })
-          this.currentQuestion = this.questions[0];
+          this.currentQuestion = this.questions[0,''];
           this.showQuestion = true;
           this.startTimer();
 
