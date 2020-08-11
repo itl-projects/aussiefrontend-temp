@@ -209,9 +209,9 @@ export default {
           this.quiz_id = res.data.quiz_id;
           this.questions = res.data.data;
           this.questions.forEach(el=>{
-            this.answers[el.id] = [0];
+            this.answers[el.id] = [0,''];
           })
-          this.currentQuestion = this.questions[0,''];
+          this.currentQuestion = this.questions[0];
           this.showQuestion = true;
           this.startTimer();
 
