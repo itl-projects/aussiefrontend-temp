@@ -388,7 +388,7 @@ export default {
         { title: "Basic Profile Info", completed: "0", link: "/host/profile#profile",status:false },
         { title: "Services and Rates", completed: "0", link: "/host/profile",status:false },
         { title: "Id Proof", completed: "0", link: "/host/profile#document",status:false },
-        { title: "Quiz", completed: "0", link: "",status:false },
+        { title: "Quiz", completed: "0", link: "/host/quiz",status:false },
         { title: "Invite 5 Friends", completed: "0", link: "",status:false }
       ]
     };

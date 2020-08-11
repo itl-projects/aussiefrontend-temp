@@ -120,6 +120,7 @@
 import authStore from "../../store/auth";
 import urls from "@/axios/config";
 import axios from "axios";
+import router from '../../router';
 const FULL_DASH_ARRAY = 283;
 const WARNING_THRESHOLD = 10;
 const ALERT_THRESHOLD = 5;
@@ -289,6 +290,11 @@ export default {
       } else {
         return info.color;
       }
+    }
+  },
+  created: function(){
+    if(authStore.userType() !== 'host'){
+      router.back();
     }
   }
 };
