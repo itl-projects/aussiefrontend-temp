@@ -1,107 +1,88 @@
 <template>
-  <v-container fluid>
-    <v-data-iterator
-      :items="items"
-      :items-per-page.sync="itemsPerPage"
-      :page="page"
-      hide-default-footer
-    >
-      <template v-slot:default="props">
-        <v-container>
-          <v-card>
-            <v-card-title class="subheading font-weight-bold"
-              >Allasjhbsajhv</v-card-title
-            >
-            <v-divider></v-divider>
-            <v-row>
-              <v-col
-                v-for="(item, i) in props.items"
-                :key="item.name"
-                cols="12"
-                class="py-0"
-              >
-                <v-row align="center" class="py-4">
-                  <v-col cols="3" class="py-0" sm="1">
-                    <v-badge
-                      :content="item.total_messages"
-                      :value="item.total_messages"
-                      color="orange accent-4"
-                      avatar
-                      overlap
-                    >
-                      <v-avatar class="ml-3" color="#989898">
-                        <img
-                          :src="img_url + item.avatar_path"
-                          :lazy-src="img_url + item.avatar_path"
-                          :alt="item.first_name"
-                        />
-                      </v-avatar>
-                    </v-badge>
-                  </v-col>
-                  <v-col cols="3" class="py-0 text-center" sm="2">{{
-                    item.first_name + " " + item.last_name
-                  }}</v-col>
-                  <v-col cols="6" sm="6" class="last-message-box py-1">
-                    <pre style="white-space: pre-line;color:#2c7873">
-                  {{ item.last_msg ? item.last_msg : "no messages" }}
-                  </pre
-                    >
-                    <span
-                      v-if="item.dt != '' || item.dt != null"
-                      class="last-message-time"
-                      >{{ item.dt | formatDate }}</span
-                    >
-                  </v-col>
-                  <v-col cols="12" class="py-0 px-4 pt-2" sm="3">
-                    <v-btn
-                      color="info"
-                      class="mr-2"
-                      text
-                      style="text-transform:none"
-                      @click="showMessages(i)"
-                      >View</v-btn
-                    >
-                    <!-- <v-btn color="red" text style="text-transform:none">Delete</v-btn> -->
-                    kjbasuijvasyujv
-                  </v-col>
-                </v-row>
+  <v-row style="height:100%">
+    <v-col cols="4" style="padding: 0px">
+      <v-card class="mx-0 pa-0" style="height: 100%;">
+        <v-list
+          height="100%"
+          style="background-color: #2E3134;padding: 10px;color:#fff;"
+        >
+          <v-list-item-group v-model="itemcheck">
+            <v-list-item v-for="(item, i) in items" :key="i">
+              <v-avatar>
+                <img
+                  src="https://cdn.vuetifyjs.com/images/john.jpg"
+                  alt="John"
+                />
+              </v-avatar>
+              <v-list-item-content>
+                <v-list-item-title>{{ item.text }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </v-card>
+    </v-col>
+    <v-col cols="8" style="padding: 0px">
+      <v-card style="height: 100%;padding: 0px 10px;">
+        <v-row
+          style="background-color: #444D59; padding: 10px;color: #fff;align-items: center;justify-content: space-between;"
+        >
+          <div class="userActive">
+            <v-avatar>
+              <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+            </v-avatar>
+            <h4>user1</h4>
+          </div>
+          <v-btn class="ma-2" text icon color="#0FEF70C6">
+            <v-icon>mdi-star</v-icon>
+          </v-btn>
+        </v-row>
 
-                <v-divider
-                  v-if="i < props.items.length - 1"
-                  class="mt-1"
-                ></v-divider>
-              </v-col>
-            </v-row>
-          </v-card>
-        </v-container>
-      </template>
-      <template v-slot:no-data>
-        <v-card>
-          <v-card-title class="subheading font-weight-bold"
-            >All Messages</v-card-title
-          >
-          <v-divider></v-divider>
-          <v-row justify="center" class="py-10">
-            <v-progress-circular v-if="loading" color="#2c7873" indeterminate />
-            <v-label v-else>No Message</v-label>
-          </v-row>
-        </v-card>
-      </template>
-      <template v-slot:footer>
-        <div class="text-center mt-6">
-          <v-pagination
-            v-model="page"
-            :length="numberOfPages"
-            @next="nextPage"
-            @previous="formerPage"
-            @input="updateItemsPerPage"
-            circle
-            color="#2c7873"
-          ></v-pagination>
+        <div class="bottomControls">
+          <div class="chattingScreen">
+            <div class="other">
+              <v-avatar>
+                <img
+                  src="https://cdn.vuetifyjs.com/images/john.jpg"
+                  alt="John"
+                />
+              </v-avatar>
+              <div class="otherMsg">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                Voluptatem reiciendis repudiandae voluptatibus sapiente, facere
+                esse dicta natus doloribus laudantium provident, distinctio
+                quibusdam hic voluptas. Quidem eum recusandae modi quaerat?
+                Veniam.
+              </div>
+            </div>
+            <div class="me">
+              <div class="me-right">
+                <div class="meMsg">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Voluptatem reiciendis repudiandae voluptatibus sapiente,
+                  facere esse dicta natus doloribus laudantium provident,
+                  distinctio quibusdam hic voluptas. Quidem eum recusandae modi
+                  quaerat? Veniam.
+                </div>
+                <v-avatar>
+                  <img
+                    src="https://cdn.vuetifyjs.com/images/john.jpg"
+                    alt="John"
+                  />
+                </v-avatar>
+              </div>
+            </div>
+          </div>
+          <div class="bottomControlsMsg">
+            <v-text-field>
+              <v-icon slot="prepend">mdi-face</v-icon>
+              <v-icon slot="append" color="#0FEF70C6">mdi-arrow-right</v-icon>
+            </v-text-field>
+          </div>
         </div>
-      </template>
-    </v-data-iterator>
-  </v-container>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -120,18 +101,15 @@ export default {
   data() {
     return {
       img_url: urls.IMGURL,
-      itemsPerPageArray: [4, 8, 12],
-      page: 1,
-      itemsPerPage: 5,
-      items: [],
+      items: [
+        { text: "Real-Time", icon: "mdi-clock" },
+        { text: "Audience", icon: "mdi-account" },
+        { text: "Conversions", icon: "mdi-flag" },
+      ],
       connection: null,
       loading: true,
+      itemcheck: 1,
     };
-  },
-  computed: {
-    numberOfPages() {
-      return Math.ceil(this.items.length / this.itemsPerPage);
-    },
   },
   methods: {
     nextPage() {
@@ -186,20 +164,20 @@ export default {
       }
     },
   },
-  created: function() {
-    this.getMessageList();
-    //  this.connection = new WebSocket(
-    //     `ws://95.217.133.127:8001/chats/${authStore.getUserData().username}`
-    //   );
+  // created: function() {
+  //   this.getMessageList();
+  //  this.connection = new WebSocket(
+  //     `ws://95.217.133.127:8001/chats/${authStore.getUserData().username}`
+  //   );
 
-    //   this.connection.onmessage = (e) => {
-    //     this.items.forEach(el=>{
-    //       if(el.username == JSON.parse(e.data).data.sender){
-    //         el.total_messages = el.total_messages + 1;
-    //       }
-    //     })
-    //   };
-  },
+  //   this.connection.onmessage = (e) => {
+  //     this.items.forEach(el=>{
+  //       if(el.username == JSON.parse(e.data).data.sender){
+  //         el.total_messages = el.total_messages + 1;
+  //       }
+  //     })
+  //   };
+  // },
 };
 </script>
 
@@ -214,5 +192,65 @@ export default {
   font-size: 0.8rem;
   float: right;
   margin-right: 8px;
+}
+
+.userActive {
+  display: flex;
+  align-items: center;
+}
+
+.bottomControls {
+  bottom: 0;
+  position: absolute;
+  width: 96%;
+}
+.bottomControlsMsg {
+  box-shadow: 0px -4px 8px #0000000f;
+}
+
+.chattingScreen > .other {
+  display: flex;
+  margin: 3% 0px;
+  align-items: flex-end;
+}
+
+.chattingScreen > .other > .otherMsg {
+  background-color: #0fef70c6;
+  width: 50%;
+  height: 50%;
+  color: #fff;
+  padding: 2%;
+  font-size: 0.8rem;
+}
+
+.chattingScreen > .me {
+  display: flex;
+  margin: 3% 0px;
+  align-items: flex-end;
+  text-align: end;
+}
+
+.chattingScreen > .me > .me-right {
+  display: flex;
+  align-items: flex-end;
+}
+.chattingScreen > .me > .me-right > .meMsg {
+  background-color: #eaecf2;
+  width: 50%;
+  height: 50%;
+  color: #fff;
+  padding: 2%;
+  font-size: 0.8rem;
+  margin-left: auto;
+  color: #63697b;
+}
+
+.theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
+  color: grey !important;
+}
+</style>
+<style>
+.container {
+  padding: 0px;
 }
 </style>

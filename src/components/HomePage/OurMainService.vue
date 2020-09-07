@@ -211,7 +211,7 @@ export default {
 };
 </script>
 <style scoped>
- .mainServicesHead > h2 {
+.mainServicesHead > h2 {
   color: #383d43;
   text-transform: uppercase;
   font: normal normal bold 50px/76px Poppins;
@@ -282,7 +282,7 @@ export default {
 .theme--dark.v-tabs > .v-tabs-bar .v-tab {
   flex-direction: column-reverse;
   box-shadow: 0px 3px 10px #0000003b;
-  border-radius: 50px;
+  /* border-radius: 100%; */
   margin-right: 5px;
   font-size: 0.65rem;
   font-weight: 500;
@@ -290,9 +290,24 @@ export default {
   /* min-width: 140px; */
   margin: 0 1%;
   background: #2c7873;
-  height: 100%;
+  height: 104%;
+  width: 10%;
 }
 .v-tabs--icons-and-text > .v-tabs-bar {
   height: 85px !important;
+}
+</style>
+
+<style>
+.v-slide-group__wrapper {
+  height: 100%;
+  padding: 2%;
+  justify-content: space-evenly;
+}
+.v-item-group {
+  width: 100%;
+}
+.v-tabs-slider-wrapper {
+  position: relative;
 }
 </style>
