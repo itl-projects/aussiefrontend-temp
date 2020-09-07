@@ -13,7 +13,7 @@ var authStore = {
     axios
       .get(urls.URL + "/userdata", config)
       .then((res) => {
-        console.log(res);
+        console.log("response", res);
         if (res.data.status) {
           let data = {};
           if (this.userType() == "petowner")
@@ -115,6 +115,6 @@ var authStore = {
     localStorage.removeItem("user_data");
     localStorage.removeItem("user_token");
     localStorage.removeItem("user_type");
-  }
+  },
 };
 export default authStore;

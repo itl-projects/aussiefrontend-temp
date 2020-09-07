@@ -8,26 +8,49 @@
     >
       <template v-slot:default="props">
         <v-card>
-          <v-card-title class="subheading font-weight-bold">All Messages</v-card-title>
+          <v-card-title class="subheading font-weight-bold">All</v-card-title>
           <v-divider></v-divider>
           <!-- <v-content> -->
           <v-row>
-            <v-col v-for="(item,i) in props.items" :key="item.name" cols="12" class="py-0">
-              <v-row :class="{ 'blue--text': sortBy === true }" align="center" class="py-2">
+            <v-col
+              v-for="(item, i) in props.items"
+              :key="item.name"
+              cols="12"
+              class="py-0"
+            >
+              <v-row
+                :class="{ 'blue--text': sortBy === true }"
+                align="center"
+                class="py-2"
+              >
                 <v-col cols="1" class="py-0">
                   <v-avatar class="ml-3">
-                    <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="ABC" />
+                    <img
+                      src="https://cdn.vuetifyjs.com/images/john.jpg"
+                      alt="ABC"
+                    />
                   </v-avatar>
                 </v-col>
                 <v-col cols="1" class="py-0">ABC</v-col>
                 <v-col cols="7" class="py-0">{{ item.name }}</v-col>
                 <v-col cols="12" class="py-0" sm="2">
-                  <v-btn color="info" class="mr-2" text style="text-transform:none">View</v-btn>
-                  <v-btn color="red" text style="text-transform:none">Delete</v-btn>
+                  <v-btn
+                    color="info"
+                    class="mr-2"
+                    text
+                    style="text-transform:none"
+                    >View</v-btn
+                  >
+                  <v-btn color="red" text style="text-transform:none"
+                    >Delete</v-btn
+                  >
                 </v-col>
               </v-row>
 
-              <v-divider v-if="i < props.items.length-1" class="mt-1"></v-divider>
+              <v-divider
+                v-if="i < props.items.length - 1"
+                class="mt-1"
+              ></v-divider>
             </v-col>
           </v-row>
           <!-- </v-content> -->
@@ -49,7 +72,6 @@
   </v-container>
 </template>
 
-
 <script>
 export default {
   name: "messages",
@@ -66,7 +88,7 @@ export default {
         "Protein",
         "Sodium",
         "Calcium",
-        "Iron"
+        "Iron",
       ],
       items: [
         {
@@ -77,7 +99,7 @@ export default {
           protein: 4.0,
           sodium: 87,
           calcium: "14%",
-          iron: "1%"
+          iron: "1%",
         },
         {
           name: "Ice cream sandwich",
@@ -87,7 +109,7 @@ export default {
           protein: 4.3,
           sodium: 129,
           calcium: "8%",
-          iron: "1%"
+          iron: "1%",
         },
         {
           name: "Eclair",
@@ -97,7 +119,7 @@ export default {
           protein: 6.0,
           sodium: 337,
           calcium: "6%",
-          iron: "7%"
+          iron: "7%",
         },
         {
           name: "Cupcake",
@@ -107,7 +129,7 @@ export default {
           protein: 4.3,
           sodium: 413,
           calcium: "3%",
-          iron: "8%"
+          iron: "8%",
         },
         {
           name: "Gingerbread",
@@ -117,7 +139,7 @@ export default {
           protein: 3.9,
           sodium: 327,
           calcium: "7%",
-          iron: "16%"
+          iron: "16%",
         },
         {
           name: "Jelly bean",
@@ -127,7 +149,7 @@ export default {
           protein: 0.0,
           sodium: 50,
           calcium: "0%",
-          iron: "0%"
+          iron: "0%",
         },
         {
           name: "Lollipop",
@@ -137,7 +159,7 @@ export default {
           protein: 0,
           sodium: 38,
           calcium: "0%",
-          iron: "2%"
+          iron: "2%",
         },
         {
           name: "Honeycomb",
@@ -147,7 +169,7 @@ export default {
           protein: 6.5,
           sodium: 562,
           calcium: "0%",
-          iron: "45%"
+          iron: "45%",
         },
         {
           name: "Donut",
@@ -157,7 +179,7 @@ export default {
           protein: 4.9,
           sodium: 326,
           calcium: "2%",
-          iron: "22%"
+          iron: "22%",
         },
         {
           name: "KitKat",
@@ -167,16 +189,15 @@ export default {
           protein: 7,
           sodium: 54,
           calcium: "12%",
-          iron: "6%"
-        }
-      ]
+          iron: "6%",
+        },
+      ],
     };
   },
   computed: {
     numberOfPages() {
       return Math.ceil(this.items.length / this.itemsPerPage);
     },
-    
   },
   methods: {
     nextPage() {
@@ -187,10 +208,9 @@ export default {
     },
     updateItemsPerPage(input) {
       this.page = input;
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

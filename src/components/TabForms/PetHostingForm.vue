@@ -12,7 +12,8 @@
           hide-details
           dense
           single-line
-          outlined>
+          outlined
+        >
           <v-icon slot="append">mdi-magnify-plus-outline</v-icon>
         </v-autocomplete>
       </v-col>
@@ -40,7 +41,10 @@
               <v-date-picker
                 v-model="start_date"
                 scrollable
-                @input="modal = false;$refs.dialog.save(start_date)"
+                @input="
+                  modal = false;
+                  $refs.dialog.save(start_date);
+                "
               ></v-date-picker>
             </v-dialog>
             <v-icon style="margin-top: -25px;">mdi-minus</v-icon>
@@ -65,7 +69,10 @@
               <v-date-picker
                 v-model="pickup_date"
                 scrollable
-                @input="pickup_modal = false;$refs.pickup_dialog.save(pickup_date)"
+                @input="
+                  pickup_modal = false;
+                  $refs.pickup_dialog.save(pickup_date);
+                "
               ></v-date-picker>
             </v-dialog>
           </div>
@@ -78,11 +85,23 @@
           class="pa-0 ma-0"
         >
           <template v-slot:activator="{ on, attrs }">
-            <v-select v-bind="attrs" v-on="on" :label="petSelected" outlined dense></v-select>
+            <v-select
+              v-bind="attrs"
+              v-on="on"
+              :label="petSelected"
+              outlined
+              dense
+            ></v-select>
           </template>
           <v-list class="pa-0 ma-0">
             <v-row style="max-width:300px">
-              <v-col cols="12" v-for="(item, i) in items" :key="i" :class="item.class" class="py-0">
+              <v-col
+                cols="12"
+                v-for="(item, i) in items"
+                :key="i"
+                :class="item.class"
+                class="py-0"
+              >
                 <v-row class="py-0" align="center">
                   <v-col cols="8" class="pl-5 py-0">{{ item.title }}</v-col>
                   <v-col cols="4" class="py-1">
@@ -104,7 +123,7 @@
         </v-menu>
       </v-col>
       <v-col sm="2" cols="12">
-        <v-btn @click="showHosts" >Search</v-btn>
+        <v-btn @click="showHosts">Seaaskjbrch</v-btn>
       </v-col>
     </v-row>
   </div>
@@ -117,41 +136,40 @@ import urls from "@/axios/config";
 
 export default {
   name: "PetHostingForm",
-  props:["items","serviceType"],
+  props: ["items", "serviceType"],
   data: () => ({
-    closeOnContext:false,
-    start_date:null,
-    pickup_date:null,
-    modal:false,
-    pickup_modal:false,
+    closeOnContext: false,
+    start_date: null,
+    pickup_date: null,
+    modal: false,
+    pickup_modal: false,
     menu: false,
-    places:[],
-    searchPlace:null,
-    place_loading:false,
-    place:"",
+    places: [],
+    searchPlace: null,
+    place_loading: false,
+    place: "",
     petSelected: "Choose Pet(s)",
-
   }),
-  watch:{
-        searchPlace(val) {
-        val && val !== this.city && this.queryPlaces(val);
-      }
+  watch: {
+    searchPlace(val) {
+      val && val !== this.city && this.queryPlaces(val);
+    },
   },
   methods: {
     queryPlaces(v) {
-        this.place_loading = true;
-        axios.get(urls.URL+'/locations/?relative=true&place_name='+v,{
-      }).then((res) => {
-       
-        this.places = [];
-        this.place_loading = false;
-        if(res.data.status){
-          res.data.data.forEach(el=>{
+      this.place_loading = true;
+      axios
+        .get(urls.URL + "/locations/?relative=true&place_name=" + v, {})
+        .then((res) => {
+          this.places = [];
+          this.place_loading = false;
+          if (res.data.status) {
+            res.data.data.forEach((el) => {
               this.places.push(el.place_name);
-          })
-        }
-      });
-      },
+            });
+          }
+        });
+    },
     increment(num) {
       this.items[num].count = this.items[num].count + 1;
     },
@@ -161,7 +179,7 @@ export default {
     },
     closeMenu() {
       this.petSelected = "";
-      this.items.forEach(el => {
+      this.items.forEach((el) => {
         if (el.count > 0) {
           if (this.petSelected == "") this.petSelected = el.title;
           else this.petSelected = this.petSelected + "," + el.title;
@@ -174,39 +192,46 @@ export default {
     },
     showHosts() {
       console.log(this.serviceType);
-        this.$router.push({path:'/hostsearch',query:{city:this.place,service:this.serviceType,start_date:this.start_date}});
-        // router.push("/hostsearch");
+      this.$router.push({
+        path: "/hostsearch",
+        query: {
+          city: this.place,
+          service: this.serviceType,
+          start_date: this.start_date,
+        },
+      });
+      // router.push("/hostsearch");
     },
-  }
+  },
 };
 </script>
 
 <style scoped>
-.apply_btn_box{
+.apply_btn_box {
   width: 100%;
-    background: #00d657;
-    display: flex;
-    margin: 0 !important;
-    padding: 7px 12px;
-    text-align: center;
-    justify-content: center;
+  background: #00d657;
+  display: flex;
+  margin: 0 !important;
+  padding: 7px 12px;
+  text-align: center;
+  justify-content: center;
 }
 .theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
-    background-color: #ffffff;
-    color: #00d657;
-    border: 2px solid #00d657;
+  background-color: #ffffff;
+  color: #00d657;
+  border: 2px solid #00d657;
 }
-.theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined):hover{
+.theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined):hover {
   background-color: #00d657;
-    color: #faff63;
-    border: 1px solid #faff63;
+  color: #faff63;
+  border: 1px solid #faff63;
 }
 .mdi-magnify-plus-outline::before {
-    content: "\F06ED";
-    color: #00d657;
+  content: "\F06ED";
+  color: #00d657;
 }
 .mdi-calendar-plus::before {
-    content: "\F00F3";
-    color: #00d657;
+  content: "\F00F3";
+  color: #00d657;
 }
 </style>

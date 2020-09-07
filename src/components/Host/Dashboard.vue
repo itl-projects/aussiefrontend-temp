@@ -1,372 +1,277 @@
 <template>
-  <v-row justify="space-around" class="mt-3 pr-0">
-    <v-col :cols="12" :md="3">
-      <v-card class="mx-auto" max-width="344" outlined>
-        <v-row class="ma-0">
-          <v-col cols="12">
-            <span style="color:#2c7873;font-size:1.2rem;">Hi, {{name}}</span>
-          </v-col>
-          <v-col cols="12" class="text-center">
+  <v-col style="height: 100%;" class="mt-3 pr-0">
+    <div class="headSection">
+      <div class="dashboard-style">Dashboard</div>
+      <v-card outlined class="cardDesign">
+        <v-row style="margin: 10px;padding: 10px">
+          <!-- Profile Section -->
+          <v-col cols="3" class="profile-left">
             <v-avatar size="150">
-              <v-img :src="avatar"></v-img>
+              <img :src="avatar" alt="user-pic" />
             </v-avatar>
+            <div class="profile-edits">Edit Profile</div>
+            <div class="profile-edits">View Profile</div>
+          </v-col>
+          <!-- Profile Details section -->
+          <v-col cols="9">
+            <v-row style="height: 100%;display: flex;flex-direction: column;">
+              <v-col class="profile-right">
+                <v-col cols="3">
+                  <div class="container">
+                    <div class="head">Name</div>
+                    <div class="content">{{name}}</div>
+                  </div>
+                </v-col>
+                <v-col cols="3">
+                  <div class="container">
+                    <div class="head">Awards</div>
+                    <div class="content">🏆🏆</div>
+                  </div>
+                </v-col>
+                <v-col>
+                  <div class="container">
+                    <div class="head">Email</div>
+                    <div class="content" style="text-transform: lowercase;">{{email}}</div>
+                  </div>
+                </v-col>
+              </v-col>
+              <v-col class="profile-right">
+                <v-col cols="3">
+                  <div class="container">
+                    <div class="head">Credits</div>
+                    <div class="content">300</div>
+                  </div>
+                </v-col>
+                <v-col cols="3">
+                  <div class="container">
+                    <div class="head">Bookings</div>
+                    <div class="content">
+                      <v-row>
+                        <v-col sm="9" class="pa-0 pr-4 ma-0">
+                          <div class="task">Total</div>
+                          <div class="task">Completed</div>
+                          <div class="task">Pending</div>
+                        </v-col>
+                        <v-col sm="3" class="pa-0 ma-0">
+                          <div>100</div>
+                          <div>100</div>
+                          <div>100</div>
+                        </v-col>
+                      </v-row>
+                    </div>
+                  </div>
+                </v-col>
+                <v-col cols="3">
+                  <div class="container">
+                    <div class="head">Spin a wheel</div>
+                    <div class="content">
+                      <v-row>
+                        <v-col sm="9" class="pa-0 pr-4 ma-0">
+                          <div class="task">Chances Available</div>
+                        </v-col>
+                        <v-col sm="3" class="pa-0 ma-0">
+                          <div>100</div>
+                        </v-col>
+                      </v-row>Try Now
+                      <v-icon color="#0FEF70C6">mdi-chevron-right</v-icon>
+                    </div>
+                  </div>
+                </v-col>
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
-        <v-card-actions>
-          <v-dialog v-model="dialog1" fullscreen hide-overlay transition="dialog-bottom-transition">
-            <template v-slot:activator="{ on }">
-              <div class="add-pet mx-auto">
-                <v-row justify="space-around">
-                  <v-btn v-on="on" text color="#2c7873" small>
-                    <span style="color:#2c7873;">Edit Profile</span>
-                  </v-btn>
-                  <v-btn v-on="on" text color="#2c7873" small>
-                    <span style="color:#2c7873;">View Profile</span>
-                  </v-btn>
-                </v-row>
-
-                <v-row justify="space-around">
-                  <v-col cols="9">
-                    <span style="font-size:0.8rem">Profile complition</span>
-                    <v-progress-linear
-                      color="#2c7873"
-                      height="10"
-                      :value="profile_complition"
-                      striped
-                      rounded
-                    ></v-progress-linear>
-                  </v-col>
-                  <v-col cols="3" class="mt-4">
-                    <v-label style="font-size:0.8rem;">{{profile_complition}}%</v-label>
-                  </v-col>
-                </v-row>
-              </div>
-            </template>
-            <v-card>
-              <v-toolbar dark color="#2c7873">
-                <v-btn icon dark @click="dialog1 = false">
-                  <v-icon>mdi-close</v-icon>
-                </v-btn>
-                <v-toolbar-title>Edit Profile</v-toolbar-title>
-                <v-spacer></v-spacer>
-              </v-toolbar>
-              <v-divider></v-divider>
-              <v-row>
-                <v-col :cols="12" :md="12">
-                  <Profile />
-                </v-col>
-              </v-row>
-            </v-card>
-          </v-dialog>
-        </v-card-actions>
       </v-card>
-      <v-card class="mx-auto mt-2">
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title
-              class="text-center pa-2"
-              style="color:#2c7873;font-weight:bold;font-size:1.2rem;"
-            >Personal Details</v-list-item-title>
-            <v-divider></v-divider>
-          </v-list-item-content>
-        </v-list-item>
-        <v-card-text class="py-2">
-          <v-row>
-            <v-col cols="12" v-for="(item,i) in pending" :key="i+10" class="py-0">
-              <v-row dense align="center" class="border-below pb-1" v-if="item.status">
-                <v-col cols="6">
-                 <span style="font-size:0.8rem"> {{ item.title}}</span>
-                  <v-progress-linear
-                    color="#2c7873"
-                    height="5"
-                    :value="item.completed"
-                    striped
-                    rounded
-                  ></v-progress-linear>
-                </v-col>
-                <v-col cols="2">
-                  <p class="mb-0 text-center" style="font-size:0.8rem">{{ item.completed}} %</p>
-                </v-col>
-                <v-col cols="4">
-                  <v-btn
-                    text
-                    x-small
-                    color="teal"
-                    style="text-transform:none"
-                    :to="item.link"
-                  >complete</v-btn>
-                </v-col>
-              </v-row>
-            </v-col>
-          </v-row>
-          <v-btn text small color="#2c7873" class="mx-0 px-2 mt-2">Update Profile</v-btn>
-        </v-card-text>
+      <v-card outlined class="container2 cardDesign">
+        <v-row class="profile2">
+          <span class="majorTopic">Profile Complition</span>
+          <span class="percentIndicator">{{profile_complition}}% Complete</span>
+        </v-row>
+        <div class="progressBar">
+          <v-progress-linear
+            style="border-radius: 10px"
+            color="#0FEF70C6"
+            height="15"
+            :value="profile_complition"
+          ></v-progress-linear>
+        </div>
+        <v-row class="profile2">
+          <div v-show="expandPanel" style="position: relative;">
+            <span class="pointStyle"></span>
+            <span class="topic" style="padding-left: 20px">{{pending[0].title}}</span>
+          </div>
+          <div v-show="expandPanel">
+            <span class="percentIndicator">{{pending[0].completed}}% on verified emails</span>
+          </div>
+        </v-row>
+        <div class="bottom">
+          <v-expansion-panels flat>
+            <v-expansion-panel>
+              <v-expansion-panel-header class="collapseHeader">
+                <div @click="collapsed = !collapsed"></div>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content v-for="(items, i) in pending" :key="i">
+                <div style="display: flex; justify-content: space-between;">
+                  <div style="position: relative;">
+                    <span class="pointStyle"></span>
+                    <span class="topic" style="padding-left: 20px">{{items.title}}</span>
+                  </div>
+                  <div>
+                    <span class="percentIndicator">{{items.completed}}% on verified emails</span>
+                  </div>
+                </div>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </div>
       </v-card>
-      <v-card class="mx-auto mt-2">
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title
-              class="text-center pa-2"
-              style="color:#2c7873;font-weight:bold;font-size:1.2rem;"
-            >Get Approved As A Sitter</v-list-item-title>
-            <v-divider></v-divider>
-          </v-list-item-content>
-        </v-list-item>
-        <v-card-text class="py-2">
-          <h3 class="mt-2 mb-3">Submit Your Online Training certificate</h3>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-          nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-          sed diam voluptua. ea rebum. Stet clita.
-          <br />
-          <v-row align="center" class="px-0 mx-0" justify="space-around">
-            <v-col cols="6" class="px-0">
-              <v-btn
-                text
-                color="#2c7873"
-                small
-                class="mx-0 px-0"
-                style="font-size:0.8rem;letter-spacing: -0.5px;"
-              >Go To Online Courses</v-btn>
-            </v-col>
-            <v-col cols="6">
-              <v-chip
-                class="ma-2"
-                close
-                color="teal"
-                text-color="white"
-                close-icon="mdi-checkbox-marked-circle"
-                small
-              >Approved</v-chip>
-            </v-col>
-          </v-row>
-        </v-card-text>
-      </v-card>
-      <v-card class="mx-auto mt-2">
-        <v-card-text class="py-2">
-          <h3 class="mt-2 mb-3">Submit Your Proof of identity</h3>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-          nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-          sed diam voluptua. ea rebum. Stet clita
-          <br />
-          <v-chip
-            class="my-2"
-            close
-            color="teal"
-            text-color="white"
-            close-icon="mdi-checkbox-marked-circle"
-            small
-          >Approved</v-chip>
-        </v-card-text>
-      </v-card>
-    </v-col>
-    <v-col :cols="12" :md="6">
-      <v-row justify="center" class="pb-10">
-        <h3 class="mb-15">Bookings</h3>
-        <v-col cols="12" class="my-10">
-          <v-row justify="center" class="text-center">
-            <v-col cols="4">
-              <v-label>
-                0
-                <v-icon x-large>mdi-dog</v-icon>
-              </v-label>
-            </v-col>
-            <v-col cols="4">
-              <v-label>
-                0
-                <v-icon x-large color="warning">mdi-trophy-variant</v-icon>
-              </v-label>
-            </v-col>
-            <v-col cols="4">
-              <v-label>
-                0
-                <v-icon x-large>mdi-dog</v-icon>
-              </v-label>
-            </v-col>
-          </v-row>
-        </v-col>
+    </div>
+    <div class="bodySection">
+      <v-row class="profile2">
+        <span class="dashboard-style2" style="margin-left: 0px">Upcoming Bookings</span>
+        <span class="viewAll">View All</span>
       </v-row>
-
+      <carousel :perPage="1" autoPlayHoverPause :autoplay="true" loop :autoplayTimeout="6000">
+        <Slide v-for="n in 3" :key="n">
+          <v-card style="width: 98%" elevation="5" class="cardDesign">
+            <v-row class="container2">
+              <v-col cols="2" class="bookingDate">
+                <div>20 sep</div>
+                <div>2020</div>
+              </v-col>
+              <span class="v1"></span>
+              <v-col cols="7">
+                <div class="bookHead">Pet Hosting</div>
+                <div
+                  class="bookContent"
+                >Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat delectus nisi sapiente sunt, fugiat voluptatibus vero ullam corporis quod magni earum exercitationem incidunt officia numquam quaerat iusto omnis? Libero, debitis.</div>
+              </v-col>
+              <span class="v1"></span>
+              <v-col class="bookingDetails" cols="2">
+                <div>View</div>
+                <div>Details</div>
+              </v-col>
+            </v-row>
+            <div class="bookingBottom">
+              <v-expansion-panels flat>
+                <v-expansion-panel>
+                  <v-expansion-panel-header class="collapseHeader">
+                    <div @click="collapsed = !collapsed"></div>
+                  </v-expansion-panel-header>
+                  <v-expansion-panel-content>
+                    <v-row class="container2">
+                      <v-col cols="2">
+                        <div class="bookHead">Ref No.</div>
+                        <div>896776</div>
+                      </v-col>
+                      <v-col cols="8">
+                        <div class="bookHead">Date</div>
+                        <div class="bookContent">20 Sep 2020</div>
+                      </v-col>
+                      <v-col cols="2">
+                        <div class="bookHead">Charge</div>
+                        <div class="bookContent">$100</div>
+                      </v-col>
+                    </v-row>
+                    <v-row class="container2">
+                      <v-col>
+                        <div class="bookHead">Address</div>
+                        <div>st-1989</div>
+                      </v-col>
+                    </v-row>
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
+              </v-expansion-panels>
+            </div>
+          </v-card>
+        </Slide>
+      </carousel>
+    </div>
+    <div class="bottomSection">
+      <div class="dashboard-style2">Add more about yourself</div>
       <v-row>
-        <v-col cols="6">
-          <v-card class="mx-auto mt-2">
-            <v-card-text class="py-2">
-              <h3 class="mt-0 mb-3">Add Testimonials</h3>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-              nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-              sed diam voluptua. ea rebum. Stet clita.
-              <br />
-              <v-btn text small color="#2c7873" class="mx-0 px-2">Request Testimonials</v-btn>
-            </v-card-text>
-          </v-card>
-          <v-card class="mx-auto mt-2">
-            <v-card-text class="py-2">
-              <h3 class="mt-0 mb-3">Boost Your Ranking</h3>
-              <v-row>
-                <v-col cols="6">
-                  <v-btn
-                    height="60px"
-                    color="#2c7873"
-                    style="width:100%;text-transform: capitalize;letter-spacing:0px;"
-                    small
-                    outlined
-                  >Update calendar</v-btn>
-                </v-col>
-                <v-col cols="6">
-                  <v-btn
-                    height="60px"
-                    color="#2c7873"
-                    style="width:100%;text-transform: capitalize;letter-spacing:0px;"
-                    small
-                    outlined
-                  >Apply for Badges</v-btn>
-                </v-col>
-                <v-col cols="6">
-                  <v-card>
-                    <v-btn
-                      height="60px"
-                      color="#2c7873"
-                      style="width:100%;text-transform: capitalize;letter-spacing:0px;"
-                      small
-                      outlined
-                    >
-                      Verify Email
-                      <br />& Mobile
-                    </v-btn>
-                  </v-card>
-                </v-col>
-                <v-col cols="6">
-                  <v-card>
-                    <v-btn
-                      height="60px"
-                      color="#2c7873"
-                      style="width:100%;text-transform: capitalize;letter-spacing:0px;"
-                      small
-                      outlined
-                    >Upload Photos</v-btn>
-                  </v-card>
-                </v-col>
-              </v-row>
-            </v-card-text>
-          </v-card>
-        </v-col>
-        <v-col cols="6">
-          <v-card class="mx-auto mt-2">
-            <v-list-item>
-              <v-list-item-content>
-                <v-list-item-title
-                  class="text-center pa-2"
-                  style="color:#2c7873;font-weight:bold;font-size:1.2rem;"
-                >Improve Your Profile</v-list-item-title>
-                <v-divider></v-divider>
-              </v-list-item-content>
-            </v-list-item>
-            <v-card-text class="py-2">
-              <h3 class="mt-0 mb-3">Get A Policy Check</h3>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-              nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-              sed diam voluptua. ea rebum. Stet clita.
-              <br />
-              <v-row justify="space-between">
-                <v-col>
-                  <v-btn text small color="#2c7873" class="mx-0 px-2">Apply</v-btn>
-                </v-col>
-                <v-col>
-                  <v-btn text small color="#2c7873" class="mx-0 px-2">Upload Police Check</v-btn>
-                </v-col>
-              </v-row>
-            </v-card-text>
-          </v-card>
-        </v-col>
-        <v-col cols="6"></v-col>
-      </v-row>
-    </v-col>
+        <!-- Card 1 -->
+        <v-col cols="4" class="px-0">
+          <v-card class="cardDesign" outline>
+            <v-row class="container2">
+              <v-col style="display:flex; flex-direction: column;justify-content: space-between;">
+                <div class="header">
+                  <div class="headerHead">submit your</div>
+                  <div class="header">proof of identity</div>
+                </div>
 
-    <v-col :cols="12" :md="3">
-      <v-card class="mx-auto mt-2">
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title
-              class="text-center pa-2"
-              style="color:#2c7873;font-weight:bold;font-size:1.2rem;"
-            >Balance</v-list-item-title>
-            <v-divider></v-divider>
-          </v-list-item-content>
-        </v-list-item>
-        <v-card-text class="py-2">
-          <h3 class="mt-0 mb-3">Keep Your details updated</h3>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-          nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-          sed diam voluptua. ea rebum. Stet clita.
-          <br />
-          <v-btn text small color="#2c7873" class="mx-0 px-2">Request payment</v-btn>
-        </v-card-text>
-      </v-card>
-      <v-card class="mx-auto mt-2">
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title
-              class="text-center pa-2"
-              style="color:#2c7873;font-weight:bold;font-size:1.2rem;"
-            >Aussie BnBs credits</v-list-item-title>
-            <v-divider></v-divider>
-          </v-list-item-content>
-        </v-list-item>
-        <v-card-text class="py-2">
-          <h3 class="mt-0 mb-3">Discounts</h3>
-          <h1 class="text-center">$0.00</h1>
-          <br />
-          <v-btn text small color="#2c7873" class="mx-0 px-2">Redeem Credits</v-btn>
-        </v-card-text>
-      </v-card>
-      <v-card class="mx-auto mt-2">
-        <v-card-text class="py-2">
-          <h3 class="mt-0 mb-3">Share the love</h3>Invite your friends and when they will signup using your link, they will get $30 Aussie BnBs Credits!
-        </v-card-text>
-      </v-card>
-      <v-card class="mx-auto mt-2">
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title
-              class="text-center pa-2"
-              style="color:#2c7873;font-weight:bold;font-size:1.2rem;"
-            >Settings</v-list-item-title>
-            <v-divider></v-divider>
-          </v-list-item-content>
-        </v-list-item>
-        <v-card-text class="py-2">
-          <h3 class="mt-0 mb-3">Notifications</h3>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-          nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-          sed diam voluptua. ea rebum. Stet clita.
-          <br />
-          <v-btn text small color="#2c7873" class="mx-0 px-2">Update Settings</v-btn>
-        </v-card-text>
-      </v-card>
-      <v-card class="mx-auto mt-2">
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title
-              class="text-center pa-2"
-              style="color:#2c7873;font-weight:bold;font-size:1.2rem;"
-            >Pets</v-list-item-title>
-            <v-divider></v-divider>
-          </v-list-item-content>
-        </v-list-item>
-        <v-card-text class="py-2">
-          <h3 class="mt-0 mb-3">Tell Us About Your Pets</h3>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-          nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-          sed diam voluptua. ea rebum. Stet clita.
-          <br />
-          <v-btn text small color="#2c7873" class="mx-0 px-2">Add Pet</v-btn>
-        </v-card-text>
-      </v-card>
-    </v-col>
-  </v-row>
+                <div
+                  class="contentHeader"
+                >Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quam quas accusamus veritatis corporis, voluptas dolores animi sequi iusto sed doloremque, eaque sit neque ullam id nisi voluptate rerum enim qui.</div>
+                <div class="buttonHeader">
+                  <v-btn class="ma-1" width="40%" height="100%" outlined color="#0FEF70C6">Upload</v-btn>
+                </div>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
+        <!-- Card 1 end -->
+        <!-- Card 2 -->
+        <v-col cols="4" class="px-0">
+          <v-card class="cardDesign" outline>
+            <v-row class="container2">
+              <v-col style="display:flex; flex-direction: column;justify-content: space-between;">
+                <div class="header">
+                  <div class="headerHead">submit your</div>
+                  <div class="header">Online Training certificate</div>
+                </div>
+
+                <div
+                  class="contentHeader"
+                >Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quam quas accusamus veritatis corporis, voluptas dolores animi sequi iusto sed doloremque, eaque sit neque ullam id nisi voluptate rerum enim qui.</div>
+                <div class="buttonHeader">
+                  <v-btn class="ma-1" width="40%" height="100%" outlined color="#0FEF70C6">Upload</v-btn>
+                </div>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
+        <!-- Card 2 end -->
+        <!-- Card 3 -->
+        <v-col cols="4" class="px-0">
+          <v-card class="cardDesign" outline>
+            <v-row class="container2">
+              <v-col style="display:flex; flex-direction: column;justify-content: space-between;">
+                <div class="header">
+                  <div class="headerHead">submit your</div>
+                  <div class="header">add Testimonials</div>
+                </div>
+
+                <div
+                  class="contentHeader"
+                >Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quam quas accusamus veritatis corporis, voluptas dolores animi sequi iusto sed doloremque, eaque sit neque ullam id nisi voluptate rerum enim qui.</div>
+                <div class="buttonHeader">
+                  <v-btn class="ma-1" width="40%" height="100%" outlined color="#0FEF70C6">Request</v-btn>
+                </div>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
+        <!-- Card 3 end -->
+      </v-row>
+    </div>
+  </v-col>
 </template>
 <script>
-import Profile from "@/components/Host/PersonalDetails";
+// import Profile from "@/components/Host/PersonalDetails";
 import authStore from "@/store/auth";
 import axios from "axios";
 import urls from "@/axios/config";
 import router from "../../router";
+import { Carousel, Slide } from "vue-carousel";
 
 export default {
   name: "HostDashboard",
-  components: { Profile },
+  // components: { Profile },
+  components: {
+    Carousel,
+    Slide
+  },
   data() {
     return {
       dialog: false,
@@ -376,20 +281,63 @@ export default {
       widgets: false,
       ownerName: "",
       name_titile: "",
+      name: "",
+      email: "",
       petCount: 0,
       avatar: "",
       profile_complition: 0,
+      collapsed: true,
       pending: [
-        { title: "Address Proof", completed: "0", link: "/host/profile#document",status:false },
-        { title: "Admin Verification", completed: "0", link: "",status:false },
-        { title: "Email Verification", completed: "0", link: "/host/profile#profile",status:false },
-        { title: "Phone Verification", completed: "0", link: "/host/profile#profile",status:false },
-        { title: "Profile Photo", completed: "0", link: "/host/profile#profile",status:false },
-        { title: "Basic Profile Info", completed: "0", link: "/host/profile#profile",status:false },
-        { title: "Services and Rates", completed: "0", link: "/host/profile",status:false },
-        { title: "Id Proof", completed: "0", link: "/host/profile#document",status:false },
-        { title: "Quiz", completed: "0", link: "/host/quiz",status:false },
-        { title: "Invite 5 Friends", completed: "0", link: "",status:false }
+        {
+          title: "Email Verification",
+          completed: "0",
+          link: "/host/profile#profile",
+          status: false
+        },
+        {
+          title: "Address Proof",
+          completed: "0",
+          link: "/host/profile#document",
+          status: false
+        },
+        {
+          title: "Admin Verification",
+          completed: "0",
+          link: "",
+          status: false
+        },
+        {
+          title: "Phone Verification",
+          completed: "0",
+          link: "/host/profile#profile",
+          status: false
+        },
+        {
+          title: "Profile Photo",
+          completed: "0",
+          link: "/host/profile#profile",
+          status: false
+        },
+        {
+          title: "Basic Profile Info",
+          completed: "0",
+          link: "/host/profile#profile",
+          status: false
+        },
+        {
+          title: "Services and Rates",
+          completed: "0",
+          link: "/host/profile",
+          status: false
+        },
+        {
+          title: "Id Proof",
+          completed: "0",
+          link: "/host/profile#document",
+          status: false
+        },
+        { title: "Quiz", completed: "0", link: "/host/quiz", status: false },
+        { title: "Invite 5 Friends", completed: "0", link: "", status: false }
       ]
     };
   },
@@ -398,6 +346,7 @@ export default {
     const udata = authStore.getUserData();
     this.name = udata.first_name + " " + udata.last_name;
     this.avatar = udata.avatar;
+    this.email = udata.email;
     if (authStore.getPetCount()) {
       this.petCount = authStore.getPetCount();
     } else {
@@ -422,7 +371,7 @@ export default {
         authStore.logout();
         router.replace("/");
       }
-    window.scroll({ top: 0, left: 0, behavior: "smooth" });
+      window.scroll({ top: 0, left: 0, behavior: "smooth" });
     }
   },
   methods: {
@@ -438,51 +387,50 @@ export default {
       axios
         .get(urls.URL + "/host/completion/", config)
         .then(res => {
+          console.log(res);
           if (res.data.status) {
             this.profile_complition = res.data.data.profile_completion;
-            if(res.data.pending.address_proof){
+            if (res.data.pending.address_proof) {
               this.pending[0].completed = res.data.pending.address_proof;
               this.pending[0].status = true;
             }
-            
-            if(res.data.pending.admin_verification){
-            this.pending[1].completed = res.data.pending.admin_verification;
-this.pending[1].status = true;
-            }
-            if(res.data.pending.email_verification){
-            this.pending[2].completed = res.data.pending.email_verification;
-this.pending[2].status = true;
-            }
-            if(res.data.pending.phone_verification){
 
-            this.pending[3].completed = res.data.pending.phone_verification;
-            this.pending[3].status = true;
+            if (res.data.pending.admin_verification) {
+              this.pending[1].completed = res.data.pending.admin_verification;
+              this.pending[1].status = true;
             }
-            if(res.data.pending.profile_photo){
-            this.pending[4].completed = res.data.pending.profile_photo;
-this.pending[4].status = true;
+            if (res.data.pending.email_verification) {
+              this.pending[2].completed = res.data.pending.email_verification;
+              this.pending[2].status = true;
             }
-            if(res.data.pending.basic_profile_info){
-            this.pending[5].completed = res.data.pending.basic_profile_info;
-this.pending[5].status = true;
+            if (res.data.pending.phone_verification) {
+              this.pending[3].completed = res.data.pending.phone_verification;
+              this.pending[3].status = true;
             }
-            if(res.data.pending.service_and_rates){
-            this.pending[6].completed = res.data.pending.service_and_rates;
-this.pending[6].status = true;
+            if (res.data.pending.profile_photo) {
+              this.pending[4].completed = res.data.pending.profile_photo;
+              this.pending[4].status = true;
             }
-            if(res.data.pending.id_proof){
-            this.pending[7].completed = res.data.pending.id_proof;
-this.pending[7].status = true;
+            if (res.data.pending.basic_profile_info) {
+              this.pending[5].completed = res.data.pending.basic_profile_info;
+              this.pending[5].status = true;
             }
-            if(res.data.pending.quiz){
-            this.pending[8].completed = res.data.pending.quiz;
-            this.pending[8].status = true;
+            if (res.data.pending.service_and_rates) {
+              this.pending[6].completed = res.data.pending.service_and_rates;
+              this.pending[6].status = true;
             }
-            if(res.data.pending.invite_5_friends){
-            this.pending[9].completed = res.data.pending.invite_5_friends;
-this.pending[9].status = true;
+            if (res.data.pending.id_proof) {
+              this.pending[7].completed = res.data.pending.id_proof;
+              this.pending[7].status = true;
             }
-
+            if (res.data.pending.quiz) {
+              this.pending[8].completed = res.data.pending.quiz;
+              this.pending[8].status = true;
+            }
+            if (res.data.pending.invite_5_friends) {
+              this.pending[9].completed = res.data.pending.invite_5_friends;
+              this.pending[9].status = true;
+            }
           }
         })
         .catch(err => {
@@ -497,7 +445,237 @@ this.pending[9].status = true;
 };
 </script>
 <style scoped>
+:colors {
+  --fontHead: "Roboto", sans-serif;
+}
+
 .border-below {
   border-bottom: 1px solid #e3e3e3;
+}
+
+.percentIndicator {
+  color: #0fef70c6;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+}
+
+.cardDesign {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid #d6d6d6;
+  border-radius: 20px !important;
+  opacity: 1;
+  margin: 20px;
+}
+
+.dashboard-style {
+  margin: 5px 20px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 2rem;
+  color: #444d59;
+  /* padding: 10px; */
+}
+
+.dashboard-style2 {
+  margin: 5px 20px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 1.5rem;
+  color: #444d59;
+}
+
+.profile-left {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 20px;
+  text-transform: uppercase;
+}
+.profile-left > .v-avatar {
+  margin-bottom: 20px;
+}
+.profile-left > div {
+  margin: 5px auto;
+}
+
+.container > .head {
+  color: #3a3a3a;
+  text-transform: capitalize;
+  font-family: "Poppins", sans-serif;
+}
+
+.container > .content {
+  font-family: "Poppins", sans-serif;
+  color: #0fef70c6;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.task {
+  font-family: "Poppins", sans-serif;
+  color: #3a3a3a;
+  font-weight: 100;
+  font-size: 0.9rem;
+  padding-left: 12px;
+  text-transform: capitalize;
+}
+
+.profile-left > .profile-edits {
+  color: #58a77a;
+  font-weight: 400;
+  font-family: "Roboto", sans-serif;
+}
+.profile-right {
+  display: flex;
+  text-align: center;
+}
+.profile-right > .col > .row {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+  margin: auto;
+}
+.profile-right > .col > .container {
+  text-align: start;
+}
+
+.head {
+  margin-bottom: 3px;
+  font-weight: 900;
+}
+
+.container2 {
+  padding: 20px;
+}
+.container2 > .profile2 {
+  display: flex;
+  justify-content: space-between;
+  margin: 0px 0px;
+}
+
+.container2 > .profile2 > .majorTopic {
+  color: #444d59;
+  font-weight: 500;
+  font-family: "Roboto", sans-serif;
+  font-size: 1.2rem;
+}
+
+.container2 > .profile2 > div > .topic {
+  color: #444d59;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+}
+
+.bodySection > .profile2 {
+  display: flex;
+  justify-content: space-between;
+  margin: 0px 0px;
+  padding: 0px 20px;
+}
+
+.bodySection > .profile2 > .viewAll {
+  margin: auto 0px;
+  color: #0fef70c6;
+}
+
+.container2 > .progressBar {
+  margin: 10px auto;
+}
+
+.container2 > .bookingDate {
+  text-align: center;
+  font-size: 2rem;
+  text-transform: uppercase;
+  color: #0fef70c6;
+  font-family: "Roboto", sans-serif;
+}
+
+.container2 > .bookingDetails {
+  font-size: 1.5rem;
+  margin: auto;
+  font-weight: 500;
+  color: #444d59;
+  text-align: center;
+}
+.container2 > .col > .bookHead {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  font-weight: 500;
+  font-family: "Roboto", sans-serif;
+}
+.container2 > .col > .bookContent {
+  font-size: 0.8rem;
+  color: #3a3a3a;
+  width: 80%;
+}
+
+.cardDesign > .bookingBottom {
+  width: 80%;
+  margin: auto;
+}
+
+.pointStyle {
+  width: 15px;
+  height: 15px;
+  background-color: #0fef70c6;
+  border-radius: 10px;
+  position: absolute;
+  bottom: 5.5px;
+}
+
+.v-expansion-panels {
+  border-radius: 40px;
+}
+
+.v-expansion-panel-header {
+  min-height: 0px;
+  padding: 0px;
+}
+
+.container2 > .bottom {
+  text-align: center;
+}
+
+.accordion-caret {
+  background-image: linear-gradient(to top right, transparent 50%, #727272 50%);
+  width: 0.5rem;
+  height: 0.5rem;
+  transform: rotate(-45deg);
+}
+
+.v-application--is-ltr .v-expansion-panel-header {
+  text-align: center;
+  display: list-item;
+}
+
+.v1 {
+  border-left: 0.5px solid black;
+}
+
+.header > .headerHead {
+  font-family: "Roboto", sans-serif;
+  color: #444d59;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.header > .header {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 1.2rem;
+  margin-bottom: 18%;
+  color: #444d59;
+  text-transform: capitalize;
+}
+.container2 > .col > .contentHeader {
+  /* width: 40%; */
+  font-size: 0.8rem;
+  color: #000000;
+}
+
+.buttonHeader {
+  margin-top: 20px;
+  text-align: center;
 }
 </style>

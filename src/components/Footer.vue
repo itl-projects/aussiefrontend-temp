@@ -1,21 +1,37 @@
 <template>
-  <v-container :fluid="true" class="p-10" style="background-color:#33de79; color:#ffffff">
+  <v-container
+    :fluid="true"
+    class="p-10"
+    style="background-color:#383D43; color:#ffffff; font-family: 'Roboto"
+  >
     <v-row>
       <v-col cols="12" sm="6">
         <v-row>
           <v-col cols="12" md="6">
-            <h2 class="ml-10 mb-3" style="color: #faef60;">Main Services</h2>
-            <ul v-for="(mainService,i) in mainServices" :key="i">
-              <v-btn style="text-transform: capitalize;" class="white--text" text>
-                <a :href="mainService.path"><li>{{mainService.name}}</li></a>
+            <h2 class="ml-10 mb-3" style="color: #0FEF70;">Main Services</h2>
+            <ul v-for="(mainService, i) in mainServices" :key="i">
+              <v-btn
+                style="text-transform: capitalize;font-weight: 300;"
+                class="white--text"
+                text
+              >
+                <a :href="mainService.path"
+                  ><li>{{ mainService.name }}</li></a
+                >
               </v-btn>
             </ul>
           </v-col>
           <v-col cols="12" md="6">
-            <h2 class="ml-10 mb-3" style="color: #faef60;">Main Features</h2>
-            <ul v-for="(mainFeature,i) in mainFeatures" :key="i">
-              <v-btn style="text-transform: capitalize;" class="white--text" text>
-                <a :href="mainFeature.path"><li>{{mainFeature.name}}</li></a>
+            <h2 class="ml-10 mb-3" style="color: #0FEF70;">Main Features</h2>
+            <ul v-for="(mainFeature, i) in mainFeatures" :key="i">
+              <v-btn
+                style="text-transform: capitalize;font-weight: 300;"
+                class="white--text"
+                text
+              >
+                <a :href="mainFeature.path"
+                  ><li>{{ mainFeature.name }}</li></a
+                >
               </v-btn>
             </ul>
           </v-col>
@@ -24,18 +40,30 @@
       <v-col cols="12" sm="6">
         <v-row>
           <v-col cols="12" md="6">
-            <h2 class="ml-10 mb-3" style="color: #faef60;">Directories</h2>
-            <ul v-for="(directories,i) in Directories" :key="i">
-              <v-btn style="text-transform: capitalize;" class="white--text" text>
-                <a :href="directories.path"><li>{{directories.name}}</li></a>
+            <h2 class="ml-10 mb-3" style="color: #0FEF70;">Directories</h2>
+            <ul v-for="(directories, i) in Directories" :key="i">
+              <v-btn
+                style="text-transform: capitalize;font-weight: 300;"
+                class="white--text"
+                text
+              >
+                <a :href="directories.path"
+                  ><li>{{ directories.name }}</li></a
+                >
               </v-btn>
             </ul>
           </v-col>
           <v-col cols="12" md="6">
-            <h2 class="ml-10 mb-3" style="color: #faef60;">Company</h2>
-            <ul v-for="(company,i) in Company" :key="i">
-              <v-btn style="text-transform: capitalize;" class="white--text" text>
-                <a :href="company.path"><li>{{company.name}}</li></a>
+            <h2 class="ml-10 mb-3" style="color: #0FEF70;">Company</h2>
+            <ul v-for="(company, i) in Company" :key="i">
+              <v-btn
+                style="font-weight: 300;text-transform: capitalize; "
+                class="white--text"
+                text
+              >
+                <a :href="company.path"
+                  ><li>{{ company.name }}</li></a
+                >
               </v-btn>
             </ul>
           </v-col>
@@ -44,17 +72,15 @@
     </v-row>
     <v-row class="text-center mt-3">
       <v-col cols="12">
-        <v-row class="justify-center">
-          <v-col cols="4" >
-            <h1 class="text-center" style="color: #faef60;">Follow Us</h1>
-          </v-col>
-        </v-row>
+        <v-col class="justify-center">
+          <h1 class="text-center" style="color: #0FEF70;">Follow Us</h1>
+        </v-col>
         <v-row class="justify-center">
           <v-col cols="5" class="text-center">
             <v-btn class="mx-2" rounded color="red" fab dark small>
               <v-icon size="24px">mdi-google-plus</v-icon>
             </v-btn>
-            <v-btn class="mx-2" rounded  color="primary" fab dark small>
+            <v-btn class="mx-2" rounded color="primary" fab dark small>
               <v-icon size="24px">mdi-facebook</v-icon>
             </v-btn>
             <v-btn class="mx-2" rounded color="pink" fab dark small>
@@ -65,9 +91,9 @@
             </v-btn>
           </v-col>
         </v-row>
-      </v-col>
-      <v-col style="background-color:#faef60; color: #67df7a;">
-        <h3 class="text-center" style="font-weight:100">@Website Desgin by Innovative Tech Lab</h3>
+        <h4 class="text-center" style="font-weight:100">
+          @Website Desgin by Innovative Tech Lab | Copyright Aussie Pets BnB
+        </h4>
       </v-col>
     </v-row>
   </v-container>
@@ -77,12 +103,12 @@ export default {
   name: "Footer",
   data: () => ({
     mainServices: [
-      { name: "Find a Reliable Pet Host", path:"" },
+      { name: "Find a Reliable Pet Host", path: "" },
       { name: "Pet Day Care Services", path: "" },
       { name: "Pet Grooming Services", path: "" },
       { name: "Pet Trainings Services", path: "" },
       { name: "House Visits Gardens & Plants", path: "" },
-      { name: "Walkies & Exercise Services", path: "" }
+      { name: "Walkies & Exercise Services", path: "" },
     ],
     mainFeatures: [
       { name: "Petorama", path: "" },
@@ -92,7 +118,7 @@ export default {
       { name: "Pet O Vision", path: "" },
       { name: "Pet Pub", path: "" },
       { name: "Live Support", path: "" },
-      { name: "Need a Website", path: "" }
+      { name: "Need a Website", path: "" },
     ],
     Directories: [
       { name: "Local vets directory", path: "" },
@@ -105,7 +131,7 @@ export default {
       { name: "Local Pet Shop Directory", path: "" },
       { name: "Animal Charities", path: "" },
       { name: "Pet Events", path: "" },
-      { name: "Positions vacant in pet space", path: "" }
+      { name: "Positions vacant in pet space", path: "" },
     ],
     Company: [
       { name: "About Us", path: "" },
@@ -114,9 +140,9 @@ export default {
       { name: "Advertise With Us", path: "" },
       { name: "Contact Us", path: "" },
       { name: "Phone ", path: "" },
-      { name: "Email", path: "" }
-    ]
-  })
+      { name: "Email", path: "" },
+    ],
+  }),
 };
 </script>
 <style scoped>
@@ -134,9 +160,6 @@ ul a {
   color: #ffffff;
 }
 ul a:hover {
-  color: #faef60;
-}
-footerHeadings{
-  color: #faef60;
+  color: #0fef70;
 }
 </style>

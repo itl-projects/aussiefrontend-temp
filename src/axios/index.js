@@ -1,5 +1,5 @@
-import * as axios from 'axios';
+import * as axios from "axios";
 
 export default axios.Create({
-  baseURL: 'http://95.217.133.127:70'
-})
+  baseURL: "http://18.223.188.111:70",
+});

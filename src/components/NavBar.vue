@@ -1,123 +1,197 @@
 <template>
   <div class="navbar-aussiepetz">
-    <v-toolbar color="#f4f4f4" flat prominent="">
-      <v-app-bar-nav-icon class="d-flex d-sm-flex d-md-none" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      
-      <v-toolbar-title style="align-self: center;">
+    <v-toolbar color="#f4f4f4" flat extended style="background-color: #383D43;">
+      <v-app-bar-nav-icon
+        class="d-flex d-sm-flex d-md-none"
+        @click.stop="drawer = !drawer"
+      ></v-app-bar-nav-icon>
+
+      <v-toolbar-title>
         <a href="/">
-        <v-img src="@/assets/images/logo/font_logo.png" width="200px" style="filter: drop-shadow(1px 1px 1px white);"></v-img>
+          <v-img src="@/assets/images/logo/font_logo.png" width="200px"></v-img>
         </a>
       </v-toolbar-title>
-      <v-spacer></v-spacer>
+      <!-- <v-spacer></v-spacer> -->
       <!-- large View -->
-      
-      <v-toolbar-items class="d-none d-sm-none d-md-flex">
-            <v-row justify="end">
-              <v-col cols="12" style="text-align: end;">
-                   <v-chip class="text-center mr-2 nav-chip" color="#827F19" outlined ripple text-color="#827F19" style="font-size: medium;">Become a pet host</v-chip>
-        <v-chip class="text-center nav-chip" color="#D47E11" outlined ripple text-color="#D47E11" style="font-size: medium;">Aussie pets BnB Services</v-chip>
-       
-                      <v-autocomplete
-          v-model="select"
-          :loading="loading"
-          :items="items"
-          :search-input.sync="search"
-          cache-items
-          class="mx-4"
-          hide-no-data
-          hide-details
-          label="Search"
-          solo 
-          flat
-          light
-          rounded
-          style="align-self: center;display:inline-block;border: 1px solid rgba(54,154,204,1);"
-          dense
+      <v-toolbar-extension slot="extension" style="margin: auto;">
+        <v-menu :open-on-hover="true" :offset-y="true">
+          <template v-slot:activator="{ on }">
+            <v-btn
+              style="text-transform: capitalize;color: #222222;"
+              text
+              v-on="on"
+              >Perfect Match</v-btn
+            >
+          </template>
+          <v-list style="">
+            <v-list-item
+              v-for="(item, index) in matchItems"
+              :key="index"
+              @click="item.path"
+            >
+              <v-list-item-title class="design">{{
+                item.title
+              }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+        <v-menu :open-on-hover="true" :offset-y="true">
+          <template v-slot:activator="{ on }">
+            <v-btn
+              style="text-transform: capitalize;color: #222222;"
+              text
+              v-on="on"
+              color="#10a722"
+              >Pet Hub</v-btn
+            >
+          </template>
+          <v-list style="">
+            <v-list-item
+              v-for="(item, index) in pethubitems"
+              :key="index"
+              @click="item.path"
+            >
+              <v-list-item-title class="design">{{
+                item.title
+              }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+        <v-menu :open-on-hover="true" :offset-y="true">
+          <template v-slot:activator="{ on }">
+            <v-btn
+              text
+              v-on="on"
+              style="text-transform: capitalize;color: #222222;"
+              color="#10a722"
+              >shop</v-btn
+            >
+          </template>
+          <v-list style="">
+            <v-list-item
+              v-for="(item, index) in shopItems"
+              :key="index"
+              :to="item.path"
+            >
+              <v-list-item-title class="design">
+                {{ item.title }}
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+        <v-btn
+          style="text-transform: capitalize;color: #222222;"
+          text
+          color="#10a722"
+          >Advertise with US</v-btn
         >
-          <v-icon slot="append">mdi-magnify</v-icon>
-        </v-autocomplete>
-     
-        
-        <v-menu v-if="isLoggedIn" :open-on-hover="true" :offset-y="true">
-          <template v-slot:activator="{ on }">
-            <v-btn text v-on="on">
-              Hi, {{ name }}
-              <v-avatar color="orange" size="50" class="ml-2">
-                <span v-if="pic == ''" class="white--text" style="font-size:1rem">{{ name_title }}</span>
-                <v-img v-else :src="pic"></v-img>
-              </v-avatar>
-            </v-btn>
-          </template>
-          <v-list style="border: 2px solid #FAEF63">
-            <v-list-item @click="goToDashBoard">
-              <v-list-item-title class="design">Dashboard</v-list-item-title>
-            </v-list-item>
-            <v-list-item @click="logOut">
-              <v-list-item-title class="design">Signout</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-        <v-menu v-else :open-on-hover="true" :offset-y="true">
-          <template v-slot:activator="{ on }">
-            <v-btn text icon v-on="on" style="text-transform: capitalize;">
-              <v-icon large>mdi-account-circle-outline</v-icon>
-            </v-btn>
-          </template>
-          <v-list style="border: 2px solid #FAEF63">
-            <v-list-item @click="goToLogin">
-              <v-list-item-title class="design">Sing In</v-list-item-title>
-            </v-list-item>
-            <v-list-item @click="goToSignup">
-              <v-list-item-title class="design">Sing Up</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-              </v-col>
-              <v-col cols="12" style="text-align: end;" class="pt-0">
-                 <v-menu :open-on-hover="true" :offset-y="true" >
-          <template v-slot:activator="{ on }">
-            <v-btn text v-on="on" color="#10a722">Perfect Match</v-btn>
-          </template>
-          <v-list style="border: 2px solid #FAEF63">
-            <v-list-item v-for="(item, index) in matchItems" :key="index" @click="item.path" >
-              <v-list-item-title class="design">{{ item.title }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-        <v-menu :open-on-hover="true" :offset-y="true">
-          <template v-slot:activator="{ on }">
-            <v-btn text v-on="on" color="#10a722">Pet Hub</v-btn>
-          </template>
-          <v-list style="border: 2px solid #FAEF63">
-            <v-list-item v-for="(item, index) in pethubitems" :key="index" @click="item.path">
-              <v-list-item-title class="design">{{ item.title }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-        <v-menu :open-on-hover="true" :offset-y="true">
-          <template v-slot:activator="{ on }">
-            <v-btn text v-on="on" style="text-transform: capitalize;" color="#10a722">SHOP</v-btn>
-          </template>
-          <v-list style="border: 2px solid #FAEF63">
-            <v-list-item v-for="(item, index) in shopItems" :key="index" :to="item.path">
-              <v-list-item-title class="design">{{ item.title }}</v-list-item-title>              
-            </v-list-item>
-          </v-list>
-        </v-menu>
-                <v-btn style="text-transform: capitalize;" text color="#10a722">Advertise with US</v-btn>
         <v-menu :open-on-hover="true" :offset-y="true">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn text v-bind="attrs" v-on="on" style="text-transform: capitalize;" color="#10a722">Directory</v-btn>
+            <v-btn
+              text
+              v-bind="attrs"
+              v-on="on"
+              style="text-transform: capitalize;color: #222222;"
+              color="#10a722"
+              >Directory</v-btn
+            >
           </template>
-          <v-list style="border: 2px solid #FAEF63">
-            <v-list-item v-for="(item, index) in directoryItems" :key="index" @click="item.path">
-              <v-list-item-title class="design">{{ item.title }}</v-list-item-title>
+          <v-list style="">
+            <v-list-item
+              v-for="(item, index) in directoryItems"
+              :key="index"
+              @click="item.path"
+            >
+              <v-list-item-title class="design">
+                {{ item.title }}
+              </v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
-              </v-col>
-            </v-row>
+        <!-- Changed from upper col to bottom -->
+
+        <!-- Changes end-->
+        <!-- </v-col> -->
+      </v-toolbar-extension>
+      <v-toolbar-items style="width: 100%" class="d-none d-sm-none d-md-flex">
+        <v-row style="align-items: center;" justify="end">
+          <v-btn
+            class="homeBtnClass"
+            v-resize-text="{
+              ratio: 2,
+              minFontSize: '10px',
+              maxFontSize: '90%',
+              delay: 200,
+            }"
+            depressed
+            tile
+          >
+            <v-icon style="margin-right: 3%;">mdi-human-greeting</v-icon>Become
+            a pet host
+          </v-btn>
+          <v-btn
+            class="homeBtnClass"
+            v-resize-text="{
+              ratio: 2,
+              minFontSize: '5%',
+              maxFontSize: '90%',
+              delay: 200,
+            }"
+            depressed
+            tile
+          >
+            <v-icon style="margin-right: 3%;">mdi-paw</v-icon>Aussie pets BnB
+            Services
+          </v-btn>
+          <v-icon style="margin: 0px 1%;" color="#fff" slot="append"
+            >mdi-magnify</v-icon
+          >
+          <v-menu v-if="isLoggedIn" :open-on-hover="true" :offset-y="true">
+            <template v-slot:activator="{ on }">
+              <v-btn text v-on="on">
+                Hi, {{ name }}
+                <v-avatar color="orange" size="50" class="ml-2">
+                  <span
+                    v-if="pic == ''"
+                    class="white--text"
+                    style="font-size:1rem"
+                    >{{ name_title }}</span
+                  >
+                  <v-img v-else :src="pic"></v-img>
+                </v-avatar>
+              </v-btn>
+            </template>
+            <v-list style="border: 2px solid #FAEF63">
+              <v-list-item @click="goToDashBoard">
+                <v-list-item-title class="design">Dashboard</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="logOut">
+                <v-list-item-title class="design">Signout</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+          <v-menu v-else :open-on-hover="true" :offset-y="true">
+            <template v-slot:activator="{ on }">
+              <v-btn
+                color="#fff"
+                text
+                v-on="on"
+                style="text-transform: capitalize;border: 3px solid #fff;padding:0px 3%;margin: 0px 1%;"
+                >Login
+              </v-btn>
+            </template>
+            <v-list style="border: 2px solid #FAEF63">
+              <v-list-item @click="goToLogin">
+                <v-list-item-title class="design">Sing In</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="goToSignup">
+                <v-list-item-title class="design">Sing Up</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </v-row>
       </v-toolbar-items>
+
       <!-- End View -->
       <!-- Mobile View -->
       <v-toolbar-items class="d-flex d-sm-flex d-md-none">
@@ -125,9 +199,9 @@
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
 
-        <!-- <v-btn icon>
+        <v-btn icon>
           <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn> -->
+        </v-btn>
       </v-toolbar-items>
     </v-toolbar>
     <!-- End Mobile View -->
@@ -142,11 +216,15 @@
       width="200px"
       height="100%"
     >
-    <v-app-bar style="justify-content: center;">
-    <a href="/">
-        <v-img src="@/assets/images/logo/font_logo.png" width="120px" style="filter: drop-shadow(1px 1px 1px white);"></v-img>
+      <v-app-bar style="justify-content: center;">
+        <a href="/">
+          <v-img
+            src="@/assets/images/logo/font_logo.png"
+            width="120px"
+            style="filter: drop-shadow(1px 1px 1px white);"
+          ></v-img>
         </a>
-    </v-app-bar>
+      </v-app-bar>
       <v-list-item v-if="isLoggedIn">
         <v-list-item-avatar>
           <v-avatar color="orange" size="40" class="ml-2">
@@ -159,53 +237,106 @@
         </v-list-item-content>
       </v-list-item>
       <v-divider></v-divider>
-       <v-list dense>
-         <v-list-item to="/signup">
-           <v-list-item-title style="color:#827F19">
-             Become a pet host
-       </v-list-item-title>
-         </v-list-item>
-         <v-list-item to="/signup">
-           <v-list-item-title style="color:#D47E11">Aussie pets BnB Services
-       </v-list-item-title>
-         </v-list-item>
-       </v-list>
-   
-   <v-divider/>
-     <v-menu :open-on-hover="true" :offset-y="true" >
-          <template v-slot:activator="{ on }">
-            <v-btn text v-on="on" color="#10a722" width="100%" style="justify-content: start;" class="pl-4">Perfect Match</v-btn>
-          </template>
-          <v-list style="border: 2px solid #FAEF63">
-            <v-list-item v-for="(item, index) in matchItems" :key="index" @click="item.path" >
-              <v-list-item-title class="design">{{ item.title }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-        <v-menu :open-on-hover="true" :offset-y="true">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn v-bind="attrs" text v-on="on" color="#10a722" width="100%" style="justify-content: start;" class="pl-4">Pet Hub</v-btn>
-          </template>
-          <v-list style="border: 2px solid #FAEF63">
-            <v-list-item v-for="(item, index) in pethubitems" :key="index" @click="item.path">
-              <v-list-item-title class="design">{{ item.title }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-       
-        <v-menu :open-on-hover="true" :offset-y="true">
-          <template v-slot:activator="{ on }">
-            <v-btn text v-on="on" color="#10a722" width="100%" style="justify-content: start;" class="pl-4">SHOP</v-btn>
-          </template>
-          <v-list style="border: 2px solid #FAEF63">
-            <v-list-item v-for="(item, index) in shopItems" :key="index" :to="item.path">
-              <v-list-item-title class="design">{{ item.title }}</v-list-item-title>              
-            </v-list-item>
-          </v-list>
-        </v-menu>
+      <v-list dense>
+        <v-list-item to="/signup">
+          <v-list-item-title style="color:#827F19"
+            >Become a pet host</v-list-item-title
+          >
+        </v-list-item>
+        <v-list-item to="/signup">
+          <v-list-item-title style="color:#D47E11"
+            >Aussie pets BnB Services</v-list-item-title
+          >
+        </v-list-item>
+      </v-list>
+
+      <v-divider />
+      <v-menu :open-on-hover="true" :offset-y="true">
+        <template v-slot:activator="{ on }">
+          <v-btn
+            text
+            v-on="on"
+            color="#10a722"
+            width="100%"
+            style="justify-content: start;"
+            class="pl-4"
+            >Perfect Match</v-btn
+          >
+        </template>
+        <v-list style="border: 2px solid #FAEF63">
+          <v-list-item
+            v-for="(item, index) in matchItems"
+            :key="index"
+            @click="item.path"
+          >
+            <v-list-item-title class="design">
+              {{ item.title }}
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
       <v-menu :open-on-hover="true" :offset-y="true">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn text v-bind="attrs" v-on="on" width="100%" color="#10a722" style="justify-content: start;" class="pl-4">Directory</v-btn>
+          <v-btn
+            v-bind="attrs"
+            text
+            v-on="on"
+            color="#10a722"
+            width="100%"
+            style="justify-content: start;"
+            class="pl-4"
+            >Pet Hub</v-btn
+          >
+        </template>
+        <v-list style="border: 2px solid #FAEF63">
+          <v-list-item
+            v-for="(item, index) in pethubitems"
+            :key="index"
+            @click="item.path"
+          >
+            <v-list-item-title class="design">
+              {{ item.title }}
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+
+      <v-menu :open-on-hover="true" :offset-y="true">
+        <template v-slot:activator="{ on }">
+          <v-btn
+            text
+            v-on="on"
+            color="#10a722"
+            width="100%"
+            style="justify-content: start;"
+            class="pl-4"
+            >SHOP</v-btn
+          >
+        </template>
+        <v-list style="border: 2px solid #FAEF63">
+          <v-list-item
+            v-for="(item, index) in shopItems"
+            :key="index"
+            :to="item.path"
+          >
+            <v-list-item-title class="design">
+              {{ item.title }}
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+      <v-menu :open-on-hover="true" :offset-y="true">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            text
+            v-bind="attrs"
+            v-on="on"
+            width="100%"
+            color="#10a722"
+            style="justify-content: start;"
+            class="pl-4"
+            >Directory</v-btn
+          >
         </template>
         <v-list style="border: 2px solid #FAEF63">
           <v-list-item v-for="(item, index) in directoryItems" :key="index">
@@ -223,7 +354,6 @@
         </v-list-item>
       </v-list>
       <v-list v-else dense>
-        
         <v-list-item @click="goToLogin">
           <v-list-item-title>Sign In</v-list-item-title>
         </v-list-item>
@@ -235,10 +365,17 @@
   </div>
 </template>
 <script>
+import VueResizeText from "vue-resize-text";
 import router from "../router";
 import authStore from "../store/auth";
+import ResizeText from "vue-resize-text";
+
 export default {
   name: "NavBar",
+  directives: {
+    ResizeText,
+  },
+  components: [VueResizeText],
   data() {
     return {
       loading: false,
@@ -308,7 +445,7 @@ export default {
         "Washington",
         "West Virginia",
         "Wisconsin",
-        "Wyoming"
+        "Wyoming",
       ],
       drawer: null,
       item: [
@@ -323,24 +460,24 @@ export default {
         { title: "About", icon: "question_answer" },
         { title: "About", icon: "question_answer" },
         { title: "About", icon: "question_answer" },
-        { title: "About", icon: "question_answer" }
+        { title: "About", icon: "question_answer" },
       ],
       pethubitems: [
         { title: "Events", path: "" },
         { title: "Petorama", path: "" },
         { title: "Pet Pub", path: "" },
-        { title: "Pet O Vision", path: "" }
+        { title: "Pet O Vision", path: "" },
       ],
-      shopItems:[
+      shopItems: [
         { title: "Pet Stuff", path: "/shop" },
         { title: "Pet Food", path: "/shop" },
         { title: "Merch", path: "/shop" },
       ],
-      matchItems:[
+      matchItems: [
         { title: "Purrrfect Match", path: "" },
         { title: "Pet Crush", path: "" },
       ],
-      directoryItems:[
+      directoryItems: [
         { title: "Local Vets", path: "" },
         { title: "Pet Park Location", path: "" },
         { title: "Pet News", path: "" },
@@ -353,15 +490,15 @@ export default {
         { title: "Vetting Process", path: "" },
         { title: "Rewards & Prizes", path: "" },
         { title: "Winner Board", path: "" },
-        { title: "Sharing", path: "" }
+        { title: "Sharing", path: "" },
       ],
-      check: ""
+      check: "",
     };
   },
   watch: {
     search(val) {
       val && val !== this.select && this.querySelections(val);
-    }
+    },
   },
   created: function() {
     if (authStore.isSignedIn()) {
@@ -379,17 +516,15 @@ export default {
       this.loading = true;
       // Simulated ajax query
       setTimeout(() => {
-        this.items = this.states.filter(e => {
+        this.items = this.states.filter((e) => {
           return (e || "").toLowerCase().indexOf((v || "").toLowerCase()) > -1;
         });
         this.loading = false;
       }, 500);
     },
     goToDashBoard() {
-      if(authStore.userType() === "petowner")
-         router.push("/owner");
-      else if(authStore.userType() === "host")
-           router.push("/host");
+      if (authStore.userType() === "petowner") router.push("/owner");
+      else if (authStore.userType() === "host") router.push("/host");
     },
     goToLogin() {
       router.push("/login");
@@ -402,12 +537,15 @@ export default {
       if (window.location.pathname === "/") {
         window.location.reload();
       } else router.push("/");
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
+.v-toolbar__extension {
+  padding: 0px !important;
+}
 .v-btn:not(.v-btn--round).v-size--default {
   padding: 0 7px;
 }
@@ -417,7 +555,7 @@ export default {
 }
 .v-btn__content {
   font-weight: 600;
-  color:#faef60;
+  color: #faef60;
 }
 .v-chip.v-size--own {
   border-radius: 10px;
@@ -438,7 +576,37 @@ export default {
   padding: 18px;
   border-color: #fff;
 }
-.design{
-  color: #00D657;
+.design {
+  color: #222222;
+  font-size: 0.9rem;
+}
+.subheader {
+  display: flex;
+  justify-content: space-around;
+}
+
+.nav-1 {
+  display: flex;
+  background-color: #383d43 !important;
+  border: 1px solid #707070;
+}
+
+.upperNav {
+  display: flex;
+}
+.homeBtnClass {
+  background-color: #0fef70 !important;
+  color: #fff !important;
+  padding: 12px !important;
+  margin: auto 1%;
+  font-weight: bolder;
+  width: 20%;
+  border-radius: 5px;
+}
+</style>
+
+<style>
+.v-toolbar__extension {
+  background-color: #fff;
 }
 </style>

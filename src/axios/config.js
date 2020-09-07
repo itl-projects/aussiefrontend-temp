@@ -1,6 +1,6 @@
 const urls = {
-    URL : "https://aussiepetsbnb.com.au/api",
-    IMGURL : "https://aussiepetsbnb.com.au/"
-}
+  URL: "http://18.223.188.111:70/api",
+  IMGURL: "http://18.223.188.111:70/",
+};
 
 export default urls;

@@ -11,20 +11,19 @@
       </v-col>
     </v-row>
     <v-row class="text-center">
-       <v-col cols="12" sm="6" class="text-center">
-          <img src="@/assets/images/logo/font_logo.png" width="200px">
-       </v-col>
-       <v-col cols="6">
-          <p>Purrrfect match is our pet hook-up, breeding and socialising</p>
-          
-       </v-col> 
+      <v-col cols="12" sm="6" class="text-center">
+        <img src="@/assets/images/logo/font_logo.png" width="200px" />
+      </v-col>
+      <v-col cols="6">
+        <p>Purrrfect match is our pet hook-up, breeding and socialising</p>
+      </v-col>
     </v-row>
   </v-container>
 </template>
 <script>
 export default {
   name: "Shop",
-  components: {}
+  components: {},
 };
 </script>
 <style scoped>
@@ -59,17 +58,17 @@ export default {
   margin-right: -50%;
 }
 .v-application p {
-    margin-bottom: 16px;
-    text-align: justify;
-    letter-spacing: 1px;
-    color: gray;
+  margin-bottom: 16px;
+  text-align: justify;
+  letter-spacing: 1px;
+  color: gray;
 }
-.tag{
+.tag {
   text-align: center;
-    margin-bottom: 5%;
-    color: #faff63;
-    -webkit-text-fill-color: #faff63;
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: #00d657
+  margin-bottom: 5%;
+  color: #faff63;
+  -webkit-text-fill-color: #faff63;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #00d657;
 }
 </style>

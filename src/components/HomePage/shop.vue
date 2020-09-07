@@ -3,75 +3,91 @@
     <v-row class="mt-5">
       <v-col cols-12>
         <div class="heading text-center">
-          <h2>
-            Shop at
-            <font color="#000000">Aussie Pets BNB</font>
+          <h2 class="head">
+            Premium services
           </h2>
         </div>
       </v-col>
     </v-row>
-    <v-row>
-       <v-col cols="12" sm="6" >
-          <h1 class="tag">Give the Best to your pet.</h1>
-          <p>Welcome to <font color="#00d657">Aussiepetsbnbz.com.au</font> pet shop, your one-stop online pet store for all your pet's needs. At Aussiepetsnbnz.com.au, we have discount sale prices and great value on a wide range of high-quality pet care products in one place.  </p>
-          <p>We have a wide range of pet supplies including Bird Cages, Bird Seed, Bird Supplies, Bird Toys, Cat Litter Crystals, Cat Scratching Post, Cat Supplies, Crystal Cat Litter, Designer Dog Beds, Dog Clippers, Dog Crates, Dog Kennels, Dog Supplies, Fish Foods, Fish Tank Filters, Fish Tank Ornaments, Flea Treatment for Dogs, Special line of Organic Dog Food, Parrot Toys, Pet doors, Pet Supplies, Puppy Pens, Puppy Training Pads, Rabbit Hutches, Reptile & Aquarium Globes, Reptile Supplies, Vegan Dog Food, Vetafarm Bird Food, Zupreem, and so much more.  </p>
-          <p>Browse our categories to find the product best suited to your needs. </p>
-       </v-col> 
-       <v-col cols="12" sm="6" style="display:flex">
-          <v-img src="@/assets/images/logo/font_logo.png" width="400px" contain/>
-       </v-col>
-    </v-row>
+    <div class="premium__cards">
+      <v-row v-for="m in 2" :key="m">
+        <v-col v-for="n in 2" :key="n" style="display: flex;" cols="6">
+          <v-card
+            style="border-radius: 20px; display: flex;"
+            :class="m == n ? 'greenClass' : 'greyClass'"
+          >
+            <v-col cols="3">
+              <v-avatar
+                :class="m == n ? 'greyClass' : 'greenClass'"
+                style="margin: 22px 10px;"
+                size="100"
+              >
+              </v-avatar>
+            </v-col>
+            <v-col cols="9">
+              <div class="premiumInfo">
+                <div
+                  class="premiumInfo__title"
+                  :style="m == n ? 'color: #383d43' : 'color: #0fef70'"
+                >
+                  make fetch! happen
+                </div>
+                <p class="premiumInfo__content">
+                  If you love pets and want exciting work, apply to be a Fetch!
+                  Pet Care
+                </p>
+                <v-btn class="premiumInfo__btn">Join Now</v-btn>
+              </div>
+            </v-col>
+          </v-card>
+        </v-col>
+      </v-row>
+    </div>
   </v-container>
 </template>
 <script>
 export default {
   name: "Shop",
-  components: {}
+  components: {},
 };
 </script>
 <style scoped>
-.image-feature img {
-  width: 70%;
-}
 .heading h2 {
-  color: #2c7873;
-  font-weight: 800;
+  color: #383d43;
+  font: normal normal bold 50px/76px Poppins;
   text-align: center;
   font-size: 1.5em;
-}
-
-.heading h2:before,
-.heading h2:after {
-  background-color: #faef60;
-  content: "";
-  display: inline-block;
-  height: 2px;
-  position: relative;
-  vertical-align: middle;
-  width: 5%;
-}
-
-.heading h2:before {
-  right: 0.5em;
-  margin-left: -50%;
-}
-
-.heading h2:after {
-  left: 0.5em;
-  margin-right: -50%;
-}
-.v-application p {
-    margin-bottom: 16px;
-    text-align: justify;
-    letter-spacing: 1px;
-    color: gray;
-}
-.tag{
   text-align: center;
-    margin-bottom: 5%;
-    color: #faff63;
-    -webkit-text-fill-color: #faff63;
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: #00d657
+}
+
+.premiumInfo > .premiumInfo__title {
+  color: #222222;
+  font-family: "Roboto", cursive;
+  text-transform: capitalize;
+  font-size: 1rem;
+  font-weight: bolder;
+}
+
+.premiumInfo > .premiumInfo__content {
+  font-family: "Open Sans", sans-serif;
+  color: #f8f8f8;
+}
+
+.premiumInfo > .premiumInfo__btn {
+  border-radius: 50px;
+  text-transform: capitalize;
+  color: #fe6845;
+}
+
+.greenClass {
+  background-color: #0fef70;
+}
+
+.greyClass {
+  background-color: #383d43;
+}
+
+.premium__cards {
+  padding: 0px 5% 10% 5%;
 }
 </style>
