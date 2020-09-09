@@ -1,20 +1,21 @@
 <template>
   <v-row style="height:100%">
-    <v-col cols="4" style="padding: 0px">
-      <v-card class="mx-0 pa-0" style="height: 100%;">
-        <v-list
-          height="100%"
-          style="background-color: #2E3134;padding: 10px;color:#fff;"
-        >
+    <v-col cols="3" style="padding:0px">
+      <v-card flat class="mx-0 pa-0" style="height: 100%;border-radius: 0;">
+        <v-list height="100%" style="background-color: #2E3134;color:#fff;">
           <v-list-item-group v-model="itemcheck">
-            <v-list-item v-for="(item, i) in items" :key="i">
-              <v-avatar>
+            <v-list-item
+              style="margin: 4%;padding: 2%;"
+              v-for="(item, i) in items"
+              :key="i"
+            >
+              <v-avatar tile size="65">
                 <img
                   src="https://cdn.vuetifyjs.com/images/john.jpg"
                   alt="John"
                 />
               </v-avatar>
-              <v-list-item-content>
+              <v-list-item-content style="margin-left: 5%;" class="chatsStyle">
                 <v-list-item-title>{{ item.text }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -22,16 +23,16 @@
         </v-list>
       </v-card>
     </v-col>
-    <v-col cols="8" style="padding: 0px">
+    <v-col cols="9" style="padding: 0px">
       <v-card style="height: 100%;padding: 0px 10px;">
         <v-row
           style="background-color: #444D59; padding: 10px;color: #fff;align-items: center;justify-content: space-between;"
         >
           <div class="userActive">
-            <v-avatar>
+            <v-avatar tile>
               <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
             </v-avatar>
-            <h4>user1</h4>
+            <h4 class="chatsStyle">user1</h4>
           </div>
           <v-btn class="ma-2" text icon color="#0FEF70C6">
             <v-icon>mdi-star</v-icon>
@@ -40,22 +41,32 @@
 
         <div class="bottomControls">
           <div class="chattingScreen">
-            <div class="other">
-              <v-avatar>
-                <img
-                  src="https://cdn.vuetifyjs.com/images/john.jpg"
-                  alt="John"
-                />
-              </v-avatar>
-              <div class="otherMsg">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                Voluptatem reiciendis repudiandae voluptatibus sapiente, facere
-                esse dicta natus doloribus laudantium provident, distinctio
-                quibusdam hic voluptas. Quidem eum recusandae modi quaerat?
-                Veniam.
+            <v-col
+              style="text-align: left;display: flex;flex-direction: column;"
+            >
+              <div class="other">
+                <v-avatar>
+                  <img
+                    src="https://cdn.vuetifyjs.com/images/john.jpg"
+                    alt="John"
+                  />
+                </v-avatar>
+                <div class="otherMsg">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Voluptatem reiciendis repudiandae voluptatibus sapiente,
+                  facere esse dicta natus doloribus laudantium provident,
+                  distinctio quibusdam hic voluptas. Quidem eum recusandae modi
+                  quaerat? Veniam.
+                </div>
               </div>
-            </div>
-            <div class="me">
+              <span style="font-size:0.85rem;margin: auto;color:#B5B5B5;"
+                >10:09 pm
+              </span>
+            </v-col>
+            <div
+              style="display: flex; flex-direction: column;text-align: left;"
+              class="me"
+            >
               <div class="me-right">
                 <div class="meMsg">
                   Lorem ipsum dolor, sit amet consectetur adipisicing elit.
@@ -71,6 +82,9 @@
                   />
                 </v-avatar>
               </div>
+              <span style="font-size:0.85rem;margin: auto;color:#B5B5B5;"
+                >10:09 pm</span
+              >
             </div>
           </div>
           <div class="bottomControlsMsg">
@@ -208,19 +222,24 @@ export default {
   box-shadow: 0px -4px 8px #0000000f;
 }
 
-.chattingScreen > .other {
+.chattingScreen > .col > .other {
   display: flex;
-  margin: 3% 0px;
   align-items: flex-end;
 }
 
-.chattingScreen > .other > .otherMsg {
+.chatsStyle > .col {
+  margin: 3% 0px;
+}
+
+.chattingScreen > .col > .other > .otherMsg {
   background-color: #0fef70c6;
   width: 50%;
   height: 50%;
   color: #fff;
   padding: 2%;
   font-size: 0.8rem;
+  border-radius: 10px;
+  margin-left: 1%;
 }
 
 .chattingScreen > .me {
@@ -236,6 +255,8 @@ export default {
 }
 .chattingScreen > .me > .me-right > .meMsg {
   background-color: #eaecf2;
+  margin-right: 1%;
+  border-radius: 10px;
   width: 50%;
   height: 50%;
   color: #fff;
@@ -247,6 +268,13 @@ export default {
 
 .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
   color: grey !important;
+}
+
+.chatsStyle {
+  font-family: "Roboto", sans-serif;
+  text-transform: capitalize;
+  font-weight: 500;
+  margin-left: 20%;
 }
 </style>
 <style>

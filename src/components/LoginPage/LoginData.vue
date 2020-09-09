@@ -1,83 +1,97 @@
 <template>
   <v-container :fluid="true">
-    <v-row no-gutters>
-      <v-col :cols="12" :md="6" class="text-center">
-        <div class="login-hading mt-5">
-          <h2>Welcome To Aussie Petz Login Form</h2>
-        </div>
-        <div class="content">
-          <p>
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-            commodo ligula eget
-          </p>
-        </div>
-        <div class="login-image">
-          <img class="v-image" src="images/cat1.png" lazy-src="images/cat1.png" />
-        </div>
-      </v-col>
-      <v-col :cols="12" :md="6" class="text-center">
-        <div class="form-heading">
-          <h2>{{ type_text }} Here</h2>
-        </div>
-        <div class="content mt-4">
-          <p>Provide {{ type_text_info }}</p>
-        </div>
-        <div class="login-form">
-          <v-tabs
-            v-model="tab"
-            background-color="#00D657"
-            color="#ffffff"
-            centered
-            dark
-            icons-and-text
-            class="mb-5">
-            <v-tab href="#tab-1" @click="signin">Sign In</v-tab>
-            <v-tab href="#tab-2" @click="signup">Sign Up</v-tab>
-          </v-tabs>
-          <v-tabs-items v-model="tab">
-             
-            <v-tab-item value="tab-1" class="mt-5">
-              <v-alert v-if="alert.show" dense border="left" type="error" dismissible class="mx-sm-10 text-start">
-      {{alert.message}}
-    </v-alert>
-              <form ref="loginForm" @submit="submit" class="form-size">
-                <v-text-field
-                  v-model="email"
-                  :rules="emailrule"
-                  :error-messages="errorEmail"
-                  label="Enter E-mail / Mobile number"
-                  outlined
-                  required
+    <v-row no-gutters style="background-color: #F1F1F170">
+      <v-card style="display:flex;margin: 5% 10%;padding: 5% 10%;">
+        <v-col
+          :cols="6"
+          class="text-center pa-0"
+          style="border-radius: 0px;border: 0.5px solid #00000029"
+        >
+          <div class="login-image">
+            <img class="v-image" src="images/cat1.png" lazy-src="images/cat1.png" />
+          </div>
+        </v-col>
+        <v-col :cols="6" class="text-center pa-0">
+          <div class="login-form">
+            <v-tabs v-model="tab" background-color="#fff" centered dark icons-and-text>
+              <v-tab
+                style="margin-left: 0px;font-family: 'Poppins', sans-serif;font-weight: 600;"
+                href="#tab-1"
+                @click="signin"
+              >Sign In</v-tab>
+              <v-tab
+                style="font-family: 'Poppins', sans-serif;font-weight: 600;"
+                href="#tab-2"
+                @click="signup"
+              >Sign Up</v-tab>
+            </v-tabs>
+            <v-tabs-items v-model="tab">
+              <v-tab-item value="tab-1" class="mt-0">
+                <v-alert
+                  v-if="alert.show"
                   dense
-                  hide-details="auto"
-                ></v-text-field>
-                <v-text-field
-                  class="mt-3"
-                  v-model="password"
-                  :rules="passwordrule"
-                  :error-messages="errorPass"
-                  :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                  :type="show1 ? 'text' : 'password'"
-                  label="Enter Password"
-                  outlined
-                  dense
-                  @click:append="show1 = !show1"
-                  required
-                ></v-text-field>
-                <div class="mt-3" style="text-align: start;">
-                  <!-- <a>Forgot password ?</a> -->
-                  <v-btn text small color="warning" @click="showForgotPasswordBox" >Forgot password ?</v-btn>
-                </div>
-                <v-btn block class="mt-4" dark color="#00D657" type="submit" :loading="logging_in">Sign in</v-btn>
-              </form>
-            </v-tab-item>
-            <v-tab-item value="tab-2" style="padding:0 15px">
-              <!-- Sing up Form Components -->
-              <SingUp />
-            </v-tab-item>
-          </v-tabs-items>
-        </div>
-      </v-col>
+                  border="left"
+                  type="error"
+                  dismissible
+                  class="mx-sm-10 text-start"
+                >{{alert.message}}</v-alert>
+                <form
+                  ref="loginForm"
+                  style="margin-left: 15%;text-align: left;"
+                  @submit="submit"
+                  class="form-size"
+                >
+                  <v-text-field
+                    v-model="email"
+                    :rules="emailrule"
+                    :error-messages="errorEmail"
+                    label="Enter E-mail / Mobile number"
+                    outlined
+                    required
+                    dense
+                    hide-details="auto"
+                  ></v-text-field>
+                  <v-text-field
+                    class="mt-3"
+                    v-model="password"
+                    :rules="passwordrule"
+                    :error-messages="errorPass"
+                    :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="show1 ? 'text' : 'password'"
+                    label="Enter Password"
+                    outlined
+                    dense
+                    @click:append="show1 = !show1"
+                    required
+                  ></v-text-field>
+                  <div class="ma-0" style="text-align: start;">
+                    <!-- <a>Forgot password ?</a> -->
+                    <v-btn
+                      text
+                      class="pl-0"
+                      small
+                      color="#0FEF70"
+                      style="font-family: 'Poppins', sans-serif;"
+                      @click="showForgotPasswordBox"
+                    >Forgot password ?</v-btn>
+                  </div>
+                  <v-btn
+                    dark
+                    color="#383D43"
+                    class="mt-4 loginScreenBtn"
+                    type="submit"
+                    :loading="logging_in"
+                  >Login</v-btn>
+                </form>
+              </v-tab-item>
+              <v-tab-item value="tab-2" style="padding:0 15px">
+                <!-- Sing up Form Components -->
+                <SingUp />
+              </v-tab-item>
+            </v-tabs-items>
+          </div>
+        </v-col>
+      </v-card>
     </v-row>
     <v-overlay :value="formSubmitting">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
@@ -110,14 +124,14 @@
           </span>
           <div v-else>
             <p v-if="no_email" class="red--text">
-            Unable to find account linked with
-            <br /><span class="red lighten-4 mx-1 px-1" style="border-radius: 5px;">{{forgotEmail}} </span> email address.
+              Unable to find account linked with
+              <br />
+              <span class="red lighten-4 mx-1 px-1" style="border-radius: 5px;">{{forgotEmail}}</span> email address.
             </p>
             <span v-else class="red--text">
-            Failed to send password reset link.
-            <br />Try after sometime
-          </span>
-          
+              Failed to send password reset link.
+              <br />Try after sometime
+            </span>
           </div>
           <br />
           <v-divider class="mt-5"></v-divider>
@@ -127,7 +141,12 @@
             class="mt-5 pl-5 pr-5"
             @click="forgotProgress = false"
           >done</v-btn>
-          <v-btn v-else color="red" class="mt-5 pl-5 pr-5" @click="forgotProgress = false;forgotEmail = ''">close</v-btn>
+          <v-btn
+            v-else
+            color="red"
+            class="mt-5 pl-5 pr-5"
+            @click="forgotProgress = false;forgotEmail = ''"
+          >close</v-btn>
         </v-col>
       </v-row>
     </v-overlay>
@@ -159,7 +178,7 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="red" class="white--text" dark @click="dialog = false">close</v-btn>
-            <v-btn class="ma-3" color="#2c7873" dark  @click="sendPasswordResetLink">send</v-btn>
+            <v-btn class="ma-3" color="#2c7873" dark @click="sendPasswordResetLink">send</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -194,22 +213,20 @@ export default {
     errorEmail: [],
     errorPass: [],
     value: "",
-    passwordrule: [ v => !!v || 'Password is required'],
-    emailrule: [
-        v => !!v || 'E-mail/Mobile number is required',
-      ],
+    passwordrule: [v => !!v || "Password is required"],
+    emailrule: [v => !!v || "E-mail/Mobile number is required"],
     formSubmitting: false,
     dialog: false,
     forgotProgress: false,
     forgotLoading: false,
     forgotSuccess: false,
     forgotEmail: "",
-    no_email:false,
+    no_email: false,
     errorForgotEmail: [],
-    show_error:false,
-    message:"",
-    logging_in:false,
-    alert:{show:false,message:""}
+    show_error: false,
+    message: "",
+    logging_in: false,
+    alert: { show: false, message: "" }
   }),
   watch: {
     email: function(val) {
@@ -220,7 +237,7 @@ export default {
     }
   },
   created: function() {
-    if(authStore.isSignedIn()){
+    if (authStore.isSignedIn()) {
       if (authStore.userType() == "petowner") router.replace("/owner");
       else if (authStore.userType() == "host") router.replace("/host");
     }
@@ -268,7 +285,7 @@ export default {
 
         this.logging_in = true;
         axios
-          .post(urls.URL+"/login/", data)
+          .post(urls.URL + "/login/", data)
           .then(res => {
             this.logging_in = false;
             this.formSubmitting = false;
@@ -279,17 +296,16 @@ export default {
             } else {
               this.alert.show = true;
               this.alert.message = "Error !  Wrong login credentials.";
-              setTimeout(()=>{
+              setTimeout(() => {
                 this.alert.show = false;
                 this.alert.message = "";
-              },5000);
+              }, 5000);
             }
           })
           .catch(() => {
             this.logging_in = false;
             this.formSubmitting = false;
           });
-        
       }
       e.preventDefault();
     },
@@ -305,12 +321,12 @@ export default {
     signin: function() {
       this.type_text = "Login";
       this.type_text_info = "login credentials";
-      router.replace("/login")
+      router.replace("/login");
     },
     signup: function() {
       this.type_text = "Signup";
       this.type_text_info = "signup details";
-      router.replace("/signup")
+      router.replace("/signup");
     },
     showForgotPasswordBox: function() {
       this.dialog = true;
@@ -336,30 +352,43 @@ export default {
         }
       }
 
-      const data = {email:this.forgotEmail};
+      const data = { email: this.forgotEmail };
       this.dialog = false;
       this.forgotProgress = true;
       this.forgotLoading = true;
-    
-       axios.post(urls.URL+"/forgot/", data)
-          .then(res=>{
-            if(res.data.status){
-              this.forgotSuccess = true;
-            }else{
-              this.no_email = true;
-              this.forgotSuccess = false;
-            }
-          }).catch(()=>{
-            this.no_email = false;
+
+      axios
+        .post(urls.URL + "/forgot/", data)
+        .then(res => {
+          if (res.data.status) {
+            this.forgotSuccess = true;
+          } else {
+            this.no_email = true;
             this.forgotSuccess = false;
-          }).finally(()=>{
-            this.forgotLoading = false;
-          })
+          }
+        })
+        .catch(() => {
+          this.no_email = false;
+          this.forgotSuccess = false;
+        })
+        .finally(() => {
+          this.forgotLoading = false;
+        });
     }
   }
 };
 </script>
 <style scoped>
+.v-tab--active {
+  color: #000 !important;
+  background-color: #fff;
+  border-bottom: 3px solid #0fef70;
+}
+
+.v-tab[data-v-273daedc] {
+  height: 50%;
+}
+
 .container {
   padding: 0%;
 }
@@ -371,14 +400,13 @@ export default {
 }
 
 .v-image {
-  width: 70%;
+  width: 100%;
 }
 .login-form {
   width: 90%;
   margin: auto;
   margin-top: 27px;
   padding-bottom: 30px;
-  box-shadow: 0px 0px 10px 0px #dfdede;
 }
 .v-tab {
   max-width: 100%;
@@ -387,10 +415,23 @@ export default {
   padding: 0 15px !important;
 }
 .form-size {
-  width: 60%;
+  width: 100%;
   padding: 10px;
   margin: auto;
 }
+
+.theme--dark.v-tabs > .v-tabs-bar .v-tab:not(.v-tab--active),
+.theme--dark.v-tabs > .v-tabs-bar .v-tab:not(.v-tab--active) > .v-icon,
+.theme--dark.v-tabs > .v-tabs-bar .v-tab:not(.v-tab--active) > .v-btn,
+.theme--dark.v-tabs > .v-tabs-bar .v-tab--disabled {
+  color: #000;
+}
+
+.loginScreenBtn {
+  text-transform: capitalize;
+  border-radius: 20px;
+}
+
 @media only screen and (max-width: 600px) {
   .login-form {
     width: 100%;

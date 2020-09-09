@@ -1,11 +1,31 @@
 <template>
   <div class="px-10 ml-5 mr-7">
     <v-row class="px-2 justify-center" align="center">
-      <v-col cols="12" sm="4" >
+      <v-col cols="12" sm="4">
         <v-label>How Often ?</v-label>
-        <v-tabs v-model="tab" centered dark icons-and-text height="45px" fixed-tabs>
-          <v-tabs-slider></v-tabs-slider>
+        <!-- <v-tabs
+          :prev-icon="undefined"
+          :next-icon="undefined"
+          v-model="tab"
+          dark
+          icons-and-text
+          height="45px"
+          fixed-tabs
+        >
           <v-tab href="#tab-1">Repeat Weekly</v-tab>
+          <v-tab href="#tab-2">One-Off</v-tab>
+        </v-tabs>-->
+        <v-tabs
+          :prev-icon="undefined"
+          :next-icon="undefined"
+          v-model="tab"
+          background-color="deep-purple accent-4"
+          centered
+          dark
+          text
+        >
+          <v-tab href="#tab-1">Repeat Weekly</v-tab>
+
           <v-tab href="#tab-2">One-Off</v-tab>
         </v-tabs>
       </v-col>
@@ -34,7 +54,7 @@
                       v-bind="attrs"
                       v-on="on"
                       solo
-                       hide-details
+                      hide-details
                       hide-no-data
                       hide-selected
                     ></v-text-field>
@@ -88,7 +108,7 @@
       <v-col class="py-0" cols="12" sm="4">
         <v-label>Near</v-label>
         <v-autocomplete
-         v-model="place"
+          v-model="place"
           :items="places"
           label="Enter suburb or address"
           name="place"
@@ -102,14 +122,10 @@
           <v-icon slot="append">mdi-magnify-plus-outline</v-icon>
         </v-autocomplete>
       </v-col>
-      <v-col  cols="12" sm="4">
+      <v-col cols="12" sm="4">
         <v-label>My Pet(s)</v-label>
         <!-- <v-select :items="['pet1','pet2']"  solo hide-details multiple></v-select> -->
-           <v-menu
-          v-model="menu"
-          :close-on-content-click="closeOnContext"
-          class="pa-0 ma-0"
-        >
+        <v-menu v-model="menu" :close-on-content-click="closeOnContext" class="pa-0 ma-0">
           <template v-slot:activator="{ on, attrs }">
             <v-select v-bind="attrs" v-on="on" :label="petSelected" solo></v-select>
           </template>
@@ -117,21 +133,27 @@
             <v-list-item class="pa-0">
               <v-list-item-content class="py-0">
                 <v-row style="width:300px">
-              <v-col cols="12" v-for="(item, i) in items" :key="i" :class="item.class" class="py-1">
-                <v-row class="py-0" align="center">
-                  <v-col cols="8" class="pl-5 py-0">{{ item.title }}</v-col>
-                  <v-col cols="4" class="py-1">
-                    <v-btn x-small icon @click="decrement(i)">
-                      <v-icon>mdi-minus-circle-outline</v-icon>
-                    </v-btn>
-                    {{ item.count }}
-                    <v-btn x-small icon @click="increment(i)">
-                      <v-icon>mdi-plus-circle-outline</v-icon>
-                    </v-btn>
+                  <v-col
+                    cols="12"
+                    v-for="(item, i) in items"
+                    :key="i"
+                    :class="item.class"
+                    class="py-1"
+                  >
+                    <v-row class="py-0" align="center">
+                      <v-col cols="8" class="pl-5 py-0">{{ item.title }}</v-col>
+                      <v-col cols="4" class="py-1">
+                        <v-btn x-small icon @click="decrement(i)">
+                          <v-icon>mdi-minus-circle-outline</v-icon>
+                        </v-btn>
+                        {{ item.count }}
+                        <v-btn x-small icon @click="increment(i)">
+                          <v-icon>mdi-plus-circle-outline</v-icon>
+                        </v-btn>
+                      </v-col>
+                    </v-row>
                   </v-col>
                 </v-row>
-              </v-col>
-            </v-row>
               </v-list-item-content>
             </v-list-item>
             <v-list-item-action class="apply_btn_box">
@@ -140,10 +162,14 @@
           </v-list>
         </v-menu>
       </v-col>
-      <v-col cols="12" sm="4" class="mt-4">
-        <v-btn class="pt-5 pb-6 mb-5" block @click="showHosts">Search</v-btn>
-      </v-col>
     </v-row>
+    <v-col style="text-align:center;padding:0px;" cols="12">
+      <v-btn
+        style="padding: 0 10%;background-color:#0FEF70;color:#fff;"
+        class="pt-5 pb-6"
+        @click="showHosts"
+      >Search</v-btn>
+    </v-col>
   </div>
 </template>
 
@@ -152,11 +178,11 @@ import axios from "axios";
 import urls from "@/axios/config";
 export default {
   name: "PetCareDayForm",
-  props:["items",'serviceType'],
+  props: ["items", "serviceType"],
   data: function() {
     return {
-    closeOnContext:false,
-    menu: false,
+      closeOnContext: false,
+      menu: false,
       tab: null,
       days: [
         "Monday",
@@ -169,41 +195,42 @@ export default {
       ],
       start_date: null,
       required_date: null,
-      date_requireds_modal:null,
-      modal:false,
-      places:[],
-      searchPlace:null,
-      place_loading:false,
-      place:"",
+      date_requireds_modal: null,
+      modal: false,
+      places: [],
+      searchPlace: null,
+      place_loading: false,
+      place: "",
       petSelected: "Choose Pet(s)",
       rules: {
-            required: value => !!value || 'Required.',
-            validPlace: v => this.places.includes(v) || "please enter correct suburb or address",
-          },
-      nameErrors:[]
+        required: value => !!value || "Required.",
+        validPlace: v =>
+          this.places.includes(v) || "please enter correct suburb or address"
+      },
+      nameErrors: []
     };
   },
-  
-  watch:{
-        searchPlace(val) {
-        val && val !== this.city && this.queryPlaces(val);
-      }
+
+  watch: {
+    searchPlace(val) {
+      val && val !== this.city && this.queryPlaces(val);
+    }
   },
   methods: {
     queryPlaces(v) {
-        this.place_loading = true;
-        axios.get(urls.URL+'/locations/?relative=true&place_name='+v,{
-      }).then((res) => {
-       
-        this.places = [];
-        this.place_loading = false;
-        if(res.data.status){
-          res.data.data.forEach(el=>{
+      this.place_loading = true;
+      axios
+        .get(urls.URL + "/locations/?relative=true&place_name=" + v, {})
+        .then(res => {
+          this.places = [];
+          this.place_loading = false;
+          if (res.data.status) {
+            res.data.data.forEach(el => {
               this.places.push(el.place_name);
-          })
-        }
-      });
-      },
+            });
+          }
+        });
+    },
     increment(num) {
       this.items[num].count = this.items[num].count + 1;
     },
@@ -225,14 +252,21 @@ export default {
       this.menu = false;
     },
     showHosts() {
-      if(this.place == ""){
+      if (this.place == "") {
         this.nameErrors = [];
         this.nameErrors.push("Enter suburb or address");
-        return ;
+        return;
       }
-        this.$router.push({path:'/hostsearch',query:{city:this.place,start_date:this.start_date,service:this.serviceType}});
-        // router.push("/hostsearch");
-    },
+      this.$router.push({
+        path: "/hostsearch",
+        query: {
+          city: this.place,
+          start_date: this.start_date,
+          service: this.serviceType
+        }
+      });
+      // router.push("/hostsearch");
+    }
   }
 };
 </script>
@@ -259,28 +293,36 @@ export default {
 .v-tabs-bar__content a {
   color: #fff;
 }
-.apply_btn_box{
+.apply_btn_box {
   width: 100%;
-    background: #00d657;
-    display: flex;
-    margin: 0 !important;
-    padding: 7px 12px;
-    text-align: center;
-    justify-content: center;
+  background: #00d657;
+  display: flex;
+  margin: 0 !important;
+  padding: 7px 12px;
+  text-align: center;
+  justify-content: center;
 }
 .theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
-    background-color: #ffffff;
-    color: #00d657;
-    border: 2px solid #00d657;
+  background-color: #ffffff;
+  color: #00d657;
+  border: 2px solid #00d657;
 }
-.theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined):hover{
+.theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined):hover {
   background-color: #00d657;
-    color: #faff63;
-    border: 1px solid #faff63;
+  color: #faff63;
+  border: 1px solid #faff63;
 }
 .mdi-magnify-plus-outline::before {
-    content: "\F06ED";
-    color: #00d657;
+  content: "\F06ED";
+  color: #00d657;
 }
-
+</style>
+<style>
+/* .v-text-field.v-text-field--enclosed:not(.v-text-field--rounded)
+  > .v-input__control
+  > .v-input__slot,
+.v-text-field.v-text-field--enclosed .v-text-field__details {
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+} */
 </style>

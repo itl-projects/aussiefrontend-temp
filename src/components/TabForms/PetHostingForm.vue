@@ -79,29 +79,13 @@
         </v-row>
       </v-col>
       <v-col sm="3" cols="12">
-        <v-menu
-          v-model="menu"
-          :close-on-content-click="closeOnContext"
-          class="pa-0 ma-0"
-        >
+        <v-menu v-model="menu" :close-on-content-click="closeOnContext" class="pa-0 ma-0">
           <template v-slot:activator="{ on, attrs }">
-            <v-select
-              v-bind="attrs"
-              v-on="on"
-              :label="petSelected"
-              outlined
-              dense
-            ></v-select>
+            <v-select v-bind="attrs" v-on="on" :label="petSelected" outlined dense></v-select>
           </template>
           <v-list class="pa-0 ma-0">
             <v-row style="max-width:300px">
-              <v-col
-                cols="12"
-                v-for="(item, i) in items"
-                :key="i"
-                :class="item.class"
-                class="py-0"
-              >
+              <v-col cols="12" v-for="(item, i) in items" :key="i" :class="item.class" class="py-0">
                 <v-row class="py-0" align="center">
                   <v-col cols="8" class="pl-5 py-0">{{ item.title }}</v-col>
                   <v-col cols="4" class="py-1">
@@ -122,10 +106,14 @@
           </v-list>
         </v-menu>
       </v-col>
-      <v-col sm="2" cols="12">
-        <v-btn @click="showHosts">Seaaskjbrch</v-btn>
-      </v-col>
     </v-row>
+    <v-col style="text-align:center;" sm="12" cols="12">
+      <v-btn
+        style="background-color:#22F07B;color:white;padding-left: 10%; padding-right:10%;box-shadow:none;border-radius:0;"
+        flat
+        @click="showHosts"
+      >Search</v-btn>
+    </v-col>
   </div>
 </template>
 
@@ -148,23 +136,23 @@ export default {
     searchPlace: null,
     place_loading: false,
     place: "",
-    petSelected: "Choose Pet(s)",
+    petSelected: "Choose Pet(s)"
   }),
   watch: {
     searchPlace(val) {
       val && val !== this.city && this.queryPlaces(val);
-    },
+    }
   },
   methods: {
     queryPlaces(v) {
       this.place_loading = true;
       axios
         .get(urls.URL + "/locations/?relative=true&place_name=" + v, {})
-        .then((res) => {
+        .then(res => {
           this.places = [];
           this.place_loading = false;
           if (res.data.status) {
-            res.data.data.forEach((el) => {
+            res.data.data.forEach(el => {
               this.places.push(el.place_name);
             });
           }
@@ -179,7 +167,7 @@ export default {
     },
     closeMenu() {
       this.petSelected = "";
-      this.items.forEach((el) => {
+      this.items.forEach(el => {
         if (el.count > 0) {
           if (this.petSelected == "") this.petSelected = el.title;
           else this.petSelected = this.petSelected + "," + el.title;
@@ -197,12 +185,12 @@ export default {
         query: {
           city: this.place,
           service: this.serviceType,
-          start_date: this.start_date,
-        },
+          start_date: this.start_date
+        }
       });
       // router.push("/hostsearch");
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -223,8 +211,8 @@ export default {
 }
 .theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined):hover {
   background-color: #00d657;
-  color: #faff63;
-  border: 1px solid #faff63;
+  color: #fff;
+  border: 1px solid #fff;
 }
 .mdi-magnify-plus-outline::before {
   content: "\F06ED";
@@ -233,5 +221,11 @@ export default {
 .mdi-calendar-plus::before {
   content: "\F00F3";
   color: #00d657;
+}
+
+.theme--light.v-input {
+  /* box-shadow: 0px 3px 10px #00000029;
+  border: 0; */
+  border-radius: 15px;
 }
 </style>

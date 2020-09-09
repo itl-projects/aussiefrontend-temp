@@ -7,7 +7,7 @@
           <v-card>
             <v-row>
               <v-col cols="12" class="py-0">
-                <PetHostingFormDummy :drop_date.sync="drop_date" :pickup_date="pickup_date"/>
+                <PetHostingFormDummy :drop_date.sync="drop_date" :pickup_date="pickup_date" />
               </v-col>
 
               <v-col cols="12" class="py-0">
@@ -96,7 +96,8 @@
                           <v-row
                             style="max-width:300px;background-color:#f4f4f4"
                             class="text-center"
-                            align="center">
+                            align="center"
+                          >
                             <v-col cols="12">
                               <span>The average rate is $50 AUD per night</span>
                             </v-col>
@@ -122,7 +123,8 @@
                   class="mr-3 mb-3"
                   style="float: right;"
                   color="info"
-                  text>clear filter</v-btn>
+                  text
+                >clear filter</v-btn>
               </v-col>
             </v-row>
           </v-card>
@@ -132,7 +134,9 @@
             <v-col cols="8">
               <h2 style="font-weight: normal;">
                 Connecting you with
-                <span style="color: #2c7873;text-transform: capitalize;">{{ items.length }} {{service_choosen | formatName}}</span>
+                <span
+                  style="color: #2c7873;text-transform: capitalize;"
+                >{{ items.length }} {{service_choosen | formatName}}</span>
                 near
                 <span style="color: #2c7873;">{{ city }}</span>
               </h2>
@@ -151,19 +155,28 @@
         <v-col cols="12">
           <v-row>
             <v-col cols="12" sm="8">
-              <v-row class="text-align:center" v-if="items.length <= 0" style="flex-direction:column">
-            <h2 style="font-weight:100;" class="mx-auto">No Host found in yout city <b style="font-weight:bold;">{{ city == "nothing" ? "" : city }}</b>.</h2>
-            <br/>
-          <v-sheet width="100%" height="auto"  title="no_data">
-            <v-img
-              contain
-              aspect-ratio="1"
-              height="200"
-              src="@/assets/images/no_data_found.svg"
-              style="background:#ffffff"
-            />
-          </v-sheet>
-        </v-row>
+              <v-row
+                class="text-align:center"
+                v-if="items.length <= 0"
+                style="flex-direction:column"
+              >
+                <h2 style="font-weight:100;" class="mx-auto">
+                  No Host found in yout city
+                  <b
+                    style="font-weight:bold;"
+                  >{{ city == "nothing" ? "" : city }}</b>.
+                </h2>
+                <br />
+                <v-sheet width="100%" height="auto" title="no_data">
+                  <v-img
+                    contain
+                    aspect-ratio="1"
+                    height="200"
+                    src="@/assets/images/no_data_found.svg"
+                    style="background:#ffffff"
+                  />
+                </v-sheet>
+              </v-row>
               <v-data-iterator
                 v-else
                 :items.sync="items"
@@ -172,96 +185,117 @@
                 hide-default-footer
               >
                 <template v-slot:default="props">
-                   
-                  <v-container >
-                   
-                    <v-card v-for="(item, i) in props.items" :key="item.id" class="mb-4" >
-                     <v-hover v-slot:default="{ hover }">
-                      <v-list two-line subheader :key="i" class="pb-0" :elevation="hover ? 6 : 2" :class="hover ? 'cardbox-border':''">
-                        <div class="top_header">
-                          <v-icon color="#2c7873" class="mr-2">mdi-calendar</v-icon>
-                          <v-label color="black">Recently updated calendar</v-label>
-                        </div>
-                        <v-list-item>
-                          <v-list-item-content style="position:relative;cursor:pointer" @click="showHostDetails(item.hid)">
-                            <div class="fee">
-                              <p class="mb-0" style="font-size: 0.8rem;">from</p>
-                              <h1 style="color:#2c7873">$ {{item.price}}</h1>
-                              <p style="font-size: 0.8rem;">/night</p>
-                            </div>
-                            <v-row>
-                              <v-col cols="4" sm="4" class="py-1">
-                                <v-row class="text-center">
-                                  <v-col cols="12 py-1">
-                                    <v-img v-if="item.avatar_path !== null"
-                                      style="border-radius:5px;"
-                                      contain
-                                      eager
-                                      :src="img_url + item.avatar_path"
-                                      :lazy-src="img_url + item.avatar_path"
-                                      max-width="200px"
-                                      max-height="200px"
-                                    />
-                                    <v-img v-else
-                                      style="border-radius:5px;"
-                                      contain
-                                      eager
-                                      src="@/assets/images/icon-people-circle.svg"
-                                      lazy-src="@/assets/images/icon-people-circle.svg"
-                                    />
-                                  </v-col>
-                                  <v-col cols="12 py-0">
-                                    <v-btn text color="#2c7873" small class="px-0" @click="showHostDetails(item.hid)">
-                                      View More
-                                      <v-icon color="#2c7873" class="ml-2" small>mdi-eye</v-icon>
-                                    </v-btn>
-                                  </v-col>
-                                </v-row>
-                              </v-col>
-                              <v-col cols="8" sm="8" class="py-1" :class="hover ? 'text-underline': ''">
-                                <h1 style="font-weight: 500;color:#2c7873" >{{item.first_name}} {{item.last_name}}</h1>
-                                <div class="flex mt-2 mb-2">
-                                  <v-icon>mdi-account-circle</v-icon>
-                                  <v-icon>mdi-account-circle</v-icon>
-                                  <v-icon>mdi-account-circle</v-icon>
-                                  <v-icon>mdi-account-circle</v-icon>
-                                </div>
-                                <v-label
-                                  class="heading"
-                                  style="font-size:1.4rem"
-                                >Reliable and VERY caring dog sitter.</v-label>
-                                <div class="flex mt-2">
-                                  <v-btn outlined color="#2c7873" x-small>7 Repeat guest</v-btn>
-                                  <v-rating
-                                    style="display: inline-block;"
-                                    v-model="rating"
-                                    color="warning"
-                                    half-increments
-                                    dense
-                                    small
-                                    size="18"
-                                  ></v-rating>
-                                  <v-btn
-                                    small
-                                    text
-                                    color="#2c7873"
-                                    style="letter-spacing: 0;text-transform: lowercase;"
-                                  >28 reviews</v-btn>
-                                </div>
-                                <div class="flex">
-                                  <v-chip small class="mt-2">respond within a day</v-chip>
-                                  <v-chip class="ml-2 mt-2" small>92% response rate</v-chip>
-                                </div>
-                              </v-col>
-                            </v-row>
-                          </v-list-item-content>
-                        </v-list-item>
-                      </v-list>
-                        </v-hover>
+                  <v-container>
+                    <v-card v-for="(item, i) in props.items" :key="item.id" class="mb-4">
+                      <v-hover v-slot:default="{ hover }">
+                        <v-list
+                          two-line
+                          subheader
+                          :key="i"
+                          class="pb-0"
+                          :elevation="hover ? 6 : 2"
+                          :class="hover ? 'cardbox-border':''"
+                        >
+                          <div class="top_header">
+                            <v-icon color="#2c7873" class="mr-2">mdi-calendar</v-icon>
+                            <v-label color="black">Recently updated calendar</v-label>
+                          </div>
+                          <v-list-item>
+                            <v-list-item-content
+                              style="position:relative;cursor:pointer"
+                              @click="showHostDetails(item.hid)"
+                            >
+                              <div class="fee">
+                                <p class="mb-0" style="font-size: 0.8rem;">from</p>
+                                <h1 style="color:#2c7873">$ {{item.price}}</h1>
+                                <p style="font-size: 0.8rem;">/night</p>
+                              </div>
+                              <v-row>
+                                <v-col cols="4" sm="4" class="py-1">
+                                  <v-row class="text-center">
+                                    <v-col cols="12 py-1">
+                                      <v-img
+                                        v-if="item.avatar_path !== null"
+                                        style="border-radius:5px;"
+                                        contain
+                                        eager
+                                        :src="img_url + item.avatar_path"
+                                        :lazy-src="img_url + item.avatar_path"
+                                        max-width="200px"
+                                        max-height="200px"
+                                      />
+                                      <v-img
+                                        v-else
+                                        style="border-radius:5px;"
+                                        contain
+                                        eager
+                                        src="@/assets/images/icon-people-circle.svg"
+                                        lazy-src="@/assets/images/icon-people-circle.svg"
+                                      />
+                                    </v-col>
+                                    <v-col cols="12 py-0">
+                                      <v-btn
+                                        text
+                                        color="#2c7873"
+                                        small
+                                        class="px-0"
+                                        @click="showHostDetails(item.hid)"
+                                      >
+                                        View More
+                                        <v-icon color="#2c7873" class="ml-2" small>mdi-eye</v-icon>
+                                      </v-btn>
+                                    </v-col>
+                                  </v-row>
+                                </v-col>
+                                <v-col
+                                  cols="8"
+                                  sm="8"
+                                  class="py-1"
+                                  :class="hover ? 'text-underline': ''"
+                                >
+                                  <h1
+                                    style="font-weight: 500;color:#2c7873"
+                                  >{{item.first_name}} {{item.last_name}}</h1>
+                                  <div class="flex mt-2 mb-2">
+                                    <v-icon>mdi-account-circle</v-icon>
+                                    <v-icon>mdi-account-circle</v-icon>
+                                    <v-icon>mdi-account-circle</v-icon>
+                                    <v-icon>mdi-account-circle</v-icon>
+                                  </div>
+                                  <v-label
+                                    class="heading"
+                                    style="font-size:1.4rem"
+                                  >Reliable and VERY caring dog sitter.</v-label>
+                                  <div class="flex mt-2">
+                                    <v-btn outlined color="#2c7873" x-small>7 Repeat guest</v-btn>
+                                    <v-rating
+                                      style="display: inline-block;"
+                                      v-model="rating"
+                                      color="warning"
+                                      half-increments
+                                      dense
+                                      small
+                                      size="18"
+                                    ></v-rating>
+                                    <v-btn
+                                      small
+                                      text
+                                      color="#2c7873"
+                                      style="letter-spacing: 0;text-transform: lowercase;"
+                                    >28 reviews</v-btn>
+                                  </div>
+                                  <div class="flex">
+                                    <v-chip small class="mt-2">respond within a day</v-chip>
+                                    <v-chip class="ml-2 mt-2" small>92% response rate</v-chip>
+                                  </div>
+                                </v-col>
+                              </v-row>
+                            </v-list-item-content>
+                          </v-list-item>
+                        </v-list>
+                      </v-hover>
                     </v-card>
-                 
                   </v-container>
-                   
                 </template>
 
                 <template v-slot:footer>
@@ -283,6 +317,47 @@
         </v-col>
       </v-row>
     </v-container>
+    <v-row>
+      <v-card width="70%" class="mb-4" style="margin: auto;
+    border-radius: 23px 23px 0 0;">
+        <v-col class="header">
+          <v-icon color="#33DE79">mdi-calendar-month</v-icon>
+          <h4>Recently updated calendar</h4>
+        </v-col>
+        <v-row style="padding:1%;">
+          <v-col cols="2" style="align-self:center; text-align: center;">
+            <v-avatar size="150">
+              <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+            </v-avatar>
+          </v-col>
+          <v-col class="body" cols="7">
+            <div class="resultNames">
+              <span>John</span>
+              <v-icon v-for="n in 4" :key="n" color="#0FEF70">mdi-face</v-icon>
+            </div>
+            <div class="bio">Reliable and VERY caring dog sitter.</div>
+            <div class="rating">
+              <span class="ratingGuest">7 repeat guest</span>
+              <span v-for="n in 4" :key="n">
+                <v-icon color="#0FEF70">mdi-star</v-icon>
+              </span>
+            </div>
+            <div class="feedback">
+              <span class="feedbackBtn">Respond with in a day</span>
+              <span class="feedbackBtn">92% respond rate</span>
+            </div>
+            <div class="linkProfile">view more</div>
+          </v-col>
+
+          <v-divider vertical></v-divider>
+          <v-col class="rateInformation" cols="2">
+            <div class="information">from</div>
+            <div>$64</div>
+            <div class="information">/night</div>
+          </v-col>
+        </v-row>
+      </v-card>
+    </v-row>
     <Footer />
   </div>
 </template>
@@ -297,8 +372,8 @@ import PetHostingFormDummy from "@/components/TabForms/PetHostingForm_dummy";
 import axios from "axios";
 import urls from "@/axios/config";
 const fixName = function(value) {
-  return value.replace('_',' ');
-}
+  return value.replace("_", " ");
+};
 export default {
   name: "HostResult",
   components: {
@@ -310,8 +385,16 @@ export default {
     formatName: fixName
   },
   data: () => ({
-    services : ['pet_hosting', 'pet_sitting', 'pet_day_care', 'house_visits', 'exercise_walk_service', 'pet_training', 'pet_grooming'],
-    service_choosen:"",
+    services: [
+      "pet_hosting",
+      "pet_sitting",
+      "pet_day_care",
+      "house_visits",
+      "exercise_walk_service",
+      "pet_training",
+      "pet_grooming"
+    ],
+    service_choosen: "",
     menu: false,
     img_url: urls.IMGURL,
     ticksLabels: ["$0 AUD", "$200 AUD"],
@@ -339,44 +422,52 @@ export default {
     count: 999,
     near: "Ultimo NSW",
     items: [],
-    city:"nothoing",
-    zipcode:0,
-    pet_type:"nothoing",
-    lowerPrice:"nothing",
-    upperPrice:"nothoing",
-    lowerRating:"nothoing",
-    upperRating:"nothoing",
-    service:"nothoing",
+    city: "nothoing",
+    zipcode: 0,
+    pet_type: "nothoing",
+    lowerPrice: "nothing",
+    upperPrice: "nothoing",
+    lowerRating: "nothoing",
+    upperRating: "nothoing",
+    service: "nothoing",
     start_date: "",
-    pickup_date:null,
-    drop_date:null,
-    times:"nothing",
-    max_pet:10,
+    pickup_date: null,
+    drop_date: null,
+    times: "nothing",
+    max_pet: 10
   }),
-  watch:{
-    address(){
+  watch: {
+    address() {
       //this.fetchHosts();
     },
-    start_date(){
-    //  this.fetchHosts();
+    start_date() {
+      //  this.fetchHosts();
     },
-    times(){
-     // this.fetchHosts();
+    times() {
+      // this.fetchHosts();
     }
   },
   mounted: function() {
-        this.address = this.$route.query.address == undefined ? "" : this.$route.query.address;
-        this.start_date = this.$route.query.start_date == undefined ? "" : this.$route.query.start_date;
-        this.times = this.$route.query.times == undefined ? "" : this.$route.query.times;
-        this.city = this.$route.query.city == undefined ? "" : this.$route.query.city;
-        this.service_choosen = this.$route.query.service == undefined ? this.services[0] : this.$route.query.service;
-        this.fetchHosts();
-    },
+    this.address =
+      this.$route.query.address == undefined ? "" : this.$route.query.address;
+    this.start_date =
+      this.$route.query.start_date == undefined
+        ? ""
+        : this.$route.query.start_date;
+    this.times =
+      this.$route.query.times == undefined ? "" : this.$route.query.times;
+    this.city =
+      this.$route.query.city == undefined ? "" : this.$route.query.city;
+    this.service_choosen =
+      this.$route.query.service == undefined
+        ? this.services[0]
+        : this.$route.query.service;
+    this.fetchHosts();
+  },
   computed: {
     numberOfPages() {
       return Math.ceil(this.items.length / this.itemsPerPage);
     }
-  
   },
   methods: {
     nextPage() {
@@ -396,25 +487,31 @@ export default {
     closeMenu() {
       this.menu = false;
     },
-    showHostDetails(host_id){
-      router.push({path:"/hostdetail",query:{city:this.city,query:host_id,service:this.service_choosen}});
+    showHostDetails(host_id) {
+      router.push({
+        path: "/hostdetail",
+        query: {
+          city: this.city,
+          query: host_id,
+          service: this.service_choosen
+        }
+      });
     },
-    fetchHosts(){
+    fetchHosts() {
       // &pet_type=${this.pet_type}&lowerPrice=${this.lowerPrice}&upperPrice=${this.upperPrice}}&lowerRating=${this.lowerRating}&upperRating=${this.upperRating}
       let data = `service=${this.service_choosen}&city=${this.city}`;
 
-    axios.get(urls.URL+"/hostsearch/?"+data)
-    .then(res=>{
-      console.log(res);
-      if(res.data.status){
-        this.items = res.data.data;
-      }
-    })
+      axios.get(urls.URL + "/hostsearch/?" + data).then(res => {
+        console.log(res);
+        if (res.data.status) {
+          this.items = res.data.data;
+        }
+      });
     }
   },
-  created(){
+  created() {
     // console.log(this.address,this.start_date)
-    window.scroll({top:0,left: 0, behavior: 'smooth'});
+    window.scroll({ top: 0, left: 0, behavior: "smooth" });
   }
 };
 </script>
@@ -437,8 +534,93 @@ export default {
   > .v-input__slot {
   border-color: #ffffff !important;
 }
-.text-underline>h1{
+.text-underline > h1 {
   text-decoration: underline;
 }
 
+.header {
+  background-color: #383d43;
+  color: #fff;
+  display: flex;
+  border-radius: 100px 100px 0 0;
+}
+
+.header > h4 {
+  font-weight: 300 !important;
+  font-family: "Poppins", sans-serif !important;
+}
+
+.header > i {
+  margin-left: auto;
+}
+.header > h4 {
+  margin-left: 1%;
+  margin-right: auto;
+}
+
+.body > .resultNames {
+  display: flex;
+  align-items: center;
+}
+
+.body > .resultNames > span {
+  font-size: 2rem;
+  margin-right: 1%;
+  color: #383d43;
+  font-display: "Poppins", sans-serif;
+  font-weight: bold !important;
+}
+
+.body > .bio {
+  font-size: 1.2rem;
+  color: #383d43;
+  text-transform: lowercase;
+  font-family: "Poppins", sans-serif;
+}
+
+.body > .rating {
+  margin-top: 1%;
+}
+.body > .rating > .ratingGuest {
+  border: 2px solid #0fef70;
+  padding: 0% 2%;
+  border-radius: 5px;
+  margin-right: 2%;
+  font-family: "Poppins", sans-serif;
+}
+
+.body > .feedback {
+  margin: 3% 0;
+}
+
+.body > .feedback > .feedbackBtn {
+  background-color: #0fef70;
+  padding: 1% 4%;
+  font-family: "Poppins", sans-serif;
+  border-radius: 8px;
+  color: #fff;
+  margin-right: 1%;
+}
+
+.body > .linkProfile {
+  font-family: "Poppins", sans-serif;
+  text-transform: uppercase;
+  color: #0fef70;
+  font-weight: 600;
+}
+
+.rateInformation {
+  margin: auto;
+  color: #0fef70;
+  font-size: 2rem;
+  text-align: center;
+  font-weight: bolder;
+}
+
+.rateInformation > .information {
+  color: #383d43;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: capitalize;
+}
 </style>

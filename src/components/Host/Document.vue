@@ -1,6 +1,7 @@
 <template>
   <v-container fluid>
-    <v-row>
+    <v-row class="pa-8 ml-4">
+      <div class="heading">Upload Documents</div>
       <v-col cols="12">
         <v-form ref="form" v-model="valid">
           <v-row>
@@ -80,9 +81,10 @@
             <v-col cols="4" class="py-0">
               <v-btn
                 :loading="uploading"
-                :disabled="!valid"
-                color="#2c7873"
-                class="ml-2 mb-4 px-6 white--text"
+                :disabled="valid"
+                color="#0FEF70C6"
+                style="color: #fff"
+                class="ml-2 mb-4 px-6 documentUpload"
                 @click="uploadDocument"
               >
                 Upload
@@ -96,7 +98,8 @@
                 border="left"
                 :type="alert.type"
                 dismissible
-              >{{alert.message}}</v-alert>
+                >{{ alert.message }}</v-alert
+              >
             </v-col>
           </v-row>
         </v-form>
@@ -106,7 +109,7 @@
       <v-col cols="12" class="mt-5">
         <v-simple-table class="table-border">
           <template v-slot:default>
-            <thead style="background: #2c7873;">
+            <thead style="background: #383D43;border-radius: 10px">
               <tr>
                 <th class="text-left white--text">Proof Type</th>
                 <th class="text-left white--text">Document Type</th>
@@ -144,22 +147,22 @@ export default {
     items: ["Aadhaar Card", "Voter ID", "PAN Card", "School/College ID Card"],
     uploading: false,
     proof_types: ["ID Proof", "Address Proof"],
-    rules: { required: value => !!value || "Required." },
+    rules: { required: (value) => !!value || "Required." },
     desserts: [
       {
         name: "Frozen Yogurt",
-        calories: 159
+        calories: 159,
       },
       {
         name: "Ice cream sandwich",
-        calories: 237
-      }
+        calories: 237,
+      },
     ],
     proof_selected: "",
     document_selected: "",
     id_number: "",
     file_front: null,
-    file_back: null
+    file_back: null,
   }),
   methods: {
     uploadDocument() {
@@ -171,13 +174,13 @@ export default {
       formData.append("id_proof_photo_2", this.file_back);
       let config = {
         headers: {
-          Authorization: "Token " + authStore.userToken()
-        }
+          Authorization: "Token " + authStore.userToken(),
+        },
       };
       this.uploading = true;
       axios
         .post(urls.URL + "/host/uploadproof/", formData, config)
-        .then(res => {
+        .then((res) => {
           this.uploading = false;
           if (res.status) {
             this.proof_selected = "";
@@ -211,16 +214,29 @@ export default {
         this.alert.type = "";
         this.alert.message = "";
       }, 8000);
-    }
+    },
   },
   created: function() {
     window.scroll({ top: 0, left: 0, behavior: "smooth" });
-  }
+  },
 };
 </script>
 
 <style scoped>
 .table-border {
   border: 1px solid #323232;
+}
+
+* {
+  font-family: "Roboto", sans-serif;
+}
+.heading {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.documentUpload:hover {
+  background-color: rgb(44, 120, 115) !important;
+  color: #000 !important;
 }
 </style>

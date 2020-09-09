@@ -1,21 +1,36 @@
 <template>
-  <v-container>
-    <v-card>
-      <v-card-title>Settings</v-card-title>
-      <v-tabs v-model="tab" color="#ffffff" dark background-color="#2c7873">
-        <v-tab key="overview">Overview</v-tab>
-        <v-tab key="balance">Balance</v-tab>
-        <v-tab key="aussiepetz_credits">Aussiepetz Credits</v-tab>
-        <!-- <v-tab key="personal_details">Personal Details</v-tab> -->
-        <v-tab key="settings">Settings</v-tab>
+  <div grid-list-xs class="mt-2 p-5">
+    <v-card outlined class="pa-6">
+      <v-card-title
+        style="font-size: 2rem; color: #444D59"
+        class="pa-0 pt-4 pb-4"
+        >Settings</v-card-title
+      >
+      <v-tabs
+        :left="true"
+        v-model="tab"
+        color="#000"
+        dark
+        background-color="#fff"
+      >
+        <v-tab
+          style="border-radius: 10px 0px 0px 10px"
+          class="tabs"
+          key="services"
+          >overview</v-tab
+        >
+        <v-tab class="tabs" key="about">Balance</v-tab>
+        <v-tab style="border-radius: 0px 10px 10px 0px" class="tabs" key="pets"
+          >Credits</v-tab
+        >
       </v-tabs>
       <v-tabs-items v-model="tab">
         <v-tab-item key="overview">
-         <v-container>
-              <HostSettingOverview/>
-         </v-container>
+          <v-container>
+            <HostSettingOverview />
+          </v-container>
         </v-tab-item>
-         <v-tab-item key="balance">
+        <v-tab-item key="balance">
           <v-card-text>Balance</v-card-text>
         </v-tab-item>
         <v-tab-item key="aussiepetz_credits">
@@ -29,22 +44,46 @@
         </v-tab-item>
       </v-tabs-items>
     </v-card>
-  </v-container>
+  </div>
 </template>
 
 <script>
-import HostSettingOverview from '@/components/Host/SettingOverview';
+import HostSettingOverview from "@/components/Host/SettingOverview";
 // import PersonalDetails from "@/components/Host/PersonalDetails";
 export default {
   name: "HostSettings",
-  components:{HostSettingOverview,
-  // PersonalDetails
+  components: {
+    HostSettingOverview,
+    // PersonalDetails
   },
   data: () => ({
-    tab: null
-  })
+    tab: null,
+  }),
 };
 </script>
 
 <style scoped>
+* {
+  font-family: "Roboto", sans-serif;
+}
+
+.v-slide-group__wrapper {
+  padding: 0 !important;
+  margin-right: 25%;
+  justify-content: unset;
+}
+.v-tabs-slider {
+  background-color: transparent;
+}
+
+.tabs {
+  border: 1px solid #d6d6d6;
+  color: #000 !important;
+  width: 100%;
+}
+
+.v-tab--active {
+  color: #fff !important;
+  background-color: #0fef70c6;
+}
 </style>

@@ -39,15 +39,15 @@
         </v-row>
       </div>
       <v-divider></v-divider>
-      <v-container class="fill-height" fluid>
-        <!-- <v-row
+      <!-- <v-container class="fill-height"> -->
+      <!-- <v-row
           justify="center"
           align="center" >
-        <v-col>-->
-        <router-view></router-view>
-        <!-- </v-col>
-        </v-row>-->
-      </v-container>
+      <v-col>-->
+      <router-view></router-view>
+      <!-- </v-col>
+      </v-row>-->
+      <!-- </v-container> -->
     </v-content>
   </v-app>
 </template>

@@ -37,17 +37,7 @@
                 </v-tab-item>
               </v-tabs-items>
             </v-col>
-            <v-col cols="12" style="text-align: center;">
-              <v-btn
-                class="ma-2"
-                tile
-                style="padding-right: 10% !important;padding-left: 10% !important;"
-                color="#0FEF70"
-                dark
-              >
-                <span>Search</span>
-              </v-btn>
-            </v-col>
+
             <v-col>
               <v-tabs
                 v-model="tab"
@@ -59,74 +49,39 @@
               >
                 <v-tab href="#tab-1">
                   pet hosting
-                  <v-img
-                    src="@/assets/images/Frame.svg"
-                    max-width="52px"
-                    max-height="40px"
-                    contain
-                  ></v-img>
+                  <v-img src="@/assets/images/Frame.svg" max-width="52px" max-height="40px" contain></v-img>
                 </v-tab>
 
                 <v-tab href="#tab-2">
                   Pet Sitting
                   <br />At Pet’s home
-                  <v-img
-                    src="@/assets/images/tab-2.svg"
-                    max-width="52px"
-                    max-height="40px"
-                    contain
-                  ></v-img>
+                  <v-img src="@/assets/images/tab-2.svg" max-width="52px" max-height="40px" contain></v-img>
                 </v-tab>
 
                 <v-tab href="#tab-3">
                   Pet Day Care
                   <br />Services
-                  <v-img
-                    src="@/assets/images/tab-3.svg"
-                    max-width="52px"
-                    max-height="40px"
-                    contain
-                  ></v-img>
+                  <v-img src="@/assets/images/tab-3.svg" max-width="52px" max-height="40px" contain></v-img>
                 </v-tab>
                 <v-tab href="#tab-4">
                   House Visits
                   <br />gardens/plants
-                  <v-img
-                    src="@/assets/images/tab-4.svg"
-                    max-width="52px"
-                    max-height="40px"
-                    contain
-                  ></v-img>
+                  <v-img src="@/assets/images/tab-4.svg" max-width="52px" max-height="40px" contain></v-img>
                 </v-tab>
                 <v-tab href="#tab-5">
                   Exercise &
                   <br />walkies services
-                  <v-img
-                    src="@/assets/images/tab-5.svg"
-                    max-width="52px"
-                    max-height="40px"
-                    contain
-                  ></v-img>
+                  <v-img src="@/assets/images/tab-5.svg" max-width="52px" max-height="40px" contain></v-img>
                 </v-tab>
                 <v-tab href="#tab-6">
                   Pet Grooming
                   <br />Services
-                  <v-img
-                    src="@/assets/images/tab-6.svg"
-                    max-width="52px"
-                    max-height="40px"
-                    contain
-                  ></v-img>
+                  <v-img src="@/assets/images/tab-6.svg" max-width="52px" max-height="40px" contain></v-img>
                 </v-tab>
                 <v-tab href="#tab-7">
                   Pet Training
                   <br />services
-                  <v-img
-                    src="@/assets/images/tab-7.svg"
-                    max-width="52px"
-                    max-height="40px"
-                    contain
-                  ></v-img>
+                  <v-img src="@/assets/images/tab-7.svg" max-width="52px" max-height="40px" contain></v-img>
                 </v-tab>
               </v-tabs>
             </v-col>
@@ -156,7 +111,7 @@ export default {
         "house_visits",
         "exercise_walk_service",
         "pet_training",
-        "pet_grooming",
+        "pet_grooming"
       ],
       items: [],
       date: null,
@@ -171,7 +126,7 @@ export default {
       prevIcon: false,
       nextIcon: false,
       right: false,
-      tabs: 7,
+      tabs: 7
     };
   },
   created() {
@@ -183,15 +138,15 @@ export default {
       const url = urls.URL + "/pet/type/?type=" + type;
       axios
         .get(url)
-        .then((res) => {
-          res.data.data.forEach((el) => {
+        .then(res => {
+          res.data.data.forEach(el => {
             if (el.typeid % 2 == 0)
               this.items.push({ title: el.subType, count: 0 });
             else
               this.items.push({
                 title: el.subType,
                 count: 0,
-                class: "grey lighten-4",
+                class: "grey lighten-4"
               });
           });
 
@@ -199,15 +154,15 @@ export default {
           this.items.push({
             title: "Birds",
             count: 0,
-            class: "grey lighten-4",
+            class: "grey lighten-4"
           });
           this.items.push({ title: "Rabbit / Guinea Pig", count: 0 });
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>
