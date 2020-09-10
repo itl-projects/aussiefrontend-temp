@@ -2,8 +2,8 @@
   <div>
     <NavBar />
     <v-container fluid style="position:relative">
-      <v-row>
-        <v-col cols="12" sm="8">
+      <v-row style="padding: 2.5%;">
+        <v-col style="padding: 3%;" cols="12" sm="8">
           <v-row>
             <v-col cols="12" sm="4" class="text-center">
               <v-avatar size="200px" color="#989898" v-if="host_additional_data.avatar">
@@ -23,10 +23,7 @@
                 <v-icon>mdi-acc-countircle</v-icon>
                 <v-icon>mdi-acc-countircle</v-icon>
               </div>
-              <v-label
-                class="heading"
-                style="font-size: 1.4rem;"
-              >Reliable and VERY caring dog sitter.</v-label>
+              <label class="heading" style="font-size: 1.4rem;">Reliable and VERY caring dog sitter.</label>
               <div class="flex mt-2">
                 <v-btn outlined color="#2c7873" x-small>7 Repeat guest</v-btn>
                 <v-rating
@@ -60,23 +57,21 @@
         </v-col>
         <v-col cols="12" sm="4">
           <v-card>
-            <v-card-title>
+            <v-card-title style="background-color:#45F390;">
               <v-row class="py-0">
                 <v-col cols="6" class="py-0">
-                  <h2
-                    style="font-weight: 200;letter-spacing: -1px;font-variant: all-petite-caps;"
-                  >{{ serviceSelected.title }}</h2>
+                  <h3>{{ serviceSelected.title }}</h3>
                 </v-col>
                 <v-col cols="6" class="py-0 text-end">
                   <h3
-                    style="font-weight:400;color: #2c7873; display: inline-block;"
+                    style="font-weight:400;color: #fff; display: inline-block;"
                   >${{serviceSelected.price}}</h3>
-                  <span style="font-size: 0.7rem;">/night</span>
+                  <span style="font-size: 1rem;color: #000;">/night</span>
                 </v-col>
               </v-row>
             </v-card-title>
-            <v-divider></v-divider>
-            <v-card-text>
+            <!-- <v-divider></v-divider> -->
+            <v-card-text style="background-color: #f1f2f6;">
               <v-alert
                 v-if="alert.show"
                 dense
@@ -87,7 +82,7 @@
               >{{alert.message}}</v-alert>
               <v-container>
                 <v-form ref="form" v-model="valid">
-                  <v-label>I'm looking for</v-label>
+                  <label>I'm looking for</label>
                   <v-select
                     :rules="[rules.required]"
                     return-object
@@ -99,7 +94,7 @@
                     @change="selectChange"
                   ></v-select>
                   <v-spacer></v-spacer>
-                  <v-label>My Pet(s)</v-label>
+                  <label>My Pet(s)</label>
                   <v-menu v-model="menu" :close-on-content-click="closeOnContext" class="pa-0 ma-0">
                     <template v-slot:activator="{ on, attrs }">
                       <v-select
@@ -152,7 +147,7 @@
                   <v-spacer />
                   <v-row v-if="dayService">
                     <v-col cols="12" class="pb-0">
-                      <v-label>Select Date</v-label>
+                      <label>Select Date</label>
                     </v-col>
                     <v-col cols="12">
                       <v-dialog
@@ -194,7 +189,7 @@
                   </v-row>
                   <v-row v-else>
                     <v-col cols="12" class="pb-0">
-                      <v-label>For These Days</v-label>
+                      <label>For These Days</label>
                     </v-col>
                     <v-col cols="6">
                       <v-dialog
@@ -293,31 +288,48 @@
       </v-row>
       <v-row>
         <v-col cols="12">
-          <v-card width="100%">
-            <v-tabs v-model="tab" background-color="teal" dark fixed-tabs center-active show-arrows>
-              <v-tabs-slider color="orange"></v-tabs-slider>
-              <v-tab key="services_rates">Services and Rates</v-tab>
-              <v-tab key="pet-accept">Pet Accept</v-tab>
-
-              <v-tab key="photos">Photos</v-tab>
-              <v-tab key="rating">Rating and Review</v-tab>
+          <v-card outlined width="100%">
+            <v-tabs
+              style="margin-right: 5%;"
+              v-model="tab"
+              color="#000"
+              dark
+              background-color="#fff"
+            >
+              <v-tab
+                style="border-radius: 10px 0px 0px 10px"
+                class="tabs"
+                key="services"
+              >Services & Rates</v-tab>
+              <v-tab class="tabs" key="about">Pet accept</v-tab>
+              <v-tab class="tabs" key="experience">photos</v-tab>
+              <v-tab
+                style="border-radius: 0px 10px 10px 0px"
+                class="tabs"
+                key="pets"
+              >rating & reviews</v-tab>
             </v-tabs>
 
             <v-tabs-items v-model="tab">
               <v-tab-item key="services_rates">
                 <v-card flat>
                   <v-card-text>
-                    <!-- <v-container fluid> -->
-                    <h2 class="top-heading">Services</h2>
-                    <!-- <v-divider/> -->
+                    <h2
+                      class="top-heading"
+                      style="font-size: 1.8rem; font-weight: bold;color:#fff;"
+                    >Services</h2>
                     <v-row>
                       <v-col cols="12" sm="6" class="py-0">
                         <v-row>
                           <v-col cols="12" class="services-box">
-                            <h3>Overnight pet services</h3>
+                            <h3 style="margin-left:3%">Overnight pet services</h3>
                             <!-- <v-divider /> -->
                             <v-row>
-                              <v-col cols="12" sm="6">
+                              <v-col
+                                style="background-color: #dcdde1;border : 2px solid #fff;"
+                                cols="12"
+                                sm="6"
+                              >
                                 <v-row align="center">
                                   <v-col cols="2">
                                     <v-avatar color="white">
@@ -330,21 +342,25 @@
                                     </v-avatar>
                                   </v-col>
                                   <v-col cols="5">
-                                    <v-label>Pet Hosting</v-label>
+                                    <label class="petServices">Pet Hosting</label>
                                     <br />
-                                    <span class="grey--text">At Sitter's Home</span>
+                                    <span class="black--text">At Sitter's Home</span>
                                   </v-col>
                                   <v-divider vertical />
                                   <v-col cols="4">
-                                    <v-label v-if="pet_hosting.provided">
+                                    <label v-if="pet_hosting.provided">
                                       $ {{pet_hosting.price}}
-                                      <span class="grey--text">/ night</span>
-                                    </v-label>
-                                    <v-label v-else>not offered</v-label>
+                                      <span class="black--text">/ night</span>
+                                    </label>
+                                    <label v-else>not offered</label>
                                   </v-col>
                                 </v-row>
                               </v-col>
-                              <v-col cols="12" sm="6">
+                              <v-col
+                                style="background-color: #dcdde1;border : 2px solid #fff;"
+                                cols="12"
+                                sm="6"
+                              >
                                 <v-row align="center">
                                   <v-col cols="2">
                                     <v-avatar color="white">
@@ -357,17 +373,17 @@
                                     </v-avatar>
                                   </v-col>
                                   <v-col cols="5">
-                                    <v-label>Pet Sitting</v-label>
+                                    <label class="petServices">Pet Sitting</label>
                                     <br />
-                                    <span class="grey--text">At Pet's Home</span>
+                                    <span class="black--text">At Pet's Home</span>
                                   </v-col>
                                   <v-divider vertical />
                                   <v-col cols="4">
-                                    <v-label v-if="pet_sitting.provided">
+                                    <label v-if="pet_sitting.provided">
                                       $ {{pet_sitting.price}}
-                                      <span class="grey--text">/ night</span>
-                                    </v-label>
-                                    <v-label v-else>not offered</v-label>
+                                      <span class="black--text">/ night</span>
+                                    </label>
+                                    <label v-else>not offered</label>
                                   </v-col>
                                 </v-row>
                               </v-col>
@@ -377,7 +393,11 @@
                             <h3>Transport</h3>
                             <!-- <v-divider /> -->
                             <v-row>
-                              <v-col cols="12" sm="6">
+                              <v-col
+                                style="background-color: #dcdde1;border : 2px solid #fff;"
+                                cols="12"
+                                sm="6"
+                              >
                                 <v-row align="center">
                                   <v-col cols="2">
                                     <v-avatar color="white">
@@ -385,16 +405,16 @@
                                     </v-avatar>
                                   </v-col>
                                   <v-col cols="5">
-                                    <v-label>Pick Up - Drop Off</v-label>
+                                    <label class="petServices">Pick Up - Drop Off</label>
                                     <br />
                                   </v-col>
                                   <v-divider vertical />
                                   <v-col cols="4">
-                                    <v-label v-if="pick_drop_service.provided">
+                                    <label v-if="pick_drop_service.provided">
                                       $ {{pick_drop_service.price}}
-                                      <span class="grey--text">/ night</span>
-                                    </v-label>
-                                    <v-label v-else>not offered</v-label>
+                                      <span class="black--text">/ night</span>
+                                    </label>
+                                    <label v-else>not offered</label>
                                   </v-col>
                                 </v-row>
                               </v-col>
@@ -406,7 +426,11 @@
                         <h3>Daytime pet services</h3>
                         <!-- <v-divider /> -->
                         <v-row>
-                          <v-col cols="12" sm="6">
+                          <v-col
+                            style="background-color: #dcdde1;border : 2px solid #fff;"
+                            cols="12"
+                            sm="6"
+                          >
                             <v-row align="center">
                               <v-col cols="2">
                                 <v-avatar color="white">
@@ -419,19 +443,23 @@
                                 </v-avatar>
                               </v-col>
                               <v-col cols="5">
-                                <v-label>Pet Day Care</v-label>
+                                <label class="petServices">Pet Day Care</label>
                               </v-col>
                               <v-divider vertical />
                               <v-col cols="4">
-                                <v-label v-if="pet_day_care.provided">
+                                <label v-if="pet_day_care.provided">
                                   $ {{pet_day_care.price}}
-                                  <span class="grey--text">/ night</span>
-                                </v-label>
-                                <v-label v-else>not offered</v-label>
+                                  <span class="black--text">/ night</span>
+                                </label>
+                                <label v-else>not offered</label>
                               </v-col>
                             </v-row>
                           </v-col>
-                          <v-col cols="12" sm="6">
+                          <v-col
+                            style="background-color: #dcdde1;border : 2px solid #fff;"
+                            cols="12"
+                            sm="6"
+                          >
                             <v-row align="center">
                               <v-col cols="2">
                                 <v-avatar color="white">
@@ -444,21 +472,25 @@
                                 </v-avatar>
                               </v-col>
                               <v-col cols="5">
-                                <v-label>House Visiting</v-label>
+                                <label class="petServices">House Visiting</label>
                               </v-col>
                               <v-divider vertical />
                               <v-col cols="4">
-                                <v-label v-if="house_visits.provided">
+                                <label v-if="house_visits.provided">
                                   $ {{house_visits.price}}
-                                  <span class="grey--text">/ night</span>
-                                </v-label>
-                                <v-label v-else>not offered</v-label>
+                                  <span class="black--text">/ night</span>
+                                </label>
+                                <label v-else>not offered</label>
                               </v-col>
                             </v-row>
                           </v-col>
                         </v-row>
                         <v-row>
-                          <v-col cols="12" sm="6">
+                          <v-col
+                            style="background-color: #dcdde1;border : 2px solid #fff;"
+                            cols="12"
+                            sm="6"
+                          >
                             <v-row align="center">
                               <v-col cols="2">
                                 <v-avatar color="white">
@@ -471,22 +503,26 @@
                                 </v-avatar>
                               </v-col>
                               <v-col cols="5">
-                                <v-label>
+                                <label class="petServices">
                                   Exercise &
                                   <br />walkies services
-                                </v-label>
+                                </label>
                               </v-col>
                               <v-divider vertical />
                               <v-col cols="4">
-                                <v-label v-if="exercise_walk_service.provided">
+                                <label v-if="exercise_walk_service.provided">
                                   $ {{exercise_walk_service.price}}
-                                  <span class="grey--text">/ night</span>
-                                </v-label>
-                                <v-label v-else>not offered</v-label>
+                                  <span class="black--text">/ night</span>
+                                </label>
+                                <label v-else>not offered</label>
                               </v-col>
                             </v-row>
                           </v-col>
-                          <v-col cols="12" sm="6">
+                          <v-col
+                            style="background-color: #dcdde1;border : 2px solid #fff;"
+                            cols="12"
+                            sm="6"
+                          >
                             <v-row align="center">
                               <v-col cols="2">
                                 <v-avatar color="white">
@@ -499,21 +535,25 @@
                                 </v-avatar>
                               </v-col>
                               <v-col cols="5">
-                                <v-label>Pet Grooming</v-label>
+                                <label class="petServices">Pet Grooming</label>
                               </v-col>
                               <v-divider vertical />
                               <v-col cols="4">
-                                <v-label v-if="pet_grooming.provided">
+                                <label v-if="pet_grooming.provided">
                                   $ {{pet_grooming.price}}
-                                  <span class="grey--text">/ night</span>
-                                </v-label>
-                                <v-label v-else>not offered</v-label>
+                                  <span class="black--text">/ night</span>
+                                </label>
+                                <label v-else>not offered</label>
                               </v-col>
                             </v-row>
                           </v-col>
                         </v-row>
                         <v-row>
-                          <v-col cols="12" sm="6">
+                          <v-col
+                            style="background-color: #dcdde1;border : 2px solid #fff;"
+                            cols="12"
+                            sm="6"
+                          >
                             <v-row align="center">
                               <v-col cols="2">
                                 <v-avatar color="white">
@@ -526,18 +566,18 @@
                                 </v-avatar>
                               </v-col>
                               <v-col cols="5">
-                                <v-label>
+                                <label class="petServices">
                                   Pet Training
                                   <br />services
-                                </v-label>
+                                </label>
                               </v-col>
                               <v-divider vertical />
                               <v-col cols="4">
-                                <v-label v-if="pet_training.provided">
+                                <label v-if="pet_training.provided">
                                   $ {{pet_training.price}}
-                                  <span class="grey--text">/ night</span>
-                                </v-label>
-                                <v-label v-else>not offered</v-label>
+                                  <span class="black--text">/ night</span>
+                                </label>
+                                <label v-else>not offered</label>
                               </v-col>
                             </v-row>
                           </v-col>
@@ -547,7 +587,10 @@
                     <v-divider />
                     <v-row>
                       <v-col cols="12" sm="12">
-                        <h2 class="top-heading">Policy</h2>
+                        <h2
+                          class="top-heading"
+                          style="font-size: 1.8rem; font-weight: bold;color:#fff"
+                        >Policy</h2>
                         <v-row class="ml-6">
                           <v-col cols="12">
                             <v-badge
@@ -557,7 +600,7 @@
                               offset-y="15"
                               offset-x="-5"
                             >
-                              <b>Cancellation: {{cancellation_policy.type}}</b>
+                              <b class="black--text">Cancellation: {{cancellation_policy.type}}</b>
                             </v-badge>
                             <p
                               class="mb-0"
@@ -569,6 +612,7 @@
                               :color="long_term_bookings.provided  ? 'green' : 'grey'"
                               left
                               offset-y="15"
+                              class="black--text"
                               offset-x="-5"
                             >Accepts long-term bookings</v-badge>
                           </v-col>
@@ -579,6 +623,7 @@
                               left
                               offset-y="15"
                               offset-x="-5"
+                              class="black--text"
                             >Accepts last-minute bookings</v-badge>
                           </v-col>
                         </v-row>
@@ -597,81 +642,108 @@
                           :icon="pet_types.includes('Dog Small (0-10kg)') ? 'mdi-check' : 'mdi-close'"
                           :color="pet_types.includes('Dog Small (0-10kg)') ? 'green' : 'grey'"
                         >
-                          <v-icon large>mdi-donkey</v-icon>
+                          <v-icon
+                            large
+                            :color="pet_types.includes('Dog Small(0-10kg)') ? 'green' : 'grey'"
+                          >mdi-donkey</v-icon>
                         </v-badge>
                         <br />
-                        <v-label>Small Dog</v-label>
+                        <label>Small Dog</label>
                       </v-col>
                       <v-col class="text-center mb-2" cols="2">
                         <v-badge
                           :icon="pet_types.includes('Medium Dog(11-20kg)') ? 'mdi-check' : 'mdi-close'"
                           :color="pet_types.includes('Medium Dog(11-20kg)') ? 'green' : 'grey'"
                         >
-                          <v-icon large>mdi-dog</v-icon>
+                          <v-icon
+                            large
+                            :color="pet_types.includes('Medium Dog(11-20kg)') ? 'green' : 'grey'"
+                          >mdi-dog</v-icon>
                         </v-badge>
                         <br />
-                        <v-label>Medium Dog</v-label>
+                        <label>Medium Dog</label>
                       </v-col>
                       <v-col class="text-center mb-2" cols="2">
                         <v-badge
                           :icon="pet_types.includes('Large Dog(21-40kg)') ? 'mdi-check' : 'mdi-close'"
                           :color="pet_types.includes('Large Dog(21-40kg)') ? 'green' : 'grey'"
                         >
-                          <v-icon large>mdi-dog-side</v-icon>
+                          <v-icon
+                            large
+                            :color="pet_types.includes('Large Dog(21-40kg)') ? 'green' : 'grey'"
+                          >mdi-dog-side</v-icon>
                         </v-badge>
                         <br />
-                        <v-label>Large Dog</v-label>
+                        <label>Large Dog</label>
                       </v-col>
                       <v-col class="text-center mb-2" cols="2">
                         <v-badge
                           :icon="pet_types.includes('Gaint Dog(41+kg)') ? 'mdi-check' : 'mdi-close'"
                           :color="pet_types.includes('Gaint Dog(41+kg)') ? 'green' : 'grey'"
                         >
-                          <v-icon large>mdi-dog-service</v-icon>
+                          <v-icon
+                            large
+                            :color="pet_types.includes('Gaint Dog(41+kg)') ? 'green' : 'grey'"
+                          >mdi-dog-service</v-icon>
                         </v-badge>
                         <br />
-                        <v-label>Gaint Dog</v-label>
+                        <label>Gaint Dog</label>
                       </v-col>
                       <v-col class="text-center mb-2" cols="2">
                         <v-badge
                           :icon="pet_types.includes('Puppy') ? 'mdi-check' : 'mdi-close'"
                           :color="pet_types.includes('Puppy') ? 'green' : 'grey'"
                         >
-                          <v-icon large>mdi-paw</v-icon>
+                          <v-icon
+                            large
+                            :color="pet_types.includes('Puppy') ? 'green' : 'grey'"
+                          >mdi-paw</v-icon>
                         </v-badge>
                         <br />
-                        <v-label>Puppy</v-label>
+                        <label>Puppy</label>
                       </v-col>
                       <v-col class="text-center mb-2" cols="2">
                         <v-badge
                           :icon="pet_types.includes('Cats') ? 'mdi-check' : 'mdi-close'"
                           :color="pet_types.includes('Cats') ? 'green' : 'grey'"
                         >
-                          <v-icon large>mdi-cat</v-icon>
+                          <v-icon
+                            large
+                            :color="pet_types.includes('Cats') ? 'green' : 'grey'"
+                          >mdi-cat</v-icon>
                         </v-badge>
                         <br />
-                        <v-label>Cats</v-label>
+                        <label>Cats</label>
                       </v-col>
                       <v-col class="text-center mb-2" cols="2">
                         <v-badge
                           :icon="pet_types.includes('Birds') ? 'mdi-check' : 'mdi-close'"
                           :color="pet_types.includes('Birds') ? 'green' : 'grey'"
                         >
-                          <v-icon large>mdi-owl</v-icon>
+                          <v-icon
+                            large
+                            :color="pet_types.includes('Birds') ? 'green' : 'grey'"
+                          >mdi-owl</v-icon>
                         </v-badge>
                         <br />
-                        <v-label>Birds</v-label>
+                        <label>Birds</label>
                       </v-col>
                       <v-col class="text-center mb-2" cols="2">
                         <v-badge
                           :icon="pet_types.includes('Rabbit / Guinea Pig') ? 'mdi-check' : 'mdi-close'"
                           :color="pet_types.includes('Rabbit / Guinea Pig') ? 'green' : 'grey'"
                         >
-                          <v-icon large>mdi-rabbit</v-icon>
-                          <v-icon large>mdi-pig</v-icon>
+                          <v-icon
+                            large
+                            :color="pet_types.includes('Rabbit / Guinea Pig') ? 'green' : 'grey'"
+                          >mdi-rabbit</v-icon>
+                          <v-icon
+                            large
+                            :color="pet_types.includes('Rabbit / Guinea Pig') ? 'green' : 'grey'"
+                          >mdi-pig</v-icon>
                         </v-badge>
                         <br />
-                        <v-label>Rabbit/Guinea Pig</v-label>
+                        <label>Rabbit/Guinea Pig</label>
                       </v-col>
                     </v-row>
                   </v-card-text>
@@ -682,7 +754,7 @@
                 <v-card flat>
                   <v-card-text>
                     <v-container fluid>
-                      <v-row>
+                      <v-row v-if="host_photos != null">
                         <v-col v-for="(item,i) in host_photos" :key="i" cols="12" md="2">
                           <v-card elevation="4">
                             <v-img
@@ -694,21 +766,20 @@
                             ></v-img>
                           </v-card>
                         </v-col>
-                        <v-col class="text-center" cols="12">
-                          <h4>No Photos Uploaded by Host</h4>
-                          </v-col>
-
                       </v-row>
+                      <v-col v-else class="text-center" cols="12">
+                        <h4>No Photos Uploaded by Host</h4>
+                      </v-col>
                     </v-container>
                   </v-card-text>
                 </v-card>
               </v-tab-item>
               <v-tab-item key="rating">
                 <v-card flat>
-                  <v-row>
+                  <v-row class="ml-4">
                     <v-col cols="12" sm="4">
-                      <v-container class="pt-5">
-                        <v-label class="mt-4">Ratings</v-label>
+                      <v-container class="pt-2">
+                        <v-subheader>Ratings</v-subheader>
                         <v-card class="mt-6">
                           <v-row>
                             <v-col cols="5" sm="4" class="py-0">
@@ -763,7 +834,7 @@
                         </v-card>
                       </v-container>
                     </v-col>
-                    <v-divider vertical class="my-4" />
+                    <!-- <v-divider vertical class="my-4" /> -->
                     <v-col cols="12" sm="7">
                       <v-list three-line>
                         <template v-for="(item, index) in items">
@@ -990,7 +1061,8 @@ export default {
         { divider: true, inset: true },
         {
           avatar: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
-          title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
+          title:
+            'Summer BBQ <span class="black--text text--lighten-1">4</span>',
           subtitle:
             "<span class='text--#2c7873'>to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.",
           rating: 3.5
@@ -1264,7 +1336,7 @@ export default {
             router.back();
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err);
           //router.back();
         })
@@ -1274,8 +1346,7 @@ export default {
       this.dayService = this.serviceSelected.type == 2 ? true : false;
     },
     generateContract() {
-      
-      if(this.petSelected=="Choose Pet(s)"){
+      if (this.petSelected == "Choose Pet(s)") {
         this.petSelectErrors = ["please choose pets"];
       }
       if (authStore.isSignedIn()) {
@@ -1291,7 +1362,7 @@ export default {
           services: this.serviceSelected.name,
           details: JSON.stringify(pets),
           hid: this.host_id,
-          price:this.serviceSelected.price
+          price: this.serviceSelected.price
         };
         if (this.dayService) {
           data["day_or_night"] = "day";
@@ -1411,6 +1482,14 @@ export default {
 </script>
 
 <style scoped>
+* {
+  font-family: "Roboto", sans-serif;
+}
+.petServices {
+  font-weight: bold;
+  font-size: 1rem;
+  font-family: "Poppins", sans-serif;
+}
 .apply_btn_box {
   width: 100%;
   background: #2c7873;
@@ -1448,7 +1527,6 @@ export default {
   border-radius: 5px;
 }
 .services-box > .row {
-  background: #f5f5f59c;
   margin-left: 0 !important;
   border-radius: 10px;
   margin-top: 4px;
@@ -1463,9 +1541,9 @@ label {
 }
 .top-heading {
   border-left: 5px solid #2c7873;
-  background: #dfdfdf;
+  color: #fff;
   padding: 10px 20px;
-  color: #2c7873;
+  background-color: #323232;
 }
 .login-box-title {
   background: #2c7873;

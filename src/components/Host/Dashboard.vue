@@ -96,11 +96,11 @@
           ></v-progress-linear>
         </div>
         <v-row class="profile2">
-          <div v-show="expandPanel" style="position: relative;">
+          <div v-show="collapsed" style="position: relative;">
             <span class="pointStyle"></span>
             <span class="topic" style="padding-left: 20px">{{pending[0].title}}</span>
           </div>
-          <div v-show="expandPanel">
+          <div v-show="collapsed">
             <span class="percentIndicator">{{pending[0].completed}}% on verified emails</span>
           </div>
         </v-row>
@@ -108,7 +108,7 @@
           <v-expansion-panels flat>
             <v-expansion-panel>
               <v-expansion-panel-header class="collapseHeader">
-                <div @click="collapsed = !collapsed"></div>
+                <div @click="checkCollapse"></div>
               </v-expansion-panel-header>
               <v-expansion-panel-content v-for="(items, i) in pending" :key="i">
                 <div style="display: flex; justify-content: space-between;">
@@ -375,6 +375,9 @@ export default {
     }
   },
   methods: {
+    checkCollapse() {
+      this.collapsed = !this.collapsed;
+    },
     identityProofApproved() {
       console.log("to check aprroved status of identity");
     },

@@ -11,7 +11,11 @@
     <v-row>
       <v-col v-for="n in 3" :key="n" cols="4">
         <v-list flat class="carousel-items">
-          <v-list-item-group v-model="item" style="padding: 10% 0%" color="#2C7873">
+          <v-list-item-group
+            v-model="item"
+            style="padding: 10% 0%"
+            color="#2C7873"
+          >
             <v-list-item
               style="margin: 10% auto;color: #383D43 !important;"
               v-for="(item, i) in items3"
@@ -30,6 +34,37 @@
     </v-row>
     <!-- end changes -->
 
+    <!-- new Changes -->
+    <v-row>
+      <carousel :perPage="3">
+        <slide style="display:flex;" v-for="n in 4" :key="n">
+          <v-col>
+            <v-list flat class="carousel-items">
+              <v-list-item-group
+                v-model="item"
+                style="padding: 10% 0%"
+                color="#2C7873"
+              >
+                <v-list-item
+                  style="margin: 0% auto;color: #383D43 !important;"
+                  v-for="(item, i) in items3"
+                  :key="i"
+                >
+                  <v-list-item-avatar size="50" tile class="pa-2">
+                    <v-img :src="item.icon" contain></v-img>
+                  </v-list-item-avatar>
+                  <v-list-item-content>
+                    <v-list-item-title v-text="item.text"></v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list-item-group>
+            </v-list>
+          </v-col>
+        </slide>
+      </carousel>
+    </v-row>
+    <!-- end new -->
+
     <v-row class="mt-5">
       <v-col cols="12">
         <div class="heading text-center">
@@ -47,134 +82,143 @@
         <v-col cols="12" sm="4" v-for="(quickeasy, i) in QuickEasy" :key="i">
           <v-card-text class="text-center">
             <v-avatar color="#0FEF70" size="150" style="background:#0FEF70">
-              <v-icon style="color:#fff; font-size: 5rem;font-weight:bold">{{ quickeasy.icon }}</v-icon>
+              <v-icon style="color:#fff; font-size: 5rem;font-weight:bold">{{
+                quickeasy.icon
+              }}</v-icon>
             </v-avatar>
           </v-card-text>
 
           <v-card-title
             class="text-center"
             style="display: block; color: #00d657;font: normal normal bold 32px/38px Roboto; font-size: 1.5vw;"
-          >{{ quickeasy.title }}</v-card-title>
+            >{{ quickeasy.title }}</v-card-title
+          >
           <v-card-text
             style="font: normal normal 600 24px/40px Baloo Tamma 2;color:#9E9E9E;width: 70%; text-align: center;margin: auto;"
             class="text-justify"
-          >{{ quickeasy.desc }}</v-card-text>
+            >{{ quickeasy.desc }}</v-card-text
+          >
         </v-col>
       </v-card>
     </v-row>
   </v-container>
 </template>
 <script>
+import { Carousel, Slide } from "vue-carousel";
+
 export default {
   name: "OurMainFeature",
-
+  components: {
+    Carousel,
+    Slide,
+  },
   data: () => ({
     item: [],
     items: [
       {
         text: "Find a Reliable Pet Host",
-        icon: require("../assets/images/icons/dog-training.svg")
+        icon: require("../assets/images/icons/dog-training.svg"),
       },
       {
         text: "Day Care Services",
-        icon: require("../assets/images/icons/dayCareServices.svg")
+        icon: require("../assets/images/icons/dayCareServices.svg"),
       },
       {
         text: "Grooming Services",
-        icon: require("../assets/images/icons/groomingServices.svg")
+        icon: require("../assets/images/icons/groomingServices.svg"),
       },
       {
         text: "Pet Training Services",
-        icon: require("../assets/images/icons/petTrainingServices.svg")
+        icon: require("../assets/images/icons/petTrainingServices.svg"),
       },
       {
         text: "House Setting Services",
-        icon: require("../assets/images/icons/houseSettingServices.svg")
-      }
+        icon: require("../assets/images/icons/houseSettingServices.svg"),
+      },
     ],
     items2: [
       {
         text: "Local vets directory",
-        icon: require("../assets/images/icons/veterinary.svg")
+        icon: require("../assets/images/icons/veterinary.svg"),
       },
       {
         text: "Pet Park locations",
-        icon: require("../assets/images/icons/petTrainingServices.svg")
+        icon: require("../assets/images/icons/petTrainingServices.svg"),
       },
       {
         text: "Local Pet Shop Directory",
-        icon: require("../assets/images/icons/localPetShop.svg")
+        icon: require("../assets/images/icons/localPetShop.svg"),
       },
       {
         text: "Animal Charities",
-        icon: require("../assets/images/icons/animalCharity.svg")
+        icon: require("../assets/images/icons/animalCharity.svg"),
       },
       {
         text: "Pet Insurance for sale ",
-        icon: require("../assets/images/icons/pet-insurance.svg")
-      }
+        icon: require("../assets/images/icons/pet-insurance.svg"),
+      },
     ],
     items3: [
       {
         text: "Walkies & Exercise Services",
-        icon: require("../assets/images/icons/walkiesNServices.svg")
+        icon: require("../assets/images/icons/walkiesNServices.svg"),
       },
       {
         text: "Aussie Pet BnB March",
-        icon: require("../assets/images/icons/aussiePetBNBMarch.svg")
+        icon: require("../assets/images/icons/aussiePetBNBMarch.svg"),
       },
       {
         text: "One Stop shop for Pet Products",
-        icon: require("../assets/images/icons/oneStopShop.svg")
+        icon: require("../assets/images/icons/oneStopShop.svg"),
       },
       {
         text: "Virtual Assistant Desk ",
-        icon: require("../assets/images/icons/virtualAsst.svg")
-      }
+        icon: require("../assets/images/icons/virtualAsst.svg"),
+      },
     ],
     items4: [
       {
         text: "Pet Tube",
-        icon: require("../assets/images/icons/walkiesNServices.svg")
+        icon: require("../assets/images/icons/walkiesNServices.svg"),
       },
       {
         text: "Pet 0 Gram",
-        icon: require("../assets/images/icons/walkiesNServices.svg")
+        icon: require("../assets/images/icons/walkiesNServices.svg"),
       },
       {
         text: "Pet Pad",
-        icon: require("../assets/images/icons/walkiesNServices.svg")
+        icon: require("../assets/images/icons/walkiesNServices.svg"),
       },
       {
         text: "Pet Events",
-        icon: require("../assets/images/icons/event 1.svg")
+        icon: require("../assets/images/icons/event 1.svg"),
       },
       {
         text: "Perfect Match Your Pets",
-        icon: require("../assets/images/icons/perfectMatch.svg")
-      }
+        icon: require("../assets/images/icons/perfectMatch.svg"),
+      },
     ],
     items5: [
       {
         text: "Find your pet / lost pets",
-        icon: require("../assets/images/icons/lostPet.svg")
+        icon: require("../assets/images/icons/lostPet.svg"),
       },
       {
         text: "Adopt & Rescue A Pet",
-        icon: require("../assets/images/icons/walkiesNServices.svg")
+        icon: require("../assets/images/icons/walkiesNServices.svg"),
       },
       {
         text: "Pets Wanting New Homes",
-        icon: require("../assets/images/icons/walkiesNServices.svg")
+        icon: require("../assets/images/icons/walkiesNServices.svg"),
       },
       {
         text: "Report Pet cruelty",
-        icon: require("../assets/images/icons/rabbit.svg")
+        icon: require("../assets/images/icons/rabbit.svg"),
       },
       {
         text: "Rescue Services Wild Animals",
-        icon: require("../assets/images/icons/wild-life.svg")
-      }
+        icon: require("../assets/images/icons/wild-life.svg"),
+      },
     ],
 
     QuickEasy: [
@@ -182,22 +226,22 @@ export default {
         title: "Search for your requirement",
         desc:
           "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et",
-        icon: "mdi-magnify"
+        icon: "mdi-magnify",
       },
       {
         title: "Make a Booking",
         desc:
           "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et",
-        icon: "mdi-weight"
+        icon: "mdi-weight",
       },
       {
         title: "Enjoy Peace of Mind",
         desc:
           "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et",
-        icon: "mdi-paw"
-      }
-    ]
-  })
+        icon: "mdi-paw",
+      },
+    ],
+  }),
 };
 </script>
 <style scoped>

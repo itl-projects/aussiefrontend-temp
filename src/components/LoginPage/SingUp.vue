@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col>
+      <v-col class="pa-0 ma-0">
         <v-alert
           v-if="alert.show"
           dense
@@ -12,21 +12,17 @@
       </v-col>
     </v-row>
 
-    <v-form
-      @submit.prevent="submit"
-      style="margin-left: 17%;text-align:start;"
-      ref="form"
-      v-model="valid"
-    >
+    <v-form @submit.prevent="submit" style="text-align:start;" ref="form" v-model="valid">
       <v-row>
         <v-col class="pb-0">
+          <label class="signupInfo">user name</label>
           <v-text-field
             v-model="UserName"
             :error-messages.sync="nameErrors"
             :success-messages="nameSuccess"
-            label="User Name"
             name="UserName"
             required
+            class="mt-2 mb-2"
             outlined
             dense
             :rules="[rules.validUsername,rules.required]"
@@ -35,14 +31,15 @@
           ></v-text-field>
         </v-col>
         <v-col cols="12" sm="6" class="pb-0">
+          <label class="signupInfo">email</label>
           <v-text-field
             v-model="email"
             :error-messages.sync="emailErrors"
             :success-messages.sync="emailSuccess"
             :rules="[rules.required]"
-            label="E-mail"
             name="email"
             required
+            class="mt-2 mb-2"
             outlined
             dense
             @input="$v.email.$touch()"
@@ -52,12 +49,13 @@
       </v-row>
       <v-row>
         <v-col>
+          <label class="signupInfo">first name</label>
           <v-text-field
             v-model="FirstName"
             :error-messages.sync="firstErrors"
             :rules="[rules.required]"
+            class="mt-2 mb-2"
             name="FirstName"
-            label="First Name"
             hide-details="auto"
             required
             outlined
@@ -67,12 +65,13 @@
           ></v-text-field>
         </v-col>
         <v-col cols="12" sm="6">
+          <label class="signupInfo">last name</label>
           <v-text-field
             v-model="LastName"
             :error-messages="lastErrors"
             :rules="[rules.required]"
+            class="mt-2 mb-2"
             name="LastName"
-            label="Last Name"
             hide-details="auto"
             required
             outlined
@@ -85,12 +84,13 @@
 
       <v-row>
         <v-col>
+          <label class="signupInfo">phone no.</label>
           <v-text-field
+            class="mt-2 mb-2"
             v-model="phone"
             :error-messages="numricErrors"
             :success-messages="phoneSuccess"
             :rules="[rules.required]"
-            label="Phone Number"
             name="phone"
             hide-details="auto"
             required
@@ -101,13 +101,14 @@
           ></v-text-field>
         </v-col>
         <v-col cols="12" sm="6">
+          <label>user type</label>
           <v-select
             v-model="select"
             :items="items"
             :rules="[rules.required]"
             :error-messages="selectErrors"
-            label="User type"
             hide-details="auto"
+            class="mt-2 mb-2"
             required
             outlined
             dense
@@ -119,14 +120,15 @@
 
       <v-row>
         <v-col>
+          <label class="signupInfo">password</label>
           <v-text-field
             v-model="password"
             :error-messages="passwordErrors"
             :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
             :type="show1 ? 'text' : 'password'"
             :rules="[rules.required]"
+            class="mt-2 mb-2"
             name="password"
-            label="Password"
             hint="At least 8 characters"
             hide-details="auto"
             counter
@@ -139,14 +141,15 @@
           ></v-text-field>
         </v-col>
         <v-col cols="12" sm="6">
+          <label class="signupInfo">confirm password</label>
           <v-text-field
             v-model="repeatPassword"
             :rules="[rules.required]"
             :error-messages="repeatPasswordErrors"
             :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
             :type="show1 ? 'text' : 'password'"
+            class="mt-2 mb-2"
             name="repeatPassword"
-            label="Confrim Password"
             hint="At least 8 characters"
             hide-details="auto"
             counter
@@ -164,6 +167,7 @@
         type="submit"
         class="signupScreenBtn mr-4 mt-5 px-10 white--text"
         :disabled="!valid"
+        style="padding: 0 13%;"
         :loading="signupLoading"
       >Sign up</v-btn>
     </v-form>
@@ -439,5 +443,13 @@ export default {
 .signupScreenBtn {
   text-transform: capitalize;
   border-radius: 20px;
+}
+
+.signupInfo {
+  text-transform: uppercase;
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 0.78px;
+  font-family: "Poppins", sans-serif;
 }
 </style>

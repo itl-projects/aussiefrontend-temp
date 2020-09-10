@@ -129,10 +129,10 @@
             </v-row>
           </v-card>
         </v-col>
-        <v-col cols="12" sm="8">
+        <v-col :cols="12">
           <v-row>
-            <v-col cols="8">
-              <h2 style="font-weight: normal;">
+            <v-col cols="10">
+              <h2 style="font-weight: normal;" class="pt-1">
                 Connecting you with
                 <span
                   style="color: #2c7873;text-transform: capitalize;"
@@ -141,7 +141,7 @@
                 <span style="color: #2c7873;">{{ city }}</span>
               </h2>
             </v-col>
-            <v-col cols="4">
+            <v-col cols="2">
               <v-select
                 :items="['Performance', 'Location']"
                 label="Sort By"
@@ -154,7 +154,7 @@
         </v-col>
         <v-col cols="12">
           <v-row>
-            <v-col cols="12" sm="8">
+            <v-col cols="12">
               <v-row
                 class="text-align:center"
                 v-if="items.length <= 0"
@@ -177,7 +177,7 @@
                   />
                 </v-sheet>
               </v-row>
-              <v-data-iterator
+              <!-- <v-data-iterator
                 v-else
                 :items.sync="items"
                 :items-per-page.sync="itemsPerPage"
@@ -311,53 +311,108 @@
                     ></v-pagination>
                   </div>
                 </template>
-              </v-data-iterator>
+              </v-data-iterator>-->
+              <v-row v-else>
+                <v-data-iterator
+                  :items.sync="items"
+                  :items-per-page.sync="itemsPerPage"
+                  :page="page"
+                  style="width: 100%;"
+                  hide-default-footer
+                >
+                  <template v-slot:default="props">
+                    <v-container>
+                      <v-card
+                        v-for="(item) in props.items"
+                        :key="item.id"
+                        style="margin: auto;
+    border-radius: 23px 23px 0 0;"
+                      >
+                        <v-col class="header">
+                          <v-icon color="#33DE79">mdi-calendar-month</v-icon>
+                          <h4>Recently updated calendar</h4>
+                        </v-col>
+                        <v-row style="padding:1%;">
+                          <v-col cols="2" style="align-self:center; text-align: center;">
+                            <v-img
+                              max-height="120px"
+                              max-width="120px"
+                              min-height="80px"
+                              min-width="80px"
+                              style="border-radius: 50%;margin:auto;"
+                              src="https://cdn.vuetifyjs.com/images/john.jpg"
+                              aspect-ratio="1"
+                              contain
+                            />
+                          </v-col>
+                          <v-col class="body" cols="7">
+                            <div class="resultNames">
+                              <div class="name">{{item.first_name}} {{item.last_name}}</div>
+                              <v-icon v-for="n in 4" :key="n" color="#0FEF70">mdi-face</v-icon>
+                            </div>
+                            <!-- <div class="bio">Reliable and VERY caring dog sitter.</div> -->
+                            <div class="rating">
+                              <span class="ratingGuest">7 repeat guest</span>
+                              <span v-for="n in 4" :key="n">
+                                <v-icon color="#0FEF70">mdi-star</v-icon>
+                              </span>
+                            </div>
+                            <v-col class="feedback">
+                              <v-btn
+                                color="#71f6aa"
+                                style="color: #000; border: 1px solid #71f6aa;margin-right: 2%;"
+                                outlined
+                              >Respond with in a day</v-btn>
+                              <v-btn
+                                color="#71f6aa"
+                                style="color: #000; border: 1px solid #71f6aa;margin-right: 2%;"
+                                outlined
+                              >92% respond rate</v-btn>
+                            </v-col>
+                          </v-col>
+
+                          <v-divider vertical></v-divider>
+                          <v-col class="rateInformation" cols="2">
+                            <div class="information">from</div>
+                            <h3 class="information">
+                              <span style="color: #0FEF70;font-size: 1.8rem">$64</span>/night
+                            </h3>
+                            <!-- <div>
+                              $64
+                              <div class="information">/night</div>
+                            </div>-->
+                            <v-btn
+                              color="#71F6AA"
+                              class="white--text"
+                              @click="showHostDetails(item.hid)"
+                            >view more</v-btn>
+                          </v-col>
+                        </v-row>
+                      </v-card>
+                    </v-container>
+                  </template>
+
+                  <template v-slot:footer>
+                    <div class="text-center mt-6">
+                      <v-pagination
+                        v-model="page"
+                        :length="numberOfPages"
+                        @next="nextPage"
+                        @previous="formerPage"
+                        @input="updateItemsPerPage"
+                        circle
+                        color="#12EF72"
+                      ></v-pagination>
+                    </div>
+                  </template>
+                </v-data-iterator>
+              </v-row>
             </v-col>
           </v-row>
         </v-col>
       </v-row>
     </v-container>
-    <v-row>
-      <v-card width="70%" class="mb-4" style="margin: auto;
-    border-radius: 23px 23px 0 0;">
-        <v-col class="header">
-          <v-icon color="#33DE79">mdi-calendar-month</v-icon>
-          <h4>Recently updated calendar</h4>
-        </v-col>
-        <v-row style="padding:1%;">
-          <v-col cols="2" style="align-self:center; text-align: center;">
-            <v-avatar size="150">
-              <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
-            </v-avatar>
-          </v-col>
-          <v-col class="body" cols="7">
-            <div class="resultNames">
-              <span>John</span>
-              <v-icon v-for="n in 4" :key="n" color="#0FEF70">mdi-face</v-icon>
-            </div>
-            <div class="bio">Reliable and VERY caring dog sitter.</div>
-            <div class="rating">
-              <span class="ratingGuest">7 repeat guest</span>
-              <span v-for="n in 4" :key="n">
-                <v-icon color="#0FEF70">mdi-star</v-icon>
-              </span>
-            </div>
-            <div class="feedback">
-              <span class="feedbackBtn">Respond with in a day</span>
-              <span class="feedbackBtn">92% respond rate</span>
-            </div>
-            <div class="linkProfile">view more</div>
-          </v-col>
 
-          <v-divider vertical></v-divider>
-          <v-col class="rateInformation" cols="2">
-            <div class="information">from</div>
-            <div>$64</div>
-            <div class="information">/night</div>
-          </v-col>
-        </v-row>
-      </v-card>
-    </v-row>
     <Footer />
   </div>
 </template>
@@ -371,11 +426,16 @@ import Footer from "@/components/Footer";
 import PetHostingFormDummy from "@/components/TabForms/PetHostingForm_dummy";
 import axios from "axios";
 import urls from "@/axios/config";
+import ResizeText from "vue-resize-text";
+
 const fixName = function(value) {
   return value.replace("_", " ");
 };
 export default {
   name: "HostResult",
+  directives: {
+    ResizeText
+  },
   components: {
     NavBar,
     Footer,
@@ -516,7 +576,7 @@ export default {
 };
 </script>
 
-<style >
+<style scoped>
 .top_header {
   text-align: center;
   padding: 5px 10px;
@@ -563,11 +623,11 @@ export default {
   align-items: center;
 }
 
-.body > .resultNames > span {
-  font-size: 2rem;
+.body > .resultNames > .name {
+  font-size: 1.5rem;
   margin-right: 1%;
   color: #383d43;
-  font-display: "Poppins", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: bold !important;
 }
 
@@ -582,7 +642,7 @@ export default {
   margin-top: 1%;
 }
 .body > .rating > .ratingGuest {
-  border: 2px solid #0fef70;
+  border: 1px solid #71f6aa;
   padding: 0% 2%;
   border-radius: 5px;
   margin-right: 2%;
@@ -590,7 +650,9 @@ export default {
 }
 
 .body > .feedback {
-  margin: 3% 0;
+  /* margin: 3% 0; */
+  display: flex;
+  padding-left: 0;
 }
 
 .body > .feedback > .feedbackBtn {
@@ -607,6 +669,8 @@ export default {
   text-transform: uppercase;
   color: #0fef70;
   font-weight: 600;
+  cursor: pointer;
+  display: inline;
 }
 
 .rateInformation {

@@ -1,11 +1,13 @@
 <template>
   <v-container :fluid="true">
     <v-row no-gutters style="background-color: #F1F1F170">
-      <v-card style="display:flex;margin: 5% 10%;padding: 5% 10%;">
+      <v-card style="display:flex;margin: 5% 10%;padding: 5% 0%">
         <v-col
           :cols="6"
           class="text-center pa-0"
-          style="border-radius: 0px;border: 0.5px solid #00000029"
+          style="display: flex;
+                justify-content: center;
+                flex-direction: column;"
         >
           <div class="login-image">
             <img class="v-image" src="images/cat1.png" lazy-src="images/cat1.png" />
@@ -26,7 +28,7 @@
               >Sign Up</v-tab>
             </v-tabs>
             <v-tabs-items v-model="tab">
-              <v-tab-item value="tab-1" class="mt-0">
+              <v-tab-item style="margin-left:10%;" value="tab-1" class="mt-0">
                 <v-alert
                   v-if="alert.show"
                   dense
@@ -35,31 +37,27 @@
                   dismissible
                   class="mx-sm-10 text-start"
                 >{{alert.message}}</v-alert>
-                <form
-                  ref="loginForm"
-                  style="margin-left: 15%;text-align: left;"
-                  @submit="submit"
-                  class="form-size"
-                >
+                <form ref="loginForm" style="text-align: left;" @submit="submit" class="form-size">
+                  <label for="email" class="inputInfo">ENTER EMAIL ADDRESS/MOBILE NO</label>
                   <v-text-field
                     v-model="email"
                     :rules="emailrule"
                     :error-messages="errorEmail"
-                    label="Enter E-mail / Mobile number"
                     outlined
                     required
+                    class="mt-2 mb-2"
                     dense
                     hide-details="auto"
                   ></v-text-field>
+                  <label for="password" class="inputInfo">ENTER PASSWORD</label>
                   <v-text-field
-                    class="mt-3"
                     v-model="password"
                     :rules="passwordrule"
                     :error-messages="errorPass"
                     :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                     :type="show1 ? 'text' : 'password'"
-                    label="Enter Password"
                     outlined
+                    class="mt-2 mb-2"
                     dense
                     @click:append="show1 = !show1"
                     required
@@ -78,6 +76,7 @@
                   <v-btn
                     dark
                     color="#383D43"
+                    style="padding: 0 13%;"
                     class="mt-4 loginScreenBtn"
                     type="submit"
                     :loading="logging_in"
@@ -415,7 +414,7 @@ export default {
   padding: 0 15px !important;
 }
 .form-size {
-  width: 100%;
+  width: 80%;
   padding: 10px;
   margin: auto;
 }
@@ -430,6 +429,11 @@ export default {
 .loginScreenBtn {
   text-transform: capitalize;
   border-radius: 20px;
+}
+
+.form-size > .inputInfo {
+  font-family: "Poppins", sans-serif;
+  font-weight: bold;
 }
 
 @media only screen and (max-width: 600px) {

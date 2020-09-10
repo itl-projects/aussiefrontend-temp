@@ -1,6 +1,10 @@
 <template>
-  <v-container fluid>
-    <v-card-title class="font-weight-bold">Pending Contracts</v-card-title>
+  <v-container>
+    <h2 style="font-size: 2rem;color: #444D59;font-family: 'Roboto', sans-serif;">Bookings</h2>
+    <v-card-title
+      class="pl-0"
+      style="font-size: 1.5rem;color: #444D59; font-family: 'Roboto', sans-serif;"
+    >Pending Contracts</v-card-title>
     <v-row>
       <v-col cols="12" sm="12" class="py-0 px-0">
         <v-data-iterator
@@ -38,11 +42,15 @@
                             <div class="mt-2">
                               <!-- <v-icon small>mdi-paw</v-icon> -->
                               <span style="font-size:0.9rem">Pets:</span>
-                              <a href="#" style="white-space: pre-wrap;font-size:0.9rem">{{ item.petType}}</a>
+                              <a
+                                href="#"
+                                style="white-space: pre-wrap;font-size:0.9rem"
+                              >{{ item.petType}}</a>
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
-                            <h5 class="capitalized"
+                            <h5
+                              class="capitalized"
                               v-if="item.services == 'pet_hosting' || item.services == 'pet_sitting'"
                             >{{ item.services | formatName}}-{{ countDay(item.startDate,item.endDate) }} Nights</h5>
                             <h5 class="capitalized" v-else>{{ item.services | formatName}}</h5>
@@ -59,9 +67,11 @@
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
-                            Ref: <b>{{ item.contractID}}</b>
+                            Ref:
+                            <b>{{ item.contractID}}</b>
                             <div class="mt-2">
-                              <span>Price: </span><h3 style="display:inline-block">${{item.price}}</h3>
+                              <span>Price:</span>
+                              <h3 style="display:inline-block">${{item.price}}</h3>
                             </div>
                           </v-col>
                         </v-row>
@@ -106,6 +116,62 @@
                     </v-list-item-action>
                   </v-list-item>
                 </v-list>
+              </v-card>
+              <v-card elevation="5" class="cardDesign">
+                <v-row class="container2">
+                  <v-col cols="2" class="bookingDate">
+                    <v-img
+                      max-height="120px"
+                      max-width="120px"
+                      min-height="80px"
+                      min-width="80px"
+                      style="border-radius: 50%;margin:auto;"
+                      src="https://cdn.vuetifyjs.com/images/john.jpg"
+                      aspect-ratio="1"
+                      contain
+                    />
+                  </v-col>
+                  <span class="v1"></span>
+                  <v-col cols="9">
+                    <v-col v-for="n in 3" :key="n">
+                      <div v-for="n in 2" :key="n" class="sectionPContracts">
+                        <div class="headingPContracts"></div>
+                        <div class="contentPContracts"></div>
+                      </div>
+                    </v-col>
+                  </v-col>
+                </v-row>
+                <div class="bookingBottom">
+                  <v-expansion-panels flat>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header class="collapseHeader">
+                        <div @click="collapsed = !collapsed"></div>
+                      </v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        <v-row class="container2">
+                          <v-col cols="2">
+                            <div class="bookHead">Ref No.</div>
+                            <div>896776</div>
+                          </v-col>
+                          <v-col cols="8">
+                            <div class="bookHead">Date</div>
+                            <div class="bookContent">20 Sep 2020</div>
+                          </v-col>
+                          <v-col cols="2">
+                            <div class="bookHead">Charge</div>
+                            <div class="bookContent">$100</div>
+                          </v-col>
+                        </v-row>
+                        <v-row class="container2">
+                          <v-col>
+                            <div class="bookHead">Address</div>
+                            <div>st-1989</div>
+                          </v-col>
+                        </v-row>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                  </v-expansion-panels>
+                </div>
               </v-card>
             </div>
           </template>
@@ -174,11 +240,15 @@
                             <div class="mt-2">
                               <!-- <v-icon small>mdi-paw</v-icon> -->
                               <span style="font-size:0.9rem">Pets:</span>
-                              <a href="#" style="white-space: pre-wrap;font-size:0.9rem;">{{ item.petType}}</a>
+                              <a
+                                href="#"
+                                style="white-space: pre-wrap;font-size:0.9rem;"
+                              >{{ item.petType}}</a>
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
-                            <h5 class="capitalized"
+                            <h5
+                              class="capitalized"
                               v-if="item.services == 'pet_hosting' || item.services == 'pet_sitting'"
                             >{{ item.services | formatName}}-{{ countDay(item.startDate,item.endDate) }} Nights</h5>
                             <h5 class="capitalized" v-else>{{ item.services | formatName}}</h5>
@@ -195,9 +265,11 @@
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
-                            Ref: <b>{{ item.contractID}}</b>
+                            Ref:
+                            <b>{{ item.contractID}}</b>
                             <div class="mt-2">
-                              <span>Price: </span><h3 style="display:inline-block">${{item.price}}</h3>
+                              <span>Price:</span>
+                              <h3 style="display:inline-block">${{item.price}}</h3>
                             </div>
                           </v-col>
                         </v-row>
@@ -227,16 +299,11 @@
                         small
                         color="red"
                         dark
-                      >Contract Rejected by Host</v-chip>  
+                      >Contract Rejected by Host</v-chip>
 
-                      <v-row  v-if="userType == 'host' && item.contractStatus != 20000">
+                      <v-row v-if="userType == 'host' && item.contractStatus != 20000">
                         <v-btn color="#2c7873" text dark small @click="doChat(item)">Chat</v-btn>
-                      <v-chip
-                        small
-                        color="orange"
-                        class="ml-3"
-                        dark
-                      >Waiting for owner to book</v-chip>
+                        <v-chip small color="orange" class="ml-3" dark>Waiting for owner to book</v-chip>
                       </v-row>
                       <v-chip
                         v-if="userType == 'host' && item.contractStatus == 20000"
@@ -244,7 +311,6 @@
                         color="red"
                         dark
                       >Contract Rejected by Owner</v-chip>
-                      
                     </v-list-item-action>
                   </v-list-item>
                 </v-list>
@@ -317,11 +383,15 @@
                             <div class="mt-2">
                               <!-- <v-icon small>mdi-paw</v-icon> -->
                               <span style="font-size:0.9rem">Pets:</span>
-                              <a href="#" style="white-space: pre-wrap;font-size:0.9rem">{{ item.petType}}</a>
+                              <a
+                                href="#"
+                                style="white-space: pre-wrap;font-size:0.9rem"
+                              >{{ item.petType}}</a>
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
-                            <h5 class="capitalized"
+                            <h5
+                              class="capitalized"
                               v-if="item.services == 'pet_hosting' || item.services == 'pet_sitting'"
                             >{{ item.services | formatName}}-{{ countDay(item.startDate,item.endDate) }} Nights</h5>
                             <h5 class="capitalized" v-else>{{ item.services | formatName}}</h5>
@@ -338,15 +408,16 @@
                             </div>
                           </v-col>
                           <v-col cols="12" sm="3" class="py-1">
-                            Ref: <b>{{ item.contractID}}</b>
+                            Ref:
+                            <b>{{ item.contractID}}</b>
                             <div class="mt-2">
-                              <span>Price: </span><h3 style="display:inline-block">${{item.price}}</h3>
+                              <span>Price:</span>
+                              <h3 style="display:inline-block">${{item.price}}</h3>
                             </div>
                           </v-col>
                         </v-row>
                       </v-list-item-title>
                     </v-list-item-content>
-
                   </v-list-item>
                 </v-list>
               </v-card>
@@ -390,7 +461,7 @@ const DateFilter = function(value) {
   return value.split("/").join("-");
 };
 const fixName = function(value) {
-  return value.replace('_',' ');
+  return value.replace("_", " ");
 };
 export default {
   name: "Contracts",
@@ -403,7 +474,7 @@ export default {
       itemsPerPageArray: [4, 8, 12],
       page: 1,
       pendingPage: 1,
-      completedPage:1,
+      completedPage: 1,
       pendingItemsPerPage: 5,
       completedItemsPerPage: 5,
       itemsPerPage: 5,
@@ -411,8 +482,8 @@ export default {
       pendings: [],
       loading: true,
       img_url: urls.IMGURL,
-      completed:[],
-      connection: null,
+      completed: [],
+      connection: null
     };
   },
 
@@ -430,10 +501,15 @@ export default {
   created: function() {
     this.userType = authStore.userType();
     const loc = window.location.pathname.toString().split("/");
-    if(loc.length > 2){
-    if (this.userType == "host" && (loc[1] !="host" && loc[2] == 'contracts'))
-      router.replace({ path: "/host/contracts/" });
-    else if(this.userType == "petowner" && (loc[1] !="owner" && loc[2] == 'contracts')) router.replace({ path: "/owner/contracts/" });
+    if (loc.length > 2) {
+      if (this.userType == "host" && loc[1] != "host" && loc[2] == "contracts")
+        router.replace({ path: "/host/contracts/" });
+      else if (
+        this.userType == "petowner" &&
+        loc[1] != "owner" &&
+        loc[2] == "contracts"
+      )
+        router.replace({ path: "/owner/contracts/" });
     }
     window.scroll({ top: 0, left: 0, behavior: "smooth" });
     this.connection = new WebSocket(
@@ -444,14 +520,14 @@ export default {
       let data = JSON.parse(e.data);
       if (data.data) {
         if (data.data.type) {
-          if (data.data.type == "contract"){
+          if (data.data.type == "contract") {
             this.getConracts();
             this.connection.send(
-        JSON.stringify({type: data.data.type, action: "delete"})
-      );
-            setTimeout(()=>{
+              JSON.stringify({ type: data.data.type, action: "delete" })
+            );
+            setTimeout(() => {
               notificationsStore.clearAllNotificationByType(data.data.type);
-            },100);
+            }, 100);
           }
         }
       }
@@ -504,8 +580,10 @@ export default {
     getConracts() {
       this.loading = true;
       let url = urls.URL;
-      if (this.userType === "petowner") url = url + "/petowner/viewcontract/?type=contract";
-      else if (this.userType === "host") url = url + "/host/viewcontract/?type=contract";
+      if (this.userType === "petowner")
+        url = url + "/petowner/viewcontract/?type=contract";
+      else if (this.userType === "host")
+        url = url + "/host/viewcontract/?type=contract";
       let config = {
         headers: {
           Authorization: "Token " + authStore.userToken()
@@ -522,14 +600,14 @@ export default {
             this.items = res.data.data.accepted;
           }
         })
-        .catch((err) => {
-          alert(err)
+        .catch(err => {
+          alert(err);
         })
         .finally(() => {
           this.loading = false;
         });
     },
-    getCompltedContaracts(){
+    getCompltedContaracts() {
       this.loading = true;
       let url = urls.URL;
       if (this.userType === "petowner") url = url + "/petowner/oldcontract/";
@@ -550,8 +628,7 @@ export default {
             this.completed = res.data.data;
           }
         })
-        .catch(() => {
-        })
+        .catch(() => {})
         .finally(() => {
           this.loading = false;
         });
@@ -579,10 +656,7 @@ export default {
     doChat(item) {
       localStorage.setItem("msg_id", item.chat_id);
       if (authStore.userType() == "host") {
-        localStorage.setItem(
-          "uname",
-          item.petowner_details.username
-        );
+        localStorage.setItem("uname", item.petowner_details.username);
         localStorage.setItem(
           "uname_img",
           urls.IMGURL + item.petowner_details.avatar_path
@@ -602,9 +676,7 @@ export default {
         );
         localStorage.setItem(
           "name",
-          item.host_details.first_name +
-            " " +
-            item.host_details.last_name
+          item.host_details.first_name + " " + item.host_details.last_name
         );
         router.replace({ path: "/owner/chat-messages/" });
       }
@@ -614,7 +686,7 @@ export default {
 </script>
 
 <style scoped>
-.capitalized{
+.capitalized {
   text-transform: capitalize;
 }
 @media only screen and (max-width: 600px) {

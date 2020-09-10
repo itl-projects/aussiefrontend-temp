@@ -20,17 +20,8 @@
             }"
           ></picture-input>
           <div class="profilePhotoBtn">
-            <v-btn
-              class="ma-1"
-              @click="onChanged"
-              width="60%"
-              outlined
-              color="#0FEF70C6"
-              >Change</v-btn
-            >
-            <v-btn class="ma-1" @click="onRemoved" width="60%" color="#0FEF70C6"
-              >Remove</v-btn
-            >
+            <v-btn class="ma-1" @click="onChanged" width="60%" outlined color="#0FEF70C6">Change</v-btn>
+            <v-btn class="ma-1" @click="onRemoved" width="60%" color="#0FEF70C6">Remove</v-btn>
           </div>
         </v-card>
       </v-col>
@@ -63,9 +54,7 @@
           <v-col cols="6" class="px-0">
             <v-card class="cardDesign" outline>
               <v-row class="container2">
-                <v-col
-                  style="display:flex; flex-direction: column;justify-content: space-between;"
-                >
+                <v-col style="display:flex; flex-direction: column;justify-content: space-between;">
                   <div class="header">
                     <div class="header">Phone Number</div>
                     <div class="headerHead">+91 8011354690</div>
@@ -85,8 +74,7 @@
                       :loading="verifyingPhone"
                       @click="verifyPhone"
                       color="#0FEF70C6"
-                      >Request</v-btn
-                    >
+                    >Request</v-btn>
                     <v-chip
                       v-show="!phoneverified"
                       class="ma-2"
@@ -108,9 +96,7 @@
           <v-col cols="6" class="px-0">
             <v-card class="cardDesign" outline>
               <v-row class="container2">
-                <v-col
-                  style="display:flex; flex-direction: column;justify-content: space-between;"
-                >
+                <v-col style="display:flex; flex-direction: column;justify-content: space-between;">
                   <div class="header">
                     <div class="header">Email</div>
                     <div class="headerHead">something@gmail.com</div>
@@ -130,8 +116,7 @@
                       :loading="verifyingEmail"
                       @click="verifyemail"
                       color="#0FEF70C6"
-                      >Request</v-btn
-                    >
+                    >Request</v-btn>
                     <v-chip
                       v-show="!phoneverified"
                       class="ma-2"
@@ -175,22 +160,14 @@
                   v-on="on"
                 ></v-text-field>
               </template>
-              <v-date-picker
-                v-model="date"
-                no-title
-                @input="menu1 = false"
-              ></v-date-picker>
+              <v-date-picker v-model="date" no-title @input="menu1 = false"></v-date-picker>
             </v-menu>
           </v-col>
           <v-col :cols="12" :md="6">
             <label for="Gender">Gender</label>
             <v-radio-group v-model="gender" row style="margin-top:0px">
               <v-radio color="#0FEF70C6" label="Male" value="Male"></v-radio>
-              <v-radio
-                color="#0FEF70C6"
-                label="Female"
-                value="Female"
-              ></v-radio>
+              <v-radio color="#0FEF70C6" label="Female" value="Female"></v-radio>
             </v-radio-group>
           </v-col>
         </v-row>
@@ -209,45 +186,24 @@
               hide-details
               @change="placeSelected"
               label="Place Name"
-            >
-            </v-autocomplete>
+            ></v-autocomplete>
           </v-col>
           <v-col :md="6" :cols="12">
-            <v-text-field
-              v-model="zipcode"
-              label="Post code"
-              outlined
-              readonly
-            ></v-text-field>
+            <v-text-field v-model="zipcode" label="Post code" outlined readonly></v-text-field>
           </v-col>
         </v-row>
         <v-row>
           <v-col :md="6" :cols="12">
-            <v-text-field
-              v-model="state"
-              label="State name"
-              outlined
-              readonly
-            ></v-text-field>
+            <v-text-field v-model="state" label="State name" outlined readonly></v-text-field>
           </v-col>
           <v-col :md="6" :cols="12">
-            <v-text-field
-              v-model="state_code"
-              label="State code"
-              outlined
-              readonly
-            ></v-text-field>
+            <v-text-field v-model="state_code" label="State code" outlined readonly></v-text-field>
           </v-col>
         </v-row>
         <h5 class="aboutHeadings">Tell others about you</h5>
         <v-row>
           <v-col cols="12">
-            <v-textarea
-              solo
-              :counter="true"
-              v-model="hostbio"
-              label="Desribe yourself"
-            ></v-textarea>
+            <v-textarea solo :counter="true" v-model="hostbio" label="Desribe yourself"></v-textarea>
           </v-col>
         </v-row>
         <v-row>
@@ -259,8 +215,7 @@
               style="color: #fff;"
               @click="updateProfile"
               :loading="updateLoading"
-              >Update Profile</v-btn
-            >
+            >Update Profile</v-btn>
           </v-col>
           <v-col cols="12" sm="9">
             <v-alert
@@ -269,9 +224,7 @@
               border="left"
               :type="alert.type"
               dismissible
-            >
-              {{ alert.message }}
-            </v-alert>
+            >{{ alert.message }}</v-alert>
           </v-col>
         </v-row>
       </v-col>
@@ -316,13 +269,13 @@ export default {
       latitude: 0,
       longitude: 0,
       updateLoading: false,
-      avatar: "",
+      avatar: ""
     };
   },
   computed: {
     computedDateFormatted() {
       return this.formatDate(this.date);
-    },
+    }
   },
   watch: {
     date(val) {
@@ -330,18 +283,18 @@ export default {
     },
     searchPlace(val) {
       val && val !== this.city && this.queryPlaces(val);
-    },
+    }
   },
   methods: {
     queryPlaces(v) {
       this.place_loading = true;
       axios
         .get(urls.URL + "/locations/?relative=true&place_name=" + v, {})
-        .then((res) => {
+        .then(res => {
           this.places = [];
           this.place_loading = false;
           if (res.data.status) {
-            res.data.data.forEach((el) => {
+            res.data.data.forEach(el => {
               this.places.push(el.place_name);
             });
           }
@@ -350,7 +303,7 @@ export default {
     placeSelected() {
       axios
         .get(urls.URL + "/locations/?relative=true&place_name=" + this.city, {})
-        .then((res) => {
+        .then(res => {
           this.places = [];
           this.place_loading = false;
           if (res.data.status) {
@@ -377,8 +330,8 @@ export default {
       this.updateLoading = true;
       let config = {
         headers: {
-          Authorization: "Token " + authStore.userToken(),
-        },
+          Authorization: "Token " + authStore.userToken()
+        }
       };
       const formData = new FormData();
       if (this.image != null)
@@ -398,7 +351,7 @@ export default {
       // formData.append('longitude', this.longitude);
       axios
         .post(urls.URL + "/host/update/", formData, config, {})
-        .then((res) => {
+        .then(res => {
           this.updateLoading = false;
           if (res.data.status) {
             authStore.fecthUserData();
@@ -421,13 +374,13 @@ export default {
       this.verifyingEmail = true;
       let config = {
         headers: {
-          Authorization: "Token " + authStore.userToken(),
-        },
+          Authorization: "Token " + authStore.userToken()
+        }
       };
 
       axios
         .posturls(urls.URL + "/verifyemail/", { email: this.email }, config)
-        .then((res) => {
+        .then(res => {
           if (res.data.status) {
             this.showAlert(
               "success",
@@ -451,7 +404,7 @@ export default {
       setTimeout(() => {
         this.alert.show = false;
       }, 5000);
-    },
+    }
   },
   created: function() {
     const data = authStore.getUserData();
@@ -482,10 +435,10 @@ export default {
       ? new Date(data.dob).toISOString().substr(0, 10)
       : new Date().toISOString().substr(0, 10);
     window.scroll({ top: 0, left: 0, behavior: "smooth" });
-  },
+  }
 };
 </script>
-<style>
+<style scoped>
 .text-small {
   font-size: 0.6rem !important;
 }
