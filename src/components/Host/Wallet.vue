@@ -1,58 +1,209 @@
 <template>
-  <v-container>
-    <h2>Wallet</h2>
+  <v-container :key="check">
     <v-row>
-      <v-card style="width: 98%" elevation="5" class="cardDesign">
+      <v-card :key="check" style="width: 98%" elevation="5" class="cardDesign">
         <v-row class="container2">
-          <v-col cols="2" class="bookingDate">
-            <div>Your Balance</div>
-            <div>$200</div>
+          <v-col cols="2" class="balance">
+            <div class="balanceHead">Your Balance</div>
+            <div class="balanceContent">${{amount}}</div>
           </v-col>
-          <v-divider></v-divider>
           <v-col cols="7">
-            <div class="bookHead">Pet Hosting</div>
-            <div class="bookContent">150</div>
+            <div class="balanceHead">Aussie Credits</div>
+            <div class="balanceContent">{{credits}}</div>
           </v-col>
           <span class="v1"></span>
-          <v-col class="bookingDetails" cols="2">
-            <v-btn>Add Balance</v-btn>
-            <v-btn>Credit History</v-btn>
+          <v-col class="balanceLinks" cols="2">
+            <v-dialog v-model="dialog" width="500">
+              <template v-slot:activator="{on,attrs}">
+                <v-btn dark color="#0FEF70C6" v-bind="attrs" v-on="on">Add Balance</v-btn>
+              </template>
+              <v-card>
+                <v-card-title class="headline grey lighten-2">Add Money</v-card-title>
+                <v-text-field
+                  v-model="addMoney.credit"
+                  :value="addMoney.credit"
+                  color="rgb(113, 246, 170)"
+                  prepend-icon="mdi-wallet"
+                  class="ma-2"
+                  autofocus
+                />
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" text @click="addMoneyWallet">Add to Wallet</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+            <v-dialog v-model="dialog" width="500">
+              <template v-slot:activator="{on,attrs}">
+                <v-btn dark color="red" v-bind="attrs" v-on="on">Withdraw</v-btn>
+              </template>
+              <v-card>
+                <v-card-title class="headline grey lighten-2">Withdrwaw</v-card-title>
+                <v-text-field
+                  v-model="withdrawMoney.debit"
+                  :value="withdrawMoney.debit"
+                  color="rgb(113, 246, 170)"
+                  prepend-icon="mdi-wallet"
+                  class="ma-2"
+                  autofocus
+                />
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" text @click="withdrawMoneyWallet">Withdraw</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-col>
         </v-row>
       </v-card>
     </v-row>
     <v-row>
       <v-col cols="12" class="mt-5">
-        <v-simple-table class="table-border">
-          <template v-slot:default>
-            <thead style="background: #383D43;border-radius: 10px">
-              <tr>
-                <th class="text-left white--text">Proof Type</th>
-                <th class="text-left white--text">Document Type</th>
-                <th class="text-center white--text">Uploaded On</th>
-                <th class="text-center white--text">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="item in desserts" :key="item.name">
-                <td class="text-left">{{ item.name }}</td>
-                <td class="text-left">{{ item.calories }}</td>
-                <td class="text-center">{{ item.calories }}</td>
-                <td class="text-center">
-                  <!-- <v-btn small color="orange" dark text>download</v-btn> -->
-                  <v-btn small color="red" dark text>remove</v-btn>
-                </td>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
+        <v-card>
+          <v-card-title style="background-color:#0fef70c6;color:#fff;">
+            Transactions
+            <v-spacer></v-spacer>
+            <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              label="Search"
+              dark
+              single-line
+              hide-details
+            ></v-text-field>
+          </v-card-title>
+          <v-data-table :headers="headers" :items="transaction" :search="search"></v-data-table>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
-export default {};
+import axios from "axios";
+import authStore from "@/store/auth";
+import urls from "@/axios/config";
+
+export default {
+  name: "wallet",
+  data() {
+    return {
+      credits: 0,
+      amount: null,
+      dialog: false,
+      transaction: [],
+      addMoney: {
+        credit: 0
+      },
+      withdrawMoney: {
+        debit: 0
+      },
+      search: "",
+      check: "anything",
+      headers: [
+        { text: "ID", value: "id" },
+        { text: "Time", value: "time" },
+        { text: "Type", value: "type" },
+        { text: "Credit/Debit", value: "cd" },
+        { text: "amount", value: "amount" },
+        { text: "Total Bal", value: "total_bal" }
+      ]
+    };
+  },
+  created: function() {
+    this.getWalletData();
+    this.getWalletTrasaction();
+  },
+  methods: {
+    getWalletData() {
+      let config = {
+        headers: {
+          Authorization: "Token " + authStore.userToken()
+        }
+      };
+      axios
+        .get(urls.URL + "/host/wallet/", config)
+        .then(res => {
+          this.amount = res.data.data.amount;
+        })
+        .catch(e => {
+          console.log("error", e);
+        });
+    },
+
+    forceRerender() {
+      this.check = "something";
+    },
+    addMoneyWallet() {
+      let config = {
+        headers: {
+          Authorization: "Token " + authStore.userToken()
+        }
+      };
+
+      axios
+        .post(urls.URL + "/host/wallet/", this.addMoney, config)
+        .then(res => {
+          console.log(res.data.status);
+          if (res.data.status) {
+            this.dialog = false;
+            console.log("success");
+          }
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    withdrawMoneyWallet() {
+      let config = {
+        headers: {
+          Authorization: "Token " + authStore.userToken()
+        }
+      };
+
+      axios
+        .post(urls.URL + "/host/wallet/", this.withdrawMoney, config)
+        .then(res => {
+          console.log(res.data);
+          if (res.data.status) {
+            this.dialog = false;
+            console.log("success");
+          }
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    getWalletTrasaction() {
+      let config = {
+        headers: {
+          Authorization: "Token " + authStore.userToken()
+        }
+      };
+      axios
+        .get(urls.URL + "/host/wallet/transactions/", config)
+        .then(res => {
+          const walletData = res.data.data;
+          // console.log(walletData);
+          walletData.forEach(item => {
+            const data = {
+              id: null,
+              type: null,
+              time: item.transaction_dt,
+              cd: item.credit == 0 ? "credit" : "debit",
+              amount: null,
+              total_bal: item.total_balance
+            };
+            this.transaction.push(data);
+          });
+          console.log(this.transaction);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    }
+  }
+};
 </script>
 
 <style scoped>
@@ -62,28 +213,30 @@ export default {};
   border-radius: 20px !important;
   opacity: 1;
   margin: 20px;
+  padding: 1%;
 }
 
-.container2 > .bookingDate {
+.container2 > .balanceLinks {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.container2 > .col > .balanceHead {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #444d59;
+  text-transform: capitalize;
   text-align: center;
-  font-size: 2rem;
-  text-transform: uppercase;
-  color: #0fef70c6;
+  font-weight: 500;
   font-family: "Roboto", sans-serif;
 }
 
-.container2 > .bookingDetails {
-  font-size: 1.5rem;
-  margin: auto;
-  font-weight: 500;
-  color: #444d59;
+.container2 > .col > .balanceContent {
   text-align: center;
-}
-
-.container2 > .col > .bookHead {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-  font-weight: 500;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #0fef70c6;
   font-family: "Roboto", sans-serif;
 }
 .container2 > .col > .bookContent {

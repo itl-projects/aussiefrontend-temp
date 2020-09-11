@@ -117,7 +117,7 @@
                   </v-list-item>
                 </v-list>
               </v-card>
-              <v-card elevation="5" class="cardDesign">
+              <v-card class="cardDesign pa-4">
                 <v-row class="container2">
                   <v-col cols="2" class="bookingDate">
                     <v-img
@@ -132,46 +132,37 @@
                     />
                   </v-col>
                   <span class="v1"></span>
-                  <v-col cols="9">
+                  <v-col style="display: flex;" cols="7">
                     <v-col v-for="n in 3" :key="n">
                       <div v-for="n in 2" :key="n" class="sectionPContracts">
-                        <div class="headingPContracts"></div>
-                        <div class="contentPContracts"></div>
+                        <div class="headingContracts">check</div>
+                        <div class="contentContracts">check2</div>
                       </div>
                     </v-col>
                   </v-col>
+                  <v-col cols="2">
+                    <v-btn style="text-transform:capitalize;" color="#0FEF70C6">accept</v-btn>
+                    <v-btn style="text-transform:capitalize;" color="red">decline</v-btn>
+                    <v-chip
+                      v-if="userType == 'host' && item.contractStatus == 20000"
+                      small
+                      color="red"
+                      dark
+                    >Contract Rejected by Owner</v-chip>
+                    <v-chip
+                      v-if="userType == 'petowner' && item.contractStatus != 40000"
+                      small
+                      color="orange"
+                      dark
+                    >Waiting for host to accept</v-chip>
+                    <v-chip
+                      v-if="userType == 'petowner' && item.contractStatus == 40000"
+                      small
+                      color="red"
+                      dark
+                    >Contract Rejected by Host</v-chip>
+                  </v-col>
                 </v-row>
-                <div class="bookingBottom">
-                  <v-expansion-panels flat>
-                    <v-expansion-panel>
-                      <v-expansion-panel-header class="collapseHeader">
-                        <div @click="collapsed = !collapsed"></div>
-                      </v-expansion-panel-header>
-                      <v-expansion-panel-content>
-                        <v-row class="container2">
-                          <v-col cols="2">
-                            <div class="bookHead">Ref No.</div>
-                            <div>896776</div>
-                          </v-col>
-                          <v-col cols="8">
-                            <div class="bookHead">Date</div>
-                            <div class="bookContent">20 Sep 2020</div>
-                          </v-col>
-                          <v-col cols="2">
-                            <div class="bookHead">Charge</div>
-                            <div class="bookContent">$100</div>
-                          </v-col>
-                        </v-row>
-                        <v-row class="container2">
-                          <v-col>
-                            <div class="bookHead">Address</div>
-                            <div>st-1989</div>
-                          </v-col>
-                        </v-row>
-                      </v-expansion-panel-content>
-                    </v-expansion-panel>
-                  </v-expansion-panels>
-                </div>
               </v-card>
             </div>
           </template>
@@ -689,6 +680,24 @@ export default {
 .capitalized {
   text-transform: capitalize;
 }
+.v1 {
+  border-left: 0.5px solid black;
+}
+
+.headingContracts {
+  color: #444d59;
+  font-family: "Roboto", sans-serif;
+  text-transform: capitalize;
+  letter-spacing: 1.05px;
+}
+
+.contentContracts {
+  color: #0fef70c6;
+  font-family: "Roboto", sans-serif;
+
+  letter-spacing: 0.85px;
+}
+
 @media only screen and (max-width: 600px) {
   .list-item {
     flex-direction: column !important;

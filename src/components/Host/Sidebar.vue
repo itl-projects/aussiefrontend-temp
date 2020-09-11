@@ -31,12 +31,8 @@
               <v-img style="position: relative;" :src="avatar"></v-img>
             </v-list-item-avatar>
             <div style="text-align: center;">
-              <v-list-item-title class="user-title">
-                {{ name }}
-              </v-list-item-title>
-              <v-list-item-subtitle class="user-edit"
-                >Edit Profile</v-list-item-subtitle
-              >
+              <v-list-item-title class="user-title">{{ name }}</v-list-item-title>
+              <v-list-item-subtitle class="user-edit">Edit Profile</v-list-item-subtitle>
             </div>
           </div>
         </v-list-item-content>
@@ -88,7 +84,12 @@
           </v-list-item-icon>
           <v-list-item-title>Photos</v-list-item-title>
         </v-list-item>
-
+        <v-list-item link to="/host/wallet">
+          <v-list-item-icon class="mr-1 mr-lg-3">
+            <v-icon>mdi-image</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Wallet</v-list-item-title>
+        </v-list-item>
         <v-list-item link to="/host/settings">
           <v-list-item-icon class="mr-1 mr-lg-3">
             <v-icon>mdi-tools</v-icon>
@@ -118,7 +119,7 @@ export default {
   data: () => ({
     name: "",
     avatar: "",
-    email: "",
+    email: ""
   }),
   computed: {
     my_menu: {
@@ -127,15 +128,15 @@ export default {
       },
       set: function(value) {
         this.$emit("menuchanged", value);
-      },
-    },
+      }
+    }
   },
   created: function() {
     const udata = authStore.getUserData();
     this.name = udata.first_name + " " + udata.last_name;
     this.avatar = udata.avatar;
     this.email = udata.email;
-  },
+  }
 };
 </script>
 

@@ -132,57 +132,61 @@
         <span class="viewAll">View All</span>
       </v-row>
       <carousel :perPage="1" autoPlayHoverPause :autoplay="true" loop :autoplayTimeout="6000">
-        <Slide v-for="n in 3" :key="n">
-          <v-card style="width: 98%" elevation="5" class="cardDesign">
+        <Slide v-for="(item, i) in upcomingBookings" :key="i">
+          <v-card style="width: 96%" elevation="5" class="cardDesign">
             <v-row class="container2">
               <v-col cols="2" class="bookingDate">
-                <div>20 sep</div>
-                <div>2020</div>
+                <v-img
+                  max-height="120px"
+                  max-width="120px"
+                  min-height="80px"
+                  min-width="80px"
+                  style="border-radius: 50%;margin:auto;"
+                  :src="item.img"
+                  aspect-ratio="1"
+                  contain
+                />
               </v-col>
               <span class="v1"></span>
-              <v-col cols="7">
-                <div class="bookHead">Pet Hosting</div>
-                <div
-                  class="bookContent"
-                >Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat delectus nisi sapiente sunt, fugiat voluptatibus vero ullam corporis quod magni earum exercitationem incidunt officia numquam quaerat iusto omnis? Libero, debitis.</div>
-              </v-col>
-              <span class="v1"></span>
-              <v-col class="bookingDetails" cols="2">
-                <div>View</div>
-                <div>Details</div>
+              <v-col style="display: flex;" cols="9">
+                <v-col>
+                  <v-col>
+                    <div class="upcomingHead">Start Date</div>
+                    <div class="upcomingContent">{{item.startDate}}</div>
+                  </v-col>
+                  <v-col>
+                    <div class="upcomingHead">End Date</div>
+                    <div class="upcomingContent">{{item.endDate}}</div>
+                  </v-col>
+                </v-col>
+                <v-col>
+                  <v-col>
+                    <div class="upcomingHead">Day/Night Service</div>
+                    <div class="upcomingContent">{{item.dn}}</div>
+                  </v-col>
+                  <v-col>
+                    <div class="upcomingHead">Service Type</div>
+                    <div class="upcomingContent">{{item.serviceType}}</div>
+                  </v-col>
+                </v-col>
+                <v-col>
+                  <v-col>
+                    <div class="upcomingHead">Price</div>
+                    <div class="upcomingContent">${{item.price}}</div>
+                  </v-col>
+                  <v-col>
+                    <div class="upcomingHead">Booking ID</div>
+                    <div class="upcomingContent">{{item.id}}</div>
+                  </v-col>
+                </v-col>
+                <v-col>
+                  <v-col>
+                    <div class="upcomingHead">No. of Pets</div>
+                    <div class="upcomingContent">Not given</div>
+                  </v-col>
+                </v-col>
               </v-col>
             </v-row>
-            <div class="bookingBottom">
-              <v-expansion-panels flat>
-                <v-expansion-panel>
-                  <v-expansion-panel-header class="collapseHeader">
-                    <div @click="collapsed = !collapsed"></div>
-                  </v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <v-row class="container2">
-                      <v-col cols="2">
-                        <div class="bookHead">Ref No.</div>
-                        <div>896776</div>
-                      </v-col>
-                      <v-col cols="8">
-                        <div class="bookHead">Date</div>
-                        <div class="bookContent">20 Sep 2020</div>
-                      </v-col>
-                      <v-col cols="2">
-                        <div class="bookHead">Charge</div>
-                        <div class="bookContent">$100</div>
-                      </v-col>
-                    </v-row>
-                    <v-row class="container2">
-                      <v-col>
-                        <div class="bookHead">Address</div>
-                        <div>st-1989</div>
-                      </v-col>
-                    </v-row>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-              </v-expansion-panels>
-            </div>
           </v-card>
         </Slide>
       </carousel>
@@ -258,7 +262,6 @@
   </v-col>
 </template>
 <script>
-// import Profile from "@/components/Host/PersonalDetails";
 import authStore from "@/store/auth";
 import axios from "axios";
 import urls from "@/axios/config";
@@ -287,6 +290,7 @@ export default {
       avatar: "",
       profile_complition: 0,
       collapsed: true,
+      upcomingBookings: [],
       pending: [
         {
           title: "Email Verification",
@@ -343,7 +347,9 @@ export default {
   },
   created: function() {
     this.getProfileCompletedInfo();
+    this.getUpComingBookings();
     const udata = authStore.getUserData();
+    console.log("check---", udata);
     this.name = udata.first_name + " " + udata.last_name;
     this.avatar = udata.avatar;
     this.email = udata.email;
@@ -380,6 +386,32 @@ export default {
     },
     identityProofApproved() {
       console.log("to check aprroved status of identity");
+    },
+    getUpComingBookings() {
+      let config = {
+        headers: {
+          Authorization: "Token " + authStore.userToken()
+        }
+      };
+
+      axios.get(urls.URL + "/host/bookings/upcoming/", config).then(res => {
+        console.log("upcoming data", res);
+        const bookings = res.data.data;
+        bookings.forEach(event => {
+          const data = {
+            id: event.oid.oid,
+            img: urls.URL + event.oid.avatar,
+            startDate: event.startDate,
+            endDate: event.endDate,
+            price: event.price,
+            petType: event.petType,
+            serviceType: event.services,
+            dn: event.day_or_night
+          };
+          this.upcomingBookings.push(data);
+        });
+        console.log(this.upcomingBookings);
+      });
     },
     getProfileCompletedInfo() {
       let config = {
@@ -586,38 +618,18 @@ export default {
   margin: 10px auto;
 }
 
-.container2 > .bookingDate {
-  text-align: center;
-  font-size: 2rem;
-  text-transform: uppercase;
+.upcomingHead {
+  color: #444d59;
+  font-family: "Roboto", sans-serif;
+  text-transform: capitalize;
+  letter-spacing: 1.05px;
+}
+.upcomingContent {
   color: #0fef70c6;
   font-family: "Roboto", sans-serif;
-}
 
-.container2 > .bookingDetails {
-  font-size: 1.5rem;
-  margin: auto;
-  font-weight: 500;
-  color: #444d59;
-  text-align: center;
+  letter-spacing: 0.85px;
 }
-.container2 > .col > .bookHead {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-  font-weight: 500;
-  font-family: "Roboto", sans-serif;
-}
-.container2 > .col > .bookContent {
-  font-size: 0.8rem;
-  color: #3a3a3a;
-  width: 80%;
-}
-
-.cardDesign > .bookingBottom {
-  width: 80%;
-  margin: auto;
-}
-
 .pointStyle {
   width: 15px;
   height: 15px;

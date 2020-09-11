@@ -43,6 +43,7 @@ var authStore = {
       username: data.user_details.username,
       first_name: data.user_details.first_name,
       last_name: data.user_details.last_name,
+      credits: data.additional_details.aussiecredits,
       email: data.user_details.email,
       billing_address: data.additional_details.billing_address,
       city: data.additional_details.city,

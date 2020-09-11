@@ -4,16 +4,9 @@
       <v-card flat class="mx-0 pa-0" style="height: 100%;border-radius: 0;">
         <v-list height="100%" style="background-color: #2E3134;color:#fff;">
           <v-list-item-group v-model="itemcheck">
-            <v-list-item
-              style="margin: 4%;padding: 2%;"
-              v-for="(item, i) in items"
-              :key="i"
-            >
+            <v-list-item style="margin: 4%;padding: 2%;" v-for="(item, i) in items" :key="i">
               <v-avatar tile size="65">
-                <img
-                  src="https://cdn.vuetifyjs.com/images/john.jpg"
-                  alt="John"
-                />
+                <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
               </v-avatar>
               <v-list-item-content style="margin-left: 5%;" class="chatsStyle">
                 <v-list-item-title>{{ item.text }}</v-list-item-title>
@@ -41,15 +34,10 @@
 
         <div class="bottomControls">
           <div class="chattingScreen">
-            <v-col
-              style="text-align: left;display: flex;flex-direction: column;"
-            >
+            <v-col style="text-align: left;display: flex;flex-direction: column;">
               <div class="other">
                 <v-avatar>
-                  <img
-                    src="https://cdn.vuetifyjs.com/images/john.jpg"
-                    alt="John"
-                  />
+                  <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
                 </v-avatar>
                 <div class="otherMsg">
                   Lorem ipsum dolor, sit amet consectetur adipisicing elit.
@@ -59,14 +47,9 @@
                   quaerat? Veniam.
                 </div>
               </div>
-              <span style="font-size:0.85rem;margin: auto;color:#B5B5B5;"
-                >10:09 pm
-              </span>
+              <span style="font-size:0.85rem;margin: auto;color:#B5B5B5;">10:09 pm</span>
             </v-col>
-            <div
-              style="display: flex; flex-direction: column;text-align: left;"
-              class="me"
-            >
+            <div style="display: flex; flex-direction: column;text-align: left;" class="me">
               <div class="me-right">
                 <div class="meMsg">
                   Lorem ipsum dolor, sit amet consectetur adipisicing elit.
@@ -76,15 +59,10 @@
                   quaerat? Veniam.
                 </div>
                 <v-avatar>
-                  <img
-                    src="https://cdn.vuetifyjs.com/images/john.jpg"
-                    alt="John"
-                  />
+                  <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
                 </v-avatar>
               </div>
-              <span style="font-size:0.85rem;margin: auto;color:#B5B5B5;"
-                >10:09 pm</span
-              >
+              <span style="font-size:0.85rem;margin: auto;color:#B5B5B5;">10:09 pm</span>
             </div>
           </div>
           <div class="bottomControlsMsg">
@@ -110,7 +88,7 @@ const DateFilter = function(value) {
 export default {
   name: "Message",
   filters: {
-    formatDate: DateFilter,
+    formatDate: DateFilter
   },
   data() {
     return {
@@ -118,11 +96,11 @@ export default {
       items: [
         { text: "Real-Time", icon: "mdi-clock" },
         { text: "Audience", icon: "mdi-account" },
-        { text: "Conversions", icon: "mdi-flag" },
+        { text: "Conversions", icon: "mdi-flag" }
       ],
       connection: null,
       loading: true,
-      itemcheck: 1,
+      itemcheck: 1
     };
   },
   methods: {
@@ -154,12 +132,12 @@ export default {
       if (authStore.isSignedIn()) {
         let config = {
           headers: {
-            Authorization: "Token " + authStore.userToken(),
-          },
+            Authorization: "Token " + authStore.userToken()
+          }
         };
         axios
           .get(urls.URL + "/chats/chatlist/", config)
-          .then((res) => {
+          .then(res => {
             this.loading = false;
             // console.log(res);
             if (res.data.status) {
@@ -176,12 +154,12 @@ export default {
         authStore.logout();
         router.replace("/");
       }
-    },
-  },
+    }
+  }
   // created: function() {
   //   this.getMessageList();
   //  this.connection = new WebSocket(
-  //     `ws://95.217.133.127:8001/chats/${authStore.getUserData().username}`
+  //     `wss://api.aussiepetsbnb.com.au:8001/chats/${authStore.getUserData().username}`
   //   );
 
   //   this.connection.onmessage = (e) => {
