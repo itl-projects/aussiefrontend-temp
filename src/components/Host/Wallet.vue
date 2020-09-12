@@ -5,7 +5,7 @@
         <v-row class="container2">
           <v-col cols="2" class="balance">
             <div class="balanceHead">Your Balance</div>
-            <div v-if="updateSection" class="balanceContent">${{amount}}</div>
+            <div class="balanceContent">${{amount}}</div>
           </v-col>
           <v-col cols="7">
             <div class="balanceHead">Aussie Credits</div>
@@ -73,12 +73,7 @@
               hide-details
             ></v-text-field>
           </v-card-title>
-          <v-data-table
-            v-if="updateSection"
-            :headers="headers"
-            :items="transaction"
-            :search="search"
-          ></v-data-table>
+          <v-data-table :headers="headers" :items="transaction" :search="search"></v-data-table>
         </v-card>
       </v-col>
     </v-row>
@@ -194,7 +189,7 @@ export default {
               id: null,
               type: null,
               time: item.transaction_dt,
-              cd: item.credit == 0 ? "credit" : "debit",
+              cd: item.credit == 0 ? "Credit" : "Debit",
               amount: null,
               total_bal: item.total_balance
             };

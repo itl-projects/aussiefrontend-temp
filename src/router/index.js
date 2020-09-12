@@ -8,7 +8,7 @@ import PerfectMatch from "@/views/PerfectMatch";
 import HostAccount from "@/views/HostAccount";
 import HostDashboard from "@/components/Host/Dashboard";
 import Message from "@/components/commons/Message";
-import MessageBox from "@/components/commons/MessageBox";
+// import MessageBox from "@/components/commons/MessageBox";
 import CanceledBookings from "@/components/commons/CanceledBookings";
 import Booking from "@/components/commons/Booking";
 import Photos from "@/components/commons/Photos";
@@ -106,7 +106,7 @@ const routes = [
       },
       {
         path: "chat-messages",
-        component: MessageBox,
+        component: Message,
       },
       {
         path: "photos",
@@ -136,7 +136,7 @@ const routes = [
       },
       {
         path: "chat-messages",
-        component: MessageBox,
+        component: Message,
         props: { uname: true },
       },
       {

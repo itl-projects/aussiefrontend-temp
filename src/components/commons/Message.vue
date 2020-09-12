@@ -5,7 +5,7 @@
         <v-list height="100%" style="background-color: #2E3134;color:#fff;">
           <v-list-item-group v-model="itemcheck">
             <v-list-item
-              @click="fetchAllMessages(item.id)"
+              @click="ourReload(item)"
               style="margin: 4%;padding: 2%;"
               v-for="(item, i) in items"
               :key="i"
@@ -29,16 +29,20 @@
         >
           <div class="userActive">
             <v-avatar tile>
-              <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+              <img
+                v-show="otherUser.avatar == null ? false : true"
+                :src="otherUser.avatar  ? otherUser.avatar : defaultImage"
+                :alt="otherUser.username"
+              />
             </v-avatar>
-            <h4 class="chatsStyle">user1</h4>
+            <h4 class="chatsStyle">{{otherUser.first_name + " " + otherUser.last_name}}</h4>
           </div>
           <v-btn class="ma-2" text icon color="#0FEF70C6">
             <v-icon>mdi-star</v-icon>
           </v-btn>
         </v-row>
 
-        <div class="bottomControls">
+        <div class="msgScroller">
           <div v-for="chat in messagesHistory" :key="chat.id" class="chattingScreen">
             <div v-if="chat.sender===loginUser" class="me">
               <div class="me-right">
@@ -59,10 +63,12 @@
               <span style="font-size:0.85rem;margin: auto;color:#B5B5B5;">{{chat.time}}</span>
             </v-col>
           </div>
+        </div>
+        <div class="bottomControls">
           <div class="bottomControlsMsg">
-            <v-text-field>
+            <v-text-field v-model="userMessage" :value="userMessage">
               <v-icon slot="prepend">mdi-face</v-icon>
-              <v-icon slot="append" color="#0FEF70C6">mdi-arrow-right</v-icon>
+              <v-icon slot="append" @click="sendMessage" color="#0FEF70C6">mdi-arrow-right</v-icon>
             </v-text-field>
           </div>
         </div>
@@ -84,13 +90,26 @@ export default {
   filters: {
     formatDate: DateFilter
   },
+  // watch:{
+  //   messagesHistory: function(new, old){
+  //     this.messagesHistory =
+  //   }
+  // },
   data() {
     return {
       loginUser: authStore.getUserData().username,
       loginUserAvatar: authStore.getAvatar(),
+      // otherUsername: null,
+      // otherUserAvtar: null,
+      otherUser: {
+        avatar: "null"
+      },
       img_url: urls.IMGURL,
       items: [],
       connection: null,
+      defaultImage:
+        "https://fthmb.tqn.com/9ijL7Te-9w3r_V8Qcad7CypECsM=/960x0/filters:no_upscale()/CL_Charcoal-56a192413df78cf7726c188b.png",
+      userMessage: "",
       loading: true,
       itemcheck: 1,
       messagesHistory: []
@@ -147,7 +166,6 @@ export default {
 
                 this.items.push(chatItem);
               });
-              console.log("check--> ", this.items);
             }
           })
           .catch(() => {
@@ -161,6 +179,52 @@ export default {
         router.replace("/");
       }
     },
+    keyEntered(event) {
+      if (event.key == "Enter" && event.shiftKey == false) {
+        event.preventDefault();
+        this.sendMessage();
+      }
+    },
+    sendMessage() {
+      console.log("message sent!");
+      let time = new Date().toISOString().split("T");
+      this.connection.send(
+        JSON.stringify({
+          type: "message",
+          message: this.userMessage.toString().trim(),
+          sender: this.loginUser,
+          receiver: this.otherUsername,
+          date: time[0],
+          time: time[1].split(".")[0]
+        })
+      );
+      this.userMessage = "";
+    },
+    ourReload(item) {
+      this.otherUser = item;
+      console.log("check other user", this.otherUser);
+      this.messagesHistory = [];
+      //connection
+      this.connection = new WebSocket(
+        `wss://api.aussiepetsbnb.com.au/ws/chats/${
+          authStore.getUserData().username
+        }/${this.otherUser.username}/`
+      );
+      this.connection.onmessage = e => {
+        console.log("Message:", e);
+        const msgRecieved = JSON.parse(e.data).data;
+
+        this.messagesHistory.push(msgRecieved);
+      };
+      this.connection.onopen = function(event) {
+        console.log("Open Socket", event);
+      };
+      //connection end
+      this.connection.onclose = function(event) {
+        console.log("Close Socket", event);
+      };
+      this.fetchAllMessages(item.id);
+    },
     fetchAllMessages(id) {
       if (authStore.isSignedIn()) {
         let config = {
@@ -171,11 +235,13 @@ export default {
         axios
           .get(urls.URL + "/chats/chathistory/?chat_id=" + id, config)
           .then(res => {
+            console.log(res);
             if (res.data.status) {
               res.data.data.forEach(element => {
+                // element['avatar'] =
                 this.messagesHistory.push(element);
-                console.log("element check", element);
               });
+
               if (res.data.pages.next) {
                 this.fetchPageMessages(res.data.pages.next);
               }
@@ -194,24 +260,31 @@ export default {
   },
   created: function() {
     this.getMessageList();
-    this.connection = new WebSocket(
-      `wss://api.aussiepetsbnb.com.au:8001/chats/${
-        authStore.getUserData().username
-      }`
-    );
 
-    this.connection.onmessage = e => {
-      this.items.forEach(el => {
-        if (el.username == JSON.parse(e.data).data.sender) {
-          el.total_messages = el.total_messages + 1;
-        }
-      });
-    };
+    if (authStore.userType() == "host")
+      router.replace({ path: "/host/chat-messages/" });
+    else router.replace({ path: "/owner/chat-messages/" });
+
+    // this.connection.onmessage = e => {
+    //   this.items.forEach(el => {
+    //     if (el.username == JSON.parse(e.data).data.sender) {
+    //       el.total_messages = el.total_messages + 1;
+    //     }
+    //   });
+    // };
   }
 };
 </script>
 
 <style scoped>
+.msgScroller {
+  overflow-y: auto;
+  height: 85vh;
+}
+
+.msgScroller::-webkit-scrollbar {
+  display: none;
+}
 .last-message-box {
   background: #ededed;
   border-radius: 8px;
@@ -241,6 +314,10 @@ export default {
 .chattingScreen > .col > .other {
   display: flex;
   align-items: flex-end;
+}
+
+.chattingScreen {
+  overflow-y: auto;
 }
 
 .chatsStyle > .col {

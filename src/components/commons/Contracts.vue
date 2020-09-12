@@ -1,10 +1,6 @@
 <template>
-  <v-container>
-    <h2 style="font-size: 2rem;color: #444D59;font-family: 'Roboto', sans-serif;">Bookings</h2>
-    <v-card-title
-      class="pl-0"
-      style="font-size: 1.5rem;color: #444D59; font-family: 'Roboto', sans-serif;"
-    >Pending Contracts</v-card-title>
+  <v-container fluid>
+    <v-card-title class="font-weight-bold">Pending Contracts</v-card-title>
     <v-row>
       <v-col cols="12" sm="12" class="py-0 px-0">
         <v-data-iterator
@@ -15,86 +11,89 @@
         >
           <template v-slot:default="props">
             <div>
-              <v-card v-for="(item,i) in props.items" :key="item.name" class="mb-2 py-0">
-                <v-list two-line subheader :key="i" class="pb-0">
-                  <v-list-item class="list-item">
-                    <v-list-item-avatar color="#707070">
+              <v-card
+                outlined
+                class="mb-2 py-0 cardDesign"
+                v-for="(item,i) in props.items"
+                :key="i"
+              >
+                <v-row>
+                  <v-col style="display:flex;" class="ma-4">
+                    <v-col cols="2" style="margin: auto;">
                       <v-img
                         v-if="userType=='host'"
+                        max-width="80"
+                        max-height="80"
+                        style="margin: auto;border-radius: 100%;"
                         :src="img_url + item.petowner_details.avatar_path"
                       ></v-img>
                       <v-img
                         v-if="userType=='petowner'"
+                        max-width="80"
+                        max-height="80"
+                        style="margin: auto;border-radius: 100%;"
                         :src="img_url + item.host_details.avatar_path"
                       ></v-img>
-                    </v-list-item-avatar>
+                    </v-col>
 
-                    <v-list-item-content class="py-0">
-                      <v-list-item-title>
-                        <v-row>
-                          <v-col cols="12" sm="3" class="py-0">
-                            <h5
-                              v-if="userType=='petowner'"
-                            >{{ item.host_details.first_name +" "+item.host_details.last_name}}</h5>
-                            <h5
-                              v-if="userType=='host'"
-                            >{{ item.petowner_details.first_name +" "+item.petowner_details.last_name}}</h5>
-                            <div class="mt-2">
-                              <!-- <v-icon small>mdi-paw</v-icon> -->
-                              <span style="font-size:0.9rem">Pets:</span>
-                              <a
-                                href="#"
-                                style="white-space: pre-wrap;font-size:0.9rem"
-                              >{{ item.petType}}</a>
-                            </div>
-                          </v-col>
-                          <v-col cols="12" sm="3" class="py-1">
-                            <h5
-                              class="capitalized"
+                    <v-col cols="8" class="py-0">
+                      <v-row
+                        style="align-items: center;height: 100%;justify-content: space-between;"
+                      >
+                        <v-col cols="12" sm="3" class="pa-0">
+                          <h5
+                            class="cardHead"
+                            v-if="userType=='petowner'"
+                          >{{ item.host_details.first_name +" "+item.host_details.last_name}}</h5>
+                          <h5
+                            class="cardHead"
+                            v-if="userType=='host'"
+                          >{{ item.petowner_details.first_name +" "+item.petowner_details.last_name}}</h5>
+                          <div class="mt-2 cardBody">
+                            <!-- <v-icon small>mdi-paw</v-icon> -->
+                            <span>Pets:</span>
+                            <a href="#">{{ item.petType}}</a>
+                          </div>
+                        </v-col>
+                        <v-col cols="12" sm="3" class="pa-0">
+                          <h5
+                            class="capitalized cardHead"
+                            v-if="item.services == 'pet_hosting' || item.services == 'pet_sitting'"
+                          >{{ item.services | formatName}}-{{ countDay(item.startDate,item.endDate) }} Nights</h5>
+                          <h5 class="cardHead capitalized" v-else>{{ item.services | formatName}}</h5>
+                          <div class="mt-2 cardBody">
+                            <v-icon color="#54f499" small>mdi-calendar</v-icon>
+                            <span
                               v-if="item.services == 'pet_hosting' || item.services == 'pet_sitting'"
-                            >{{ item.services | formatName}}-{{ countDay(item.startDate,item.endDate) }} Nights</h5>
-                            <h5 class="capitalized" v-else>{{ item.services | formatName}}</h5>
-                            <div class="mt-2">
-                              <v-icon small>mdi-calendar</v-icon>
-                              <span
-                                v-if="item.services == 'pet_hosting' || item.services == 'pet_sitting'"
-                                style="font-size:0.8rem"
-                              >{{ item.startDate | formatDate}}- {{ item.endDate | formatDate}}</span>
-                              <span
-                                v-else
-                                style="font-size:0.8rem"
-                              >{{ item.dateTime.split('T')[0] }}</span>
-                            </div>
-                          </v-col>
-                          <v-col cols="12" sm="3" class="py-1">
-                            Ref:
-                            <b>{{ item.contractID}}</b>
-                            <div class="mt-2">
-                              <span>Price:</span>
-                              <h3 style="display:inline-block">${{item.price}}</h3>
-                            </div>
-                          </v-col>
-                        </v-row>
-                      </v-list-item-title>
-                    </v-list-item-content>
+                            >{{ item.startDate | formatDate}} - {{ item.endDate | formatDate}}</span>
+                            <span v-else>{{ item.dateTime.split('T')[0] }}</span>
+                          </div>
+                        </v-col>
+                        <v-col cols="12" sm="3" class="pa-0">
+                          <h5 class="cardHead">Ref:{{ item.contractID}}</h5>
+                          <div class="mt-2 cardBody">
+                            <span>Price:</span>
+                            <h3 style="display:inline-block">${{item.price}}</h3>
+                          </div>
+                        </v-col>
+                      </v-row>
+                    </v-col>
 
-                    <v-list-item-action>
-                      <v-row v-if="userType == 'host' && item.contractStatus != 20000">
+                    <v-col cols="2">
+                      <v-col v-if="userType == 'host' && item.contractStatus != 20000">
                         <v-btn
-                          text
-                          color="#2c7873"
+                          color="#0FEF70C6"
                           dark
-                          small
+                          style="width:100%;margin:2px;"
                           @click="updateContract(item.contractID,'accept')"
                         >Accept</v-btn>
                         <v-btn
-                          text
-                          color="red"
+                          color="#d63031"
                           dark
-                          small
+                          style="width:100%;margin:2px;"
                           @click="updateContract(item.contractID,'reject')"
                         >Decline</v-btn>
-                      </v-row>
+                      </v-col>
                       <v-chip
                         v-if="userType == 'host' && item.contractStatus == 20000"
                         small
@@ -113,54 +112,7 @@
                         color="red"
                         dark
                       >Contract Rejected by Host</v-chip>
-                    </v-list-item-action>
-                  </v-list-item>
-                </v-list>
-              </v-card>
-              <v-card class="cardDesign pa-4">
-                <v-row class="container2">
-                  <v-col cols="2" class="bookingDate">
-                    <v-img
-                      max-height="120px"
-                      max-width="120px"
-                      min-height="80px"
-                      min-width="80px"
-                      style="border-radius: 50%;margin:auto;"
-                      src="https://cdn.vuetifyjs.com/images/john.jpg"
-                      aspect-ratio="1"
-                      contain
-                    />
-                  </v-col>
-                  <span class="v1"></span>
-                  <v-col style="display: flex;" cols="7">
-                    <v-col v-for="n in 3" :key="n">
-                      <div v-for="n in 2" :key="n" class="sectionPContracts">
-                        <div class="headingContracts">check</div>
-                        <div class="contentContracts">check2</div>
-                      </div>
                     </v-col>
-                  </v-col>
-                  <v-col cols="2">
-                    <v-btn style="text-transform:capitalize;" color="#0FEF70C6">accept</v-btn>
-                    <v-btn style="text-transform:capitalize;" color="red">decline</v-btn>
-                    <v-chip
-                      v-if="userType == 'host' && item.contractStatus == 20000"
-                      small
-                      color="red"
-                      dark
-                    >Contract Rejected by Owner</v-chip>
-                    <v-chip
-                      v-if="userType == 'petowner' && item.contractStatus != 40000"
-                      small
-                      color="orange"
-                      dark
-                    >Waiting for host to accept</v-chip>
-                    <v-chip
-                      v-if="userType == 'petowner' && item.contractStatus == 40000"
-                      small
-                      color="red"
-                      dark
-                    >Contract Rejected by Host</v-chip>
                   </v-col>
                 </v-row>
               </v-card>
@@ -204,107 +156,121 @@
         >
           <template v-slot:default="props">
             <div>
-              <v-card v-for="(item,i) in props.items" :key="item.name" class="mb-2 py-0">
-                <v-list two-line subheader :key="i" class="pb-0">
-                  <v-list-item class="list-item">
-                    <v-list-item-avatar color="#707070">
+              <v-card
+                outlined
+                v-for="(item) in props.items"
+                :key="item.name"
+                class="mb-2 py-0 cardDesign"
+              >
+                <v-row>
+                  <v-col style="display:flex;" class="list-item">
+                    <v-col cols="2">
                       <v-img
                         v-if="userType=='host'"
+                        max-height="80"
+                        max-width="80"
+                        style="margin: auto;border-radius: 100%;"
                         :src="img_url + item.petowner_details.avatar_path"
                       ></v-img>
                       <v-img
                         v-if="userType=='petowner'"
+                        max-height="80"
+                        max-width="80"
+                        style="margin: auto;border-radius: 100%;"
                         :src="img_url + item.host_details.avatar_path"
                       ></v-img>
-                    </v-list-item-avatar>
+                    </v-col>
 
-                    <v-list-item-content class="py-0">
-                      <v-list-item-title>
-                        <v-row>
-                          <v-col cols="12" sm="3" class="py-0">
-                            <h5
-                              v-if="userType=='petowner'"
-                            >{{ item.host_details.first_name +" "+item.host_details.last_name}}</h5>
-                            <h5
-                              v-if="userType=='host'"
-                            >{{ item.petowner_details.first_name +" "+item.petowner_details.last_name}}</h5>
-                            <div class="mt-2">
-                              <!-- <v-icon small>mdi-paw</v-icon> -->
-                              <span style="font-size:0.9rem">Pets:</span>
-                              <a
-                                href="#"
-                                style="white-space: pre-wrap;font-size:0.9rem;"
-                              >{{ item.petType}}</a>
-                            </div>
-                          </v-col>
-                          <v-col cols="12" sm="3" class="py-1">
-                            <h5
-                              class="capitalized"
+                    <v-col cols="8" class="pa-0">
+                      <v-row
+                        style="align-items: center;height: 100%;justify-content: space-between;"
+                      >
+                        <v-col cols="12" sm="3" class="pa-0">
+                          <h5
+                            class="cardHead"
+                            v-if="userType=='petowner'"
+                          >{{ item.host_details.first_name +" "+item.host_details.last_name}}</h5>
+                          <h5
+                            class="cardHead"
+                            v-if="userType=='host'"
+                          >{{ item.petowner_details.first_name +" "+item.petowner_details.last_name}}</h5>
+                          <div class="mt-2 cardBody">
+                            <!-- <v-icon small>mdi-paw</v-icon> -->
+                            <span>Pets:</span>
+                            <a
+                              href="#"
+                              style="white-space: pre-wrap;font-size:0.9rem;"
+                            >{{ item.petType}}</a>
+                          </div>
+                        </v-col>
+                        <v-col cols="12" sm="3" class="pa-0">
+                          <h5
+                            class="capitalized cardHead"
+                            v-if="item.services == 'pet_hosting' || item.services == 'pet_sitting'"
+                          >{{ item.services | formatName}}-{{ countDay(item.startDate,item.endDate) }} Nights</h5>
+                          <h5 class="capitalized cardHead" v-else>{{ item.services | formatName}}</h5>
+                          <div class="mt-2">
+                            <v-icon small>mdi-calendar</v-icon>
+                            <span
                               v-if="item.services == 'pet_hosting' || item.services == 'pet_sitting'"
-                            >{{ item.services | formatName}}-{{ countDay(item.startDate,item.endDate) }} Nights</h5>
-                            <h5 class="capitalized" v-else>{{ item.services | formatName}}</h5>
-                            <div class="mt-2">
-                              <v-icon small>mdi-calendar</v-icon>
-                              <span
-                                v-if="item.services == 'pet_hosting' || item.services == 'pet_sitting'"
-                                style="font-size:0.8rem"
-                              >{{ item.startDate | formatDate}}- {{ item.endDate | formatDate}}</span>
-                              <span
-                                v-else
-                                style="font-size:0.8rem"
-                              >{{ item.dateTime.split('T')[0] }}</span>
-                            </div>
-                          </v-col>
-                          <v-col cols="12" sm="3" class="py-1">
-                            Ref:
-                            <b>{{ item.contractID}}</b>
-                            <div class="mt-2">
-                              <span>Price:</span>
-                              <h3 style="display:inline-block">${{item.price}}</h3>
-                            </div>
-                          </v-col>
-                        </v-row>
-                      </v-list-item-title>
-                    </v-list-item-content>
-
-                    <v-list-item-action>
-                      <v-row v-if="userType == 'petowner' && item.contractStatus != 40000">
-                        <v-btn text color="#2c7873" dark small @click="doChat(item)">Chat</v-btn>
-                        <v-btn
-                          text
-                          color="#2c7873"
-                          dark
-                          small
-                          @click="updateContract(item.contractID,'accept')"
-                        >Book</v-btn>
-                        <v-btn
-                          text
-                          color="red"
-                          dark
-                          small
-                          @click="updateContract(item.contractID,'reject')"
-                        >Decline</v-btn>
+                              class="cardBody"
+                            >{{ item.startDate | formatDate}}- {{ item.endDate | formatDate}}</span>
+                            <span v-else class="cardBody">{{ item.dateTime.split('T')[0] }}</span>
+                          </div>
+                        </v-col>
+                        <v-col cols="12" sm="3" class="pa-0">
+                          <h5 class="cardHead">Ref:{{ item.contractID}}</h5>
+                          <div class="mt-2 cardBody">
+                            <span>Price:</span>
+                            <h3 style="display:inline-block">${{item.price}}</h3>
+                          </div>
+                        </v-col>
                       </v-row>
-                      <v-chip
-                        v-if="userType == 'petowner' && item.contractStatus == 40000"
+                    </v-col>
+
+                    <v-col cols="2" v-if="userType == 'petowner' && item.contractStatus != 40000">
+                      <v-btn text color="#2c7873" dark small @click="doChat(item)">Chat</v-btn>
+                      <v-btn
+                        text
+                        color="#2c7873"
+                        dark
                         small
+                        @click="updateContract(item.contractID,'accept')"
+                      >Book</v-btn>
+                      <v-btn
+                        text
                         color="red"
                         dark
-                      >Contract Rejected by Host</v-chip>
-
-                      <v-row v-if="userType == 'host' && item.contractStatus != 20000">
-                        <v-btn color="#2c7873" text dark small @click="doChat(item)">Chat</v-btn>
-                        <v-chip small color="orange" class="ml-3" dark>Waiting for owner to book</v-chip>
-                      </v-row>
-                      <v-chip
-                        v-if="userType == 'host' && item.contractStatus == 20000"
                         small
-                        color="red"
+                        @click="updateContract(item.contractID,'reject')"
+                      >Decline</v-btn>
+                    </v-col>
+                    <v-chip
+                      v-if="userType == 'petowner' && item.contractStatus == 40000"
+                      small
+                      color="red"
+                      dark
+                    >Contract Rejected by Host</v-chip>
+
+                    <v-col v-if="userType == 'host' && item.contractStatus != 20000">
+                      <v-btn block color="#2c7873" text dark small @click="doChat(item)">Chat</v-btn>
+                      <v-chip
+                        label
+                        small
+                        color="orange"
+                        style="border-radius: 10px 0 0 10px !important"
+                        class="ml-3"
                         dark
-                      >Contract Rejected by Owner</v-chip>
-                    </v-list-item-action>
-                  </v-list-item>
-                </v-list>
+                      >Waiting for owner to book</v-chip>
+                    </v-col>
+                    <v-chip
+                      v-if="userType == 'host' && item.contractStatus == 20000"
+                      small
+                      color="red"
+                      dark
+                    >Contract Rejected by Owner</v-chip>
+                  </v-col>
+                </v-row>
               </v-card>
             </div>
           </template>
@@ -680,22 +646,23 @@ export default {
 .capitalized {
   text-transform: capitalize;
 }
-.v1 {
-  border-left: 0.5px solid black;
+
+.cardDesign {
+  margin: 1.5%;
+  border-radius: 10px !important;
+  border: 2px solid #d6d6d6;
 }
 
-.headingContracts {
-  color: #444d59;
-  font-family: "Roboto", sans-serif;
-  text-transform: capitalize;
-  letter-spacing: 1.05px;
+.cardHead {
+  font-size: 1.2rem;
+  font-weight: 500;
+  font-family: "Poppins", sans-serif;
 }
-
-.contentContracts {
-  color: #0fef70c6;
-  font-family: "Roboto", sans-serif;
-
-  letter-spacing: 0.85px;
+.cardBody {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #54f499;
+  font-family: "Poppins", sans-serif;
 }
 
 @media only screen and (max-width: 600px) {

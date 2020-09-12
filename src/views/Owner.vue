@@ -47,7 +47,7 @@
                           <span style="font-size:0.8rem">{{ item.message }}</span>
                         </v-col>
                         <v-col class="py-0" cols="12">
-                           <span
+                          <span
                             style="font-size:0.6rem;color: #2c7873;float: left;margin-top: 2px;"
                           >{{ item.count }} new messages</span>
                           <span
@@ -134,9 +134,9 @@
         <v-breadcrumbs :items="items"></v-breadcrumbs>
       </div>
       <v-divider></v-divider>
-      <v-container fluid>
-        <router-view></router-view>
-      </v-container>
+      <!-- <v-container fluid> -->
+      <router-view></router-view>
+      <!-- </v-container> -->
     </v-content>
   </v-app>
 </template>
@@ -193,40 +193,40 @@ export default {
       notificationsStore.deleteMessage(
         this.message_notification.items[index].id
       );
-       this.message_notification = notificationsStore.getMessages;
-      if(this.message_notification.items[index].message_id){
+      this.message_notification = notificationsStore.getMessages;
+      if (this.message_notification.items[index].message_id) {
         this.connection.send(
-        JSON.stringify({message_id: this.message_notification.items[index].message_id, action: "delete"})
-      );
+          JSON.stringify({
+            message_id: this.message_notification.items[index].message_id,
+            action: "delete"
+          })
+        );
       }
-     
+
       router.push("/host/messages");
     },
     clearAllMessages() {
       notificationsStore.clearAllNotifications();
       this.message_notification = notificationsStore.getMessages;
     },
-     showNotification(index) {
+    showNotification(index) {
       const type = this.other_notification.items[index].type;
-      
+
       notificationsStore.clearAllNotificationByType(type);
       this.other_notification = notificationsStore.getOtherNotifications;
-      this.connection.send(
-        JSON.stringify({type: type, action: "delete"})
-      );
+      this.connection.send(JSON.stringify({ type: type, action: "delete" }));
       if (type == "contract") router.push("/host/contracts");
       else if (type == "booking") router.push("/host/bookings");
     },
-     clearAllNotifications() {
+    clearAllNotifications() {
       notificationsStore.clearAllOtherNotifications();
       this.other_notification = notificationsStore.getOtherNotifications;
-         this.connection.send(
-        JSON.stringify({type: "contract", action: "delete"})
+      this.connection.send(
+        JSON.stringify({ type: "contract", action: "delete" })
       );
       this.connection.send(
-        JSON.stringify({type: "booking", action: "delete"})
+        JSON.stringify({ type: "booking", action: "delete" })
       );
-      
     }
   },
   created: function() {
