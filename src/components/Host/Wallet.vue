@@ -1,11 +1,11 @@
 <template>
-  <v-container :key="check">
+  <v-container>
     <v-row>
-      <v-card :key="check" style="width: 98%" elevation="5" class="cardDesign">
+      <v-card style="width: 98%" elevation="5" class="cardDesign">
         <v-row class="container2">
           <v-col cols="2" class="balance">
             <div class="balanceHead">Your Balance</div>
-            <div class="balanceContent">${{amount}}</div>
+            <div v-if="updateSection" class="balanceContent">${{amount}}</div>
           </v-col>
           <v-col cols="7">
             <div class="balanceHead">Aussie Credits</div>
@@ -13,7 +13,7 @@
           </v-col>
           <span class="v1"></span>
           <v-col class="balanceLinks" cols="2">
-            <v-dialog v-model="dialog" width="500">
+            <v-dialog v-model="dialogA" width="500">
               <template v-slot:activator="{on,attrs}">
                 <v-btn dark color="#0FEF70C6" v-bind="attrs" v-on="on">Add Balance</v-btn>
               </template>
@@ -33,7 +33,7 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
-            <v-dialog v-model="dialog" width="500">
+            <v-dialog v-model="dialogW" width="500">
               <template v-slot:activator="{on,attrs}">
                 <v-btn dark color="red" v-bind="attrs" v-on="on">Withdraw</v-btn>
               </template>
@@ -69,10 +69,16 @@
               label="Search"
               dark
               single-line
+              :aria-autocomplete="false"
               hide-details
             ></v-text-field>
           </v-card-title>
-          <v-data-table :headers="headers" :items="transaction" :search="search"></v-data-table>
+          <v-data-table
+            v-if="updateSection"
+            :headers="headers"
+            :items="transaction"
+            :search="search"
+          ></v-data-table>
         </v-card>
       </v-col>
     </v-row>
@@ -90,7 +96,8 @@ export default {
     return {
       credits: 0,
       amount: null,
-      dialog: false,
+      dialogA: false,
+      dialogW: false,
       transaction: [],
       addMoney: {
         credit: 0
@@ -99,7 +106,6 @@ export default {
         debit: 0
       },
       search: "",
-      check: "anything",
       headers: [
         { text: "ID", value: "id" },
         { text: "Time", value: "time" },
@@ -131,9 +137,6 @@ export default {
         });
     },
 
-    forceRerender() {
-      this.check = "something";
-    },
     addMoneyWallet() {
       let config = {
         headers: {
@@ -146,7 +149,7 @@ export default {
         .then(res => {
           console.log(res.data.status);
           if (res.data.status) {
-            this.dialog = false;
+            this.dialogA = false;
             console.log("success");
           }
         })
@@ -154,6 +157,7 @@ export default {
           console.log(e);
         });
     },
+
     withdrawMoneyWallet() {
       let config = {
         headers: {
@@ -166,7 +170,7 @@ export default {
         .then(res => {
           console.log(res.data);
           if (res.data.status) {
-            this.dialog = false;
+            this.dialogW = false;
             console.log("success");
           }
         })

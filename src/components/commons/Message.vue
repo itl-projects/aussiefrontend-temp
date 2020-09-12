@@ -4,13 +4,19 @@
       <v-card flat class="mx-0 pa-0" style="height: 100%;border-radius: 0;">
         <v-list height="100%" style="background-color: #2E3134;color:#fff;">
           <v-list-item-group v-model="itemcheck">
-            <v-list-item style="margin: 4%;padding: 2%;" v-for="(item, i) in items" :key="i">
+            <v-list-item
+              @click="fetchAllMessages(item.id)"
+              style="margin: 4%;padding: 2%;"
+              v-for="(item, i) in items"
+              :key="i"
+            >
               <v-avatar tile size="65">
-                <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+                <img :src="item.avatar" alt="John" />
               </v-avatar>
               <v-list-item-content style="margin-left: 5%;" class="chatsStyle">
-                <v-list-item-title>{{ item.text }}</v-list-item-title>
+                <v-list-item-title>{{ item.first_name + " " + item.last_name }}</v-list-item-title>
               </v-list-item-content>
+              <span>{{item.newMsg}}</span>
             </v-list-item>
           </v-list-item-group>
         </v-list>
@@ -33,37 +39,25 @@
         </v-row>
 
         <div class="bottomControls">
-          <div class="chattingScreen">
-            <v-col style="text-align: left;display: flex;flex-direction: column;">
+          <div v-for="chat in messagesHistory" :key="chat.id" class="chattingScreen">
+            <div v-if="chat.sender===loginUser" class="me">
+              <div class="me-right">
+                <div class="meMsg" style="text-align:end;">{{chat.message}}</div>
+                <v-avatar>
+                  <img :src="loginUserAvatar" alt="John" />
+                </v-avatar>
+              </div>
+              <span style="font-size:0.85rem;margin: auto;color:#B5B5B5;">{{chat.time}}</span>
+            </div>
+            <v-col v-else style="text-align: left;display: flex;flex-direction: column;">
               <div class="other">
                 <v-avatar>
-                  <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+                  <img :src="items[chat.chat - 1].avatar" alt="John" />
                 </v-avatar>
-                <div class="otherMsg">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Voluptatem reiciendis repudiandae voluptatibus sapiente,
-                  facere esse dicta natus doloribus laudantium provident,
-                  distinctio quibusdam hic voluptas. Quidem eum recusandae modi
-                  quaerat? Veniam.
-                </div>
+                <div class="otherMsg">{{chat.message}}</div>
               </div>
-              <span style="font-size:0.85rem;margin: auto;color:#B5B5B5;">10:09 pm</span>
+              <span style="font-size:0.85rem;margin: auto;color:#B5B5B5;">{{chat.time}}</span>
             </v-col>
-            <div style="display: flex; flex-direction: column;text-align: left;" class="me">
-              <div class="me-right">
-                <div class="meMsg">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Voluptatem reiciendis repudiandae voluptatibus sapiente,
-                  facere esse dicta natus doloribus laudantium provident,
-                  distinctio quibusdam hic voluptas. Quidem eum recusandae modi
-                  quaerat? Veniam.
-                </div>
-                <v-avatar>
-                  <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
-                </v-avatar>
-              </div>
-              <span style="font-size:0.85rem;margin: auto;color:#B5B5B5;">10:09 pm</span>
-            </div>
           </div>
           <div class="bottomControlsMsg">
             <v-text-field>
@@ -92,15 +86,14 @@ export default {
   },
   data() {
     return {
+      loginUser: authStore.getUserData().username,
+      loginUserAvatar: authStore.getAvatar(),
       img_url: urls.IMGURL,
-      items: [
-        { text: "Real-Time", icon: "mdi-clock" },
-        { text: "Audience", icon: "mdi-account" },
-        { text: "Conversions", icon: "mdi-flag" }
-      ],
+      items: [],
       connection: null,
       loading: true,
-      itemcheck: 1
+      itemcheck: 1,
+      messagesHistory: []
     };
   },
   methods: {
@@ -139,9 +132,22 @@ export default {
           .get(urls.URL + "/chats/chatlist/", config)
           .then(res => {
             this.loading = false;
-            // console.log(res);
             if (res.data.status) {
-              this.items = res.data.data;
+              const chatlist = res.data.data;
+              chatlist.forEach(chat => {
+                const chatItem = {
+                  avatar: "http://18.223.188.111:70/" + chat.avatar_path,
+                  first_name: chat.first_name,
+                  last_name: chat.last_name,
+                  newMsg: chat.total_messages,
+                  uid: chat.user_id,
+                  id: chat.id,
+                  username: chat.username
+                };
+
+                this.items.push(chatItem);
+              });
+              console.log("check--> ", this.items);
             }
           })
           .catch(() => {
@@ -154,22 +160,54 @@ export default {
         authStore.logout();
         router.replace("/");
       }
+    },
+    fetchAllMessages(id) {
+      if (authStore.isSignedIn()) {
+        let config = {
+          headers: {
+            Authorization: "Token " + authStore.userToken()
+          }
+        };
+        axios
+          .get(urls.URL + "/chats/chathistory/?chat_id=" + id, config)
+          .then(res => {
+            if (res.data.status) {
+              res.data.data.forEach(element => {
+                this.messagesHistory.push(element);
+                console.log("element check", element);
+              });
+              if (res.data.pages.next) {
+                this.fetchPageMessages(res.data.pages.next);
+              }
+              setTimeout(() => {
+                this.el_box = document.getElementById("message-box");
+                this.el_box.scrollTop = this.el_box.scrollHeight;
+              }, 100);
+            }
+          })
+          .catch(() => {});
+      } else {
+        authStore.logout();
+        router.replace("/");
+      }
     }
-  }
-  // created: function() {
-  //   this.getMessageList();
-  //  this.connection = new WebSocket(
-  //     `wss://api.aussiepetsbnb.com.au:8001/chats/${authStore.getUserData().username}`
-  //   );
+  },
+  created: function() {
+    this.getMessageList();
+    this.connection = new WebSocket(
+      `wss://api.aussiepetsbnb.com.au:8001/chats/${
+        authStore.getUserData().username
+      }`
+    );
 
-  //   this.connection.onmessage = (e) => {
-  //     this.items.forEach(el=>{
-  //       if(el.username == JSON.parse(e.data).data.sender){
-  //         el.total_messages = el.total_messages + 1;
-  //       }
-  //     })
-  //   };
-  // },
+    this.connection.onmessage = e => {
+      this.items.forEach(el => {
+        if (el.username == JSON.parse(e.data).data.sender) {
+          el.total_messages = el.total_messages + 1;
+        }
+      });
+    };
+  }
 };
 </script>
 
@@ -221,10 +259,9 @@ export default {
 }
 
 .chattingScreen > .me {
-  display: flex;
   margin: 3% 0px;
   align-items: flex-end;
-  text-align: end;
+  text-align: center;
 }
 
 .chattingScreen > .me > .me-right {
