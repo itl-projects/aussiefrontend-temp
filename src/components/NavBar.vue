@@ -16,7 +16,7 @@
             <v-btn style="text-transform: capitalize;color: #222222;" text v-on="on">Perfect Match</v-btn>
           </template>
           <v-list style>
-            <v-list-item v-for="(item, index) in matchItems" :key="index" @click="item.path">
+            <v-list-item v-for="(item, index) in matchItems" :key="index" :to="item.path">
               <v-list-item-title class="design">
                 {{
                 item.title
@@ -35,7 +35,7 @@
             >Pet Hub</v-btn>
           </template>
           <v-list style>
-            <v-list-item v-for="(item, index) in pethubitems" :key="index" @click="item.path">
+            <v-list-item v-for="(item, index) in pethubitems" :key="index" :to="item.path">
               <v-list-item-title class="design">
                 {{
                 item.title
@@ -432,7 +432,7 @@ export default {
         { title: "Merch", path: "/shop" }
       ],
       matchItems: [
-        { title: "Purrrfect Match", path: "" },
+        { title: "Purrrfect Match", path: "/perfect-match" },
         { title: "Pet Crush", path: "" }
       ],
       directoryItems: [
@@ -535,7 +535,7 @@ export default {
   border-color: #fff;
 }
 .design {
-  color: #fff;
+  color: #000;
   font-size: 0.9rem;
 }
 .subheader {

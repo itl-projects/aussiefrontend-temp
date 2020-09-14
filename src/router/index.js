@@ -4,7 +4,8 @@ import Home from "@/views/Home.vue";
 import Login from "@/views/Login.vue";
 import Owner from "@/views/Owner";
 import HostResult from "@/views/HostResult";
-import PerfectMatch from "@/views/PerfectMatch";
+// import PerfectMatch from "@/views/PerfectMatch";
+import PerfectMatchHome from "@/views/PerfectMatchHome";
 import HostAccount from "@/views/HostAccount";
 import HostDashboard from "@/components/Host/Dashboard";
 import Message from "@/components/commons/Message";
@@ -27,6 +28,9 @@ import OwnerContract from "@/components/Owner/Contract";
 import HostContract from "@/components/Host/Contract";
 import HostQuiz from "@/components/Host/Quiz";
 import Wallet from "@/components/Host/Wallet";
+import DatingProfile from "@/views/DatingProfile";
+import DatingHome from "@/views/DatingHome";
+import PetCrush from "@/views/PetCrush";
 
 Vue.use(VueRouter);
 
@@ -57,8 +61,23 @@ const routes = [
   },
   {
     path: "/perfect-match",
-    name: "PerfectMatch",
-    component: PerfectMatch,
+    name: "PerfectMatchHome",
+    component: PerfectMatchHome,
+  },
+  {
+    path: "/dating-profile",
+    name: "DatingProfile",
+    component: DatingProfile,
+  },
+  {
+    path: "/dating-home",
+    name: "DatingHome",
+    component: DatingHome,
+  },
+  {
+    path: "/petcrush",
+    name: "PetCrush",
+    component: PetCrush,
   },
   {
     path: "/hostdetail",
@@ -71,6 +90,11 @@ const routes = [
     name: "ShopPage",
     component: ShopPage,
   },
+  // {
+  //   path: "profile-view",
+  //   name: "ProfileView",
+  //   component: ProfileView,
+  // },
   {
     path: "/owner",
     component: Owner,
