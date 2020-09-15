@@ -23,7 +23,10 @@ import HostProfile from "@/components/Host/Profile";
 import HostBooking from "@/components/Host/Booking";
 import PageNotFound from "@/views/PageNotFound";
 import HostDetailPage from "@/views/HostDetails";
-import ShopPage from "@/views/Shop";
+// import ShopPage from "@/views/Shop";
+import ShopHome from "@/views/ShopHome";
+import ShopTrending from "@/components/Shop/ShopTrending";
+import FilterPage from "@/components/Shop/FilterPage";
 import OwnerContract from "@/components/Owner/Contract";
 import HostContract from "@/components/Host/Contract";
 import HostQuiz from "@/components/Host/Quiz";
@@ -87,8 +90,18 @@ const routes = [
   },
   {
     path: "/shop",
-    name: "ShopPage",
-    component: ShopPage,
+    name: "ShopHome",
+    component: ShopHome,
+    children: [
+      {
+        path: "",
+        component: ShopTrending,
+      },
+      {
+        path: "products",
+        component: FilterPage,
+      },
+    ],
   },
   // {
   //   path: "profile-view",

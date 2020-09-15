@@ -684,7 +684,6 @@ export default {
   text-transform: capitalize;
 }
 .container2 > .col > .contentHeader {
-  /* width: 40%; */
   font-size: 0.8rem;
   color: #000000;
 }

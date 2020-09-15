@@ -2,7 +2,7 @@
   <v-app>
     <NavBar />
     <v-container>
-      <v-btn style="margin: 1% 0;" outlined>
+      <v-btn to="/dating-home" style="margin: 1% 0;" outlined>
         <v-icon color="#0FEF70" left>mdi-arrow-left-bold-circle</v-icon>back
       </v-btn>
       <v-row style="margin: 5% 0;">
@@ -28,7 +28,7 @@
                   >Select</v-btn>
                 </v-col>
                 <v-col>
-                  <v-dialog v-model="dialog" width="800">
+                  <v-dialog v-model="dialog" width="1000">
                     <template v-slot:activator="{ on,attrs}">
                       <v-btn
                         v-on="on"
@@ -52,7 +52,52 @@
                           lazy-src="https://source.unsplash.com/600x900/?nature,water"
                         ></v-img>
                       </v-col>
-                      <v-col cols="8" class="formEdit"></v-col>
+                      <v-col cols="8" class="formSection">
+                        <h2>Create your pet profile</h2>
+
+                        <div class="formEdit">
+                          <v-col class="pa-0 pr-4">
+                            <div>
+                              <label>Name</label>
+                              <v-text-field></v-text-field>
+                            </div>
+                            <div>
+                              <label>Place of living</label>
+                              <v-text-field></v-text-field>
+                            </div>
+                          </v-col>
+                          <v-col class="pa-0 pr-6">
+                            <div>
+                              <label>Birthday</label>
+                              <v-text-field></v-text-field>
+                            </div>
+                            <div>
+                              <label>Gender</label>
+                              <div class="selectgender">
+                                <v-btn
+                                  style="font-size: 0.8rem;border-radius: 0;"
+                                  :class="gender === 'male' ? 'selectedgender' : null"
+                                  class="mr-1"
+                                  @click="gender = 'male'"
+                                >male</v-btn>
+                                <v-btn
+                                  style="font-size: 0.8rem;border-radius: 0;"
+                                  :class="gender === 'female' ? 'selectedgender' : null"
+                                  class="mr-1"
+                                  @click="gender = 'female'"
+                                >female</v-btn>
+                              </div>
+                            </div>
+                          </v-col>
+                        </div>
+
+                        <v-btn
+                          rounded
+                          style="padding: 2% 10%; width:10%;"
+                          dark
+                          color="#383D43"
+                        >Create</v-btn>
+                      </v-col>
                     </v-card>
                   </v-dialog>
                 </v-col>
@@ -77,7 +122,8 @@ export default {
   },
   data() {
     return {
-      dialog: false
+      dialog: false,
+      gender: null
     };
   }
 };
@@ -102,5 +148,45 @@ export default {
   padding: 5%;
   display: flex;
   justify-content: space-between;
+}
+
+.formEdit {
+  display: flex;
+}
+
+h2 {
+  font-family: "Poppins", sans-serif;
+  position: relative;
+}
+
+h2::after {
+  content: "";
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  width: 15%;
+  height: 2px;
+  background-color: #0fef70;
+}
+
+label {
+  color: #000 !important;
+  font-size: 1rem;
+  font-family: "Poppins", sans-serif;
+}
+
+.formSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.formEdit > .col > div > .selectgender {
+  margin: 5% 0;
+  display: flex;
+}
+.selectedgender {
+  background-color: #0fef70 !important;
+  color: #fff;
 }
 </style>

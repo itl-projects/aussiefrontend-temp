@@ -4,7 +4,7 @@
     <silder />
     <OurMainService />
     <OurMainFeature />
-    <shop />
+    <!-- <shop /> -->
     <!-- <purrrfectmatch /> -->
     <!-- <ClientReview /> -->
     <Footer />
@@ -17,7 +17,7 @@ import NavBar from "@/components/NavBar";
 import silder from "@/components/HomePage/silder";
 import OurMainService from "@/components/HomePage/OurMainService";
 import OurMainFeature from "@/components/OurMainFeature";
-import shop from "@/components/HomePage/shop";
+// import shop from "@/components/HomePage/shop";
 // import purrrfectmatch from "@/components/HomePage/purrrfectmatch";
 // import ClientReview from "@/components/HomePage/ClientReview";
 import Footer from "@/components/Footer";
@@ -29,13 +29,13 @@ export default {
     silder,
     OurMainService,
     OurMainFeature,
-    shop,
+    // shop,
     // purrrfectmatch,
     // ClientReview,
-    Footer,
+    Footer
   },
   created() {
     window.scroll({ top: 0, left: 0, behavior: "smooth" });
-  },
+  }
 };
 </script>

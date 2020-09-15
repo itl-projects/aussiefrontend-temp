@@ -23,20 +23,60 @@
                     </div>
                     <div></div>
                     <div>
-                      <label>Show me</label>
+                      <div>
+                        <label>Show me :</label>
+                      </div>
+                      <div class="choose">
+                        <v-btn
+                          style="font-size: 0.7rem;margin: 2% 0.2%;border-radius:0px;background-color: #fff;color:#383D43;border: border: 0.5px solid #F1F1F1;"
+                          :class="gender === 'male' ? 'selectedGender' : null"
+                          @click="gender='male'"
+                        >Male</v-btn>
+                        <v-btn
+                          style="font-size: 0.7rem;margin: 2% 0.2%;border-radius:0px;background-color: #fff;color:#383D43;border: border: 0.5px solid #F1F1F1;"
+                          :class="gender === 'female' ? 'selectedGender' : null"
+                          @click="gender='female'"
+                        >Female</v-btn>
+                        <v-btn
+                          style="font-size: 0.7rem;margin: 2% 0.2%;border-radius:0px;background-color: #fff;color:#383D43;border: border: 0.5px solid #F1F1F1;"
+                          :class="gender === 'others' ? 'selectedGender' : null"
+                          @click="gender='others'"
+                        >Others</v-btn>
+                      </div>
                     </div>
                     <div>
                       <div class="sliderControl">
                         <label>Age Range</label>
-                        <span>{{age}}</span>
+                        <span>{{ageRange[0]}} - {{ageRange[1]}}{{ageRange[1] == 60 ? '+' : null}}</span>
                       </div>
-                      <v-slider v-model="age" color="#0fef70"></v-slider>
+                      <v-range-slider
+                        v-model="ageRange"
+                        :max="maxAge"
+                        :min="minAge"
+                        color="#0fef70"
+                      ></v-range-slider>
                     </div>
                   </v-col>
-                  <v-col cols="6" class="pa-0">
+                  <v-col cols="6" class="pa-0 pr-4">
                     <div>
-                      <label>Borthday</label>
-                      <v-text-field :aria-autocomplete="false" color="#0fef70"></v-text-field>
+                      <label>Birthday</label>
+                      <!-- <v-text-field :aria-autocomplete="false" color="#0fef70"></v-text-field> -->
+                      <v-dialog
+                        ref="dialog"
+                        v-model="birthdateDialog"
+                        :return-value.sync="date"
+                        persistent
+                        width="290px"
+                      >
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-text-field v-model="birthdate" v-bind="attrs" v-on="on"></v-text-field>
+                        </template>
+                        <v-date-picker v-model="date" scrollable>
+                          <v-spacer></v-spacer>
+                          <v-btn text color="primary" @click="modal = false">Cancel</v-btn>
+                          <v-btn text color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
+                        </v-date-picker>
+                      </v-dialog>
                     </div>
                     <div>
                       <label>Mobile No.</label>
@@ -47,7 +87,7 @@
                         <label>Distance</label>
                         <span>Distance:{{distance}}km</span>
                       </div>
-                      <v-slider v-model="distance" color="#0fef70"></v-slider>
+                      <v-slider style="margin-top:5px" v-model="distance" color="#0fef70"></v-slider>
                     </div>
                   </v-col>
                 </div>
@@ -78,7 +118,11 @@ export default {
       place: null,
       mobileNo: null,
       distance: 0,
-      age: 0
+      minAge: 22,
+      maxAge: 60,
+      ageRange: [25, 35],
+      gender: null,
+      birthdateDialog: false
     };
   }
 };
@@ -91,6 +135,7 @@ export default {
 
 .backgroundClass {
   background: url("https://source.unsplash.com/1600x900/?soulmate,dating");
+  background-size: cover;
   padding: 5%;
   display: flex;
   flex-direction: column;
@@ -138,5 +183,16 @@ export default {
 
 label {
   font-family: "Poppins", sans-serif;
+}
+
+.choose {
+  display: flex;
+  margin-bottom: 5%;
+}
+
+.choose > .selectedGender {
+  background-color: #0fef70 !important;
+  color: #fff !important;
+  border-radius: 2px !important;
 }
 </style>

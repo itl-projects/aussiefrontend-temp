@@ -235,3 +235,10 @@ export default {
   font-family: "Poppins", sans-serif;
 }
 </style>
+<style>
+/* Not Efficent way */
+.VueCarousel-pagination[data-v-438fd353] {
+  position: absolute;
+  bottom: 0;
+}
+</style>

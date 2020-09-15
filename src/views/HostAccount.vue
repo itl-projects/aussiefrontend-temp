@@ -11,7 +11,7 @@
     <v-content>
       <div>
         <v-row>
-          <v-col cols="10" style="padding-left: 3%;">
+          <v-col cols="9" style="padding-left: 3%;">
             <v-autocomplete
               class="mx-4"
               hide-no-data
@@ -26,8 +26,11 @@
               dense
             />
           </v-col>
-          <v-col cols="2">
-            <v-col style="display:flex; justify-content: space-evenly;">
+          <v-col cols="3">
+            <v-col style="display:flex; justify-content: space-evenly;align-items:center;">
+              <v-btn class="quizSection" text to="/host/quiz">
+                <span style="font-family: 'Poppins', sans-serif;">Quiz</span>
+              </v-btn>
               <v-btn icon>
                 <v-icon>mdi-bell</v-icon>
               </v-btn>
@@ -221,5 +224,13 @@ export default {
 <style scoped>
 .theme--light.v-text-field--solo > .v-input__control > .v-input__slot {
   background: red !important;
+}
+
+.quizSection {
+  color: #3a3a3a;
+  text-transform: capitalize;
+  font-size: 1.5rem;
+  font-weight: bolder;
+  cursor: pointer;
 }
 </style>
