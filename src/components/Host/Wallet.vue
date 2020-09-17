@@ -3,7 +3,7 @@
     <v-row style="background-color:#45F390; border-radius: 10px;margin: 2% 0;">
       <v-col cols="4">
         <h1 class="cardHeading">Wallet</h1>
-        <v-card class="cardNewDesign">
+        <v-card min-height="200" min-width="250" class="cardNewDesign">
           <v-row>
             <v-col
               class="cardInfo pb-0"
@@ -125,6 +125,40 @@
               </v-col>
             </Slide>
           </carousel>
+
+          <!-- <v-sheet class="mx-auto" max-height="500" max-width="700">
+            <v-slide-group multiple show-arrows>
+              <v-slide-item v-for="n in 6" :key="n">
+                <v-col v-for="n in 2" :key="n" cols="5">
+                  <div class="rewardsSection">
+                    <v-card class="text-center pa-4 rewardCard" outlined>
+                      <div class="upperSection">
+                        <v-avatar
+                          min-width="70"
+                          min-height="60"
+                          size="80"
+                          style="background-color: #EFB30F;"
+                        >
+                          <v-icon size="50" color="#fff">mdi-trophy-variant-outline</v-icon>
+                        </v-avatar>
+                      </div>
+                      <div class="middleSection">
+                        <h2>your reward</h2>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                      </div>
+                      <div class="bottomSection">
+                        <v-btn
+                          dark
+                          color="#0FEF70C6"
+                          style="padding: 0 10%;border-radius: 25px;"
+                        >claim</v-btn>
+                      </div>
+                    </v-card>
+                  </div>
+                </v-col>
+              </v-slide-item>
+            </v-slide-group>
+          </v-sheet>-->
         </v-row>
       </v-col>
     </v-row>
@@ -326,6 +360,7 @@ export default {
   border-radius: 2px;
   background-size: 500%;
   animation: bg-animation 10s infinite alternate;
+  transition-property: background;
 }
 
 .container2 > .balanceLinks {
@@ -423,25 +458,6 @@ export default {
 .middleSection > p {
   font-size: 0.8em;
 }
-/* 
-.chip {
-  margin-left: 10%;
-  margin-top: 5%;
-  background-image: linear-gradient(
-    45deg,
-    #845ec2,
-    #d65db1,
-    #ff6f91,
-    #ff9671,
-    #ffc75f,
-    #f9f871
-  );
-  border-radius: 2px;
-  background-size: 400%;
-  animation: bg-animation 5s infinite alternate;
-  height: 28px;
-  width: 30px;
-} */
 
 @keyframes bg-animation {
   0% {

@@ -6,7 +6,7 @@
     <OurMainFeature />
     <!-- <shop /> -->
     <!-- <purrrfectmatch /> -->
-    <!-- <ClientReview /> -->
+    <ClientReview />
     <Footer />
   </v-app>
 </template>
@@ -19,7 +19,7 @@ import OurMainService from "@/components/HomePage/OurMainService";
 import OurMainFeature from "@/components/OurMainFeature";
 // import shop from "@/components/HomePage/shop";
 // import purrrfectmatch from "@/components/HomePage/purrrfectmatch";
-// import ClientReview from "@/components/HomePage/ClientReview";
+import ClientReview from "@/components/HomePage/ClientReview";
 import Footer from "@/components/Footer";
 
 export default {
@@ -31,7 +31,7 @@ export default {
     OurMainFeature,
     // shop,
     // purrrfectmatch,
-    // ClientReview,
+    ClientReview,
     Footer
   },
   created() {

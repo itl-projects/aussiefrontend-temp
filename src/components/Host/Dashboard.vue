@@ -144,26 +144,38 @@
         <v-row class="profile2">
           <div v-show="collapsed" style="position: relative;">
             <span class="pointStyle"></span>
-            <span class="topic" style="padding-left: 20px">{{pending[0].title}}</span>
+            <span class="topic" style="padding-left: 25px">{{pending[0].title}}</span>
           </div>
           <div v-show="collapsed">
             <span class="percentIndicator">{{pending[0].completed}}% on verified emails</span>
+            <v-chip class="ma-2" :href="pending[0].link" small>Complete</v-chip>
           </div>
         </v-row>
+
         <div class="bottom">
           <v-expansion-panels flat>
             <v-expansion-panel>
               <v-expansion-panel-header class="collapseHeader">
                 <div @click="checkCollapse"></div>
               </v-expansion-panel-header>
-              <v-expansion-panel-content v-for="(items, i) in pending" :key="i">
-                <div style="display: flex; justify-content: space-between;">
-                  <div style="position: relative;">
-                    <span class="pointStyle"></span>
-                    <span class="topic" style="padding-left: 20px">{{items.title}}</span>
-                  </div>
-                  <div>
-                    <span class="percentIndicator">{{items.completed}}% on verified emails</span>
+              <v-expansion-panel-content v-for="(items, i) in pendingProfile" :key="i">
+                <div v-if="items.status===true">
+                  <div style="display: flex; justify-content: space-between;align-items: center;">
+                    <div style="position: relative;">
+                      <span class="pointStyle"></span>
+                      <span class="topic" style="padding-left: 20px">{{items.title}}</span>
+                    </div>
+                    <div>
+                      <span class="percentIndicator">{{items.completed}}% on verified emails</span>
+                      <v-btn
+                        text
+                        color="#0FEF70C6"
+                        small
+                        class
+                        style="margin:5px;"
+                        :href="items.link"
+                      >Complete</v-btn>
+                    </div>
                   </div>
                 </div>
               </v-expansion-panel-content>
@@ -382,6 +394,7 @@ export default {
       profile_complition: 0,
       collapsed: true,
       upcomingBookings: [],
+      awards: [],
       pending: [
         {
           title: "Email Verification",
@@ -437,11 +450,14 @@ export default {
     };
   },
   computed: {
-    // new start
     prizeList() {
       return this.prizeListOrigin.slice(0, this.prizeListOrigin.length);
+    },
+    pendingProfile: function() {
+      return this.pending.filter(function(u) {
+        return u.status;
+      });
     }
-    // new end
   },
   created: function() {
     this.getProfileCompletedInfo();
@@ -488,6 +504,24 @@ export default {
     }
   },
   methods: {
+    getUserData() {
+      let config = {
+        headers: {
+          Authorization: "Token " + authStore.userToken()
+        }
+      };
+      axios.get(urls.URL + "/userdata", config).then(res => {
+        console.log("User DATA", res);
+        this.credit = res.data.wallet.credit;
+        const award = res.data.awards;
+        award.forEach(element => {
+          this.awards.push({
+            icon: "http://18.223.188.111:70/" + "cdata/" + element.icon
+          });
+        });
+        this.bookings = res.data.bookings;
+      });
+    },
     // new
     onClickRotate() {
       if (this.rolling) {

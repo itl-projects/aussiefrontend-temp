@@ -66,7 +66,7 @@
           </v-list-item-icon>
           <v-list-item-title>Contracts</v-list-item-title>
         </v-list-item>
-        <v-list-item link to="/host/bookings">
+        <!-- <v-list-item link to="/host/bookings">
           <v-list-item-icon class="mr-1 mr-lg-3">
             <v-icon>mdi-sticker-check</v-icon>
           </v-list-item-icon>
@@ -77,6 +77,30 @@
             <v-icon>mdi-file-cancel</v-icon>
           </v-list-item-icon>
           <v-list-item-title>Canceled Bookings</v-list-item-title>
+        </v-list-item>-->
+        <v-list-item>
+          <!-- <v-list-item-title> -->
+          <v-list-group style="width: 100%;">
+            <template v-slot:activator>
+              <v-list-item-icon class="mr-1 mr-lg-3">
+                <v-icon>mdi-image</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Booking</v-list-item-title>
+            </template>
+            <v-list-item link to="/host/bookings">
+              <v-list-item-icon class="mr-1 mr-lg-3">
+                <v-icon>mdi-sticker-check</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Bookings</v-list-item-title>
+            </v-list-item>
+            <v-list-item link to="/host/canceled-bookings">
+              <v-list-item-icon class="mr-1 mr-lg-3">
+                <v-icon>mdi-file-cancel</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Canceled Bookings</v-list-item-title>
+            </v-list-item>
+          </v-list-group>
+          <!-- </v-list-item-title> -->
         </v-list-item>
         <v-list-item link to="/host/photos">
           <v-list-item-icon class="mr-1 mr-lg-3">

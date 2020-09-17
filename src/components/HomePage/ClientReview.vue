@@ -1,89 +1,81 @@
 <template>
-  <v-row>
-    <div id="example">
-      <carousel-3d :controls-visible="true" :clickable="false">
-        <slide v-for="(slide, i) in slides" :key="i">
-          <figure>
-            <img src="https://placehold.it/360x270" />
-            <figcaption>
-              The sky is the limit only for those who aren't afraid to fly! The
-              sky is the limit only for those who aren't afraid to fly!
-            </figcaption>
-          </figure>
-        </slide>
-      </carousel-3d>
-    </div>
-  </v-row>
+  <v-container grid-list-xs :fluid="true">
+    <v-row class="mt-5">
+      <v-col>
+        <div class="heading text-center">
+          <h2>CLIENT REVIEWS</h2>
+        </div>
+      </v-col>
+    </v-row>
+    <v-container class>
+      <v-row no-gutters style>
+        <v-col align-self="center">
+          <CarouselCard :interval="7000" height="300px" type="card" arrow="always">
+            <CarouselCardItem v-for="i in reviews" :key="i.name">
+              <div class="px-4 reviews">
+                <div>{{i.desc}}</div>
+
+                <div class="name">{{i.name}}</div>
+              </div>
+            </CarouselCardItem>
+          </CarouselCard>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-container>
 </template>
+
 <script>
-import {Carousel3d, Slide} from "vue-carousel-3d";
+import { CarouselCard, CarouselCardItem } from "vue-carousel-card";
+import "vue-carousel-card/styles/index.css";
 export default {
   name: "ClientReview",
   components: {
-      Carousel3d,
-      Slide
+    CarouselCard,
+    CarouselCardItem
   },
-
   data: () => ({
-    el: "example",
-    slides: 7,
     reviews: [
       {
         name: "Evan You",
         desc:
           "Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well.",
         image:
-          "https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light",
+          "https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
       },
       {
         name: "ABC You",
         desc:
           "Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well.",
         image:
-          "https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light",
+          "https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
       },
       {
         name: "EFD You",
         desc:
           "Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well.",
         image:
-          "https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light",
+          "https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
       },
       {
         name: "EFD You",
         desc:
           "Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well.",
         image:
-          "https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light",
+          "https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
       },
       {
         name: "xyzs",
         desc:
           "Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well.",
         image:
-          "https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light",
-      },
-    ],
-  }),
-  methods: {
-    onAfterSlideChange(index) {
-      console.log(
-        "@onAfterSlideChange Callback Triggered",
-        "Slide Index " + index
-      );
-    },
-    onBeforeSlideChange(index) {
-      console.log(
-        "@onBeforeSlideChange Callback Triggered",
-        "Slide Index " + index
-      );
-    },
-    onLastSlide(index) {
-      console.log("@onLastSlide Callback Triggered", "Slide Index " + index);
-    },
-  },
+          "https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
+      }
+    ]
+  })
 };
 </script>
+
 <style scoped>
 .heading h2 {
   color: #2c7873;
@@ -112,6 +104,7 @@ export default {
   left: 0.5em;
   margin-right: -50%;
 }
+
 .cat img {
   width: 76%;
   float: right;
@@ -119,16 +112,19 @@ export default {
   margin-top: 21px;
   /* border-bottom: 2px solid #2c7873; */
 }
+
 .toy img {
   float: right;
   margin-top: -57px;
   margin-right: -15px;
   width: 62px;
 }
+
 .toy-mob:nth-child(1) {
   text-align: center;
   margin-top: 10px;
 }
+
 .cat-mob:nth-child(2) {
   padding-left: 30%;
 }
@@ -138,12 +134,15 @@ export default {
   /* margin-top: 20px; */
   /*  */
 }
+
 .toy-mob img {
   margin-top: -50px;
 }
+
 .item {
   height: 315px;
 }
+
 .avatar-box {
   position: absolute;
   left: 50%;
@@ -156,24 +155,36 @@ export default {
   overflow: hidden;
   box-sizing: content-box;
 }
+
 span {
   border: 2px solid #2c7873 !important;
 }
 
-.carousel-3d-container figure {
+.reviews {
+  height: 100%;
+  padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: 25px;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  background: linear-gradient(
+    45deg,
+    rgba(88, 140, 236, 1),
+    rgba(106, 106, 207, 1)
+  );
 }
 
-.carousel-3d-container figcaption {
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  bottom: 0;
-  position: absolute;
-  bottom: 0;
-  padding: 15px;
-  font-size: 12px;
-  min-width: 100%;
-  box-sizing: border-box;
+.reviews > div {
+  font-family: "Poppins", sans-serif;
+  padding: 5% 0;
+}
+
+.reviews > .name {
+  background-color: #0fef70c6;
+  padding: 0.5% 2%;
+  border-radius: 10px;
 }
 </style>

@@ -37,8 +37,7 @@ import PetCrush from "@/views/PetCrush";
 
 Vue.use(VueRouter);
 
-const routes = [
-  {
+const routes = [{
     path: "/",
     name: "Home",
     component: Home,
@@ -60,7 +59,11 @@ const routes = [
   {
     path: "/hostsearch",
     component: HostResult,
-    props: { city: true, service: true, start_date: false },
+    props: {
+      city: true,
+      service: true,
+      start_date: false
+    },
   },
   {
     path: "/perfect-match",
@@ -86,14 +89,17 @@ const routes = [
     path: "/hostdetail",
     name: "HostDetailPage",
     component: HostDetailPage,
-    props: { city: true, service: true, query: true },
+    props: {
+      city: true,
+      service: true,
+      query: true
+    },
   },
   {
     path: "/shop",
     name: "ShopHome",
     component: ShopHome,
-    children: [
-      {
+    children: [{
         path: "",
         component: ShopTrending,
       },
@@ -111,8 +117,7 @@ const routes = [
   {
     path: "/owner",
     component: Owner,
-    children: [
-      {
+    children: [{
         path: "",
         component: Account,
       },
@@ -162,8 +167,7 @@ const routes = [
   {
     path: "/host",
     component: HostAccount,
-    children: [
-      {
+    children: [{
         path: "",
         component: HostDashboard,
       },
@@ -174,7 +178,9 @@ const routes = [
       {
         path: "chat-messages",
         component: Message,
-        props: { uname: true },
+        props: {
+          uname: true
+        },
       },
       {
         path: "photos",
