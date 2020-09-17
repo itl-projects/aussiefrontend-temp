@@ -3,19 +3,13 @@
     <v-card>
       <v-card-title style="font-size: 2rem;color:#444D59">Profile</v-card-title>
       <v-tabs v-model="tab" color="#000" dark background-color="#fff">
-        <v-tab
-          style="border-radius: 10px 0px 0px 10px"
-          class="tabs"
-          key="services"
-          >Services & Rates</v-tab
-        >
+        <v-tab style="border-radius: 10px 0px 0px 10px" class="tabs" key="services">Services & Rates</v-tab>
         <v-tab class="tabs" key="about">About</v-tab>
+        <v-tab class="tabs" key="awards">Awards</v-tab>
         <v-tab class="tabs" key="experience">Experience</v-tab>
         <v-tab class="tabs" key="documents">Documents</v-tab>
         <v-tab class="tabs" key="household">Household</v-tab>
-        <v-tab style="border-radius: 0px 10px 10px 0px" class="tabs" key="pets"
-          >Pets</v-tab
-        >
+        <v-tab style="border-radius: 0px 10px 10px 0px" class="tabs" key="pets">Pets</v-tab>
       </v-tabs>
       <v-tabs-items v-model="tab">
         <v-tab-item key="services">
@@ -25,6 +19,9 @@
         </v-tab-item>
         <v-tab-item key="about">
           <PersonalDetails />
+        </v-tab-item>
+        <v-tab-item>
+          <Awards />
         </v-tab-item>
         <v-tab-item key="experience">
           <v-card-text>Balance household</v-card-text>
@@ -43,14 +40,15 @@
 import ServicesAndRates from "@/components/Host/ServicesAndRates";
 import PersonalDetails from "@/components/Host/PersonalDetails";
 import Document from "@/components/Host/Document";
+import Awards from "@/components/commons/Awards";
 import authStore from "../../store/auth";
 import router from "../../router";
 export default {
   name: "Profile",
-  components: { ServicesAndRates, PersonalDetails, Document },
+  components: { ServicesAndRates, PersonalDetails, Awards, Document },
   data: function() {
     return {
-      tab: null,
+      tab: null
     };
   },
 
@@ -69,10 +67,9 @@ export default {
       }
     }
     window.scroll({ top: 0, left: 0, behavior: "smooth" });
-  },
+  }
 };
 </script>
-<style scoped></style>
 
 <style>
 .v-slide-group__wrapper {
