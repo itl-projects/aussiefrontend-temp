@@ -16,8 +16,8 @@ export default {
     Footer,
     Shop
   },
-  created(){
-    window.scroll({top:0,left: 0, behavior: 'smooth'});
+  created() {
+    window.scroll({ top: 0, left: 0, behavior: "smooth" });
   }
 };
 </script>

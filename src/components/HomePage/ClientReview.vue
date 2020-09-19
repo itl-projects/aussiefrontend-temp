@@ -14,7 +14,9 @@
             <CarouselCardItem v-for="i in reviews" :key="i.name">
               <div class="px-4 reviews">
                 <div>{{i.desc}}</div>
-
+                <v-avatar>
+                  <v-img :src="i.image" :lazy-src="i.image"></v-img>
+                </v-avatar>
                 <div class="name">{{i.name}}</div>
               </div>
             </CarouselCardItem>

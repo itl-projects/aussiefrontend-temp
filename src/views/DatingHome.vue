@@ -9,7 +9,17 @@
         </v-btn>
         <v-col v-for="n in 4" :key="n" class="pa-0 mt-4 profileClass">
           <v-col cols="3" v-for="n in 4" :key="n">
+            <v-skeleton-loader
+              v-if="loadingCards"
+              class="mx-auto"
+              min-width="230"
+              max-width="250"
+              min-height="320"
+              max-height="500"
+              type="card"
+            ></v-skeleton-loader>
             <v-card
+              v-else
               class="cardDes"
               min-width="230"
               max-width="250"
@@ -127,8 +137,14 @@ export default {
   },
   data() {
     return {
-      likeProfile: false
+      likeProfile: false,
+      loadingCards: true
     };
+  },
+  created: function() {
+    setTimeout(() => {
+      this.loadingCards = false;
+    }, 3000);
   }
 };
 </script>

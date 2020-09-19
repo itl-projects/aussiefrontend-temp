@@ -128,6 +128,7 @@
           </v-col>
         </v-row>
       </v-card>
+
       <v-card outlined class="container2 cardDesign">
         <v-row class="profile2">
           <span class="majorTopic">Profile Complition</span>

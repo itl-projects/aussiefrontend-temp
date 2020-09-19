@@ -53,7 +53,7 @@ var _HostDetails = _interopRequireDefault(require("@/views/HostDetails"));
 
 var _ShopHome = _interopRequireDefault(require("@/views/ShopHome"));
 
-var _ShopTrending = _interopRequireDefault(require("@/components/Shop/ShopTrending"));
+var _Shop = _interopRequireDefault(require("@/components/Shop/Shop"));
 
 var _FilterPage = _interopRequireDefault(require("@/components/Shop/FilterPage"));
 
@@ -133,7 +133,7 @@ var routes = [{
   component: _ShopHome["default"],
   children: [{
     path: "",
-    component: _ShopTrending["default"]
+    component: _Shop["default"]
   }, {
     path: "products",
     component: _FilterPage["default"]

@@ -25,7 +25,7 @@ import PageNotFound from "@/views/PageNotFound";
 import HostDetailPage from "@/views/HostDetails";
 // import ShopPage from "@/views/Shop";
 import ShopHome from "@/views/ShopHome";
-import ShopTrending from "@/components/Shop/ShopTrending";
+import Shop from "@/components/Shop/Shop";
 import FilterPage from "@/components/Shop/FilterPage";
 import OwnerContract from "@/components/Owner/Contract";
 import HostContract from "@/components/Host/Contract";
@@ -101,7 +101,7 @@ const routes = [{
     component: ShopHome,
     children: [{
         path: "",
-        component: ShopTrending,
+        component: Shop,
       },
       {
         path: "products",

@@ -3,7 +3,7 @@
     <v-row style="background-color:#45F390; border-radius: 10px;margin: 2% 0;">
       <v-col cols="4">
         <h1 class="cardHeading">Wallet</h1>
-        <v-card min-height="200" min-width="250" class="cardNewDesign">
+        <v-card min-height="180" min-width="250" class="cardNewDesign">
           <v-row>
             <v-col
               class="cardInfo pb-0"
@@ -19,7 +19,6 @@
                 </v-avatar>
                 <h3 class="cardHead">jack ryan</h3>
               </div>
-              <div class="chip"></div>
               <div
                 style="position:relative;height: 100%;width: 100%;overflow:hidden;border-radius: 25px;"
               >
@@ -203,6 +202,7 @@ export default {
       amount: null,
       dialogA: false,
       dialogW: false,
+      rewardControls: 0,
       transaction: [],
       addMoney: {
         credit: 0

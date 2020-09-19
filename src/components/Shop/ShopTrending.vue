@@ -4,7 +4,9 @@
       <v-col cols="3" v-for="n in 4" :key="n">
         <v-card class="trendingCard" max-width="230" max-height="400" outlined>
           <div class="upperSection">
+            <v-skeleton-loader v-if="loadingCards" class="mx-auto" max-width="300" type="image"></v-skeleton-loader>
             <v-img
+              v-else
               max-width="230"
               max-height="300"
               class="imgProduct"
@@ -46,7 +48,17 @@
 
 <script>
 export default {
-  name: "ShopTrending"
+  name: "ShopTrending",
+  data() {
+    return {
+      loadingCards: true
+    };
+  },
+  created: function() {
+    setTimeout(() => {
+      this.loadingCards = false;
+    }, 3000);
+  }
 };
 </script>
 
