@@ -19,7 +19,7 @@
               <v-icon color="#0FEF70C6" class="mr-2">mdi-format-list-checks</v-icon>70th percentile required to pass and get a badge
             </div>
             <div class="cardContent">
-              <v-icon color="#0FEF70C6" class="mr-2">mdi-clock-check-outline</v-icon>~15 minutes duration
+              <v-icon color="#0FEF70C6" class="mr-2">mdi-clock-check-outline</v-icon>~60 minutes duration
             </div>
             <v-btn
               dark
@@ -202,7 +202,7 @@ const COLOR_CODES = {
   }
 };
 
-const TIME_LIMIT = 900;
+const TIME_LIMIT = 3600;
 
 export default {
   name: "Quiz",

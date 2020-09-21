@@ -7,7 +7,7 @@
     v-model.lazy="my_menu"
     color="#383D43"
     dark
-    permanent
+    :permanent="false"
     width="230px"
     style="border-radius: 0;"
   >

@@ -225,6 +225,13 @@ export default {
     this.getWalletData();
     this.getWalletTrasaction();
   },
+
+  watch: {
+    amount: {
+      handler: ""
+    }
+  },
+
   methods: {
     getWalletData() {
       let config = {
@@ -261,6 +268,7 @@ export default {
         .catch(e => {
           console.log(e);
         });
+      this.getWalletData();
     },
 
     withdrawMoneyWallet() {

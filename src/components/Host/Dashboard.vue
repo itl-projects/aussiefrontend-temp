@@ -2,134 +2,7 @@
   <v-col style="height: 100%;" class="mt-3 pr-0">
     <div class="headSection">
       <div class="dashboard-style">Dashboard</div>
-      <v-card outlined class="cardDesign">
-        <v-row style="margin: 10px;padding: 10px">
-          <!-- Profile Section -->
-          <v-col cols="3" class="profile-left">
-            <v-avatar size="150">
-              <img :src="avatar" alt="user-pic" />
-            </v-avatar>
-            <div class="profile-edits">Edit Profile</div>
-            <div class="profile-edits">View Profile</div>
-          </v-col>
-          <!-- Profile Details section -->
-          <v-col cols="9">
-            <v-row style="height: 100%;display: flex;flex-direction: column;">
-              <v-col class="profile-right">
-                <v-col cols="3">
-                  <div class="container">
-                    <div class="head">Name</div>
-                    <div class="content">{{name}}</div>
-                  </div>
-                </v-col>
-                <v-col cols="3">
-                  <div class="container">
-                    <div class="head">Awards</div>
-                    <div class="content">🏆🏆</div>
-                  </div>
-                </v-col>
-                <v-col>
-                  <div class="container">
-                    <div class="head">Email</div>
-                    <div class="content" style="text-transform: lowercase;">{{email}}</div>
-                  </div>
-                </v-col>
-              </v-col>
-              <v-col class="profile-right">
-                <v-col cols="3">
-                  <div class="container">
-                    <div class="head">Credits</div>
-                    <div class="content">300</div>
-                  </div>
-                </v-col>
-                <v-col cols="3">
-                  <div class="container">
-                    <div class="head">Bookings</div>
-                    <div class="content">
-                      <v-row>
-                        <v-col sm="9" class="pa-0 pr-4 ma-0">
-                          <div class="task">Total</div>
-                          <div class="task">Completed</div>
-                          <div class="task">Pending</div>
-                        </v-col>
-                        <v-col sm="3" class="pa-0 ma-0">
-                          <div>100</div>
-                          <div>100</div>
-                          <div>100</div>
-                        </v-col>
-                      </v-row>
-                    </div>
-                  </div>
-                </v-col>
-                <v-col cols="3">
-                  <div class="container">
-                    <div class="head">Spin a wheel</div>
-                    <div class="content">
-                      <v-row>
-                        <v-col sm="9" class="pa-0 pr-4 ma-0">
-                          <div class="task">Chances Available</div>
-                        </v-col>
-                        <v-col sm="3" class="pa-0 ma-0">
-                          <div>100</div>
-                        </v-col>
-                      </v-row>Try Now
-                      <v-dialog class="text-center" v-model="spinWheelDialog" max-width="500">
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-btn icon v-on="on" v-bind="attrs" @click="spinWheelDialog = true">
-                            <v-icon color="#0FEF70C6">mdi-chevron-right</v-icon>
-                          </v-btn>
-                        </template>
-                        <v-card min-height="500">
-                          <h2
-                            class="text-center"
-                            style="padding-top: 5%;font-family: 'Poppins',san-serif;"
-                          >Spin the Wheel</h2>
-                          <h3
-                            class="text-center"
-                            style="font-family: 'Poppins',san-serif;"
-                          >Get a chance to win exciting products!</h3>
-                          <div class="wheel-wrapper">
-                            <div class="wheel-pointer" @click="onClickRotate">Spin</div>
-                            <div
-                              class="wheel-bg"
-                              :class="{freeze: freeze}"
-                              :style="`transform: rotate(${wheelDeg}deg)`"
-                            >
-                              <div class="prize-list">
-                                <div
-                                  class="prize-item-wrapper"
-                                  v-for="(item, i) in prizeList"
-                                  :key="i"
-                                >
-                                  <div
-                                    class="prize-item"
-                                    :style="`transform: rotate(${(360/prizeList.length) * i}deg)`"
-                                  >
-                                    <span
-                                      class="check"
-                                      style="z-index: -99999999999999999999999999;"
-                                    ></span>
-                                    <div class="prize-name">{{item.name}}</div>
-                                    <!-- <div class="prize-icon">
-                                      <img :src="item.icon" :alt="item.name" />
-                                    </div>-->
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </v-card>
-                      </v-dialog>
-                    </div>
-                  </div>
-                </v-col>
-              </v-col>
-            </v-row>
-          </v-col>
-        </v-row>
-      </v-card>
-
-      <v-card outlined class="container2 cardDesign">
+      <v-card outlined class="container2 cardDesign pa-3">
         <v-row class="profile2">
           <span class="majorTopic">Profile Complition</span>
           <span class="percentIndicator">{{profile_complition}}% Complete</span>
@@ -138,7 +11,7 @@
           <v-progress-linear
             style="border-radius: 10px"
             color="#0FEF70C6"
-            height="15"
+            height="10"
             :value="profile_complition"
           ></v-progress-linear>
         </div>
@@ -152,7 +25,6 @@
             <v-chip class="ma-2" :href="pending[0].link" small>Complete</v-chip>
           </div>
         </v-row>
-
         <div class="bottom">
           <v-expansion-panels flat>
             <v-expansion-panel>
@@ -161,21 +33,14 @@
               </v-expansion-panel-header>
               <v-expansion-panel-content v-for="(items, i) in pendingProfile" :key="i">
                 <div v-if="items.status===true">
-                  <div style="display: flex; justify-content: space-between;align-items: center;">
+                  <div style="display: flex; justify-content: space-between;">
                     <div style="position: relative;">
                       <span class="pointStyle"></span>
                       <span class="topic" style="padding-left: 20px">{{items.title}}</span>
                     </div>
                     <div>
                       <span class="percentIndicator">{{items.completed}}% on verified emails</span>
-                      <v-btn
-                        text
-                        color="#0FEF70C6"
-                        small
-                        class
-                        style="margin:5px;"
-                        :href="items.link"
-                      >Complete</v-btn>
+                      <v-btn small class style="margin:5px;" text :href="items.link">Complete</v-btn>
                     </div>
                   </div>
                 </div>
@@ -184,8 +49,88 @@
           </v-expansion-panels>
         </div>
       </v-card>
+      <v-card outlined class="cardDesign">
+        <v-row style="margin: 5px;padding: 5px">
+          <!-- Profile Section -->
+          <v-col cols="3" class="profile-left">
+            <v-avatar size="150">
+              <img :src="avatar" alt="user-pic" />
+            </v-avatar>
+            <div class="profile-edits">Edit Profile</div>
+            <div class="profile-edits">View Profile</div>
+          </v-col>
+          <!-- Profile Details section -->
+          <v-col cols="6">
+            <v-row style="display: flex;flex-direction: column;">
+              <v-col class="profile-right">
+                <v-col cols="6">
+                  <div class="container">
+                    <div class="head">Name</div>
+                    <div class="content">{{name}}</div>
+                  </div>
+                </v-col>
+                <v-col cols="6">
+                  <div class="container">
+                    <div class="head">Awards</div>
+                    <div v-for="items in awards " :key="items.icon">
+                      <div class="content">
+                        <v-img :src="items.icon" max-height="25px" max-width="25px"></v-img>
+                      </div>
+                    </div>
+                  </div>
+                </v-col>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col class="profile-right">
+                <v-col cols="6">
+                  <div class="container">
+                    <div class="head">Credits</div>
+                    <div class="content">{{credit}}</div>
+                  </div>
+                </v-col>
+                <v-col cols="6">
+                  <div class="container">
+                    <div class="head">Bookings</div>
+                    <div class="content">
+                      <v-row>
+                        <v-col sm="9" class="pa-0 pr-4 ma-0">
+                          <div class="task">Total</div>
+                          <div class="task">Completed</div>
+                          <div class="task">Pending</div>
+                        </v-col>
+                        <v-col sm="3" class="pa-0 ma-0">
+                          <div>{{ bookings.all }}</div>
+                          <div>{{ bookings.completed }}</div>
+                          <div>{{ bookings.pending }}</div>
+                        </v-col>
+                      </v-row>
+                    </div>
+                  </div>
+                </v-col>
+              </v-col>
+            </v-row>
+          </v-col>
+          <v-col cols="3">
+            <v-card v-show="false" class="mx-auto" max-width="344">
+              <v-card-text>
+                <div>Get Your Profile Ranked</div>
+                <p class="display-1 text--primary">be•nev•o•lent</p>
+                <p>adjective</p>
+                <div class="text--primary">
+                  well meaning and kindly.
+                  <br />"a benevolent smile"
+                </div>
+              </v-card-text>
+              <v-card-actions>
+                <v-btn text color="deep-purple accent-4">Learn More</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-card>
     </div>
-    <div class="bodySection">
+    <div v-if="upcomingBookings.length!==0" class="bodySection">
       <v-row class="profile2">
         <span class="dashboard-style2" style="margin-left: 0px">Upcoming Bookings</span>
         <span class="viewAll">View All</span>
@@ -320,82 +265,36 @@
     </div>
   </v-col>
 </template>
+
 <script>
 import authStore from "@/store/auth";
 import axios from "axios";
 import urls from "@/axios/config";
-import router from "../../router";
+
 import { Carousel, Slide } from "vue-carousel";
 
 export default {
   name: "HostDashboard",
-  // components: { Profile },
   components: {
     Carousel,
     Slide
   },
   data() {
     return {
-      // new start
-      freeze: false,
-      rolling: false,
-      wheelDeg: 0,
-      prizeNumber: 8,
-      prizeListOrigin: [
-        {
-          icon: "https://picsum.photos/40?random=1",
-          name: "$10000"
-        },
-        {
-          icon: "https://picsum.photos/40?random=6",
-          name: "Thank you3 with some text!"
-        },
-        {
-          icon: "https://picsum.photos/40?random=6",
-          name: "check"
-        },
-        {
-          icon: "https://picsum.photos/40?random=2",
-          name: "$500"
-        },
-        {
-          icon: "https://picsum.photos/40?random=3",
-          name: "$100"
-        },
-        {
-          icon: "https://picsum.photos/40?random=6",
-          name: "Thank you!"
-        },
-        {
-          icon: "https://picsum.photos/40?random=4",
-          name: "$50"
-        },
-        {
-          icon: "https://picsum.photos/40?random=5",
-          name: "$10"
-        },
-        {
-          icon: "https://picsum.photos/40?random=6",
-          name: "Thank you!"
-        }
-      ],
-      // new end
       dialog: false,
       dialog1: false,
-      spinWheelDialog: false,
       notifications: false,
       sound: true,
       widgets: false,
-      ownerName: "",
-      name_titile: "",
       name: "",
       email: "",
-      petCount: 0,
       avatar: "",
       profile_complition: 0,
       collapsed: true,
       upcomingBookings: [],
       awards: [],
+      bookings: [],
+      credit: 0,
       pending: [
         {
           title: "Email Verification",
@@ -445,63 +344,36 @@ export default {
           link: "/host/profile#document",
           status: false
         },
-        { title: "Quiz", completed: "0", link: "/host/quiz", status: false },
-        { title: "Invite 5 Friends", completed: "0", link: "", status: false }
+        {
+          title: "Quiz",
+          completed: "0",
+          link: "/host/quiz",
+          status: false
+        },
+        {
+          title: "Invite 5 Friends",
+          completed: "0",
+          link: "/host/profile#awardsBadges",
+          status: false
+        }
       ]
     };
-  },
-  computed: {
-    prizeList() {
-      return this.prizeListOrigin.slice(0, this.prizeListOrigin.length);
-    },
-    pendingProfile: function() {
-      return this.pending.filter(function(u) {
-        return u.status;
-      });
-    }
   },
   created: function() {
     this.getProfileCompletedInfo();
     this.getUpComingBookings();
+    this.getUserData();
     const udata = authStore.getUserData();
+    console.log("check---", udata);
     this.name = udata.first_name + " " + udata.last_name;
     this.avatar = udata.avatar;
     this.email = udata.email;
-    if (authStore.getPetCount()) {
-      this.petCount = authStore.getPetCount();
-    } else {
-      if (authStore.isSignedIn()) {
-        let config = {
-          headers: {
-            Authorization: "Token " + authStore.userToken()
-          }
-        };
-        axios
-          .get(urls.URL + "/petowner/viewpets/", config)
-          .then(res => {
-            if (res.data.status) {
-              this.petCount = res.data.data.length;
-              authStore.setPetCount(this.petCount);
-            }
-          })
-          .catch(e => {
-            console.log(e);
-          });
-      } else {
-        authStore.logout();
-        router.replace("/");
-      }
-      window.scroll({ top: 0, left: 0, behavior: "smooth" });
-    }
   },
-  watch: {
-    prizeNumber() {
-      this.freeze = true;
-      this.wheelDeg = 0;
-
-      setTimeout(() => {
-        this.freeze = false;
-      }, 0);
+  computed: {
+    pendingProfile: function() {
+      return this.pending.filter(function(u) {
+        return u.status;
+      });
     }
   },
   methods: {
@@ -523,28 +395,6 @@ export default {
         this.bookings = res.data.bookings;
       });
     },
-    // new
-    onClickRotate() {
-      if (this.rolling) {
-        return;
-      }
-      const result = Math.floor(Math.random() * this.prizeList.length);
-      this.roll(result);
-    },
-    roll(result) {
-      this.rolling = true;
-      const { wheelDeg, prizeList } = this;
-      this.wheelDeg =
-        wheelDeg -
-        (wheelDeg % 360) +
-        6 * 360 +
-        (360 - (360 / prizeList.length) * result);
-      setTimeout(() => {
-        this.rolling = false;
-        alert("You won : " + prizeList[result].name);
-      }, 4500);
-    },
-    // new end
     checkCollapse() {
       this.collapsed = !this.collapsed;
     },
@@ -569,12 +419,13 @@ export default {
             endDate: event.endDate,
             price: event.price,
             petType: event.petType,
+            no_of_pet: event.no_of_pets,
             serviceType: event.services,
             dn: event.day_or_night
           };
           this.upcomingBookings.push(data);
         });
-        console.log(this.upcomingBookings);
+        console.log("Upcoming_bookings", this.upcomingBookings);
       });
     },
     getProfileCompletedInfo() {
@@ -590,17 +441,17 @@ export default {
           if (res.data.status) {
             this.profile_complition = res.data.data.profile_completion;
             if (res.data.pending.address_proof) {
-              this.pending[0].completed = res.data.pending.address_proof;
-              this.pending[0].status = true;
+              this.pending[1].completed = res.data.pending.address_proof;
+              this.pending[1].status = true;
             }
 
             if (res.data.pending.admin_verification) {
-              this.pending[1].completed = res.data.pending.admin_verification;
-              this.pending[1].status = true;
+              this.pending[2].completed = res.data.pending.admin_verification;
+              this.pending[2].status = true;
             }
             if (res.data.pending.email_verification) {
-              this.pending[2].completed = res.data.pending.email_verification;
-              this.pending[2].status = true;
+              this.pending[0].completed = res.data.pending.email_verification;
+              this.pending[0].status = true;
             }
             if (res.data.pending.phone_verification) {
               this.pending[3].completed = res.data.pending.phone_verification;
@@ -631,6 +482,7 @@ export default {
               this.pending[9].status = true;
             }
           }
+          console.log(this.pending);
         })
         .catch(err => {
           console.log(err);
@@ -643,6 +495,7 @@ export default {
   }
 };
 </script>
+
 <style scoped>
 :colors {
   --fontHead: "Roboto", sans-serif;
@@ -669,8 +522,8 @@ export default {
 .dashboard-style {
   margin: 5px 20px;
   font-family: "Roboto", sans-serif;
-  font-weight: 500;
-  font-size: 2rem;
+  font-weight: bold;
+  font-size: 1.5rem;
   color: #444d59;
   /* padding: 10px; */
 }
@@ -690,9 +543,11 @@ export default {
   padding: 20px;
   text-transform: uppercase;
 }
+
 .profile-left > .v-avatar {
   margin-bottom: 20px;
 }
+
 .profile-left > div {
   margin: 5px auto;
 }
@@ -724,17 +579,20 @@ export default {
   font-weight: 400;
   font-family: "Roboto", sans-serif;
 }
+
 .profile-right {
   display: flex;
   text-align: center;
 }
+
 .profile-right > .col > .row {
   display: flex;
   flex-direction: column;
-  height: 100%;
+
   justify-content: space-between;
   margin: auto;
 }
+
 .profile-right > .col > .container {
   text-align: start;
 }
@@ -747,6 +605,7 @@ export default {
 .container2 {
   padding: 20px;
 }
+
 .container2 > .profile2 {
   display: flex;
   justify-content: space-between;
@@ -788,19 +647,21 @@ export default {
   text-transform: capitalize;
   letter-spacing: 1.05px;
 }
+
 .upcomingContent {
   color: #0fef70c6;
   font-family: "Roboto", sans-serif;
 
   letter-spacing: 0.85px;
 }
+
 .pointStyle {
   width: 15px;
   height: 15px;
   background-color: #0fef70c6;
   border-radius: 10px;
   position: absolute;
-  bottom: 5.5px;
+  margin-top: 3%;
 }
 
 .v-expansion-panels {
@@ -847,7 +708,9 @@ export default {
   color: #444d59;
   text-transform: capitalize;
 }
+
 .container2 > .col > .contentHeader {
+  /* width: 40%; */
   font-size: 0.8rem;
   color: #000000;
 }
@@ -855,98 +718,5 @@ export default {
 .buttonHeader {
   margin-top: 20px;
   text-align: center;
-}
-
-/* New Css */
-.wheel-wrapper {
-  width: 300px;
-  height: 300px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.wheel-pointer {
-  width: 60px;
-  height: 60px;
-  border-radius: 1000px;
-  background: #444d59;
-  color: #fff;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  line-height: 60px;
-  font-family: "Poppins", sans-serif;
-  z-index: 10;
-  cursor: pointer;
-}
-
-.wheel-pointer::after {
-  content: "";
-  position: absolute;
-  top: -32px;
-  left: 50%;
-  border-width: 0 8px 40px;
-  border-style: solid;
-  border-color: transparent transparent red;
-  transform: translateX(-50%);
-}
-
-.wheel-bg {
-  width: 100%;
-  height: 100%;
-  border-radius: 1000px;
-  overflow: hidden;
-  transition: transform 4s ease-in-out;
-  background: #0fef70c6;
-}
-.wheel-bg > .freeze {
-  transition: none;
-  background: red;
-}
-
-.prize-list {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  text-align: center;
-}
-
-.prize-item-wrapper {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 150px;
-  height: 150px;
-}
-
-.prize-item {
-  width: 100%;
-  height: 100%;
-  transform-origin: bottom;
-  /* position: relative; */
-}
-.prize-item > .prize-name {
-  padding: 16px 0;
-  color: #fff;
-  font-size: 0.7rem;
-  word-wrap: break-word;
-  width: 50%;
-  font-family: "Poppins", sans-serif;
-  margin: auto;
-}
-
-.prize-item > .check {
-  position: absolute;
-  width: 77px;
-  height: 70%;
-  top: 0;
-  border-left: 25px solid transparent;
-  background-color: #727272;
-  right: 36px;
 }
 </style>
