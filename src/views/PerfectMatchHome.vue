@@ -3,7 +3,7 @@
     <NavBar />
     <div>
       <v-row class="backgroundClass">
-        <v-col cols="5">
+        <v-col sm="5" cols="5">
           <v-card style="display: flex;margin: auto;">
             <v-col class="pa-0">
               <div class="container">

@@ -1,96 +1,103 @@
 <template>
   <v-container :fluid="true">
-    <v-row no-gutters style="background-color: #F1F1F170">
-      <v-card style="display:flex;margin: 5% 10%;padding: 5% 0%">
-        <v-col
-          :cols="6"
-          class="text-center pa-0"
-          style="display: flex;
-                justify-content: center;
-                flex-direction: column;"
-        >
-          <div class="login-image">
-            <img class="v-image" src="images/cat1.png" lazy-src="images/cat1.png" />
-          </div>
-        </v-col>
-        <v-col :cols="6" class="text-center pa-0">
-          <div class="login-form">
-            <v-tabs v-model="tab" background-color="#fff" centered dark icons-and-text>
-              <v-tab
-                style="margin-left: 0px;font-family: 'Poppins', sans-serif;font-weight: 600;"
-                href="#tab-1"
-                @click="signin"
-              >Sign In</v-tab>
-              <v-tab
-                style="font-family: 'Poppins', sans-serif;font-weight: 600;"
-                href="#tab-2"
-                @click="signup"
-              >Sign Up</v-tab>
-            </v-tabs>
-            <v-tabs-items v-model="tab">
-              <v-tab-item style="margin-left:10%;" value="tab-1" class="mt-0">
-                <v-alert
-                  v-if="alert.show"
-                  dense
-                  border="left"
-                  type="error"
-                  dismissible
-                  class="mx-sm-10 text-start"
-                >{{alert.message}}</v-alert>
-                <form ref="loginForm" style="text-align: left;" @submit="submit" class="form-size">
-                  <label for="email" class="inputInfo">ENTER EMAIL ADDRESS/MOBILE NO</label>
-                  <v-text-field
-                    v-model="email"
-                    :rules="emailrule"
-                    :error-messages="errorEmail"
-                    outlined
-                    required
-                    class="mt-2 mb-2"
+    <v-row
+      no-gutters
+      style="background-image: url('https://source.unsplash.com/1600x900/?cats,puppy');background-size: cover;display: flex;
+    flex-direction: row-reverse;"
+    >
+      <v-col :cols="6">
+        <v-card style="margin:5% 10%;padding: 2%;">
+          <v-col class="text-center pa-0">
+            <div class="login-form">
+              <v-tabs
+                v-model="tab"
+                background-color="#fff"
+                style="text-align: center;"
+                centered
+                dark
+                icons-and-text
+              >
+                <v-tab
+                  style="font-family: 'Poppins', sans-serif;font-weight: 600;margin-left:0px;margin: 0 2%;"
+                  href="#tab-1"
+                  @click="signin"
+                >Sign In</v-tab>
+                <v-tab
+                  style="font-family: 'Poppins', sans-serif;font-weight: 600;"
+                  href="#tab-2"
+                  @click="signup"
+                >Sign Up</v-tab>
+              </v-tabs>
+              <v-tabs-items v-model="tab">
+                <v-tab-item style="margin-left:10%;" value="tab-1" class="mt-0">
+                  <v-alert
+                    v-if="alert.show"
                     dense
-                    hide-details="auto"
-                  ></v-text-field>
-                  <label for="password" class="inputInfo">ENTER PASSWORD</label>
-                  <v-text-field
-                    v-model="password"
-                    :rules="passwordrule"
-                    :error-messages="errorPass"
-                    :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                    :type="show1 ? 'text' : 'password'"
-                    outlined
-                    class="mt-2 mb-2"
-                    dense
-                    @click:append="show1 = !show1"
-                    required
-                  ></v-text-field>
-                  <div class="ma-0" style="text-align: start;">
-                    <!-- <a>Forgot password ?</a> -->
+                    border="left"
+                    type="error"
+                    dismissible
+                    class="mx-sm-10 text-start"
+                  >{{alert.message}}</v-alert>
+                  <form
+                    ref="loginForm"
+                    style="text-align: left;"
+                    @submit="submit"
+                    class="form-size"
+                  >
+                    <label for="email" class="inputInfo">ENTER EMAIL ADDRESS/MOBILE NO</label>
+                    <v-text-field
+                      v-model="email"
+                      :rules="emailrule"
+                      :error-messages="errorEmail"
+                      outlined
+                      required
+                      class="mt-2 mb-2"
+                      dense
+                      hide-details="auto"
+                    ></v-text-field>
+                    <label for="password" class="inputInfo">ENTER PASSWORD</label>
+                    <v-text-field
+                      v-model="password"
+                      :rules="passwordrule"
+                      :error-messages="errorPass"
+                      :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                      :type="show1 ? 'text' : 'password'"
+                      outlined
+                      class="mt-2 mb-2"
+                      dense
+                      @click:append="show1 = !show1"
+                      required
+                    ></v-text-field>
+                    <div class="ma-0" style="text-align: start;">
+                      <!-- <a>Forgot password ?</a> -->
+                      <v-btn
+                        text
+                        class="pl-0"
+                        small
+                        color="#0FEF70"
+                        style="font-family: 'Poppins', sans-serif;"
+                        @click="showForgotPasswordBox"
+                      >Forgot password ?</v-btn>
+                    </div>
                     <v-btn
-                      text
-                      class="pl-0"
-                      small
-                      color="#0FEF70"
-                      style="font-family: 'Poppins', sans-serif;"
-                      @click="showForgotPasswordBox"
-                    >Forgot password ?</v-btn>
-                  </div>
-                  <v-btn
-                    dark
-                    color="#383D43"
-                    style="padding: 0 13%;"
-                    class="mt-4 loginScreenBtn"
-                    type="submit"
-                    :loading="logging_in"
-                  >Login</v-btn>
-                </form>
-              </v-tab-item>
-              <v-tab-item value="tab-2" style="padding:0 15px">
-                <!-- Sing up Form Components -->
-                <SingUp />
-              </v-tab-item>
-            </v-tabs-items>
-          </div>
-        </v-col>
-      </v-card>
+                      dark
+                      color="#383D43"
+                      style="padding: 0 13%;"
+                      class="mt-4 loginScreenBtn"
+                      type="submit"
+                      :loading="logging_in"
+                    >Login</v-btn>
+                  </form>
+                </v-tab-item>
+                <v-tab-item value="tab-2" style="padding:0 15px">
+                  <!-- Sing up Form Components -->
+                  <SingUp />
+                </v-tab-item>
+              </v-tabs-items>
+            </div>
+          </v-col>
+        </v-card>
+      </v-col>
     </v-row>
     <v-overlay :value="formSubmitting">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
