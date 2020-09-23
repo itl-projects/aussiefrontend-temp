@@ -85,7 +85,7 @@
                       style="padding: 0 13%;"
                       class="mt-4 loginScreenBtn"
                       type="submit"
-                      :loading="logging_in"
+                      to="/host"
                     >Login</v-btn>
                   </form>
                 </v-tab-item>
